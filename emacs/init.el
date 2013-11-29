@@ -44,6 +44,7 @@
 (evil-ex-define-cmd "Exp[lore]" 'dired-jump)
 (evil-ex-define-cmd "color[scheme]" 'customize-themes)
 
+(setq sml/theme 'dark)(sml/setup)
 (global-auto-complete-mode t)
 (global-auto-revert-mode t)
 (tool-bar-mode -1)

@@ -6,6 +6,8 @@ places
 .svn
 .DS_Store
 tramp
+org-clock-save.el
+*.dat
 
 ## directories
 backups/*
