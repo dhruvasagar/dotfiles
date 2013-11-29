@@ -1,0 +1,81 @@
+" NeoBundle {{{1
+source ~/.vim/neo_bundles.vim
+
+" Powerline {{{1
+set runtimepath+=/home/dhruvasagar/code/powerline/powerline/bindings/vim
+
+" Auto Command Groups {{{1
+augroup vimrcEx "{{{2
+  au!
+
+  " Automatically load .vimrc changes
+  autocmd BufWritePost vimrc source $MYVIMRC
+  autocmd BufWritePost .vimrc source $MYVIMRC
+augroup END
+
+augroup NeoBundles "{{{2
+  au!
+
+  autocmd BufWritePost neo_bundles.vim source %
+augroup END
+
+augroup VimResize "{{{2
+  au!
+
+  autocmd VimResized * wincmd =
+augroup END
+
+augroup EditJump "{{{2
+  au!
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
+augroup END
+
+augroup autosave "{{{2
+  " To auto save all buffers (silently, i.e. without warning when you move away
+  " from vim)
+  au!
+
+  autocmd FocusLost * silent! wa
+augroup END
+
+augroup Git "{{{2
+  au!
+
+  autocmd BufWritePost *
+        \ if exists('b:git_dir') && executable(b:git_dir . '/hooks/ctags') |
+        \   call system('"'. b:git_dir . '/hooks/ctags" &') |
+        \ endif
+augroup END
+
+augroup Tmux "{{{2
+	au!
+
+	autocmd VimEnter,BufNewFile,BufReadPost * call system('tmux rename-window "vim - ' . split(substitute(getcwd(), $HOME, '~', ''), '/')[-1] . '"')
+	autocmd VimLeave * call system('tmux rename-window ' . split(substitute(getcwd(), $HOME, '~', ''), '/')[-1])
+augroup END
+
+" Load all vim configs {{{1
+let s:vim_home = '~/.vim/'
+let config_list = [
+      \ 'base.vim',
+      \ 'functions.vim',
+      \ 'mappings.vim',
+      \ 'plugin_settings/*.vim'
+      \]
+for files in config_list
+  for f in split(glob(s:vim_home.files), '\n')
+    exec 'source ' . f
+  endfor
+endfor
+
+" Custum Project VIMRC {{{1
+if filereadable('.vimrc.local')
+  so .vimrc.local
+endif

@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require 'uri'
+require 'json'
+require 'net/http'
+
+if ARGV.length > 0
+  query = ARGV[0]
+else
+  print 'Input word: '
+  query = gets.strip.chomp
+end
+
+uri = URI("http://www.google.com/dictionary/json?callback=a&sl=en&tl=en&q=#{query}")
+params = {callback: 'a', sl: 'en', tl: 'en', q: query}
+uri.query = URI.encode_www_form(params)
+
+res = Net::HTTP.get_response(uri)
+data = res.body.match(/{.*}/)[0]
+
+result = JSON.parse(data)
+
+def print_term(term, indent=nil)
+  puts "#{"  " * indent.to_i}#{"#{term['type']}: " if term['type'] != 'text'}#{term['text']} #{"(#{term['labels'].map {|l| l['text']}.join(', ')})" if term['labels']}"
+end
+
+def print_entry(entry, indent=nil)
+  puts "" unless indent
+  print "#{"  " * indent.to_i}#{"#{entry['type']}: " if entry['type'] != 'meaning'}" if entry['type']
+
+  entry['terms'].each do |term|
+    print_term(term)
+  end if entry['terms']
+
+  entry['entries'].each do |ientry|
+    print_entry(ientry, indent.to_i+1)
+  end if entry['entries']
+end
+
+result['primaries'].each do |primary|
+  print_entry(primary)
+end if result['primaries']

@@ -1,0 +1,50 @@
+## misc
+loaddefs.el*
+auto-save-list
+custom.el
+places
+.svn
+.DS_Store
+tramp
+
+## directories
+backups/*
+thumbs/*
+oddmuse/*
+eshell/*
+image-dired/*
+elim/*
+doc/*
+elpa/*
+src/*
+themes/*
+url/*
+
+## exported and encrypted files
+*gpg
+*elc
+*html
+*tex
+*pdf
+*txt
+
+## org stuff
+.org-id-locations
+
+## ignore mail/gnus cruft for those who keep mail in this directory
+drafts
+Mail
+mail
+.newsrc-dribble
+.nnmail-cache
+#.newsrc-dribble#
+*.SCORE
+marks
+.session
+session*
+abbrev_defs
+scratch
+secret.org
+.emacs.desktop*
+.*~
+agent/*

@@ -1,0 +1,12 @@
+*~
+*swp
+*tmp
+*tags
+.netrwhist
+tmp/*
+undo/*
+snips/*
+backups/*
+bundles/*
+session/*
+sessions/*

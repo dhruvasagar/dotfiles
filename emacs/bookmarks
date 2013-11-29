@@ -1,0 +1,20 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-capture-last-stored-marker"
+ (filename . "~/org-files/refile.org")
+ (front-context-string . "** PHONE Calling")
+ (rear-context-string . "*Tasks][Tasks]]\n")
+ (position . 491))
+("org-refile-last-stored"
+ (filename . "~/code/pulse/activesphere-pulsecheck.org")
+ (front-context-string . "** NEXT Serve gu")
+ (rear-context-string . "1-27 Wed 11:32]\n")
+ (position . 2599))
+("org-capture-last-stored"
+ (filename . "~/org-files/diary.org")
+ (front-context-string . "**** Lunch\n:LOGB")
+ (rear-context-string . "1-28 Thu 12:32]\n")
+ (position . 847))
+)
