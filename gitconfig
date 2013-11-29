@@ -1,0 +1,18 @@
+[user]
+	name = Dhruva Sagar
+	email = dhruva.sagar@gmail.com
+[color]
+	ui = true
+[core]
+	editor = vim
+	excludesfile = /home/dhruvasagar/.gitignore_global
+[github]
+	user = dhruvasagar
+[alias]
+	st = status -sb
+	ready = rebase -i @{u}
+	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%an>%Creset' --since yesterday --author joe
+	purr = pull --rebase
+[init]
+	templatedir = ~/.git_template
