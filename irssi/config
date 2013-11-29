@@ -46,7 +46,6 @@ servers = (
   {
     address = "talk.google.com";
     chatnet = "ActiveTalk";
-    password = "@ct!v3sph3r3";
     autoconnect = "yes";
   }
 );
@@ -358,9 +357,6 @@ settings = {
     awl_placement = "bottom";
     awl_position = "0";
     notify_icon = "'/home/dhruva/Pictures/irc.png'";
-    twitter_poll_interval = "2";
-    twitter_usernames = "dhruvasagar";
-    twitter_passwords = "Tw!tt3r";
   };
   "fe-common/core" = {
     print_active_channel = "no";
