@@ -49,6 +49,7 @@ xmap ]E ]egv
 nnoremap <Leader>D :Dispatch<CR>
 
 " Fugitive {{{1
+nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>cd :Gcd<Bar>pwd<CR>
 

@@ -50,3 +50,4 @@ secret.org
 .emacs.desktop*
 .*~
 agent/*
+bookmarks

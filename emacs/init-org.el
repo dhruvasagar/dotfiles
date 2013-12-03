@@ -93,14 +93,15 @@
 
 (setq org-directory "~/org-files")
 (setq org-default-notes-file (format "%s/%s" org-directory "refile.org")
-			org-refile-file-path        (format "%s/%s" org-directory "refile.org")
-			todo-file-path         (format "%s/%s" org-directory "todo.org")
-			journal-file-path      (format "%s/%s" org-directory "diary.org"))
+			org-todo-file-path     (format "%s/%s" org-directory "todo.org")
+			org-journal-file-path  (format "%s/%s" org-directory "diary.org")
+			org-refile-file-path   (format "%s/%s" org-directory "refile.org")
+			org-expenses-file-path (format "%s/%s" org-directory "expenses.org"))
 
 (global-set-key (kbd "C-c t")
 								(lambda ()
 									(interactive)
-									(find-file todo-file-path)))
+									(find-file org-todo-file-path)))
 
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -113,7 +114,7 @@
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("n" "note" entry (file org-refile-file-path)
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree journal-file-path)
+              ("j" "Journal" entry (file+datetree org-journal-file-path)
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("w" "org-protocol" entry (file org-refile-file-path)
                "* TODO Review %c\n%U\n" :immediate-finish t)
@@ -121,6 +122,8 @@
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
               ("p" "Phone call" entry (file org-refile-file-path)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+              ("e" "Expense" entry (file+datetree+prompt org-expenses-file-path)
+               "* %? %^{BY}p %^{AMOUNT}p %^{MODE_OF_PAYMENT}p\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file org-refile-file-path)
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
@@ -1192,7 +1195,7 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-agenda-skip-timestamp-if-done t)
 
 (setq org-agenda-include-diary nil)
-(setq org-agenda-diary-file journal-file-path)
+(setq org-agenda-diary-file org-journal-file-path)
 
 (setq org-agenda-insert-diary-extract-time t)
 
