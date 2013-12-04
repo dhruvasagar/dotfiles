@@ -62,3 +62,6 @@ xnoremap <Leader>: :Tabularize/:<CR>
 nnoremap <Leader>nT :NERDTree<CR>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>nf :NERDTreeFind<CR>
+
+" Neo Bundle
+nnoremap <Leader>nu :Unite -log -tab neobundle/update<CR>
