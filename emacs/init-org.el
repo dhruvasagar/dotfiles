@@ -123,7 +123,7 @@
               ("p" "Phone call" entry (file org-refile-file-path)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("e" "Expense" entry (file+datetree+prompt org-expenses-file-path)
-               "* %? %^{BY}p %^{AMOUNT}p %^{MODE_OF_PAYMENT}p\n" :clock-in t :clock-resume t)
+               "* %?%^{BY}p%^{AMOUNT}p%^{MODE_OF_PAYMENT}p\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file org-refile-file-path)
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
