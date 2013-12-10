@@ -123,7 +123,7 @@
               ("p" "Phone call" entry (file org-refile-file-path)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("e" "Expense" entry (file+datetree+prompt org-expenses-file-path)
-               "* %?%^{BY}p%^{AMOUNT}p%^{MODE_OF_PAYMENT}p\n" :clock-in t :clock-resume t)
+               "* %?%^{BY}p%^{MODE_OF_PAYMENT}p%^{AMOUNT}p\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file org-refile-file-path)
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
@@ -436,6 +436,8 @@ A prefix arg forces clock in of the default task."
 ; global Effort estimate values
 ; global STYLE property values for completion
 (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+																		("BY_ALL" . "Dhruva Niharica")
+																		("MODE_OF_PAYMENT_ALL" . "\"HDFC Credit Card\" \"Standard Chartered Credit Card\" \"Net Banking\" Cash Sudexho")
                                     ("STYLE_ALL" . "habit"))))
 
 ;; Agenda log mode items to display (closed and state changes by default)
@@ -1398,6 +1400,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (require 'org-crypt)
 ; Encrypt all entries before saving
 (org-crypt-use-before-save-magic)
+(setq org-tags-column 120)
 (setq org-tags-exclude-from-inheritance (quote ("crypt")))
 ; GPG key to use for encryption
 (setq org-crypt-key "F0B66B40")

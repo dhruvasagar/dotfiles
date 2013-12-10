@@ -37,7 +37,6 @@ nnoremap <Leader>= gg=G
 nnoremap <Leader>/ :nohl<CR>
 
 " Focus on current buffer {{{1
-nnoremap <Leader>fo :only<CR>
 nnoremap <Leader>o :tab split<CR>
 
 
@@ -49,6 +48,7 @@ xmap ]E ]egv
 nnoremap <Leader>D :Dispatch<CR>
 
 " Fugitive {{{1
+nnoremap <Leader>ga :Gwrite<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>cd :Gcd<Bar>pwd<CR>

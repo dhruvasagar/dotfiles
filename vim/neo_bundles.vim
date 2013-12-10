@@ -19,7 +19,6 @@ let g:neobundle#types#git#default_protocol='ssh'
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -28,6 +27,8 @@ NeoBundle 'Shougo/vimproc.vim', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
+NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'h1mesuke/unite-outline'
 
 " tpope plugins {{{2
 NeoBundle 'tpope/vim-haml'
@@ -45,6 +46,7 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-scriptease'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
@@ -78,8 +80,8 @@ NeoBundle 'groenewege/vim-less'
 NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'kablamo/vim-git-log'
 NeoBundle 'MarcWeber/ultisnips'
+NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'briancollins/vim-jst', {'depends': 'pangloss/vim-javascript'}
 NeoBundle 'derekwyatt/vim-scala'
