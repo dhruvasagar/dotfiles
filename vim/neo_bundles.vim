@@ -54,7 +54,6 @@ NeoBundle 'tpope/vim-characterize'
 
 " github.com/vim-scripts plugins {{{2
 NeoBundle 'L9'
-NeoBundle 'AnsiEsc.vim'
 NeoBundle 'argtextobj.vim'
 
 " Other Plugins {{{2
@@ -75,6 +74,7 @@ NeoBundle 'wavded/vim-stylus'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jpalardy/vim-slime'
+NeoBundle 'lilydjwg/colorizer'
 NeoBundle 'mattn/calendar-vim'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'jnwhiteh/vim-golang'

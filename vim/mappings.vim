@@ -6,7 +6,7 @@ vnoremap . :normal! .<CR>
 
 " To make Y inline with other capitals {{{1
 nnoremap Y y$
-nnoremap Q :<C-U>q<CR>
+nnoremap Q :q<CR>
 
 " Common Mappings {{{1
 nnoremap <C-S> :w<CR>
@@ -38,7 +38,6 @@ nnoremap <Leader>/ :nohl<CR>
 
 " Focus on current buffer {{{1
 nnoremap <Leader>o :tab split<CR>
-
 
 " Bubble multiple lines - also dependent on vim-unimpaired plugin {{{1
 xmap [E [egv
