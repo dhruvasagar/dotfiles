@@ -119,3 +119,9 @@ function! s:CopyFileNameWithLineNumber() range
 endfunction
 command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWithLineNumber()
 noremap <Leader>y :CopyFileNameWithLineNumber<CR>
+
+" Filter quickfix list
+function! s:FilterQuickfixList(pattern)
+	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) !~# a:pattern"))
+endfunction
+command! -nargs=1 QFilter call s:FilterQuickfixList(<q-args>)

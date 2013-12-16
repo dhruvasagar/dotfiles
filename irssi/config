@@ -1,3 +1,5 @@
+# vim: ft=conf
+
 servers = (
   { address = "irc.ubuntu.com"; chatnet = "Ubuntu"; port = "8001"; },
   { 
@@ -333,13 +335,6 @@ statusbar = {
       items = {
         barstart = { priority = "100"; };
         awl_1 = { };
-        barend = { priority = "100"; alignment = "right"; };
-      };
-    };
-    awl_2 = {
-      items = {
-        barstart = { priority = "100"; };
-        awl_2 = { };
         barend = { priority = "100"; alignment = "right"; };
       };
     };
