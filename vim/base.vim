@@ -1,9 +1,6 @@
 " Core Options {{{1
 scriptencoding utf-8          " Set encoding to utf-8, fixes macvim bug for
                               " using unicode characters in listchars
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
 
 set autoread
 set nobackup
