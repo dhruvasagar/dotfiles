@@ -6,14 +6,9 @@ plugins=(git git-extras rbenv rails rake gem bundler node npm vagrant tmux)
 
 source $ZSH/oh-my-zsh.sh
 
-TERM=xterm-256color
-
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/.rbenv/bin:$PATH # Add rbenv
 eval "$(rbenv init - --no-rehash)"
-
-# tmux & TERM issue fix
-[[ -n $TMUX ]] && export TERM=screen-256color
 
 # Load autojump
 [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh

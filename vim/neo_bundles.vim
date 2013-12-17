@@ -1,13 +1,13 @@
 " NeoBundle Setup {{{1
 let g:bundles_path = '~/.vim/bundles/'
-if !isdirectory(expand(g:bundles_path . 'neobundle.vim'))
-  echo "Installing NeoBundle\n"
-  silent execute '!mkdir -p ' . g:bundles_path
-  silent execute '!git clone https://github.com/Shougo/neobundle.vim ' . g:bundles_path . 'neobundle.vim'
-endif
 
 if has('vim_starting')
   execute 'set runtimepath+=' . g:bundles_path . 'neobundle.vim/'
+  if !isdirectory(expand(g:bundles_path . 'neobundle.vim'))
+    echo "Installing NeoBundle\n"
+    silent execute '!mkdir -p ' . g:bundles_path
+    silent execute '!git clone https://github.com/Shougo/neobundle.vim ' . g:bundles_path . 'neobundle.vim'
+  endif
 endif
 call neobundle#rc(expand(g:bundles_path))
 
@@ -98,6 +98,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'hallison/vim-ruby-sinatra'
 NeoBundle 'astashov/vim-ruby-debugger'
 NeoBundle 'guns/xterm-color-table.vim'
+NeoBundle 'Keithbsmiley/investigate.vim'
 NeoBundle 'nelstrom/vim-textobj-rubyblock', {'depends': 'kana/vim-textobj-user'}
 NeoBundle 'othree/javascript-libraries-syntax.vim'
 
