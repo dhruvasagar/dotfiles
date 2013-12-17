@@ -122,7 +122,7 @@ noremap <Leader>y :CopyFileNameWithLineNumber<CR>
 
 " Filter quickfix list {{{1
 function! s:FilterQuickfixList(bang, pattern)
-  let comp = a:bang ? '!~#' : '=~#'
-	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . comp . " a:pattern"))
+  let cmp = a:bang ? '!~#' : '=~#'
+	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
 endfunction
 command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
