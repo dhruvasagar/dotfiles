@@ -121,7 +121,8 @@ command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWit
 noremap <Leader>y :CopyFileNameWithLineNumber<CR>
 
 " Filter quickfix list {{{1
-function! s:FilterQuickfixList(pattern)
-	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) !~# a:pattern"))
+function! s:FilterQuickfixList(bang, pattern)
+  let comp = a:bang ? '!~#' : '=~#'
+	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . comp . " a:pattern"))
 endfunction
-command! -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<q-args>)
+command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
