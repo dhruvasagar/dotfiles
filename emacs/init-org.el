@@ -437,7 +437,7 @@ A prefix arg forces clock in of the default task."
 ; global STYLE property values for completion
 (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
 																		("BY_ALL" . "Dhruva Niharica")
-																		("MODE_OF_PAYMENT_ALL" . "\"HDFC Credit Card\" \"Standard Chartered Credit Card\" \"Net Banking\" Cash Sudexho")
+																		("MODE_OF_PAYMENT_ALL" . "\"HDFC Credit Card\" \"Standard Chartered Credit Card\" \"Net Banking\" Cheque Cash Sudexho")
                                     ("STYLE_ALL" . "habit"))))
 
 ;; Agenda log mode items to display (closed and state changes by default)

@@ -45,6 +45,7 @@
 (evil-ex-define-cmd "color[scheme]" 'customize-themes)
 
 (setq sml/theme 'dark)(sml/setup)
+(setq show-trailing-whitespace t)
 (global-auto-complete-mode t)
 (global-auto-revert-mode t)
 (tool-bar-mode -1)
