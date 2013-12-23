@@ -47,10 +47,10 @@ xmap ]E ]egv
 nnoremap <Leader>D :Dispatch<CR>
 
 " Fugitive {{{1
-nnoremap <Leader>ga :Gwrite<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>cd :Gcd<Bar>pwd<CR>
+nnoremap <silent> <Leader>ga :Gwrite<CR>
+nnoremap <silent> <Leader>gd :Gdiff<CR>
+nnoremap <silent> <Leader>gs :Gstatus<CR>
+nnoremap <silent> <Leader>gcd :Gcd<Bar>pwd<CR>
 
 " Tabular mapping {{{1
 xnoremap <Leader>/ :Tabularize/

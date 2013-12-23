@@ -126,3 +126,10 @@ function! s:FilterQuickfixList(bang, pattern)
 	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
 endfunction
 command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
+
+" Filter location list {{{1
+function! s:FilterLocationList(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+	call setloclist('%', filter(getloclist('%'), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+endfunction
+command! -bang -nargs=1 -complete=file LFilter call s:FilterLocationList(<bang>0, <q-args>)

@@ -73,6 +73,7 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'honza/vim-snippets'
+NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'lilydjwg/colorizer'
 NeoBundle 'mattn/calendar-vim'
@@ -92,6 +93,7 @@ NeoBundle 'marijnh/tern_for_vim', {
       \  }
       \ }
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'lukaszb/vim-web-indent'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'kchmck/vim-coffee-script'
