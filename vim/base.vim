@@ -112,6 +112,9 @@ set wildmenu wildmode=full
 set wildignorecase
 set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,.git,tags
 
+" Making <S-Tab> work
+execute 'set t_kB=' . nr2char(27) . '[Z'
+
 " let g:solarized_termcolors=256
 " color solarized
 color railscasts

@@ -66,6 +66,7 @@
 (require 'init-ido)
 (require 'init-org)
 (require 'init-ruby)
+(require 'init-emms)
 (require 'init-global-keys)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
