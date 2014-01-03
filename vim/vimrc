@@ -19,12 +19,6 @@ augroup NeoBundles "{{{2
   autocmd BufWritePost neo_bundles.vim source %
 augroup END
 
-augroup VimResize "{{{2
-  au!
-
-  autocmd VimResized * wincmd =
-augroup END
-
 augroup EditJump "{{{2
   au!
 
@@ -37,22 +31,14 @@ augroup EditJump "{{{2
         \ endif
 augroup END
 
-augroup autosave "{{{2
-  " To auto save all buffers (silently, i.e. without warning when you move away
-  " from vim)
-  au!
+" augroup Git "{{{2
+"   au!
 
-  autocmd FocusLost * silent! wa
-augroup END
-
-augroup Git "{{{2
-  au!
-
-  autocmd BufWritePost *
-        \ if exists('b:git_dir') && executable(b:git_dir . '/hooks/ctags') |
-        \   call system('"'. b:git_dir . '/hooks/ctags" &') |
-        \ endif
-augroup END
+"   autocmd BufWritePost *
+"         \ if exists('b:git_dir') && executable(b:git_dir . '/hooks/ctags') |
+"         \   call system('"'. b:git_dir . '/hooks/ctags" &') |
+"         \ endif
+" augroup END
 
 augroup Tmux "{{{2
 	au!
@@ -74,8 +60,3 @@ for files in config_list
     exec 'source ' . f
   endfor
 endfor
-
-" Custum Project VIMRC {{{1
-if filereadable('.vimrc.local')
-  so .vimrc.local
-endif

@@ -8,6 +8,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-nnoremap <C-p><C-m> :CtrlPMRU<CR>
 nnoremap <C-p><C-b> :CtrlPBuffer<CR>
+nnoremap <C-p><C-m> :CtrlPMRUFiles<CR>
 nnoremap <C-p><C-l> :CtrlPLastMode<CR>

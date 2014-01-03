@@ -1,0 +1,4 @@
+set rtp+=~/code/vim_plugins/vim-railscasts-theme
+color railscasts
+
+" vim:ft=vim

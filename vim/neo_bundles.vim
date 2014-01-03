@@ -39,6 +39,7 @@ NeoBundle 'tpope/vim-ragtag'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive'
@@ -82,7 +83,7 @@ NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'kablamo/vim-git-log'
 NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'scrooloose/nerdtree'
+" NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'briancollins/vim-jst', {'depends': 'pangloss/vim-javascript'}
 NeoBundle 'derekwyatt/vim-scala'
@@ -105,9 +106,7 @@ NeoBundle 'nelstrom/vim-textobj-rubyblock', {'depends': 'kana/vim-textobj-user'}
 NeoBundle 'othree/javascript-libraries-syntax.vim'
 
 " My plugins {{{2
-NeoBundle 'dhruvasagar/vim-pipe'
-NeoBundle 'dhruvasagar/vim-table-mode'
-NeoBundle 'dhruvasagar/vim-railscasts-theme'
+NeoBundleLocal ~/code/vim_plugins
 
 " NeoBundleCheck {{{2
 NeoBundleCheck

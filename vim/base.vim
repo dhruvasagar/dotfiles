@@ -14,6 +14,9 @@ set hlsearch
 set splitbelow
 set splitright
 
+set exrc
+set secure
+
 set suffixesadd+=.js,.rb
 
 " Vim supports dictionary autocomplete Ctrl_X+Ctrl_K

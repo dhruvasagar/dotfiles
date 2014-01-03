@@ -62,5 +62,5 @@ nnoremap <Leader>nT :NERDTree<CR>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>nf :NERDTreeFind<CR>
 
-" Neo Bundle
-nnoremap <Leader>nu :Unite -log -tab neobundle/update<CR>
+" Neo Bundle {{{1
+nnoremap <Leader>nu :Unite -log -tab -wrap neobundle/update<CR>
