@@ -111,7 +111,7 @@ endif
 
 " Provides nice wild menu completion, makes command completion in ambiguous
 " case very easy
-set wildmenu wildmode=full
+set wildmenu wildmode=longest:full
 set wildignorecase
 set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,.git,tags
 
