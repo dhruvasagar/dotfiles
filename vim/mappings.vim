@@ -1,6 +1,3 @@
-" Force Saving Files that Require Root Permission {{{1
-cmap w!! %!sudo tee > /dev/null %
-
 " Use repeat operator with visual selection {{{1
 vnoremap . :normal! .<CR>
 
