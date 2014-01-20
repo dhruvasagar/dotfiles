@@ -76,8 +76,8 @@ endfunction
 nnoremap <silent> <Leader>fl :<C-U>call <SID>FoldLevel()<CR>
 
 " Fugitive gems {{{1
-command! -bar -nargs=* Gpull execute 'Git pull origin '. fugitive#head() <q-args>
-command! -bar -nargs=* Gpush execute 'Git push origin '. fugitive#head() <q-args>
+command! -bar -nargs=* Gpull execute 'Git pull' <q-args> 'origin' fugitive#head()
+command! -bar -nargs=* Gpush execute 'Git push' <q-args> 'origin' fugitive#head()
 command! Gpnp silent! Gpull | Gpush
 
 " Previewing Markdown Files (with github styles) {{{1
