@@ -1,3 +1,6 @@
+" NoCompatible {{{1
+set nocp
+
 " NeoBundle {{{1
 source ~/.vim/neo_bundles.vim
 
