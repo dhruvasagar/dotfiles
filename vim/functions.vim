@@ -76,11 +76,71 @@ endfunction
 nnoremap <silent> <Leader>fl :<C-U>call <SID>FoldLevel()<CR>
 
 " Fugitive gems {{{1
+function! s:GitShortRefNames(names, full_name) "{{{2
+  if a:full_name
+    let expr = 'v:val[11:]'
+  else
+    let expr = 'v:val[strridx(v:val, "/")+1:]'
+  endif
+  return map(a:names, expr)
+endfunction
+
+function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
+  let refs = 'refs/heads/'
+  if a:0 == 1 && a:1 !=? 'branch'
+    let refs = 'refs/' . a:1
+    let full_name = 1
+  elseif a:0 == 2 && a:1 ==? 'branch'
+    let refs = refs . a:2
+    let full_name = 0
+  endif
+
+  let cmd = 'git for-each-ref --format="%(refname)" ' . refs
+  if !empty(a:ArgLead)
+    let cmd = cmd . ' | sed "s/.*\/\(.*\)/\1/" | grep ^' . a:ArgLead . ' 2>/dev/null'
+  endif
+  return s:GitShortRefNames(split(system(cmd)), full_name)
+endfunction
+
+function! s:GitBranchComplete(ArgLead, CmdLine, Cursor) "{{{2
+  return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch')
+endfunction
+
+function! s:GitBugComplete(ArgLead, CmdLine, Cursor) "{{{2
+  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
+    return ['finish']
+  else
+    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'bug')
+  endif
+endfunction
+
+function! s:GitFeatureComplete(ArgLead, CmdLine, Cursor) "{{{2
+  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
+    return ['finish']
+  else
+    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'feature')
+  endif
+endfunction
+
+function! s:GitRefactorComplete(ArgLead, CmdLine, Cursor) "{{{2
+  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
+    return ['finish']
+  else
+    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'refactor')
+  endif
+endfunction
+
+" Commands {{{2
 command! -bar -nargs=* Gpull execute 'Git pull' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpush execute 'Git push' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpurr execute 'Git pull --rebase' <q-args> 'origin' fugitive#head()
 command! Gpnp silent! Gpull | Gpush
 command! Gprp silent! Gpurr | Gpush
+
+command! -bar -nargs=+ -complete=customlist,s:GitBugComplete Gbug Git bug <q-args>
+command! -bar -nargs=1 -complete=customlist,s:GitBranchComplete Gcheckout Git checkout <q-args>
+command! -bar -nargs=+ -complete=customlist,s:GitFeatureComplete Gfeature Git feature <q-args>
+command! -bar -nargs=+ -complete=customlist,s:GitRefactorComplete Grefactor Git refactor <q-args>
 
 " Previewing Markdown Files (with github styles) {{{1
 function! s:Preview()
