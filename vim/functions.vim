@@ -86,6 +86,13 @@ function! s:GitShortRefNames(names, full_name) "{{{2
 endfunction
 
 function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
+  if exists('b:git_dir')
+    let path = b:git_dir
+  else
+    let path = fugitive#extract_git_dir('.')
+  endif
+  let path = path[:strridx(path, '/')]
+
   let refs = 'refs/heads/'
   if a:0 == 1 && a:1 !=? 'branch'
     let refs = 'refs/' . a:1
@@ -95,7 +102,8 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
     let full_name = 0
   endif
 
-  let cmd = 'git for-each-ref --format="%(refname)" ' . refs
+  let cmd = 'cd ' . path
+  let cmd = cmd . '; git for-each-ref --format="%(refname)" ' . refs
   if !empty(a:ArgLead)
     let cmd = cmd . ' | sed "s/.*\/\(.*\)/\1/" | grep ^' . a:ArgLead . ' 2>/dev/null'
   endif
