@@ -102,8 +102,7 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
     let full_name = 0
   endif
 
-  let cmd = 'cd ' . path
-  let cmd = cmd . '; git for-each-ref --format="%(refname)" ' . refs
+  let cmd = 'cd ' . path . '; git for-each-ref --format="%(refname)" ' . refs
   if !empty(a:ArgLead)
     let cmd = cmd . ' | sed "s/.*\/\(.*\)/\1/" | grep ^' . a:ArgLead . ' 2>/dev/null'
   endif
@@ -114,28 +113,24 @@ function! s:GitBranchComplete(ArgLead, CmdLine, Cursor) "{{{2
   return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch')
 endfunction
 
-function! s:GitBugComplete(ArgLead, CmdLine, Cursor) "{{{2
+function! s:GitExtraComplete(ArgLead, CmdLine, Cursor, type) "{{{2
   if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
     return ['finish']
   else
-    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'bug')
+    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', a:type)
   endif
+endfunction
+
+function! s:GitBugComplete(ArgLead, CmdLine, Cursor) "{{{2
+  return s:GitExtraComplete(a:ArgLead, a:CmdLine, a:Cursor, 'bug')
 endfunction
 
 function! s:GitFeatureComplete(ArgLead, CmdLine, Cursor) "{{{2
-  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
-    return ['finish']
-  else
-    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'feature')
-  endif
+  return s:GitExtraComplete(a:ArgLead, a:CmdLine, a:Cursor, 'feature')
 endfunction
 
 function! s:GitRefactorComplete(ArgLead, CmdLine, Cursor) "{{{2
-  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
-    return ['finish']
-  else
-    return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', 'refactor')
-  endif
+  return s:GitExtraComplete(a:ArgLead, a:CmdLine, a:Cursor, 'refactor')
 endfunction
 
 " Commands {{{2
