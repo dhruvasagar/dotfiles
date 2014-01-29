@@ -47,4 +47,7 @@ function vim() {
   fi
 }
 
+alias act_mail='VMAIL_HOME=~/.vmail/activesphere vmail'
+alias pulse_mail='VMAIL_HOME=~/.vmail/pulseenergy vmail'
+
 stty -ixon

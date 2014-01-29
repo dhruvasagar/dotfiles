@@ -78,7 +78,9 @@ nnoremap <silent> <Leader>fl :<C-U>call <SID>FoldLevel()<CR>
 " Fugitive gems {{{1
 command! -bar -nargs=* Gpull execute 'Git pull' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpush execute 'Git push' <q-args> 'origin' fugitive#head()
+command! -bar -nargs=* Gpurr execute 'Git pull --rebase' <q-args> 'origin' fugitive#head()
 command! Gpnp silent! Gpull | Gpush
+command! Gprp silent! Gpurr | Gpush
 
 " Previewing Markdown Files (with github styles) {{{1
 function! s:Preview()
@@ -123,13 +125,40 @@ noremap <Leader>y :CopyFileNameWithLineNumber<CR>
 " Filter quickfix list {{{1
 function! s:FilterQuickfixList(bang, pattern)
   let cmp = a:bang ? '!~#' : '=~#'
-	call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
 endfunction
 command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
 
 " Filter location list {{{1
 function! s:FilterLocationList(bang, pattern)
   let cmp = a:bang ? '!~#' : '=~#'
-	call setloclist('%', filter(getloclist('%'), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+  call setloclist('%', filter(getloclist('%'), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
 endfunction
 command! -bang -nargs=1 -complete=file LFilter call s:FilterLocationList(<bang>0, <q-args>)
+
+" MyTabLine {{{1
+" Based on : http://www.offensivethinking.org/data/dotfiles/vimrc
+function! MyTabLine()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tabnr = i + 1 " range() starts at 0
+    let winnr = tabpagewinnr(tabnr)
+    let buflist = tabpagebuflist(tabnr)
+    let bufnr = buflist[winnr - 1]
+    let bufname = fnamemodify(bufname(bufnr), ':t')
+
+    let s .= '%' . tabnr . 'T'
+    let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tabnr
+
+    let n = tabpagewinnr(tabnr,'$')
+    if n > 1 | let s .= ':' . n | endif
+
+    let bufmodified = getbufvar(bufnr, "&mod")
+    let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
+    if bufmodified | let s .= '+ ' | endif
+  endfor
+  let s .= '%#TabLineFill#'
+  return s
+endfunction
+set tabline=%!MyTabLine()
