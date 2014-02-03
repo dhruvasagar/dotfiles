@@ -61,3 +61,10 @@ nnoremap <Leader>nf :NERDTreeFind<CR>
 
 " Neo Bundle {{{1
 nnoremap <Leader>nu :Unite -log -tab -wrap neobundle/update<CR>
+
+" Grep {{{1
+if executable('ag')
+	nnoremap <silent> <Leader>gr :grep <C-R>=expand('<cword>')<CR><CR>
+else
+	nnoremap <silent> <Leader>gr :grep <C-R>=expand('<cword>')<CR> .<CR>
+endif
