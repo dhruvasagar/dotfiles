@@ -217,8 +217,9 @@ function! MyTabLine()
     let n = tabpagewinnr(tabnr,'$')
     if n > 1 | let s .= ':' . n | endif
 
-    let bufmodified = getbufvar(bufnr, "&mod")
     let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
+
+    let bufmodified = getbufvar(bufnr, "&mod")
     if bufmodified | let s .= '+ ' | endif
   endfor
   let s .= '%#TabLineFill#'

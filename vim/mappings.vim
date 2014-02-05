@@ -68,3 +68,6 @@ if executable('ag')
 else
 	nnoremap <silent> <Leader>gr :grep <C-R>=expand('<cword>')<CR> .<CR>
 endif
+
+" TagBar {{{1
+nnoremap <Leader>tb :TagbarToggle<CR>

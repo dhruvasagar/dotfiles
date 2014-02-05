@@ -1,14 +1,25 @@
 #!/bin/sh
-usage="$(basename "$0") [-h] [dir] [type] [count]
-	 -h		Show this help text
-	 dir		Directory to search in 			Default - '.'
-	 type		[f/d] for file / directory		Default - 'f'
-	 count		Number of results			Default - 10"
 
-if [ "$1" = "-h" ] || ([ -n "$2" ] && [ "$2" != 'd' ] && [ "$2" != 'f' ]); then
-  echo "$usage"
-  exit 1
-fi
+usage() {
+  echo "$(basename "$0") [-h] [ -d dir] [-t type] [-c count]
+	 -h			Show this help text
+	 -d dir			Directory to search in 			Default - '.'
+	 -t type		[f/d] for file / directory		Default - 'f'
+	 -c count		Number of results			Default - 10" 1>&2
+}
 
-find "${1-.}" -type "${2-f}" -print0 | du -h --files0-from=- | sort -hr | head -"${3-10}" | cut -f2 | xargs -I{} du -sh {}
+_DIR='.'
+_TYPE='f'
+_COUNT=10
+
+while getopts ":h:d:t:c:" opts; do
+  case "${opts}" in
+    d) _DIR=${OPTARG};;
+    t) _TYPE=${OPTARG};;
+    c) _COUNT=${OPTARG};;
+    h|*) usage; exit 1;;
+  esac
+done
+
+find "$_DIR" -type "$_TYPE" -print0 | du -h --files0-from=- | sort -hr | head -"$_COUNT" | cut -f2 | xargs -I{} du -sh {}
 # vim: ts=8

@@ -34,22 +34,6 @@ augroup EditJump "{{{2
         \ endif
 augroup END
 
-" augroup Git "{{{2
-"   au!
-
-"   autocmd BufWritePost *
-"         \ if exists('b:git_dir') && executable(b:git_dir . '/hooks/ctags') |
-"         \   call system('"'. b:git_dir . '/hooks/ctags" &') |
-"         \ endif
-" augroup END
-
-augroup Tmux "{{{2
-	au!
-
-	autocmd VimEnter,BufNewFile,BufReadPost * call system('tmux rename-window "vim - ' . split(substitute(getcwd(), $HOME, '~', ''), '/')[-1] . '"')
-	autocmd VimLeave * call system('tmux rename-window ' . split(substitute(getcwd(), $HOME, '~', ''), '/')[-1])
-augroup END
-
 " Load all vim configs {{{1
 let s:vim_home = '~/.vim/'
 let config_list = [

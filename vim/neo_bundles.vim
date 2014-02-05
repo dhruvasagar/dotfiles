@@ -28,7 +28,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    },
       \ }
 NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'h1mesuke/unite-outline'
 
 " tpope plugins {{{2
 NeoBundle 'tpope/vim-haml'
@@ -53,18 +52,12 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-characterize'
 
-" github.com/vim-scripts plugins {{{2
-NeoBundle 'L9'
-NeoBundle 'argtextobj.vim'
-
 " Other Plugins {{{2
-
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
 NeoBundle 'gregsexton/gitv'
-NeoBundle 'sontek/rope-vim'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'kana/vim-scratch'
@@ -78,17 +71,17 @@ NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'lilydjwg/colorizer'
 " NeoBundle 'mattn/calendar-vim'
-NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'kablamo/vim-git-log'
 NeoBundle 'MarcWeber/ultisnips'
-NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'b4winckler/vim-angry'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'briancollins/vim-jst', {'depends': 'pangloss/vim-javascript'}
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'marijnh/tern_for_vim', {
       \ 'build' : {
       \   'unix': 'npm install'
@@ -98,7 +91,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'lukaszb/vim-web-indent'
 NeoBundle 'slim-template/vim-slim'
-NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'hallison/vim-ruby-sinatra'

@@ -12,7 +12,6 @@
 (global-set-key (kbd "<f9> h") 'bh/hide-other)
 (global-set-key (kbd "<f9> n") 'bh/toggle-next-task-display)
 (global-set-key (kbd "<f9> w") 'widen)
-(global-set-key (kbd "<f9> u") 'bh/narrow-up-one-level)
 
 (global-set-key (kbd "<f9> I") 'bh/punch-in)
 (global-set-key (kbd "<f9> O") 'bh/punch-out)
@@ -26,6 +25,7 @@
 (global-set-key (kbd "<f9> T") 'bh/toggle-insert-inactive-timestamp)
 
 (global-set-key (kbd "<f9> v") 'visible-mode)
+(global-set-key (kbd "<f9> l") 'org-toggle-link-display)
 (global-set-key (kbd "<f9> SPC") 'bh/clock-in-last-task)
 (global-set-key (kbd "C-<f9>") 'previous-buffer)
 (global-set-key (kbd "M-<f9>") 'org-toggle-inline-images)
@@ -85,7 +85,7 @@
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
-              ("HOLD" ("WAITING" . t) ("HOLD" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
               (done ("WAITING") ("HOLD"))
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
@@ -192,72 +192,58 @@
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
                             (org-agenda-sorting-strategy
-                             '(priority-down category-keep))))
+                             '(category-keep))))
                 (tags-todo "-HOLD-CANCELLED/!"
                            ((org-agenda-overriding-header "Projects")
                             (org-agenda-skip-function 'bh/skip-non-projects)
+                            (org-tags-match-list-sublevels 'indented)
                             (org-agenda-sorting-strategy
-                             '(priority-down category-keep))))
+                             '(category-keep))))
                 (tags-todo "-CANCELLED/!NEXT"
-                           ((org-agenda-overriding-header "Project Next Tasks")
+                           ((org-agenda-overriding-header (concat "Project Next Tasks"
+                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                      ""
+                                                                    " (including WAITING and SCHEDULED tasks)")))
                             (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
                             (org-tags-match-list-sublevels t)
                             (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-sorting-strategy
-                             '(priority-down todo-state-down effort-up category-keep))))
-                (tags-todo "-REFILE-CANCELLED-WAITING/!"
-                           ((org-agenda-overriding-header (if (marker-buffer org-agenda-restrict-begin) "Project Subtasks" "Standalone Tasks"))
-                            (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
+                             '(todo-state-down effort-up category-keep))))
+                (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                           ((org-agenda-overriding-header (concat "Project Subtasks"
+                                                                   (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                       ""
+                                                                     " (including WAITING and SCHEDULED tasks)")))
+                            (org-agenda-skip-function 'bh/skip-non-project-tasks)
                             (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-sorting-strategy
                              '(category-keep))))
-                (tags-todo "-CANCELLED+WAITING/!"
+								(tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                           ((org-agenda-overriding-header (concat "Standalone Tasks"
+                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                      ""
+                                                                    " (including WAITING and SCHEDULED tasks)")))
+                            (org-agenda-skip-function 'bh/skip-project-tasks)
+                            (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                            (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                            (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                            (org-agenda-sorting-strategy
+                             '(category-keep))))
+                (tags-todo "-CANCELLED+WAITING|HOLD/!"
                            ((org-agenda-overriding-header "Waiting and Postponed Tasks")
                             (org-agenda-skip-function 'bh/skip-stuck-projects)
                             (org-tags-match-list-sublevels nil)
-                            (org-agenda-todo-ignore-scheduled 'future)
-                            (org-agenda-todo-ignore-deadlines 'future)))
+                            (org-agenda-todo-ignore-scheduled t)
+                            (org-agenda-todo-ignore-deadlines t)))
                 (tags "-REFILE/"
                       ((org-agenda-overriding-header "Tasks to Archive")
                        (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                        (org-tags-match-list-sublevels nil))))
-               nil)
-              ("r" "Tasks to Refile" tags "REFILE"
-               ((org-agenda-overriding-header "Tasks to Refile")
-                (org-tags-match-list-sublevels nil)))
-              ("#" "Stuck Projects" tags-todo "-CANCELLED/!"
-               ((org-agenda-overriding-header "Stuck Projects")
-                (org-agenda-skip-function 'bh/skip-non-stuck-projects)))
-              ("n" "Next Tasks" tags-todo "-WAITING-CANCELLED/!NEXT"
-               ((org-agenda-overriding-header "Next Tasks")
-                (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                (org-tags-match-list-sublevels t)
-                (org-agenda-sorting-strategy
-                 '(todo-state-down effort-up category-keep))))
-              ("R" "Tasks" tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
-               ((org-agenda-overriding-header "Tasks")
-                (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
-                (org-agenda-sorting-strategy
-                 '(category-keep))))
-              ("p" "Projects" tags-todo "-HOLD-CANCELLED/!"
-               ((org-agenda-overriding-header "Projects")
-                (org-agenda-skip-function 'bh/skip-non-projects)
-                (org-agenda-sorting-strategy
-                 '(category-keep))))
-              ("w" "Waiting Tasks" tags-todo "-CANCELLED+WAITING/!"
-               ((org-agenda-overriding-header "Waiting and Postponed tasks"))
-               (org-tags-match-list-sublevels nil))
-              ("A" "Tasks to Archive" tags "-REFILE/"
-               ((org-agenda-overriding-header "Tasks to Archive")
-                (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-                (org-tags-match-list-sublevels nil))))))
+               nil))))
 
 (defun bh/org-auto-exclude-function (tag)
   "Automatic task exclusion in the agenda with / RET"
@@ -456,6 +442,8 @@ A prefix arg forces clock in of the default task."
                             ("ORG" . ?O)
                             ("crypt" . ?E)
                             ("NOTE" . ?n)
+                            ("READLATER" . ?r)
+                            ("GOODREADS" . ?g)
                             ("CANCELLED" . ?c)
                             ("FLAGGED" . ??))))
 
@@ -604,7 +592,7 @@ Callers of this function already widen the buffer view."
 
 (defun bh/skip-non-stuck-projects ()
   "Skip trees that are not stuck projects"
-  (bh/list-sublevels-for-projects-indented)
+  ;; (bh/list-sublevels-for-projects-indented)
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -623,18 +611,15 @@ Callers of this function already widen the buffer view."
 
 (defun bh/skip-non-projects ()
   "Skip trees that are not projects"
-  (bh/list-sublevels-for-projects-indented)
+  ;; (bh/list-sublevels-for-projects-indented)
   (if (save-excursion (bh/skip-non-stuck-projects))
       (save-restriction
         (widen)
         (let ((subtree-end (save-excursion (org-end-of-subtree t))))
           (cond
-           ((and (bh/is-project-p)
-                 (marker-buffer org-agenda-restrict-begin))
+           ((bh/is-project-p)
             nil)
-           ((and (bh/is-project-p)
-                 (not (marker-buffer org-agenda-restrict-begin))
-                 (not (bh/is-project-subtree-p)))
+           ((and (bh/is-project-subtree-p) (not (bh/is-task-p)))
             nil)
            (t
             subtree-end))))
@@ -691,6 +676,42 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
        ((and limit-to-project
              (bh/is-project-subtree-p)
              (member (org-get-todo-state) (list "NEXT")))
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-project-tasks ()
+  "Show non-project tasks.
+Skip project and sub-project tasks, habits, and project related tasks."
+  (save-restriction
+    (widen)
+    (let* ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (cond
+       ((bh/is-project-p)
+        subtree-end)
+       ((org-is-habit-p)
+        subtree-end)
+       ((bh/is-project-subtree-p)
+        subtree-end)
+       (t
+        nil)))))
+
+(defun bh/skip-non-project-tasks ()
+  "Show project tasks.
+Skip project and sub-project tasks, habits, and loose non-project tasks."
+  (save-restriction
+    (widen)
+    (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+           (next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (cond
+       ((bh/is-project-p)
+        next-headline)
+       ((org-is-habit-p)
+        subtree-end)
+       ((and (bh/is-project-subtree-p)
+             (member (org-get-todo-state) (list "NEXT")))
+        subtree-end)
+       ((not (bh/is-project-subtree-p))
         subtree-end)
        (t
         nil)))))
@@ -882,7 +903,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
   "BackgroundColor<<New>> Cyan\n"
   "}\n\n"
   "title " str " - \n"
-  "note left: " str "\\nLines X-Y\n"
+  "note left: " str "\n"
   "(*) --> \"" str "\"\n"
   "--> (*)\n"
   _ - \n
@@ -1003,7 +1024,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
     (widen)))
 
 (add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "W" 'bh/widen))
+          '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
           'append)
 
 (defun bh/restrict-to-file-or-follow (arg)
@@ -1024,21 +1045,19 @@ so change the default 'F' binding in the agenda to allow both"
 
 (defun bh/narrow-to-org-subtree ()
   (widen)
-  (org-narrow-to-subtree))
+  (org-narrow-to-subtree)
+	(save-restriction
+    (org-agenda-set-restriction-lock)))
 
 (defun bh/narrow-to-subtree ()
   (interactive)
   (if (equal major-mode 'org-agenda-mode)
       (progn
         (org-with-point-at (org-get-at-bol 'org-hd-marker)
-          (bh/narrow-to-org-subtree)
-          (save-restriction
-            (org-agenda-set-restriction-lock)))
+          (bh/narrow-to-org-subtree))
         (when org-agenda-sticky
           (org-agenda-redo)))
-    (bh/narrow-to-org-subtree)
-    (save-restriction
-      (org-agenda-set-restriction-lock))))
+		(bh/narrow-to-org-subtree)))
 
 (add-hook 'org-agenda-mode-hook
           '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
@@ -1071,7 +1090,6 @@ so change the default 'F' binding in the agenda to allow both"
   (widen)
   (save-excursion
     (bh/find-project-task)
-    (org-agenda-set-restriction-lock)
     (bh/narrow-to-org-subtree)))
 
 (defun bh/narrow-to-project ()
@@ -1209,9 +1227,9 @@ so change the default 'F' binding in the agenda to allow both"
 
 ;; Sorting order for tasks on the agenda
 (setq org-agenda-sorting-strategy
-      (quote ((agenda habit-down time-up user-defined-up priority-down effort-up category-keep)
-              (todo category-up priority-down effort-up)
-              (tags category-up priority-down effort-up)
+      (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
+              (todo category-up effort-up)
+              (tags category-up effort-up)
               (search category-up))))
 
 ;; Start the weekly agenda on Monday
@@ -1385,7 +1403,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
                           org-rmail
                           org-vm
                           org-wl
-                          org-w3m)))
+                          org-w3m
+                          org-plot)))
 
 ; position the habit graph on the agenda to the right of the default
 (setq org-habit-graph-column 50)
@@ -1624,7 +1643,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
              ;; expands the files in the directories individually
              (org-defkey org-mode-map "\C-c["    'undefined)
              (org-defkey org-mode-map "\C-c]"    'undefined)
-             (org-defkey org-mode-map "\C-c;"    'undefined))
+             (org-defkey org-mode-map "\C-c;"    'undefined)
+             (org-defkey org-mode-map "\C-c\C-x\C-q" 'undefined))
           'append)
 
 (add-hook 'org-mode-hook
