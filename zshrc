@@ -38,6 +38,7 @@ compdef _git glgg2=git-log
 export PATH="/usr/local/heroku/bin:$PATH"
 
 function vim() {
+  tmux rename-window "vim - ${PWD##*/}"
   if test $# -gt 0; then
     env vim --servername ${PWD##*/} "$@"
   elif test -f ~/.vim/sessions/${PWD##*/}.vim; then

@@ -3,7 +3,7 @@ vnoremap . :normal! .<CR>
 
 " To make Y inline with other capitals {{{1
 nnoremap Y y$
-nnoremap Q ZQ
+nnoremap <silent> Q :if maparg('q', 'n') <Bar> exe 'normal q' <Bar> else <Bar> exec 'normal! ZQ' <Bar> endif<CR>
 
 " text-object for complete file {{{1
 onoremap <silent> af :<C-U>normal! ggVG<CR>
@@ -75,16 +75,16 @@ function! s:CopyFileNameWithLineNumber() range
   if exists('b:git_dir')
     let path = b:git_dir
   else
-    let path = fugitive#extract_git_dir('.')
+    let path = fugitive#extract_git_dir(expand('%:p'))
   endif
 
   if empty(path)
-    let path = expand('%:p:.')
+    let path = expand('%:p:h:h')
   else
-    " Get path relative to git_dir
-    let path = fnamemodify(path, ':h:t')
-    let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
+    let path = fnamemodify(path, ':h:h:t')
   endif
+	" Get path relative to path
+	let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
 
   let name_with_lnum = path . ':'
   if a:lastline == a:firstline

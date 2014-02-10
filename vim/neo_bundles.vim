@@ -27,7 +27,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
-NeoBundle 'Shougo/vimshell.vim'
 
 " tpope plugins {{{2
 NeoBundle 'tpope/vim-haml'

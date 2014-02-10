@@ -58,10 +58,6 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
   return s:GitShortRefNames(split(system(cmd)), full_name)
 endfunction
 
-function! s:GitBranchComplete(ArgLead, CmdLine, Cursor) "{{{2
-  return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch')
-endfunction
-
 function! s:GitExtraComplete(ArgLead, CmdLine, Cursor, type) "{{{2
   if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
     return ['finish']
@@ -90,7 +86,6 @@ command! Gpnp silent! Gpull | Gpush
 command! Gprp silent! Gpurr | Gpush
 
 command! -bar -nargs=+ -complete=customlist,s:GitBugComplete Gbug Git bug <q-args>
-command! -bar -nargs=1 -complete=customlist,s:GitBranchComplete Gcheckout Git checkout <q-args>
 command! -bar -nargs=+ -complete=customlist,s:GitFeatureComplete Gfeature Git feature <q-args>
 command! -bar -nargs=+ -complete=customlist,s:GitRefactorComplete Grefactor Git refactor <q-args>
 
