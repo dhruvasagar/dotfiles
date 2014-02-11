@@ -18,13 +18,17 @@ nnoremap <C-W>O :tab split<CR>
 nnoremap di :Dispatch<CR>
 
 " Fugitive {{{1
-nnoremap UU :if &diff<Bar>diffupdate<Bar>else<Bar>diffthis<Bar>endif<CR>
-nnoremap UL :Glog<CR>
-nnoremap Ud :Gdiff<CR>
-nnoremap Uw :Gwrite<CR>
-nnoremap Us :Gstatus<CR>
-nnoremap Ucd :Gcd<Bar>pwd<CR>
-nnoremap Uld :Glcd<Bar>pwd<CR>
+nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gcd :Gcd<Bar>pwd<CR>
+nnoremap <Leader>gld :Glcd<Bar>pwd<CR>
+
+" Gundo {{{1
+nnoremap U :GundoToggle<CR>
 
 " Tabular mapping {{{1
 xnoremap z// :Tabularize/

@@ -34,7 +34,7 @@ function! s:GitShortRefNames(names, full_name) "{{{2
   return map(a:names, expr)
 endfunction
 
-function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
+function! s:GitExecInPath(cmd) "{{{2
   if exists('b:git_dir')
     let path = b:git_dir
   else
@@ -42,6 +42,10 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
   endif
   let path = fnamemodify(path, ':h')
 
+	return system('cd ' . path . '; ' . a:cmd)
+endfunction
+
+function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
   let refs = 'refs/heads/'
   if a:0 == 1 && a:1 !=? 'branch'
     let refs = 'refs/' . a:1
@@ -51,11 +55,11 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
     let full_name = 0
   endif
 
-  let cmd = 'cd ' . path . '; git for-each-ref --format="%(refname)" ' . refs
+  let cmd = 'git for-each-ref --format="%(refname)" ' . refs
   if !empty(a:ArgLead)
     let cmd = cmd . ' | sed "s/.*\/\(.*\)/\1/" | grep ^' . a:ArgLead . ' 2>/dev/null'
   endif
-  return s:GitShortRefNames(split(system(cmd)), full_name)
+  return s:GitShortRefNames(split(s:GitExecInPath(cmd)), full_name)
 endfunction
 
 function! s:GitExtraComplete(ArgLead, CmdLine, Cursor, type) "{{{2
@@ -82,8 +86,8 @@ endfunction
 command! -bar -nargs=* Gpull execute 'Git pull' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpush execute 'Git push' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpurr execute 'Git pull --rebase' <q-args> 'origin' fugitive#head()
-command! Gpnp silent! Gpull | Gpush
-command! Gprp silent! Gpurr | Gpush
+command! Gpnp silent Gpull | Gpush
+command! Gprp silent Gpurr | Gpush
 
 command! -bar -nargs=+ -complete=customlist,s:GitBugComplete Gbug Git bug <q-args>
 command! -bar -nargs=+ -complete=customlist,s:GitFeatureComplete Gfeature Git feature <q-args>
