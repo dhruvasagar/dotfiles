@@ -18,7 +18,7 @@ nnoremap <C-W>O :tab split<CR>
 nnoremap di :Dispatch<CR>
 
 " Fugitive {{{1
-nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>glg :Glog<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
@@ -36,21 +36,21 @@ xnoremap z/= :Tabularize/=<CR>
 xnoremap z/: :Tabularize/:<CR>
 
 " Search {{{1
-function! s:Vcword()
+function! s:Vword()
   return getline('.')[col("'<")-1:col("'>")-1]
 endfunction
 
-xnoremap <silent> * <Esc>/\<<C-R>=<SID>Vcword()<CR>\><CR>
-xnoremap <silent> g* <Esc>/<C-R>=<SID>Vcword()<CR><CR>
+xnoremap <silent> * <Esc>/\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> g* <Esc>/<C-R>=<SID>Vword()<CR><CR>
 
-xnoremap <silent> # o<Esc>?\<<C-R>=<SID>Vcword()<CR>\><CR>
-xnoremap <silent> g# o<Esc>?<C-R>=<SID>Vcword()<CR><CR>
+xnoremap <silent> # o<Esc>?\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> g# o<Esc>?<C-R>=<SID>Vword()<CR><CR>
 
-nnoremap <silent> g// :grep -w <C-R>=expand('<cword>')<CR> <C-R>=getcwd()<CR><CR>
-nnoremap <silent> g/* :grep <C-R>=expand('<cword>')<CR> <C-R>=getcwd()<CR><CR>
+nnoremap <silent> g// :grep -w <cword> <C-R>=getcwd()<CR><CR>
+nnoremap <silent> g/* :grep <cword> <C-R>=getcwd()<CR><CR>
 
-xnoremap <silent> g// :<C-U>grep -w <C-R>=<SID>Vcword()<CR> <C-R>=getcwd()<CR><CR>
-xnoremap <silent> g/* :<C-U>grep <C-R>=<SID>Vcword()<CR> <C-R>=getcwd()<CR><CR>
+xnoremap <silent> g// :<C-U>grep -w <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR>
+xnoremap <silent> g/* :<C-U>grep <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR>
 
 " Execute {{{1
 nmap <silent> gX <Plug>(quickrun)
@@ -101,3 +101,6 @@ function! s:CopyFileNameWithLineNumber() range
 endfunction
 command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWithLineNumber()
 noremap y. :CopyFileNameWithLineNumber<CR>
+
+" Find Files {{{1
+nnoremap gof :find <cword><CR>

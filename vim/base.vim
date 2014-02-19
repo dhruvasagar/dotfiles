@@ -31,8 +31,6 @@ else
   set grepprg=grep\ -rnH\ --exclude=tags\ --exclude-dir=.git\ --exclude-dir=node_modules
 endif
 
-set clipboard=unnamedplus
-
 " Undo Options {{{2
 set undofile                  " Use undofile to persist undo history
 set undolevels=1000           " Increase undo level to 1000
@@ -50,9 +48,9 @@ set nowrap
 set linebreak
 set expandtab
 set tabstop=2
-set nojoinspaces
-set shiftwidth=2              " Tabs under smart indent
+set shiftwidth=2
 set softtabstop=2
+set nojoinspaces
 set number
 set numberwidth=3
 set nostartofline
@@ -111,6 +109,7 @@ endif
 
 " Provides nice wild menu completion, makes command completion in ambiguous
 " case very easy
+set wildcharm=<C-Z>
 set wildmenu wildmode=list:longest,full
 set wildignorecase
 set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,.git,tags
