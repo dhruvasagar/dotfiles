@@ -15,7 +15,7 @@ nnoremap <Leader>/ :nohl<CR>
 nnoremap <C-W>O :tab split<CR>
 
 " Dispatch {{{1
-nnoremap di :Dispatch<CR>
+nnoremap <Leader>D :Dispatch<CR>
 
 " Fugitive {{{1
 nnoremap <Leader>glg :Glog<CR>
