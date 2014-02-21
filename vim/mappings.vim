@@ -53,8 +53,8 @@ xnoremap <silent> g// :<C-U>grep -w <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR
 xnoremap <silent> g/* :<C-U>grep <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR>
 
 " Execute {{{1
-nmap <silent> gX <Plug>(quickrun)
-xmap <silent> gX <Plug>(quickrun)
+nmap <silent> gx <Plug>(quickrun)
+xmap <silent> gx <Plug>(quickrun)
 
 " OpenUrl {{{1
 function! s:OpenURL(url)

@@ -63,7 +63,6 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 " NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'groenewege/vim-less'
