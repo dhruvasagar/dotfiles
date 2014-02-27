@@ -102,9 +102,6 @@ endfunction
 command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWithLineNumber()
 noremap y. :CopyFileNameWithLineNumber<CR>
 
-" Find Files {{{1
-nnoremap gof :find <cword><CR>
-
 " Hard Mode {{{1
 map <Up> <Nop>
 map <Down> <Nop>
