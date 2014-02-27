@@ -40,11 +40,11 @@ function! s:Vword()
   return getline('.')[col("'<")-1:col("'>")-1]
 endfunction
 
-xnoremap <silent> * <Esc>/\<<C-R>=<SID>Vword()<CR>\><CR>
-xnoremap <silent> g* <Esc>/<C-R>=<SID>Vword()<CR><CR>
+xnoremap <silent> * <Esc>/\v\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> g* <Esc>/\v<C-R>=<SID>Vword()<CR><CR>
 
-xnoremap <silent> # o<Esc>?\<<C-R>=<SID>Vword()<CR>\><CR>
-xnoremap <silent> g# o<Esc>?<C-R>=<SID>Vword()<CR><CR>
+xnoremap <silent> # o<Esc>?\v\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> g# o<Esc>?\v<C-R>=<SID>Vword()<CR><CR>
 
 nnoremap <silent> g// :grep -w <cword> <C-R>=getcwd()<CR><CR>
 nnoremap <silent> g/* :grep <cword> <C-R>=getcwd()<CR><CR>
@@ -104,3 +104,9 @@ noremap y. :CopyFileNameWithLineNumber<CR>
 
 " Find Files {{{1
 nnoremap gof :find <cword><CR>
+
+" Hard Mode {{{1
+map <Up> <Nop>
+map <Down> <Nop>
+map <Left> <Nop>
+map <Right> <Nop>

@@ -27,6 +27,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
+NeoBundle 'Shougo/vimshell.vim'
 
 " tpope plugins {{{2
 NeoBundle 'tpope/vim-haml'
@@ -51,6 +52,7 @@ NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-characterize'
 
 " Other Plugins {{{2
+NeoBundle 'dahu/vimple'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
@@ -64,7 +66,6 @@ NeoBundle 'wavded/vim-stylus'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
-" NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'scrooloose/nerdtree'
@@ -80,6 +81,7 @@ NeoBundle 'marijnh/tern_for_vim', {
       \  }
       \ }
 NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'kchmck/vim-coffee-script'

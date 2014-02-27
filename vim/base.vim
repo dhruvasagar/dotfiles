@@ -15,7 +15,6 @@ set splitbelow
 set splitright
 
 set exrc
-set secure
 
 set suffixesadd+=.js,.rb
 

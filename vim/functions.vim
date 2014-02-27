@@ -9,9 +9,6 @@ augroup SetTitleString "{{{2
   autocmd BufEnter * call s:SetTitleString()
 augroup END
 
-" :RFC Taken from tpope's config {{{1
-command! -bar -count=0 RFC :e http://www.ietf.org/rfc/rfc<count>.txt | setl ro noma
-
 function! NeatFoldText() "{{{1
   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
   let lines_count = v:foldend - v:foldstart + 1

@@ -18,7 +18,7 @@ augroup END
 augroup NeoBundles "{{{2
   au!
 
-  autocmd BufWritePost neo_bundles.vim source %
+  autocmd BufWritePost neo_bundles.vim source $MYVIMRC
 augroup END
 
 augroup EditJump "{{{2
@@ -46,3 +46,6 @@ for files in config_list
     exec 'source ' . f
   endfor
 endfor
+
+" Set at the end to work around 'exrc'
+set secure
