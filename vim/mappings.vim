@@ -18,14 +18,14 @@ nnoremap <C-W>O :tab split<CR>
 nnoremap <Leader>D :Dispatch<CR>
 
 " Fugitive {{{1
-nnoremap <Leader>glg :Glog<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gcd :Gcd<Bar>pwd<CR>
-nnoremap <Leader>gld :Glcd<Bar>pwd<CR>
+nnoremap gsl :Glog<CR>
+nnoremap gsd :Gdiff<CR>
+nnoremap gsb :Gblame<CR>
+nnoremap gsw :Gwrite<CR>
+nnoremap gsC :Gcommit<CR>
+nnoremap gst :Gstatus<CR>
+nnoremap gscd :Gcd<Bar>pwd<CR>
+nnoremap gsld :Glcd<Bar>pwd<CR>
 
 " Gundo {{{1
 nnoremap U :GundoToggle<CR>
@@ -107,3 +107,9 @@ map <Up> <Nop>
 map <Down> <Nop>
 map <Left> <Nop>
 map <Right> <Nop>
+
+" Buffer Swag {{{1
+nnoremap <Leader>b :buffer 
+
+" Find your mate {{{1
+nnoremap <Leader>f :find 

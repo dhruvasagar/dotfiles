@@ -18,7 +18,7 @@ augroup END
 augroup NeoBundles "{{{2
   au!
 
-  autocmd BufWritePost neo_bundles.vim source $MYVIMRC
+  autocmd BufWritePost neo_bundles.vim source %
 augroup END
 
 augroup EditJump "{{{2
