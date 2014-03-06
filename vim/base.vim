@@ -45,8 +45,8 @@ set spellsuggest=best,5
 " Formatting Options {{{1
 set nowrap
 set linebreak
+set smarttab
 set expandtab
-set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set nojoinspaces

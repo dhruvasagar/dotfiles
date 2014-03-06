@@ -19,15 +19,15 @@ let g:neobundle#types#git#default_protocol='ssh'
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc.vim', {
-      \ 'build' : {
+NeoBundle 'Shougo/vimshell.vim', {
+      \ 'depends': [['Shougo/vimproc.vim', {
+      \   'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
       \     'cygwin' : 'make -f make_cygwin.mak',
       \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundle 'Shougo/vimshell.vim'
+      \     'unix' : 'make -f make_unix.mak'
+      \   }
+			\ }]]}
 
 " tpope plugins {{{2
 NeoBundle 'tpope/vim-haml'
@@ -36,7 +36,6 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-rbenv'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-sleuth'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'tpope/vim-endwise'
@@ -72,7 +71,6 @@ NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'b4winckler/vim-angry'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'digitaltoad/vim-jade'
@@ -91,6 +89,7 @@ NeoBundle 'astashov/vim-ruby-debugger'
 NeoBundle 'guns/xterm-color-table.vim'
 NeoBundle 'Keithbsmiley/investigate.vim'
 NeoBundle 'nelstrom/vim-textobj-rubyblock', {'depends': 'kana/vim-textobj-user'}
+NeoBundle 'PeterRincker/vim-argumentative'
 
 " My plugins {{{2
 NeoBundleLocal ~/code/vim_plugins

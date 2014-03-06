@@ -1,15 +1,12 @@
 " Use repeat operator with visual selection {{{1
-vnoremap . :normal! .<CR>
+xnoremap . :normal! .<CR>
 
 " To make Y inline with other capitals {{{1
 nnoremap Y y$
-nnoremap <silent> Q :if maparg('q', 'n') <Bar> exe 'normal q' <Bar> else <Bar> exec 'normal! ZQ' <Bar> endif<CR>
+nnoremap <silent> Q :if !empty(maparg('q', 'n')) <Bar> exe 'normal q' <Bar> else <Bar> exec 'normal! ZQ' <Bar> endif<CR>
 
 " text-object for complete file {{{1
 onoremap <silent> af :<C-U>normal! ggVG<CR>
-
-" Clear search highlights {{{1
-nnoremap <Leader>/ :nohl<CR>
 
 " Focus on current buffer {{{1
 nnoremap <C-W>O :tab split<CR>
@@ -26,6 +23,11 @@ nnoremap gsC :Gcommit<CR>
 nnoremap gst :Gstatus<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>
 nnoremap gsld :Glcd<Bar>pwd<CR>
+
+" CtrlP {{{1
+nnoremap <C-p><C-b> :CtrlPBuffer<CR>
+nnoremap <C-p><C-m> :CtrlPMRUFiles<CR>
+nnoremap <C-p><C-l> :CtrlPLastMode<CR>
 
 " Gundo {{{1
 nnoremap U :GundoToggle<CR>
@@ -111,5 +113,9 @@ map <Right> <Nop>
 " Buffer Swag {{{1
 nnoremap <Leader>b :buffer 
 
-" Find your mate {{{1
+" Find it! {{{1
 nnoremap <Leader>f :find 
+
+" VimShell {{{1
+xnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'<","'>"), ' '), '\t', ' ', 'g'))<CR>
+nnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'{","'}"), ' '), '\t', ' ', 'g'))<CR>

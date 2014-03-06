@@ -192,3 +192,17 @@ function! s:Extract(bang,cmd,fname) range abort
 endfunction
 command! -bar -nargs=1 -range SExtract :<line1>,<line2>call s:Extract(<bang>0,"split",<q-args>)
 command! -bar -nargs=1 -range VExtract :<line1>,<line2>call s:Extract(<bang>0,"vsplit",<q-args>)
+
+" Scratch {{{1
+function! s:ScratchEdit(cmd, options)
+	exe a:cmd tempname()
+	setl buftype=nofile
+	nnoremap <silent> <buffer> q :bw<CR>
+	if !empty(a:options)
+		exe 'setl' a:options
+	endif
+endfunction
+command! -bar -nargs=* Scratch call s:ScratchEdit('edit', <q-args>)
+command! -bar -nargs=* Sscratch call s:ScratchEdit('split', <q-args>)
+command! -bar -nargs=* Vscratch call s:ScratchEdit('vsplit', <q-args>)
+command! -bar -nargs=* Tscratch call s:ScratchEdit('tabe', <q-args>)
