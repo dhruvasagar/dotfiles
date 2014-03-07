@@ -10,5 +10,3 @@ ln -s ~/dotfiles/powerline ~/.config/powerline
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/git_template ~/.git_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
-
-# vim: ft=sh
