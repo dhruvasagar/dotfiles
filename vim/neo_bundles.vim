@@ -134,7 +134,7 @@ NeoBundleLazy 'thinca/vim-quickrun', {
       \}
 NeoBundleLazy 'tomtom/tcomment_vim', {
       \ 'autoload': {
-      \   'mappings': [['nx', ['gc', 'gcc', 'gC']]]
+      \   'mappings': [['nx', 'gc', 'gcc', 'gC']]
       \ }
       \}
 NeoBundleLazy 'bkad/CamelCaseMotion', {
@@ -194,8 +194,8 @@ NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
 NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ 'autoload': {
       \   'mappings': [
-      \    ['n', ['[,', '],', '<,', '>,']],
-      \    ['xo', ['i,', 'a,']]
+      \    ['n', '[,', '],', '<,', '>,'],
+      \    ['xo', 'i,', 'a,']
       \   ]
       \ }
       \}
