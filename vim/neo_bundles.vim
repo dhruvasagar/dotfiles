@@ -28,11 +28,12 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \   }
       \ }]],
       \ 'autoload' : {
-      \   'commands': ['VimShell',
-      \                'VimShellExecute',
-      \                'VimShellInteractive',
-      \                'VimShellTerminal',
-      \                'VimShellPop'
+      \   'commands': [
+      \     'VimShell',
+      \     'VimShellExecute',
+      \     'VimShellInteractive',
+      \     'VimShellTerminal',
+      \     'VimShellPop'
       \   ],
       \   'functions': ['vimshel#interactive#send']
       \ }
