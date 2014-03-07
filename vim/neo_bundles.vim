@@ -44,7 +44,6 @@ NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-cucumber'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
@@ -72,6 +71,11 @@ NeoBundleLazy 'tpope/vim-rbenv', {
 NeoBundleLazy 'tpope/vim-bundler', {
       \ 'autoload': {
       \   'filetypes': ['ruby']
+      \ }
+      \}
+NeoBundleLazy 'tpope/vim-cucumber', {
+      \ 'autoload': {
+      \   'filetypes': ['cucumber']
       \ }
       \}
 NeoBundleLazy 'tpope/vim-dispatch', {

@@ -1,18 +1,17 @@
-" Auto Command Groups {{{1
-augroup vimrcEx "{{{2
+augroup vimrcEx "{{{1
   au!
 
   " Automatically load .vimrc changes
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
-augroup NeoBundles "{{{2
+augroup NeoBundles "{{{1
   au!
 
-  autocmd BufWritePost neo_bundles.vim source %
+  autocmd BufWritePost neo_bundles.vim source % | filetype plugin indent on
 augroup END
 
-augroup EditJump "{{{2
+augroup EditJump "{{{1
   au!
 
   " When editing a file, always jump to the last known cursor position.
@@ -24,7 +23,7 @@ augroup EditJump "{{{2
         \ endif
 augroup END
 
-augroup SetTitleString "{{{2
+augroup SetTitleString "{{{1
   au!
 
   autocmd BufEnter * call functions#SetTitleString()
