@@ -34,7 +34,6 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \                'VimShellTerminal',
       \                'VimShellPop'
       \   ],
-      \   'mappings': ['<Plug>(vimshell_'],
       \   'functions': ['vimshel#interactive#send']
       \ }
       \}
@@ -87,7 +86,6 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'chrisbra/NrrwRgn'
-NeoBundle 'wavded/vim-stylus'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'scrooloose/nerdtree'
@@ -117,6 +115,11 @@ NeoBundleLazy 'godlygeek/tabular', {
       \   'commands': ['Tabular']
       \ }
       \}
+NeoBundleLazy 'wavded/vim-stylus', {
+      \ 'autoload': {
+      \   'filetypes': ['stylus']
+      \ }
+      \}
 NeoBundleLazy 'groenewege/vim-less', {
       \ 'autoload': {
       \   'filetypes': ['less']
@@ -129,7 +132,7 @@ NeoBundleLazy 'jnwhiteh/vim-golang', {
       \}
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload': {
-      \   'mappings': ['<Plug>(quickrun)', ['o', '<Plug>(quickrun-op)']]
+      \   'mappings': [['n', '<Plug>(quickrun)'], ['o', '<Plug>(quickrun-op)']]
       \ }
       \}
 NeoBundleLazy 'tomtom/tcomment_vim', {
