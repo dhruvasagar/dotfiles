@@ -14,7 +14,6 @@ let config_list = [
       \ 'autocmd.vim',
       \ 'commands.vim',
       \ 'mappings.vim',
-      \ 'functions.vim',
       \ 'plugin_settings/*.vim'
       \]
 for files in config_list
