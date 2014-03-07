@@ -1,6 +1,8 @@
 " Core Options {{{1
-scriptencoding utf-8          " Set encoding to utf-8, fixes macvim bug for
-                              " using unicode characters in listchars
+
+" Set encoding to utf-8, fixes macvim bug for
+" using unicode characters in listchars
+scriptencoding utf-8
 
 set autoread
 set nobackup
@@ -25,7 +27,6 @@ set thesaurus+=~/.vim/spell/mthesaur.txt
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --column
-  command! -bar -nargs=+ -complete=file Ag silent! grep! <args>|redraw!
 else
   set grepprg=grep\ -rnH\ --exclude=tags\ --exclude-dir=.git\ --exclude-dir=node_modules
 endif
