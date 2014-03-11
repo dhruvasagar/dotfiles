@@ -18,7 +18,7 @@ command! -bar -nargs=1 -range SExtract :<line1>,<line2>call functions#Extract(<b
 command! -bar -nargs=1 -range VExtract :<line1>,<line2>call functions#Extract(<bang>0,"vsplit",<q-args>)
 
 " Scratch Buffer
-command! -bar -nargs=* Scratch call functions#ScratchEdit('edit', <q-args>)
-command! -bar -nargs=* Sscratch call functions#ScratchEdit('split', <q-args>)
-command! -bar -nargs=* Vscratch call functions#ScratchEdit('vsplit', <q-args>)
-command! -bar -nargs=* Tscratch call functions#ScratchEdit('tabe', <q-args>)
+command! -bar -nargs=* Sedit call functions#ScratchEdit('edit', <q-args>)
+command! -bar -nargs=* Ssplit call functions#ScratchEdit('split', <q-args>)
+command! -bar -nargs=* Svsplit call functions#ScratchEdit('vsplit', <q-args>)
+command! -bar -nargs=* Stabedit call functions#ScratchEdit('tabe', <q-args>)

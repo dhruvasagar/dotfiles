@@ -96,7 +96,7 @@
 			org-todo-file-path     (format "%s/%s" org-directory "todo.org")
 			org-journal-file-path  (format "%s/%s" org-directory "diary.org")
 			org-refile-file-path   (format "%s/%s" org-directory "refile.org")
-			org-expenses-file-path (format "%s/%s" "~/Document/expenses" "expenses.org"))
+			org-expenses-file-path (format "%s/%s" "~/Documents/expenses" "expenses.org"))
 
 (global-set-key (kbd "C-c t")
 								(lambda ()
