@@ -113,9 +113,6 @@ endfunction
 " Scratch {{{1
 function! functions#ScratchEdit(cmd, options)
 	exe a:cmd tempname()
-	setl buftype=nofile
-	nnoremap <silent> <buffer> q :bw<CR>
-	if !empty(a:options)
-		exe 'setl' a:options
-	endif
+	setl buftype=nofile bufhidden=wipe nobuflisted
+	if !empty(a:options) | exe 'setl' a:options | endif
 endfunction
