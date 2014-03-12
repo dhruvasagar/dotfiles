@@ -202,7 +202,7 @@ NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
 NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ 'autoload': {
       \   'mappings': [
-      \    ['n', '[,', '],', '<,', '>,'],
+      \    ['nxo', '[,', '],', '<,', '>,'],
       \    ['xo', 'i,', 'a,']
       \   ]
       \ }

@@ -2,7 +2,7 @@ augroup vimrcEx "{{{1
   au!
 
   " Automatically load .vimrc changes
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
 augroup NeoBundles "{{{1
