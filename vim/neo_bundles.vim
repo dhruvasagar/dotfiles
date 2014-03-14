@@ -92,7 +92,8 @@ NeoBundle 'gregsexton/gitv'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
+" NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
+NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
 " NeoBundle 'MarcWeber/ultisnips'
