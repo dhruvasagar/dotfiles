@@ -4,3 +4,5 @@
 # ./configure --with-features=huge --enable-python3interp --with-python-config-dir=/usr/lib/python3.2/config --enable-rubyinterp --enable-gui=gtk2
 
 ./configure --with-features=huge --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config --enable-rubyinterp --enable-gui=gtk2
+make
+sudo make install

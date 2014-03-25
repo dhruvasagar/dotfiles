@@ -33,9 +33,9 @@ nnoremap <C-p><C-l> :CtrlPLastMode<CR>
 nnoremap U :GundoToggle<CR>
 
 " Tabular mapping {{{1
-xnoremap z// :Tabularize/
-xnoremap z/= :Tabularize/=<CR>
-xnoremap z/: :Tabularize/:<CR>
+xnoremap z// :Tabular/
+xnoremap z/= :Tabular/=<CR>
+xnoremap z/: :Tabular/:<CR>
 
 " Search {{{1
 function! s:Vword()
@@ -109,6 +109,11 @@ map <Up> <Nop>
 map <Down> <Nop>
 map <Left> <Nop>
 map <Right> <Nop>
+
+imap <Up> <Nop>
+imap <Down> <Nop>
+imap <Left> <Nop>
+imap <Right> <Nop>
 
 " Buffer Swag {{{1
 nnoremap <Leader>b :buffer 

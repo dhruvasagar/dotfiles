@@ -49,6 +49,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-scriptease'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
@@ -95,6 +96,7 @@ NeoBundle 'honza/vim-snippets'
 " NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'scrooloose/syntastic'
 " NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'AndrewRadev/splitjoin.vim'
@@ -139,16 +141,6 @@ NeoBundleLazy 'jnwhiteh/vim-golang', {
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload': {
       \   'mappings': [['n', '<Plug>(quickrun)'], ['o', '<Plug>(quickrun-op)']]
-      \ }
-      \}
-NeoBundleLazy 'tomtom/tcomment_vim', {
-      \ 'autoload': {
-      \   'mappings': [['nx', 'gc', 'gcc', 'gC']]
-      \ }
-      \}
-NeoBundleLazy 'bkad/CamelCaseMotion', {
-      \ 'autoload': {
-      \   'mappings': ['<Plug>CamelCaseMotion_']
       \ }
       \}
 NeoBundleLazy 'derekwyatt/vim-scala', {
@@ -208,6 +200,8 @@ NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \   ]
       \ }
       \}
+
+" Temporary Plugins {{{2
 
 " My plugins {{{2
 NeoBundleLocal ~/code/vim_plugins
