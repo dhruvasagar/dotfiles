@@ -22,7 +22,7 @@ function! s:GitExecInPath(cmd) "{{{2
   endif
   let path = fnamemodify(path, ':h')
 
-	return system('cd ' . path . '; ' . a:cmd)
+  return system('cd ' . path . '; ' . a:cmd)
 endfunction
 
 function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2

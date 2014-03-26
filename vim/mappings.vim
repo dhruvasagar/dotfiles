@@ -71,7 +71,8 @@ function! s:OpenURL(url)
 endfunction
 command! -nargs=1 OpenURL :call s:OpenURL(<q-args>)
 " open URL under cursor in browser
-nnoremap gb :OpenURL <cfile><CR>
+nnoremap <CR> :OpenURL <cfile><CR>
+nnoremap gB :OpenURL <cfile><CR>
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
@@ -116,7 +117,7 @@ imap <Left> <Nop>
 imap <Right> <Nop>
 
 " Buffer Swag {{{1
-nnoremap <Leader>b :buffer 
+nnoremap gb :buffer 
 
 " Find it! {{{1
 nnoremap <Leader>f :find 

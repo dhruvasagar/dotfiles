@@ -117,6 +117,18 @@ set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,.git,tags
 " Making <S-Tab> work
 execute 'set t_kB=' . nr2char(27) . '[Z'
 
+" Status Line
+set statusline=\ %{fugitive#head()}\ \|\ 
+set statusline+=%f\ 
+set statusline+=%r\ 
+set statusline+=%m\ 
+set statusline+=%=
+set statusline+=%{&fileformat}\ \|\ 
+set statusline+=%{&fileencoding}\ \|\ 
+set statusline+=%{&filetype}\ \|\ 
+set statusline+=%p%%\ \|\ 
+set statusline+=%l:%c\ 
+
 " let g:solarized_termcolors=256
 " color solarized
 color railscasts
