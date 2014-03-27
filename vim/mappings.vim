@@ -116,9 +116,6 @@ imap <Down> <Nop>
 imap <Left> <Nop>
 imap <Right> <Nop>
 
-" Buffer Swag {{{1
-nnoremap gb :buffer 
-
 " Find it! {{{1
 nnoremap <Leader>f :find 
 
