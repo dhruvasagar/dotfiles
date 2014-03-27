@@ -122,3 +122,6 @@ nnoremap <Leader>f :find
 " VimShell {{{1
 xnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'<","'>"), ' '), '\t', ' ', 'g'))<CR>
 nnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'{","'}"), ' '), '\t', ' ', 'g'))<CR>
+
+" Use ` when '
+nnoremap ' `
