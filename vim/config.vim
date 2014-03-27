@@ -124,11 +124,9 @@ set statusline+=%1*%f%*\
 set statusline+=%(%2*%{SyntasticStatuslineFlag()}%*\ %)
 set statusline+=%r%m
 set statusline+=%<%=
-set statusline+=%(%{&fileformat}\ \|\ %)
-set statusline+=%(%{&fileencoding}\ \|\ %)
 set statusline+=%(%{&filetype}\ \|\ %)
-set statusline+=%(%p%%\ \|\ %)
-set statusline+=\ %l:%-3c
+set statusline+=%(%3p%%\ \|\ %)
+set statusline+=\ %4l:%-3c
 
 " let g:solarized_termcolors=256
 " color solarized
