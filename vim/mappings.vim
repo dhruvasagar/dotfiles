@@ -24,6 +24,9 @@ nnoremap gst :Gstatus<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>
 nnoremap gsld :Glcd<Bar>pwd<CR>
 
+xnoremap do :diffget<CR>
+xnoremap dp :diffput<CR>
+
 " CtrlP {{{1
 nnoremap <C-p><C-b> :CtrlPBuffer<CR>
 nnoremap <C-p><C-m> :CtrlPMRUFiles<CR>
