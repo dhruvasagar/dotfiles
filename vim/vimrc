@@ -5,7 +5,7 @@ set nocp
 source ~/.vim/neo_bundles.vim
 
 " Powerline {{{1
-set runtimepath+=/home/dhruvasagar/code/powerline/powerline/bindings/vim
+" set runtimepath+=/home/dhruvasagar/code/powerline/powerline/bindings/vim
 
 " Load all vim configs {{{1
 let s:vim_home = '~/.vim/'

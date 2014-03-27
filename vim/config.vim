@@ -118,16 +118,14 @@ set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,.git,tags
 execute 'set t_kB=' . nr2char(27) . '[Z'
 
 " Status Line
-set statusline=\ %{fugitive#head()}\ \|\ 
-set statusline+=%f\ 
-set statusline+=%r\ 
-set statusline+=%m\ 
-set statusline+=%=
-set statusline+=%{&fileformat}\ \|\ 
-set statusline+=%{&fileencoding}\ \|\ 
-set statusline+=%{&filetype}\ \|\ 
-set statusline+=%p%%\ \|\ 
-set statusline+=%l:%c\ 
+set statusline=%(%{fugitive#statusline()}\ %)
+set statusline+=[%{fnamemodify(getcwd(),':t')}]\ 
+set statusline+=%1*%f%*\ 
+set statusline+=%(%2*%{SyntasticStatuslineFlag()}%*\ %)
+set statusline+=%r%m
+set statusline+=%<%=
+set statusline+=%y\ 
+set statusline+=[%l:%c]
 
 " let g:solarized_termcolors=256
 " color solarized
