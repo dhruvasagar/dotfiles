@@ -65,8 +65,7 @@ endfunction
 set includeexpr=IncludeExpr()
 
 " Statusline {{{1
-set statusline=%(\ b#\ %n\ \|%)
-set statusline+=%(\ \ %{fugitive#head()}\ \|%)
+set statusline=%(\ \ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
 set statusline+=%1*%f%*\ 
 set statusline+=%(%r%m\ %)
