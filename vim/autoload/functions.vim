@@ -14,7 +14,7 @@ function! s:GitShortRefNames(names, full_name) "{{{2
   return map(a:names, expr)
 endfunction
 
-function! s:GitExecInPath(cmd) "{{{2
+function! functions#GitExecInPath(cmd) "{{{2
   if exists('b:git_dir')
     let path = b:git_dir
   else
@@ -39,7 +39,7 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2
   if !empty(a:ArgLead)
     let cmd = cmd . ' | sed "s/.*\/\(.*\)/\1/" | grep ^' . a:ArgLead . ' 2>/dev/null'
   endif
-  return s:GitShortRefNames(split(s:GitExecInPath(cmd)), full_name)
+  return s:GitShortRefNames(split(functions#GitExecInPath(cmd)), full_name)
 endfunction
 
 function! s:GitExtraComplete(ArgLead, CmdLine, Cursor, type) "{{{2

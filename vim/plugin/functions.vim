@@ -63,3 +63,43 @@ function! IncludeExpr()
   return l:fname
 endfunction
 set includeexpr=IncludeExpr()
+
+" Statusline {{{1
+set statusline=%(\ b#\ %n\ \|%)
+set statusline+=%(\ \ %{fugitive#head()}\ \|%)
+set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
+set statusline+=%1*%f%*\ 
+set statusline+=%(%r%m\ %)
+set statusline+=%3*%{StatusLineGitFlag()}%*
+set statusline+=\ %2*%{SyntasticStatuslineFlag()}%*
+set statusline+=%<%=
+set statusline+=%(%{&filetype}\ \|\ %)
+set statusline+=%(%3p%%\ \|\ %)
+set statusline+=\ %4l:%-3c
+
+augroup StatusLine
+  au!
+
+  autocmd WinEnter,CursorHold * call <SID>StatusLineClearVars()
+augroup END
+
+function! s:StatusLineClearVars()
+  unlet! b:statusline_git_flag
+  if exists('b:statusline_pwd') && fnamemodify(getcwd(), ':t') !=# b:statusline_pwd
+    unlet b:statusline_pwd
+  endif
+endfunction
+
+function! StatusLinePWD()
+  if !exists('b:statusline_pwd')
+    let b:statusline_pwd = fnamemodify(getcwd(), ':t')
+  endif
+  return b:statusline_pwd
+endfunction
+
+function! StatusLineGitFlag()
+  if !exists('b:statusline_git_flag')
+    let b:statusline_git_flag = matchstr(functions#GitExecInPath('git status --porcelain ' . expand('%')), '.*\ze\s')
+  endif
+  return b:statusline_git_flag
+endfunction
