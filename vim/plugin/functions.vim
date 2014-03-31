@@ -74,7 +74,7 @@ set statusline+=\ %2*%{SyntasticStatuslineFlag()}%*
 set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)
 set statusline+=%(%3p%%\ \|\ %)
-set statusline+=\ %4l:%-3c
+set statusline+=\ %3l(%L):%-3c
 
 augroup StatusLine
   au!
