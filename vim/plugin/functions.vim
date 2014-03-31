@@ -98,7 +98,7 @@ endfunction
 
 function! StatusLineGitFlag()
   if !exists('b:statusline_git_flag')
-    let b:statusline_git_flag = matchstr(functions#GitExecInPath('git status --porcelain ' . expand('%')), '.*\ze\s')
+    let b:statusline_git_flag = matchstr(functions#GitExecInPath('git status --porcelain ' . expand('%') . ' 2>/dev/null'), '.*\ze\s')
   endif
   return b:statusline_git_flag
 endfunction

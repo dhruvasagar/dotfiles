@@ -98,9 +98,7 @@ NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'scrooloose/syntastic'
-" NeoBundle 'MarcWeber/ultisnips'
 NeoBundle 'AndrewRadev/splitjoin.vim'
-" NeoBundle 'Keithbsmiley/investigate.vim'
 
 NeoBundleLazy 'dahu/vimple', {
       \ 'autoload': {
