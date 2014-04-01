@@ -66,7 +66,8 @@ set includeexpr=IncludeExpr()
 
 " Statusline {{{1
 set statusline=%(\ \ %{fugitive#head()}\ \|%)
-set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
+set statusline+=%(\ %{StatusLinePWD()}\ %)
+set statusline+=%(%3*%{StatusLinePWDGitFlag()}%*\ \|\ %)
 set statusline+=%1*%f%*\ 
 set statusline+=%(%r%m\ %)
 set statusline+=%3*%{StatusLineGitFlag()}%*
@@ -86,6 +87,7 @@ function! s:StatusLineClearVars()
   unlet! b:statusline_git_flag
   if exists('b:statusline_pwd') && fnamemodify(getcwd(), ':t') !=# b:statusline_pwd
     unlet b:statusline_pwd
+		unlet! b:statusline_pwd_git_flag
   endif
 endfunction
 
@@ -105,4 +107,11 @@ function! StatusLineGitFlag()
 		endif
   endif
   return b:statusline_git_flag
+endfunction
+
+function! StatusLinePWDGitFlag()
+	if !exists('b:statusline_pwd_git_flag')
+		let b:statusline_pwd_git_flag = matchstr(functions#GitExecInPath('git status --porcelain 2>/dev/null | head -1'), '.*\ze\s', getcwd())
+	endif
+	return b:statusline_pwd_git_flag
 endfunction

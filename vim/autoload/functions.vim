@@ -14,8 +14,10 @@ function! s:GitShortRefNames(names, full_name) "{{{2
   return map(a:names, expr)
 endfunction
 
-function! functions#GitExecInPath(cmd) "{{{2
-  if exists('b:git_dir')
+function! functions#GitExecInPath(cmd, ...) "{{{2
+	if a:0
+		let path = a:1
+	elseif exists('b:git_dir')
     let path = b:git_dir
   else
     let path = fugitive#extract_git_dir('.')
