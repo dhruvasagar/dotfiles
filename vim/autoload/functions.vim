@@ -15,14 +15,14 @@ function! s:GitShortRefNames(names, full_name) "{{{2
 endfunction
 
 function! functions#GitExecInPath(cmd, ...) "{{{2
-	if a:0
-		let path = a:1
-	elseif exists('b:git_dir')
+  if a:0
+    let path = a:1
+  elseif exists('b:git_dir')
     let path = b:git_dir
-		let path = fnamemodify(path, ':h')
+    let path = fnamemodify(path, ':h')
   else
     let path = fugitive#extract_git_dir('.')
-		let path = fnamemodify(path, ':h')
+    let path = fnamemodify(path, ':h')
   endif
 
   return system('cd ' . path . '; ' . a:cmd)
