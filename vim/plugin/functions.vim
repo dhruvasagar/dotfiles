@@ -84,7 +84,7 @@ augroup END
 
 function! s:StatusLineClearVars()
   unlet! b:statusline_git_flag
-	unlet! b:statusline_pwd_git_flag
+  unlet! b:statusline_pwd_git_flag
   if exists('b:statusline_pwd') && fnamemodify(getcwd(), ':t') !=# b:statusline_pwd
     unlet b:statusline_pwd
   endif
@@ -99,18 +99,18 @@ endfunction
 
 function! StatusLineGitFlag()
   if !exists('b:statusline_git_flag')
-		if empty(expand('%'))
-			let b:statusline_git_flag = ''
-		else
-			let b:statusline_git_flag = functions#GitExecInPath('git status --porcelain ' . expand('%') . " 2>/dev/null | awk '{print $1}'")[:-2]
-		endif
+    if empty(expand('%'))
+      let b:statusline_git_flag = ''
+    else
+      let b:statusline_git_flag = functions#GitExecInPath('git status --porcelain ' . expand('%') . " 2>/dev/null | awk '{print $1}'")[:-2]
+    endif
   endif
   return b:statusline_git_flag
 endfunction
 
 function! StatusLinePWDGitFlag()
-	if !exists('b:statusline_pwd_git_flag')
-		let b:statusline_pwd_git_flag = functions#GitExecInPath("git status --porcelain 2>/dev/null | head -1 | awk '{print $1}'", getcwd())[:-2]
-	endif
-	return b:statusline_pwd_git_flag
+  if !exists('b:statusline_pwd_git_flag')
+    let b:statusline_pwd_git_flag = functions#GitExecInPath("git status --porcelain 2>/dev/null | head -1 | awk '{print $1}'", getcwd())[:-2]
+  endif
+  return b:statusline_pwd_git_flag
 endfunction
