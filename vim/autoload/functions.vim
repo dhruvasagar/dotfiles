@@ -19,10 +19,11 @@ function! functions#GitExecInPath(cmd, ...) "{{{2
 		let path = a:1
 	elseif exists('b:git_dir')
     let path = b:git_dir
+		let path = fnamemodify(path, ':h')
   else
     let path = fugitive#extract_git_dir('.')
+		let path = fnamemodify(path, ':h')
   endif
-  let path = fnamemodify(path, ':h')
 
   return system('cd ' . path . '; ' . a:cmd)
 endfunction
