@@ -84,9 +84,9 @@ augroup END
 
 function! s:StatusLineClearVars()
   unlet! b:statusline_git_flag
+	unlet! b:statusline_pwd_git_flag
   if exists('b:statusline_pwd') && fnamemodify(getcwd(), ':t') !=# b:statusline_pwd
     unlet b:statusline_pwd
-		unlet! b:statusline_pwd_git_flag
   endif
 endfunction
 
