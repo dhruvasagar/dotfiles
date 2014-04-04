@@ -40,9 +40,11 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \}
 
 " tpope plugins {{{2
+NeoBundle 'tpope/timl'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-sleuth'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-fugitive'
@@ -82,9 +84,20 @@ NeoBundleLazy 'tpope/vim-cucumber', {
       \}
 NeoBundleLazy 'tpope/vim-dispatch', {
       \ 'autoload': {
-      \   'commands': ['Start', 'Dispatch']
+      \   'commands': [
+      \     'Make',
+      \     'Start',
+      \     'Copen',
+      \     'Dispatch',
+      \     'FocusDispatch'
+      \   ]
       \ }
       \}
+NeoBundleLazy 'tpope/vim-classpath', {
+			\ 'autoload': {
+			\   'filetypes': ['java'],
+			\ }
+			\}
 
 " Other Plugins {{{2
 NeoBundle 'kana/vim-vspec'
@@ -193,7 +206,8 @@ NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
 NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ 'autoload': {
       \   'mappings': [
-      \    ['nxo', '[,', '],', '<,', '>,'],
+      \    ['nxo', '[,', '],'],
+      \    ['n', '<,', '>,'],
       \    ['xo', 'i,', 'a,']
       \   ]
       \ }
