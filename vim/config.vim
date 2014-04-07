@@ -114,8 +114,6 @@ set wildmenu wildmode=list:longest,full
 set wildignorecase
 set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,tags
 
-set completeopt=longest,menu,preview
-
 " Making <S-Tab> work
 execute 'set t_kB=' . nr2char(27) . '[Z'
 
