@@ -40,7 +40,7 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \}
 
 " tpope plugins {{{2
-NeoBundle 'tpope/timl'
+" NeoBundle 'tpope/timl'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-repeat'
