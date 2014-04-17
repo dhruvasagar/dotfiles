@@ -103,13 +103,13 @@ NeoBundleLazy 'tpope/vim-classpath', {
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'gregsexton/gitv'
-NeoBundle 'ap/vim-css-color'
 NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'honza/vim-snippets'
 " NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'bkad/CamelCaseMotion'
+NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 
@@ -151,17 +151,13 @@ NeoBundleLazy 'jnwhiteh/vim-golang', {
       \}
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload': {
+      \   'commands': ['QuickRun'],
       \   'mappings': [['n', '<Plug>(quickrun)'], ['o', '<Plug>(quickrun-op)']]
       \ }
       \}
 NeoBundleLazy 'derekwyatt/vim-scala', {
       \ 'autoload': {
       \   'filetypes': ['scala']
-      \ }
-      \}
-NeoBundleLazy 'digitaltoad/vim-jade', {
-      \ 'autoload': {
-      \   'filetypes': ['jade']
       \ }
       \}
 NeoBundleLazy 'marijnh/tern_for_vim', {
