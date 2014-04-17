@@ -7,6 +7,7 @@ nnoremap <silent> Q :if !empty(maparg('q', 'n')) <Bar> exe 'normal q' <Bar> else
 
 " text-object for complete file {{{1
 onoremap <silent> af :<C-U>normal! ggVG<CR>
+xnoremap <silent> af :<C-U>normal! ggVG<CR>
 
 " Focus on current buffer {{{1
 nnoremap <C-W>O :tab split<CR>
