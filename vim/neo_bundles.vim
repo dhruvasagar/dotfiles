@@ -178,11 +178,11 @@ NeoBundleLazy 'pangloss/vim-javascript', {
       \   'filetypes': ['javascript']
       \ }
       \}
-NeoBundleLazy 'kchmck/vim-coffee-script', {
-      \ 'autoload': {
-      \   'filetypes': ['coffee']
-      \ }
-      \}
+" NeoBundleLazy 'kchmck/vim-coffee-script', {
+"       \ 'autoload': {
+"       \   'filetypes': ['coffee']
+"       \ }
+"       \}
 NeoBundleLazy 'astashov/vim-ruby-debugger', {
       \ 'autoload': {
       \   'filetypes': ['ruby']
@@ -208,8 +208,6 @@ NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \   ]
       \ }
       \}
-
-" Temporary Plugins {{{2
 
 " My plugins {{{2
 NeoBundleLocal ~/code/vim_plugins
