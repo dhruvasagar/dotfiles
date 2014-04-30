@@ -35,17 +35,14 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \     'VimShellTerminal',
       \     'VimShellPop'
       \   ],
-      \   'functions': ['vimshel#interactive#send']
+      \   'functions': 'vimshel#interactive#send'
       \ }
       \}
 
 " tpope plugins {{{2
 " NeoBundle 'tpope/timl'
-NeoBundle 'tpope/vim-rake'
-NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-sleuth'
-NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
@@ -55,31 +52,63 @@ NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-scriptease'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
-NeoBundle 'tpope/vim-characterize'
 
 NeoBundleLazy 'tpope/vim-haml', {
       \ 'autoload': {
-      \   'filetypes': ['haml']
+      \   'filetypes': 'haml'
+      \ }
+      \}
+NeoBundleLazy 'tpope/vim-rake', {
+      \ 'autoload': {
+      \   'commands': 'Rake'
       \ }
       \}
 NeoBundleLazy 'tpope/vim-rails', {
       \ 'autoload': {
-      \   'filetypes': ['ruby']
+      \   'filetypes': 'ruby'
       \ }
       \}
 NeoBundleLazy 'tpope/vim-rbenv', {
       \ 'autoload': {
-      \   'filetypes': ['ruby']
+      \   'filetypes': 'ruby'
+      \ }
+      \}
+NeoBundleLazy 'tpope/vim-eunuch', {
+      \ 'autoload': {
+      \   'commands': [
+      \     'Unlink',
+      \     'Remove',
+      \     'Move',
+      \     'Rename',
+      \     'Chmod',
+      \     'Mkdir',
+      \     'Find',
+      \     'Locate',
+      \     'SudoEdit',
+      \     'SudoWrite',
+      \     'W'
+      \   ]
+      \ }
+      \}
+NeoBundleLazy 'tpope/vim-abolish', {
+      \ 'autoload': {
+      \   'commands': [
+      \     'Abolish',
+      \     'Subvert'
+      \   ],
+      \   'mappings': [
+      \     ['n', 'cr']
+      \   ]
       \ }
       \}
 NeoBundleLazy 'tpope/vim-bundler', {
       \ 'autoload': {
-      \   'filetypes': ['ruby']
+      \   'filetypes': 'ruby'
       \ }
       \}
 NeoBundleLazy 'tpope/vim-cucumber', {
       \ 'autoload': {
-      \   'filetypes': ['cucumber']
+      \   'filetypes': 'cucumber'
       \ }
       \}
 NeoBundleLazy 'tpope/vim-dispatch', {
@@ -94,70 +123,79 @@ NeoBundleLazy 'tpope/vim-dispatch', {
       \ }
       \}
 NeoBundleLazy 'tpope/vim-classpath', {
-			\ 'autoload': {
-			\   'filetypes': ['java'],
-			\ }
-			\}
+      \ 'autoload': {
+      \   'filetypes': 'java',
+      \ }
+      \}
+NeoBundleLazy 'tpope/vim-characterize', {
+      \ 'autoload': {
+      \   'mappings': [['n', 'ga']]
+      \ }
+      \}
 
 " Other Plugins {{{2
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'gregsexton/gitv'
 NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'honza/vim-snippets'
 " NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 
 NeoBundleLazy 'dahu/vimple', {
       \ 'autoload': {
-      \   'commands': ['View']
+      \   'commands': 'View'
       \ }
       \}
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
-      \   'commands': ['GundoToggle']
+      \   'commands': 'GundoToggle'
       \ }
       \}
 NeoBundleLazy 'mattn/gist-vim', {
       \ 'depends': 'mattn/webapi-vim',
       \ 'autoload': {
-      \   'commands': ['Gist']
+      \   'commands': 'Gist'
+      \ }
+      \}
+NeoBundleLazy 'gregsexton/gitv', {
+      \ 'autoload': {
+      \   'commands': 'Gitv'
       \ }
       \}
 NeoBundleLazy 'godlygeek/tabular', {
       \ 'autoload': {
-      \   'commands': ['Tabular']
+      \   'commands': 'Tabular'
       \ }
       \}
 NeoBundleLazy 'wavded/vim-stylus', {
       \ 'autoload': {
-      \   'filetypes': ['stylus']
+      \   'filetypes': 'stylus'
       \ }
       \}
 NeoBundleLazy 'groenewege/vim-less', {
       \ 'autoload': {
-      \   'filetypes': ['less']
+      \   'filetypes': 'less'
       \ }
       \}
 NeoBundleLazy 'jnwhiteh/vim-golang', {
       \ 'autoload': {
-      \   'filetypes': ['go']
+      \   'filetypes': 'go'
       \ }
       \}
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload': {
-      \   'commands': ['QuickRun'],
+      \   'commands': 'QuickRun',
       \   'mappings': [['n', '<Plug>(quickrun)'], ['o', '<Plug>(quickrun-op)']]
       \ }
       \}
 NeoBundleLazy 'derekwyatt/vim-scala', {
       \ 'autoload': {
-      \   'filetypes': ['scala']
+      \   'filetypes': 'scala'
       \ }
       \}
 NeoBundleLazy 'marijnh/tern_for_vim', {
@@ -165,38 +203,38 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \   'unix': 'npm install'
       \  },
       \ 'autoload': {
-      \   'filetypes': ['javascript']
+      \   'filetypes': 'javascript'
       \ }
       \}
 NeoBundleLazy 'slim-template/vim-slim', {
       \ 'autoload': {
-      \   'filetypes': ['slim']
+      \   'filetypes': 'slim'
       \ }
       \}
 NeoBundleLazy 'pangloss/vim-javascript', {
       \ 'autoload': {
-      \   'filetypes': ['javascript']
+      \   'filetypes': 'javascript'
       \ }
       \}
 " NeoBundleLazy 'kchmck/vim-coffee-script', {
 "       \ 'autoload': {
-"       \   'filetypes': ['coffee']
+"       \   'filetypes': 'coffee'
 "       \ }
 "       \}
 NeoBundleLazy 'astashov/vim-ruby-debugger', {
       \ 'autoload': {
-      \   'filetypes': ['ruby']
+      \   'filetypes': 'ruby'
       \ }
       \}
 NeoBundleLazy 'guns/xterm-color-table.vim', {
       \ 'autoload': {
-      \   'commands': ['XtermColorTable']
+      \   'commands': 'XtermColorTable'
       \ }
       \}
 NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
       \ 'depends': 'kana/vim-textobj-user',
       \ 'autoload': {
-      \   'filetypes': ['ruby']
+      \   'filetypes': 'ruby'
       \ }
       \}
 NeoBundleLazy 'PeterRincker/vim-argumentative', {
