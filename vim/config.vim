@@ -115,7 +115,8 @@ set wildignorecase
 set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,tags
 
 " Making <S-Tab> work
-execute 'set t_kB=' . nr2char(27) . '[Z'
+" execute 'set t_kB=' . nr2char(27) . '[Z'
+set t_kB=[Z
 
 " let g:solarized_termcolors=256
 " color solarized

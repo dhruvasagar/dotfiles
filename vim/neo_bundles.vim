@@ -41,6 +41,7 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
 
 " tpope plugins {{{2
 " NeoBundle 'tpope/timl'
+NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-sleuth'
 NeoBundle 'tpope/vim-endwise'
@@ -56,11 +57,6 @@ NeoBundle 'tpope/vim-speeddating'
 NeoBundleLazy 'tpope/vim-haml', {
       \ 'autoload': {
       \   'filetypes': 'haml'
-      \ }
-      \}
-NeoBundleLazy 'tpope/vim-rake', {
-      \ 'autoload': {
-      \   'commands': 'Rake'
       \ }
       \}
 NeoBundleLazy 'tpope/vim-rails', {
