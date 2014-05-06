@@ -120,7 +120,7 @@ NeoBundleLazy 'tpope/vim-dispatch', {
       \}
 NeoBundleLazy 'tpope/vim-classpath', {
       \ 'autoload': {
-      \   'filetypes': 'java',
+      \   'filetypes': ['java', 'clojure']
       \ }
       \}
 NeoBundleLazy 'tpope/vim-characterize', {
