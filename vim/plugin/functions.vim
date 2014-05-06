@@ -99,7 +99,7 @@ endfunction
 
 function! StatusLineGitFlag()
   if !exists('b:statusline_git_flag')
-    if empty(expand('%')) || !bufexists(bufname('%'))
+    if !file_readable(expand('%'))
       let b:statusline_git_flag = ''
     else
       let b:statusline_git_flag = functions#GitExecInPath('git status --porcelain ' . expand('%') . " 2>/dev/null | awk '{print $1}'")[:-2]
