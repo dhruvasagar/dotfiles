@@ -48,6 +48,8 @@ NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-fireplace'
+NeoBundle 'tpope/vim-leiningen'
 NeoBundle 'tpope/vim-obsession'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-scriptease'
@@ -130,16 +132,19 @@ NeoBundleLazy 'tpope/vim-characterize', {
       \}
 
 " Other Plugins {{{2
+NeoBundle 'amdt/vim-niji'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'honza/vim-snippets'
 " NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'SirVer/ultisnips'
+NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 
 NeoBundleLazy 'dahu/vimple', {

@@ -8,7 +8,7 @@ source $ZSH/oh-my-zsh.sh
 
 TERM=xterm-256color
 
-PATH=$HOME/dotfiles/bin:$PATH
+PATH=$HOME/bin:$HOME/dotfiles/bin:$PATH
 PATH=$HOME/.rbenv/bin:$PATH # Add rbenv
 eval "$(rbenv init - --no-rehash)"
 
@@ -18,6 +18,7 @@ eval "$(rbenv init - --no-rehash)"
 # Load autojump
 [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && source ~/.autojump/etc/profile.d/autojump.zsh
 
+# Java environment
 JAVA_HOME='/usr/local/java/jdk1.7.0_21/'
 PATH=$PATH:$JAVA_HOME/bin
 
