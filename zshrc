@@ -38,17 +38,6 @@ compdef _git glgg2=git-log
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-function vim() {
-  tmux rename-window "vim - ${PWD##*/}"
-  if test $# -gt 0; then
-    env vim --servername ${PWD##*/} "$@"
-  elif test -f ~/.vim/sessions/${PWD##*/}.vim; then
-    env vim --servername ${PWD##*/} -S ~/.vim/sessions/${PWD##*/}.vim
-  else
-    env vim --servername ${PWD##*/} -c Obsession\ ~/.vim/sessions/${PWD##*/}.vim
-  fi
-}
-
 alias act_mail='VMAIL_HOME=~/.vmail/activesphere vmail'
 alias pulse_mail='VMAIL_HOME=~/.vmail/pulseenergy vmail'
 

@@ -28,3 +28,10 @@ augroup SetTitleString "{{{1
 
   autocmd BufEnter * call functions#SetTitleString()
 augroup END
+
+augroup CursorLine "{{{1
+  au!
+
+  autocmd BufEnter,WinEnter * setl cursorline
+  autocmd BufLeave,WinLeave * setl nocursorline
+augroup END
