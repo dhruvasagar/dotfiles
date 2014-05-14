@@ -31,6 +31,9 @@ else
   set grepprg=grep\ -rnH\ --exclude=tags\ --exclude-dir=.git\ --exclude-dir=node_modules
 endif
 
+" Set cdpath
+let &cdpath = ',' . substitute(substitute($CDPATH, '[, ]', '\\\0', 'g'), ':', ',', 'g')
+
 " Undo Options {{{2
 set undofile                  " Use undofile to persist undo history
 set undolevels=1000           " Increase undo level to 1000
