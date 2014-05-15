@@ -15,29 +15,7 @@ call neobundle#rc(expand(g:bundles_path))
 " Settings {{{2
 let g:neobundle#types#git#default_protocol='ssh'
 
-" Shougo Plugins {{{2
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundleLazy 'Shougo/vimshell.vim', {
-      \ 'depends': [['Shougo/vimproc.vim', {
-      \   'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak'
-      \   }
-      \ }]],
-      \ 'autoload' : {
-      \   'commands': [
-      \     'VimShell',
-      \     'VimShellExecute',
-      \     'VimShellInteractive',
-      \     'VimShellTerminal',
-      \     'VimShellPop'
-      \   ],
-      \   'functions': 'vimshel#interactive#send'
-      \ }
-      \}
 
 " tpope plugins {{{2
 " NeoBundle 'tpope/timl'
@@ -136,9 +114,9 @@ NeoBundle 'amdt/vim-niji'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'chrisbra/NrrwRgn'
-NeoBundle 'honza/vim-snippets'
 " NeoBundle 'garbas/vim-snipmate', {'depends': ['MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim']}
 NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'digitaltoad/vim-jade'
@@ -173,11 +151,6 @@ NeoBundleLazy 'godlygeek/tabular', {
       \   'commands': 'Tabular'
       \ }
       \}
-NeoBundleLazy 'wavded/vim-stylus', {
-      \ 'autoload': {
-      \   'filetypes': 'stylus'
-      \ }
-      \}
 NeoBundleLazy 'groenewege/vim-less', {
       \ 'autoload': {
       \   'filetypes': 'less'
@@ -207,16 +180,12 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \   'filetypes': 'javascript'
       \ }
       \}
-NeoBundleLazy 'slim-template/vim-slim', {
-      \ 'autoload': {
-      \   'filetypes': 'slim'
-      \ }
-      \}
 NeoBundleLazy 'pangloss/vim-javascript', {
       \ 'autoload': {
       \   'filetypes': 'javascript'
       \ }
       \}
+" Added to locals
 " NeoBundleLazy 'kchmck/vim-coffee-script', {
 "       \ 'autoload': {
 "       \   'filetypes': 'coffee'
