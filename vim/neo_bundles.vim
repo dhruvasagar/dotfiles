@@ -111,6 +111,7 @@ NeoBundleLazy 'tpope/vim-characterize', {
 
 " Other Plugins {{{2
 NeoBundle 'amdt/vim-niji'
+NeoBundle 'joonty/vdebug'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'chrisbra/NrrwRgn'
@@ -120,7 +121,6 @@ NeoBundle 'honza/vim-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'digitaltoad/vim-jade'
-NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
@@ -191,11 +191,6 @@ NeoBundleLazy 'pangloss/vim-javascript', {
 "       \   'filetypes': 'coffee'
 "       \ }
 "       \}
-NeoBundleLazy 'astashov/vim-ruby-debugger', {
-      \ 'autoload': {
-      \   'filetypes': 'ruby'
-      \ }
-      \}
 NeoBundleLazy 'guns/xterm-color-table.vim', {
       \ 'autoload': {
       \   'commands': 'XtermColorTable'
