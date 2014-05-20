@@ -1,6 +1,6 @@
 set statusline=%(\ \ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*\ %)\|\ %)
-set statusline+=%1*%f%*\ 
+set statusline+=%1*%{simplify(expand('%:~:.'))}%*\ 
 set statusline+=%(%r%m\ %)
 set statusline+=%3*%{StatusLineGitFlag()}%*
 set statusline+=\ %2*%{SyntasticStatuslineFlag()}%*
