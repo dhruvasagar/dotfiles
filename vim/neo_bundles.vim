@@ -15,7 +15,30 @@ call neobundle#rc(expand(g:bundles_path))
 " Settings {{{2
 let g:neobundle#types#git#default_protocol='ssh'
 
+" Shougo plugins {{{2
 NeoBundleFetch 'Shougo/neobundle.vim'
+" NeoBundle 'Shougo/vimproc.vim', {
+"       \ 'build': {
+"       \   'windows' : 'make -f make_mingw32.mak',
+"       \   'cygwin' : 'make -f make_cygwin.mak',
+"       \   'mac' : 'make -f make_mac.mak',
+"       \   'unix' : 'make -f make_unix.mak'
+"       \ }
+"       \}
+" NeoBundle 'Shougo/unite.vim'
+
+" NeoBundleLazy 'Shougo/vimshell.vim', {
+"       \ 'autoload' : {
+"       \   'commands': [
+"       \     'VimShell',
+"       \     'VimShellExecute',
+"       \     'VimShellInteractive',
+"       \     'VimShellTerminal',
+"       \     'VimShellPop'
+"       \   ],
+"       \   'functions': 'vimshel#interactive#send'
+"       \ }
+"       \}
 
 " tpope plugins {{{2
 " NeoBundle 'tpope/timl'
