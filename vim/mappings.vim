@@ -5,10 +5,6 @@ xnoremap . :normal! .<CR>
 nnoremap Y y$
 nnoremap <silent> Q :if !empty(maparg('q', 'n')) <Bar> exe 'normal q' <Bar> else <Bar> exec 'normal! ZQ' <Bar> endif<CR>
 
-" text-object for complete file {{{1
-onoremap <silent> af :<C-U>normal! ggVG<CR>
-xnoremap <silent> af :<C-U>normal! ggVG<CR>
-
 " Focus on current buffer {{{1
 nnoremap <C-W>O :tab split<CR>
 
@@ -43,10 +39,10 @@ function! s:Vword()
   return getline('.')[col("'<")-1:col("'>")-1]
 endfunction
 
-xnoremap <silent> * <Esc>/\v\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> * <Esc>/\v<<C-R>=<SID>Vword()<CR>><CR>
 xnoremap <silent> g* <Esc>/\v<C-R>=<SID>Vword()<CR><CR>
 
-xnoremap <silent> # o<Esc>?\v\<<C-R>=<SID>Vword()<CR>\><CR>
+xnoremap <silent> # o<Esc>?\v<<C-R>=<SID>Vword()<CR>><CR>
 xnoremap <silent> g# o<Esc>?\v<C-R>=<SID>Vword()<CR><CR>
 
 nnoremap <silent> g// :grep -w <cword> <C-R>=getcwd()<CR><CR>
