@@ -148,11 +148,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 
-NeoBundleLazy 'dahu/vimple', {
-      \ 'autoload': {
-      \   'commands': 'View'
-      \ }
-      \}
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
       \   'commands': 'GundoToggle'

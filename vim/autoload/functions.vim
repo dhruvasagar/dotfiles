@@ -72,12 +72,12 @@ endfunction
 
 " Filter quickfix / location list {{{1
 function! functions#FilterQuickfixList(bang, pattern)
-	let [cmp, and_or] = a:bang ? ['!~#', '&&'] : ['=~#', '||']
+  let [cmp, and_or] = a:bang ? ['!~#', '&&'] : ['=~#', '||']
   call setqflist(filter(getqflist(), "bufname(v:val.bufnr) " . cmp . " a:pattern " . and_or . " v:val.text " . cmp . " a:pattern"))
 endfunction
 
 function! functions#FilterLocationList(bang, pattern)
-	let [cmp, and_or] = a:bang ? ['!~#', '&&'] : ['=~#', '||']
+  let [cmp, and_or] = a:bang ? ['!~#', '&&'] : ['=~#', '||']
   call setloclist('%', filter(getloclist('%'), "bufname(v:val.bufnr) " . cmp . " a:pattern " . and_or . " v:val.text " . cmp . " a:pattern"))
 endfunction
 
@@ -115,7 +115,22 @@ endfunction
 
 " Scratch {{{1
 function! functions#ScratchEdit(cmd, options)
-	exe a:cmd tempname()
-	setl buftype=nofile bufhidden=wipe nobuflisted
-	if !empty(a:options) | exe 'setl' a:options | endif
+  exe a:cmd tempname()
+  setl buftype=nofile bufhidden=wipe nobuflisted
+  if !empty(a:options) | exe 'setl' a:options | endif
+endfunction
+
+" Cd / Lcd {{{1
+function! functions#CdComplete(ArgLead, CmdLine, CursorPos)
+  let pattern = empty(a:ArgLead) ? '*/' : '*' . a:ArgLead . '*/'
+  return map(globpath(&cdpath, pattern, 1, 1), 'fnamemodify(v:val, ":h:t")')
+endfunction
+
+" View {{{1
+function! functions#View(cmd)
+  redir => output
+  silent execute a:cmd
+  redir END
+  call functions#ScratchEdit('split', '')
+  call setline(1, split(output, '\n'))
 endfunction
