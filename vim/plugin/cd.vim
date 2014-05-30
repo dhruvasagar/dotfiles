@@ -4,3 +4,4 @@ function! s:CdComplete(ArgLead, CmdLine, CursorPos)
 endfunction
 
 command! -bar -nargs=1 -complete=customlist,s:CdComplete Cd cd <args>
+command! -bar -nargs=1 -complete=customlist,s:CdComplete Lcd lcd <args>
