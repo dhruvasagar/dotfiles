@@ -32,13 +32,14 @@ servers = (
   {
     address = "talk.google.com";
     chatnet = "ActiveTalk";
+    password = "<activesphere_password>";
     autoconnect = "yes";
   },
   {
     address = "dhruvasagar.com";
     chatnet = "FreenodeZNC";
     port = "3369";
-    password = "dhruvasagar/freenode:zncp4ssw0rd";
+    password = "dhruvasagar/freenode:<znc_password>";
     use_ssl = "yes";
     ssl_verify = "no";
     autoconnect = "yes";
@@ -47,7 +48,7 @@ servers = (
     address = "dhruvasagar.com";
     chatnet = "FooneticZNC";
     port = "3369";
-    password = "dhruvasagar/foonetic:zncp4ssw0rd";
+    password = "dhruvasagar/foonetic:<znc_password>";
     use_ssl = "yes";
     ssl_verify = "no";
     autoconnect = "yes";
@@ -115,7 +116,6 @@ chatnets = {
   shellium = { type = "IRC"; };
   dhruvasagar = { type = "IRC"; };
   ActiveSphere = { type = "IRC"; };
-  Freenode = { type = "IRC"; };
   IRCnet = { type = "IRC"; };
   FreenodeZNC = { type = "IRC"; };
   FooneticZNC = { type = "IRC"; };
@@ -282,6 +282,13 @@ statusbar = {
       };
     };
     remove = { items = { }; disabled = "yes"; };
+    awl_0 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_0 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
   };
 };
 settings = {
@@ -289,7 +296,7 @@ settings = {
     real_name = "Dhruva Sagar";
     user_name = "dhruvasagar";
     nick = "dhruvasagar";
-    timestamp_format = "%H:%M:%S %d-%m-%Y";
+    timestamp_format = "%H:%M:%S";
     awaylog_level = "MSGS HILIGHT";
   };
   "fe-text" = { actlist_sort = "refnum"; actlist_names = "no"; };
@@ -303,6 +310,7 @@ settings = {
     awl_placement = "bottom";
     awl_position = "0";
     notify_icon = "'/home/dhruva/Pictures/irc.png'";
+    awl_hide_data = "0";
   };
   "fe-common/core" = {
     print_active_channel = "no";
@@ -316,16 +324,7 @@ settings = {
   };
   "fe-common/xmpp" = { xmpp_roster_show_offline = "no"; };
 };
-hilights = (
-  { text = "dhruvasagar"; nick = "yes"; word = "yes"; },
-  {
-    text = ".*";
-    nick = "yes";
-    word = "yes";
-    regexp = "yes";
-    channels = ( "#activesphere" );
-  }
-);
+hilights = ( { text = "dhruvasagar"; nick = "yes"; word = "yes"; } );
 logs = { MSGS = { level = "ALL"; }; };
 ignores = (
   { level = "JOINS PARTS QUITS NICKS"; },
@@ -353,7 +352,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#vim";
+        name = "#irssi";
         tag = "FreenodeZNC";
       }
     );
@@ -363,7 +362,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#ubuntu";
+        name = "#vim";
         tag = "FreenodeZNC";
       }
     );
@@ -373,7 +372,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#bangaloreruby";
+        name = "#emacs";
         tag = "FreenodeZNC";
       }
     );
@@ -383,14 +382,64 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
+        name = "#ubuntu";
+        tag = "FreenodeZNC";
+      }
+    );
+  };
+  6 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#ruby";
+        tag = "FreenodeZNC";
+      }
+    );
+  };
+  7 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#ruby-lang";
+        tag = "FreenodeZNC";
+      }
+    );
+  };
+  8 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#docker";
+        tag = "FreenodeZNC";
+      }
+    );
+  };
+  9 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#clojure";
+        tag = "FreenodeZNC";
+      }
+    );
+  };
+  10 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
         name = "#activesphere";
         tag = "FooneticZNC";
       }
     );
   };
-  6 = { name = "hilight"; sticky = "yes"; };
+  11 = { name = "hilight"; sticky = "yes"; };
 };
 mainwindows = {
-  1 = { first_line = "12"; lines = "56"; };
-  6 = { first_line = "1"; lines = "11"; };
+  3 = { first_line = "12"; lines = "38"; };
+  11 = { first_line = "1"; lines = "11"; };
 };
