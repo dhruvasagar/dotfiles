@@ -21,11 +21,6 @@ nnoremap gst :Gstatus<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>
 nnoremap gsld :Glcd<Bar>pwd<CR>
 
-" CtrlP {{{1
-nnoremap <C-p><C-b> :CtrlPBuffer<CR>
-nnoremap <C-p><C-m> :CtrlPMRUFiles<CR>
-nnoremap <C-p><C-l> :CtrlPLastMode<CR>
-
 " Gundo {{{1
 nnoremap U :GundoToggle<CR>
 
@@ -86,8 +81,8 @@ function! s:CopyFileNameWithLineNumber() range
   else
     let path = fnamemodify(path, ':h:h:t')
   endif
-	" Get path relative to path
-	let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
+  " Get path relative to path
+  let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
 
   let name_with_lnum = path . ':'
   if a:lastline == a:firstline
@@ -112,12 +107,5 @@ imap <Down> <Nop>
 imap <Left> <Nop>
 imap <Right> <Nop>
 
-" Find it! {{{1
-nnoremap <Leader>f :find 
-
-" VimShell {{{1
-xnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'<","'>"), ' '), '\t', ' ', 'g'))<CR>
-nnoremap <silent> <C-C><C-C> :<C-U>call vimshell#interactive#send(substitute(join(getline("'{","'}"), ' '), '\t', ' ', 'g'))<CR>
-
-" Use ` when '
+" Use ` when ' {{{1
 nnoremap ' `

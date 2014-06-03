@@ -1,4 +1,3 @@
-let g:ctrlp_map = '<C-p><C-p>'
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_extensions = ['tag', 'buffertag']
 let g:ctrlp_show_hidden = 1
