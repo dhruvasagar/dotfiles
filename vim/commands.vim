@@ -28,4 +28,4 @@ command! -bar -nargs=1 -complete=customlist,functions#CdComplete Cd cd <args>
 command! -bar -nargs=1 -complete=customlist,functions#CdComplete Lcd lcd <args>
 
 " View
-command! -bar -nargs=1 -complete=command Redir call functions#View(<q-args>)
+command! -bar -nargs=1 -complete=command View call functions#View(<q-args>)

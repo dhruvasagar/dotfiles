@@ -51,6 +51,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set nojoinspaces
+set showmatch
 set number
 set numberwidth=3
 set nostartofline
