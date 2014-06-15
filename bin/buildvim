@@ -3,6 +3,15 @@
 # With Python3
 # ./configure --with-features=huge --enable-python3interp --with-python-config-dir=/usr/lib/python3.2/config --enable-rubyinterp --enable-gui=gtk2
 
-./configure --with-features=huge --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config --enable-rubyinterp --enable-gui=gtk2
+make distclean
+./configure \
+  --with-x \
+  --with-features=huge \
+  --enable-gui=auto \
+  --enable-gtk2-check \
+  --enable-gnome-check \
+  --enable-rubyinterp \
+  --enable-pythoninterp \
+  --with-python-config-dir=/usr/lib/python2.7/config
 make
 sudo make install
