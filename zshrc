@@ -10,7 +10,7 @@ PATH=$HOME/bin:$HOME/dotfiles/bin:$PATH
 PATH=$HOME/.rbenv/bin:$PATH # Add rbenv
 eval "$(rbenv init - --no-rehash)"
 
-export CDPATH=$CDPATH:$HOME:$HOME/code:$HOME/code/pulse
+export CDPATH=$CDPATH:$HOME:$HOME/code:$HOME/code/vim_plugins
 
 # tmux & TERM issue fix
 export TERM=xterm-256color
