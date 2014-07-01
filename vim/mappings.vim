@@ -64,7 +64,6 @@ endfunction
 command! -nargs=1 OpenURL :call s:OpenURL(<q-args>)
 " open URL under cursor in browser
 nnoremap gB :OpenURL <cfile><CR>
-nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
