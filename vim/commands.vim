@@ -1,6 +1,4 @@
 " Fugitive {{{1
-command! -bar -nargs=* Gpull execute 'Git pull' <q-args> 'origin' fugitive#head()
-command! -bar -nargs=* Gpush execute 'Git push' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Gpurr execute 'Git pull --rebase' <q-args> 'origin' fugitive#head()
 command! Gpnp silent Gpull | Gpush
 command! Gprp silent Gpurr | Gpush
