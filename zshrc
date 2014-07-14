@@ -16,10 +16,6 @@ export CDPATH=$CDPATH:$HOME:$HOME/code:$HOME/code/vim_plugins
 export TERM=xterm-256color
 [[ -n $TMUX ]] && export TERM=screen-256color
 
-# Java environment
-JAVA_HOME=/usr/local/java/jdk1.7.0_21/
-PATH=$PATH:$JAVA_HOME/bin
-
 # tmux
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
@@ -34,9 +30,9 @@ alias glgg2="git log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %
 compdef _git glgg2=git-log
 
 # Added by the Heroku Toolbelt
-export PATH=/usr/local/heroku/bin:$PATH
-
-alias act_mail='VMAIL_HOME=~/.vmail/activesphere vmail'
-alias pulse_mail='VMAIL_HOME=~/.vmail/pulseenergy vmail'
+# export PATH=/usr/local/heroku/bin:$PATH
 
 stty -ixon
+
+export CASSANDRA_HOME=~/cassandra
+export PATH=$PATH:$CASSANDRA_HOME/bin

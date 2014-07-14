@@ -18,15 +18,15 @@ let g:neobundle#types#git#default_protocol='ssh'
 
 " Shougo plugins {{{2
 NeoBundleFetch 'Shougo/neobundle.vim'
-" NeoBundle 'Shougo/vimproc.vim', {
-"       \ 'build': {
-"       \   'windows' : 'make -f make_mingw32.mak',
-"       \   'cygwin' : 'make -f make_cygwin.mak',
-"       \   'mac' : 'make -f make_mac.mak',
-"       \   'unix' : 'make -f make_unix.mak'
-"       \ }
-"       \}
-" NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build': {
+      \   'windows' : 'make -f make_mingw32.mak',
+      \   'cygwin' : 'make -f make_cygwin.mak',
+      \   'mac' : 'make -f make_mac.mak',
+      \   'unix' : 'make -f make_unix.mak'
+      \ }
+      \}
+NeoBundle 'Shougo/unite.vim'
 
 " NeoBundleLazy 'Shougo/vimshell.vim', {
 "       \ 'autoload' : {
@@ -135,7 +135,6 @@ NeoBundleLazy 'tpope/vim-characterize', {
       \}
 
 " Other Plugins {{{2
-NeoBundle 'amdt/vim-niji'
 NeoBundle 'joonty/vdebug'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
@@ -234,8 +233,8 @@ NeoBundleLazy 'PeterRincker/vim-argumentative', {
 " My plugins {{{2
 NeoBundleLocal ~/code/vim_plugins
 
-" NeoBundleCheck {{{2
-NeoBundleCheck
-
 " end {{{2
 call neobundle#end()
+
+" NeoBundleCheck {{{2
+NeoBundleCheck

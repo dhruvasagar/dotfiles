@@ -12,6 +12,6 @@ make distclean
   --enable-gnome-check \
   --enable-rubyinterp \
   --enable-pythoninterp \
-  --with-python-config-dir=/usr/lib/python2.7/config
+  --with-python-config-dir=$(/usr/bin/python2.7-config --configdir)
 make
 sudo make install
