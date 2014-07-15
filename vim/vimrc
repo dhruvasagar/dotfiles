@@ -15,7 +15,7 @@ let config_list = [
       \]
 for files in config_list
   for f in split(glob(s:vim_home.files), '\n')
-    exec 'source ' . f
+    exec 'source' f
   endfor
 endfor
 
