@@ -214,12 +214,6 @@ NeoBundleLazy 'guns/xterm-color-table.vim', {
       \   'commands': 'XtermColorTable'
       \ }
       \}
-NeoBundleLazy 'nelstrom/vim-textobj-rubyblock', {
-      \ 'depends': 'kana/vim-textobj-user',
-      \ 'autoload': {
-      \   'filetypes': 'ruby'
-      \ }
-      \}
 NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ 'autoload': {
       \   'mappings': [
