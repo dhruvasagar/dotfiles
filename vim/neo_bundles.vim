@@ -147,6 +147,7 @@ NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {

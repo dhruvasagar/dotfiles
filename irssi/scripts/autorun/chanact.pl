@@ -1,1 +1,0 @@
-../chanact.pl

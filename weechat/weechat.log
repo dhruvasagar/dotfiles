@@ -1,0 +1,15 @@
+[2014-08-21 08:06:35] WeeChat 0.4.2 (compiled on Oct 25 2013 09:30:24)
+[2014-08-21 08:06:35] Reading configuration file sec.conf
+[2014-08-21 08:06:35] Reading configuration file weechat.conf
+[2014-08-21 08:06:35] Reading configuration file plugins.conf
+[2014-08-21 08:06:35] Reading configuration file irc.conf
+[2014-08-21 08:06:35] irc: connecting to server dhruvasagar.com/3369 (SSL)...
+[2014-08-21 08:06:35] Reading configuration file charset.conf
+[2014-08-21 08:06:35] Reading configuration file relay.conf
+[2014-08-21 08:06:35] Reading configuration file xfer.conf
+[2014-08-21 08:06:35] Reading configuration file rmodifier.conf
+[2014-08-21 08:06:35] Reading configuration file alias.conf
+[2014-08-21 08:06:36] Reading configuration file script.conf
+[2014-08-21 08:06:36] Reading configuration file aspell.conf
+[2014-08-21 08:06:36] Reading configuration file logger.conf
+[2014-08-21 10:28:39] irc: connecting to server dhruvasagar.com/3369 (SSL)...

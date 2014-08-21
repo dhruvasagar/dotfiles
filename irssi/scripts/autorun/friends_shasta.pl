@@ -1,1 +1,0 @@
-../friends_shasta.pl
