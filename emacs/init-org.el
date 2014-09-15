@@ -91,7 +91,7 @@
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-(setq org-directory "~/org-files")
+(setq org-directory "~/Documents/dotoo-files")
 (setq org-default-notes-file (format "%s/%s" org-directory "refile.org")
 			org-todo-file-path     (format "%s/%s" org-directory "todo.org")
 			org-journal-file-path  (format "%s/%s" org-directory "diary.org")
@@ -1689,7 +1689,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
 ;; My custom settings
-(setq org-agenda-files '("~/org-files"
+(setq org-agenda-files '("~/Documents/dotoo-files"
 												 "~/code/pulse"))
 
 ;; Format capture template before adding to the target org file
