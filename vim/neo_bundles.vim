@@ -148,7 +148,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'Floobits/floobits-vim'
+" NeoBundle 'Floobits/floobits-vim'
 NeoBundle 'FredKSchott/CoVim'
 
 NeoBundleLazy 'sjl/gundo.vim', {
