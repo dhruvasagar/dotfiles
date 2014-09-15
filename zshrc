@@ -6,7 +6,7 @@ fi
 EDITOR='vim'
 
 # Customize to your needs...
-PATH=$HOME/bin:$HOME/dotfiles/bin:$PATH
+PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.rbenv/bin:$PATH # Add rbenv
 eval "$(rbenv init - --no-rehash)"
 
