@@ -1,0 +1,45 @@
+# vim: ft=conf
+
+function prompt_dhruva_precmd {
+        git-info
+                ruby-info
+}
+
+function prompt_dhruva_setup {
+        setopt LOCAL_OPTIONS
+                unsetopt XTRACE KSH_ARRAYS
+                prompt_opts=(cr percent subst)
+
+# Load required functions.
+                autoload -Uz add-zsh-hook
+
+# Add hook for calling git-info before each command.
+                add-zsh-hook precmd prompt_dhruva_precmd
+
+# Set git-info parameters.
+                zstyle ':prezto:module:git:info' verbose 'yes'
+                zstyle ':prezto:module:git:info:branch' format '%F{magenta}%b%f'
+                zstyle ':prezto:module:git:info:clean' format ' %F{green}✔%f'
+                zstyle ':prezto:module:git:info:dirty' format ' %F{red}✗%f'
+                zstyle ':prezto:module:git:info:keys' format \
+                'prompt' ' on $(coalesce "%b" "%p" "%c")${git_info[rprompt]}%s' \
+                'rprompt' '%C%D'
+
+# Set ruby-info parameters.
+                zstyle ':prezto:module:ruby:info:version' format ' %F{red}ruby-%v%f'
+
+# Define prompts.
+  PROMPT='%F{green}%~%f${(e)git_info[prompt]}
+$ '
+  RPROMPT='${ruby_info[version]}'
+}
+
+function prompt_dhruva_preview {
+        local +h PROMPT='%# '
+                local +h RPROMPT=''
+                local +h SPROMPT=''
+
+                prompt_preview_theme 'dhruva' "$@"
+}
+
+prompt_dhruva_setup "$@"

@@ -56,6 +56,8 @@ function! s:OpenURL(url)
     exe "!start cmd /cstart /b ".a:url.""
   elseif $DISPLAY !~ '^\w'
     exe "silent !sensible-browser \"".a:url."\""
+  elseif exists(':Start')
+    exe "Start tpope browse -T \"".a:url."\""
   else
     exe "silent !sensible-browser -T \"".a:url."\""
   endif

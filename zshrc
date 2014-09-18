@@ -7,8 +7,8 @@ EDITOR='vim'
 
 # Customize to your needs...
 PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
-PATH=$HOME/.rbenv/bin:$PATH # Add rbenv
-eval "$(rbenv init - --no-rehash)"
+PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH # Add rbenv
+eval "$(rbenv init -)"
 
 export CDPATH=$CDPATH:$HOME:$HOME/code:$HOME/code/vim_plugins
 
@@ -36,3 +36,4 @@ stty -ixon
 
 export CASSANDRA_HOME=~/cassandra
 export PATH=$PATH:$CASSANDRA_HOME/bin
+export JAVA_HOME=`/usr/libexec/java_home`
