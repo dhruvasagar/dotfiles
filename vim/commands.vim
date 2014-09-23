@@ -1,7 +1,9 @@
 " Fugitive {{{1
-command! -bar -nargs=* Gpurr Gpull --rebase
-command! Gpnp silent Gpull | Gpush
-command! Gprp silent Gpurr | Gpush
+command! -bar -nargs=* Ggpull execute 'Gpull origin' fugitive#head()
+command! -bar -nargs=* Ggpush execute 'Gpush origin' fugitive#head()
+command! -bar -nargs=* Ggpurr Ggpull --rebase
+command! Gpnp silent Ggpull | Ggpush
+command! Gprp silent Ggpurr | Ggpush
 
 command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
 command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
