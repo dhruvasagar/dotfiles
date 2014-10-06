@@ -147,7 +147,7 @@ NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'FredKSchott/CoVim'
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'mxw/vim-jsx'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {

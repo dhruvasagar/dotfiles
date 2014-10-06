@@ -1,6 +1,6 @@
 " Fugitive {{{1
-command! -bar -nargs=* Ggpull execute 'Gpull origin' fugitive#head()
-command! -bar -nargs=* Ggpush execute 'Gpush origin' fugitive#head()
+command! -bar -nargs=* Ggpull execute 'Gpull' <q-args> 'origin' fugitive#head()
+command! -bar -nargs=* Ggpush execute 'Gpush' <q-args> 'origin' fugitive#head()
 command! -bar -nargs=* Ggpurr Ggpull --rebase
 command! Gpnp silent Ggpull | Ggpush
 command! Gprp silent Ggpurr | Ggpush
