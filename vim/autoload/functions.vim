@@ -134,3 +134,19 @@ function! functions#View(cmd)
   call functions#ScratchEdit('split', '')
   call setline(1, split(output, '\n'))
 endfunction
+
+function! functions#YankToClipboard(type, ...) " {{{1
+  let sel_save = &selection
+  let &selection = "inclusive"
+  let reg_save = @@
+  if a:0
+    silent exe "normal! gvy"
+  elseif a:type == 'line'
+    silent exe "normal! '[V']y"
+  else
+    silent exe "normal! `[v`]y"
+  endif
+  let @+=@@
+  let &selection = sel_save
+  let @@ = reg_save
+endfunction

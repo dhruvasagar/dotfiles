@@ -112,22 +112,9 @@ imap <Right> <Nop>
 nnoremap ' `
 
 " Copy to clipboard {{{1
-nnoremap <silent> cy :set opfunc=YankToClipboard<CR>g@
-xnoremap <silent> cy :<C-U>call YankToClipboard(visualmode(),1)<CR>
+nnoremap <silent> cy :set opfunc=functions#YankToClipboard<CR>g@
+xnoremap <silent> cy :<C-U>call functions#YankToClipboard(visualmode(),1)<CR>
 nnoremap <silent> cyy "+yy
 
-function! YankToClipboard(type, ...)
-  let sel_save = &selection
-  let &selection = "inclusive"
-  let reg_save = @@
-  if a:0
-    silent exe "normal! gvy"
-  elseif a:type == 'line'
-    silent exe "normal! '[V']y"
-  else
-    silent exe "normal! `[v`]y"
-  endif
-  let @+=@@
-  let &selection = sel_save
-  let @@ = reg_save
-endfunction
+" VimFiler {{{1
+nnoremap - :VimFilerBufferDir<CR>

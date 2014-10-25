@@ -19,6 +19,9 @@ make distclean
 ./configure \
   --enable-pythoninterp \
   --enable-rubyinterp \
+  --enable-luainterp=yes \
+  --with-lua-prefix=/usr/local \
+  --with-luajit \
   --with-features=huge
 make
 sudo make install

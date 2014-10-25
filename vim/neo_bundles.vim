@@ -27,6 +27,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \ }
       \}
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler.vim'
 
 " NeoBundleLazy 'Shougo/vimshell.vim', {
 "       \ 'autoload' : {
@@ -46,7 +47,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-vinegar'
+" NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
@@ -57,6 +58,7 @@ NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-scriptease'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
+NeoBundle 'tpope/vim-rbenv'
 
 NeoBundleLazy 'tpope/vim-haml', {
       \ 'autoload': {
@@ -64,11 +66,6 @@ NeoBundleLazy 'tpope/vim-haml', {
       \ }
       \}
 NeoBundleLazy 'tpope/vim-rails', {
-      \ 'autoload': {
-      \   'filetypes': 'ruby'
-      \ }
-      \}
-NeoBundleLazy 'tpope/vim-rbenv', {
       \ 'autoload': {
       \   'filetypes': 'ruby'
       \ }
@@ -148,6 +145,8 @@ NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'FredKSchott/CoVim'
 NeoBundle 'mxw/vim-jsx'
+NeoBundle 'romainl/apprentice'
+NeoBundle 'slim-template/vim-slim'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {

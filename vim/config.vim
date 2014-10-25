@@ -5,7 +5,6 @@
 scriptencoding utf-8
 
 set autoread
-set nobackup
 set noswapfile
 
 set confirm
@@ -18,7 +17,11 @@ set splitright
 
 set exrc
 
-set suffixesadd+=.js,.rb
+" Backup {{{2
+set backup backupdir=~/.vim/backup
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), 'p')
+endif
 
 " Vim supports dictionary autocomplete Ctrl_X+Ctrl_K
 set dictionary+=/usr/share/dict/words
@@ -35,8 +38,8 @@ endif
 set undofile                  " Use undofile to persist undo history
 set undolevels=1000           " Increase undo level to 1000
 set undodir=~/.vim/undo       " Specifies where to keep undo files
-if !isdirectory(expand('~/.vim/undo'))
-  silent !mkdir -p ~/.vim/undo
+if !isdirectory(expand(&undodir))
+  call mkdir(expand(&undodir), 'p')
 endif
 
 " Spell Settings {{{2
@@ -44,8 +47,9 @@ set spelllang=en_us
 set spellsuggest=best,5
 
 " Formatting Options {{{1
-set nowrap
+" set nowrap
 set linebreak
+set breakindent
 set smarttab
 set expandtab
 set shiftwidth=2
@@ -96,7 +100,7 @@ else
   set listchars+=precedes:<
   set listchars+=nbsp:+
 endif
-set showbreak=↪
+set showbreak=↪\ 
 set mousehide
 set mouse=a                   " Enables mouse within terminals
 
