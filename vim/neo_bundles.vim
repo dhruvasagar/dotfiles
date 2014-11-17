@@ -13,10 +13,10 @@ endif
 " NeoBundles {{{1
 " begin {{{2
 call neobundle#begin(expand(g:bundles_path))
-" Settings {{{2
+" Settings {{{3
 let g:neobundle#types#git#default_protocol='ssh'
 
-" Shougo plugins {{{2
+" Shougo plugins {{{3
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build': {
@@ -27,7 +27,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \ }
       \}
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler.vim'
 
 " NeoBundleLazy 'Shougo/vimshell.vim', {
 "       \ 'autoload' : {
@@ -42,12 +41,12 @@ NeoBundle 'Shougo/vimfiler.vim'
 "       \ }
 "       \}
 
-" tpope plugins {{{2
+" tpope plugins {{{3
 " NeoBundle 'tpope/timl'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-endwise'
-" NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-surround'
@@ -130,7 +129,7 @@ NeoBundleLazy 'tpope/vim-characterize', {
       \ }
       \}
 
-" Other Plugins {{{2
+" Other Plugins {{{3
 NeoBundle 'joonty/vdebug'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
@@ -143,10 +142,12 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'FredKSchott/CoVim'
+" NeoBundle 'FredKSchott/CoVim'
 NeoBundle 'mxw/vim-jsx'
 NeoBundle 'romainl/apprentice'
 NeoBundle 'slim-template/vim-slim'
+NeoBundle 'cohama/lexima.vim'
+NeoBundle 'thinca/vim-themis'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
@@ -224,7 +225,7 @@ NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ }
       \}
 
-" My plugins {{{2
+" My plugins {{{3
 NeoBundleLocal ~/code/vim_plugins
 
 " end {{{2

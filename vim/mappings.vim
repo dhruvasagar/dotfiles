@@ -116,5 +116,3 @@ nnoremap <silent> cy :set opfunc=functions#YankToClipboard<CR>g@
 xnoremap <silent> cy :<C-U>call functions#YankToClipboard(visualmode(),1)<CR>
 nnoremap <silent> cyy "+yy
 
-" VimFiler {{{1
-nnoremap - :VimFilerBufferDir<CR>

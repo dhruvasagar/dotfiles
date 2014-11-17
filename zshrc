@@ -34,5 +34,5 @@ alias npm-exec='PATH=$(npm bin):$PATH'
 stty -ixon
 
 export CASSANDRA_HOME=~/cassandra
-export PATH=$PATH:$CASSANDRA_HOME/bin
+export PATH=$CASSANDRA_HOME/bin:$PATH
 export JAVA_HOME=`/usr/libexec/java_home`
