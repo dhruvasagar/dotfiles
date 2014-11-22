@@ -28,19 +28,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \}
 NeoBundle 'Shougo/unite.vim'
 
-" NeoBundleLazy 'Shougo/vimshell.vim', {
-"       \ 'autoload' : {
-"       \   'commands': [
-"       \     'VimShell',
-"       \     'VimShellExecute',
-"       \     'VimShellInteractive',
-"       \     'VimShellTerminal',
-"       \     'VimShellPop'
-"       \   ],
-"       \   'functions': 'vimshel#interactive#send'
-"       \ }
-"       \}
-
 " tpope plugins {{{3
 " NeoBundle 'tpope/timl'
 NeoBundle 'tpope/vim-rake'
@@ -58,6 +45,7 @@ NeoBundle 'tpope/vim-scriptease'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rbenv'
+NeoBundle 'tpope/vim-projectionist'
 
 NeoBundleLazy 'tpope/vim-haml', {
       \ 'autoload': {
@@ -133,7 +121,6 @@ NeoBundleLazy 'tpope/vim-characterize', {
 NeoBundle 'joonty/vdebug'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'chrisbra/NrrwRgn'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'jpalardy/vim-slime'
@@ -141,12 +128,8 @@ NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'AndrewRadev/splitjoin.vim'
-NeoBundle 'terryma/vim-multiple-cursors'
-" NeoBundle 'FredKSchott/CoVim'
 NeoBundle 'mxw/vim-jsx'
-NeoBundle 'romainl/apprentice'
 NeoBundle 'slim-template/vim-slim'
-NeoBundle 'cohama/lexima.vim'
 NeoBundle 'thinca/vim-themis'
 
 NeoBundleLazy 'sjl/gundo.vim', {
@@ -204,12 +187,6 @@ NeoBundleLazy 'pangloss/vim-javascript', {
       \   'filetypes': 'javascript'
       \ }
       \}
-" Added to locals
-" NeoBundleLazy 'kchmck/vim-coffee-script', {
-"       \ 'autoload': {
-"       \   'filetypes': 'coffee'
-"       \ }
-"       \}
 NeoBundleLazy 'guns/xterm-color-table.vim', {
       \ 'autoload': {
       \   'commands': 'XtermColorTable'
