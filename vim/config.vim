@@ -99,6 +99,12 @@ else
   set listchars+=extends:>
   set listchars+=precedes:<
   set listchars+=nbsp:+
+
+  set fillchars=stl:\ 
+  set fillchars+=stlnc:\ 
+  set fillchars+=vert:\|
+  set fillchars+=fold:\-
+  set fillchars+=diff:-
 endif
 set showbreak=↪\ 
 set mousehide
