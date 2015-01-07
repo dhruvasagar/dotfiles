@@ -1,12 +1,12 @@
 #!/bin/sh
 
-ln -sh ~/dotfiles/vim ~/.vim
-ln -sh ~/dotfiles/emacs ~/.emacs.d
-ln -sh ~/dotfiles/weechat ~/.weechat
-ln -sh ~/dotfiles/zshrc ~/.zshrc
-ln -sh ~/dotfiles/jshintrc ~/.jshintrc
-ln -sh ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -sh ~/dotfiles/gitconfig ~/.gitconfig
-# ln -sh ~/dotfiles/git_template ~/.git_template
-ln -sh ~/dotfiles/gitignore_global ~/.gitignore_global
-ln -sh ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
+ln -s ~/dotfiles/vim ~/.vim
+ln -s ~/dotfiles/emacs ~/.emacs.d
+ln -s ~/dotfiles/weechat ~/.weechat
+ln -s ~/dotfiles/zshrc ~/.zshrc
+ln -s ~/dotfiles/jshintrc ~/.jshintrc
+ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/gitconfig ~/.gitconfig
+# ln -s ~/dotfiles/git_template ~/.git_template
+ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
+ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup

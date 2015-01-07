@@ -2,13 +2,13 @@
 
 platform=`uname`
 
-if [[ $platform == 'Linux' ]]; then
-  BATTERY_PATH="/sys/class/power_supply/BAT1"
-  CHARGE_NOW=`cat $BATTERY_PATH/charge_now`
-  CHARGE_FULL=`cat $BATTERY_PATH/charge_full`
+if [ "$platform" = 'Linux' ]; then
+  BATTERY_PATH="/sys/class/power_supply/BAT0"
+  ENERGY_NOW=`cat $BATTERY_PATH/energy_now`
+  ENERGY_FULL=`cat $BATTERY_PATH/energy_full`
   BATTERY_STATUS=`cat $BATTERY_PATH/status`
-  echo "$CHARGE_NOW*100/$CHARGE_FULL" | bc -l | xargs printf "%.2f%% $BATTERY_STATUS"
-elif [[ $platform == 'Darwin' ]]; then
+  echo "$ENERGY_NOW*100/$ENERGY_FULL" | bc -l | xargs printf "%.2f%% $BATTERY_STATUS"
+elif [ "$platform" = 'Darwin' ]; then
   PERCENTAGE=`pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f1 -d';'`
   CHARGING=`pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f2 -d';'`
   REMAINING=`pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f3 -d';'`

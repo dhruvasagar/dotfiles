@@ -35,4 +35,4 @@ stty -ixon
 
 export CASSANDRA_HOME=~/cassandra
 export PATH=$CASSANDRA_HOME/bin:$PATH
-export JAVA_HOME=`/usr/libexec/java_home`
+# export JAVA_HOME=`/usr/libexec/java_home`
