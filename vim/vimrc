@@ -3,6 +3,7 @@ set nocp
 
 " NeoBundle {{{1
 source ~/.vim/neo_bundles.vim
+" source ~/.vim/plugs.vim
 
 " Load all vim configs {{{1
 let s:vim_home = '~/.vim/'
@@ -14,7 +15,7 @@ let config_list = [
       \ 'plugin_settings/*.vim'
       \]
 for files in config_list
-  for f in split(glob(s:vim_home.files), '\n')
+  for f in glob(s:vim_home.files, 1, 1)
     exec 'source' f
   endfor
 endfor

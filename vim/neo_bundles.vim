@@ -174,14 +174,6 @@ NeoBundleLazy 'derekwyatt/vim-scala', {
       \   'filetypes': 'scala'
       \ }
       \}
-NeoBundleLazy 'marijnh/tern_for_vim', {
-      \ 'build' : {
-      \   'unix': 'npm install'
-      \  },
-      \ 'autoload': {
-      \   'filetypes': 'javascript'
-      \ }
-      \}
 NeoBundleLazy 'pangloss/vim-javascript', {
       \ 'autoload': {
       \   'filetypes': 'javascript'
