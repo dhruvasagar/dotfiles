@@ -25,7 +25,7 @@ function! functions#GitExecInPath(cmd, ...) "{{{2
     let path = fnamemodify(path, ':h')
   endif
 
-  return system('cd ' . path . '; ' . a:cmd)
+  return system('cd ' . fnameescape(path) . '; ' . a:cmd)
 endfunction
 
 function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{2

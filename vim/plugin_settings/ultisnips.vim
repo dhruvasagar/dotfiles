@@ -22,4 +22,8 @@ let g:UltiSnipsExpandTrigger = '<Tab>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 
-autocmd FileType javascript UltiSnipsAddFiletypes html
+augroup UltiSnips
+  au!
+
+  autocmd FileType javascript UltiSnipsAddFiletypes html
+augroup END
