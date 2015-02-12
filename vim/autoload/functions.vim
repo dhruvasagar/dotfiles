@@ -150,3 +150,9 @@ function! functions#YankToClipboard(type, ...) " {{{1
   let &selection = sel_save
   let @@ = reg_save
 endfunction
+
+function! functions#BufDo(command) " {{{1
+  let curbuff = bufnr('%')
+  execute 'bufdo' a:command
+  execute 'buffer' curbuff
+endfunction
