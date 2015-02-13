@@ -5,7 +5,7 @@
 	ui = true
 [core]
 	editor = vim
-	excludesfile = /home/dhruvasagar/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [github]
 	user = dhruvasagar
 [alias]
