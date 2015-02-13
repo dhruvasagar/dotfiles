@@ -174,7 +174,12 @@ NeoBundleLazy 'derekwyatt/vim-scala', {
       \   'filetypes': 'scala'
       \ }
       \}
-NeoBundleLazy 'pangloss/vim-javascript', {
+" NeoBundleLazy 'pangloss/vim-javascript', {
+"       \ 'autoload': {
+"       \   'filetypes': 'javascript'
+"       \ }
+"       \}
+NeoBundleLazy 'jelera/vim-javascript-syntax', {
       \ 'autoload': {
       \   'filetypes': 'javascript'
       \ }
