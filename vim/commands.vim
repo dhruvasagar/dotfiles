@@ -5,9 +5,7 @@ command! -bar -nargs=* Ggpurr Ggpull --rebase
 command! Gpnp silent Ggpull | Ggpush
 command! Gprp silent Ggpurr | Ggpush
 
-command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
-command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
-command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git flow feature <q-args>
 
 " Filter Quickfix / Location list {{{1
 command! -bang -nargs=1 -complete=file QFilter call functions#FilterQuickfixList(<bang>0, <q-args>)

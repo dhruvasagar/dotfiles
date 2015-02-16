@@ -40,9 +40,9 @@ augroup END
 set statusline=%(\ \ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*\ %)\|\ %)
 set statusline+=%(%r%m\ %)
-set statusline+=%3*%{StatusLineGitFlag()}%*
-set statusline+=%2*%{SyntasticStatuslineFlag()}%*
-set statusline+=%4*%{dotoo#clock#summary()}%*\ 
+set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
+set statusline+=%2*%(%{SyntasticStatuslineFlag()}\ %)%*
+set statusline+=%4*%(%{dotoo#clock#summary()}\ %)%*
 set statusline+=%1*%{simplify(expand('%:~:.'))}%*
 set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)
