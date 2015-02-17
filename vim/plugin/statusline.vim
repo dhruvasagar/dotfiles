@@ -33,17 +33,14 @@ function! StatusLinePWDGitFlag()
 endfunction
 
 function! StatusLineFileName()
-  if !exists('b:statusline_file_name')
-    let name = simplify(expand('%:~:.'))
-    let ratio = winwidth(0) / len(name)
-    if ratio <= 2 && ratio > 1
-      let name = pathshorten(name)
-    elseif ratio <= 1
-      let name = fnamemodify(name, ':t')
-    endif
-    let b:statusline_file_name = name
+  let name = simplify(expand('%:~:.'))
+  let ratio = winwidth(0) / len(name)
+  if ratio <= 2 && ratio > 1
+    let name = pathshorten(name)
+  elseif ratio <= 1
+    let name = fnamemodify(name, ':t')
   endif
-  return b:statusline_file_name
+  return name
 endfunction
 
 augroup StatusLine
@@ -55,11 +52,26 @@ augroup END
 set statusline=%(\ \ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*\ %)\|\ %)
 set statusline+=%(%r%m\ %)
+set statusline+=%1*%{StatusLineFileName()}\ %*
 set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 set statusline+=%2*%(%{SyntasticStatuslineFlag()}\ %)%*
 set statusline+=%4*%(%{dotoo#clock#summary()}\ %)%*
-set statusline+=%1*%{StatusLineFileName()}%*
 set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)
 set statusline+=%(%3p%%\ \|\ %)
 set statusline+=\ %3l(%L):%-3c
+
+
+" Bold
+hi User1 guifg=#eeeeee guibg=#606060 gui=bold ctermfg=255 ctermbg=241 cterm=bold
+" Yellow
+hi User2 guifg=#FFAF00 guibg=#606060 gui=bold ctermfg=214 ctermbg=241 cterm=bold
+" Green
+hi User3 guifg=#5fff00 guibg=#606060 gui=bold ctermfg=82 ctermbg=241 cterm=bold
+" Red
+hi User4 guifg=#870000 guibg=#606060 gui=bold ctermfg=88 ctermbg=241 cterm=bold
+hi User5 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
+hi User6 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
+hi User7 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
+hi User8 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
+hi User9 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
