@@ -35,7 +35,7 @@ endfunction
 function! StatusLineFileName()
   if !exists('b:statusline_file_name')
     let name = simplify(expand('%:~:.'))
-    let ratio = winwidth(0) * 1.0 / len(name)
+    let ratio = winwidth(0) / len(name)
     if ratio <= 2 && ratio > 1
       let name = pathshorten(name)
     elseif ratio <= 1
