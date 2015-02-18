@@ -1,4 +1,5 @@
-function! functions#SetTitleString() "{{{1
+" Title String for tabs {{{1
+function! functions#SetTitleString()
   set titlestring=%f\ %m
   set titlestring+=\ -\ [%{split(substitute(getcwd(),$HOME,'~',''),'/')[-1]}]
 endfunction
@@ -135,7 +136,8 @@ function! functions#View(cmd)
   call setline(1, split(output, '\n'))
 endfunction
 
-function! functions#YankToClipboard(type, ...) " {{{1
+" Yank to Clipboard {{{1
+function! functions#YankToClipboard(type, ...)
   let sel_save = &selection
   let &selection = "inclusive"
   let reg_save = @@
@@ -151,7 +153,34 @@ function! functions#YankToClipboard(type, ...) " {{{1
   let @@ = reg_save
 endfunction
 
-function! functions#BufDo(command) " {{{1
+" Copy current file with line number / range {{{1
+function! functions#CopyFileNameWithLineNumber() range
+  if exists('b:git_dir')
+    let path = b:git_dir
+  else
+    let path = fugitive#extract_git_dir(expand('%:p'))
+  endif
+
+  if empty(path)
+    let path = expand('%:p:h:h')
+  else
+    let path = fnamemodify(path, ':h:h:t')
+  endif
+  " Get path relative to path
+  let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
+
+  let name_with_lnum = path . ':'
+  if a:lastline == a:firstline
+    let name_with_lnum .= a:firstline
+  else
+    let name_with_lnum .= a:firstline . '-' . a:lastline
+  endif
+  let @+ = name_with_lnum
+  echomsg @+ . ' Copied to clipboard'
+endfunction
+
+" BufDo {{{1
+function! functions#BufDo(command)
   let curbuff = bufnr('%')
   execute 'bufdo' a:command
   execute 'buffer' curbuff

@@ -24,7 +24,7 @@ nnoremap gsld :Glcd<Bar>pwd<CR>
 " Gundo {{{1
 nnoremap U :GundoToggle<CR>
 
-" Tabular mapping {{{1
+" Tabular {{{1
 xnoremap z// :Tabular/
 xnoremap z/= :Tabular/=<CR>
 xnoremap z/: :Tabular/:<CR>
@@ -46,55 +46,8 @@ nnoremap <silent> g/* :grep <cword> <C-R>=getcwd()<CR><CR>
 xnoremap <silent> g// :<C-U>grep -w <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR>
 xnoremap <silent> g/* :<C-U>grep <C-R>=<SID>Vword()<CR> <C-R>=getcwd()<CR><CR>
 
-" Execute {{{1
-nmap <silent> gx <Plug>(quickrun)
-xmap <silent> gx <Plug>(quickrun)
-
-" OpenUrl {{{1
-function! s:OpenURL(url)
-  if has("win32")
-    exe "!start cmd /cstart /b ".a:url.""
-  elseif $DISPLAY !~ '^\w'
-    exe "silent !sensible-browser \"".a:url."\""
-  elseif exists(':Start')
-    exe "Start tpope browse -T \"".a:url."\""
-  else
-    exe "silent !sensible-browser -T \"".a:url."\""
-  endif
-  redraw!
-endfunction
-command! -nargs=1 OpenURL :call s:OpenURL(<q-args>)
-" open URL under cursor in browser
-nnoremap gB :OpenURL <cfile><CR>
-nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-
 " Copy current file with line number {{{1
-function! s:CopyFileNameWithLineNumber() range
-  if exists('b:git_dir')
-    let path = b:git_dir
-  else
-    let path = fugitive#extract_git_dir(expand('%:p'))
-  endif
-
-  if empty(path)
-    let path = expand('%:p:h:h')
-  else
-    let path = fnamemodify(path, ':h:h:t')
-  endif
-  " Get path relative to path
-  let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
-
-  let name_with_lnum = path . ':'
-  if a:lastline == a:firstline
-    let name_with_lnum .= a:firstline
-  else
-    let name_with_lnum .= a:firstline . '-' . a:lastline
-  endif
-  let @+ = name_with_lnum
-  echomsg @+ . ' Copied to clipboard'
-endfunction
-command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWithLineNumber()
+command! -range CopyFileNameWithLineNumber <line1>,<line2>call functions#CopyFileNameWithLineNumber()
 noremap y. :CopyFileNameWithLineNumber<CR>
 
 " Hard Mode {{{1
