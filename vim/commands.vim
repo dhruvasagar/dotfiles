@@ -28,6 +28,5 @@ command! -bar -nargs=1 -complete=customlist,functions#CdComplete Lcd lcd <args>
 " View {{{1
 command! -bar -nargs=1 -complete=command View call functions#View(<q-args>)
 
-" DiffOff {{{1
+" BufDo {{{1
 command! -bar -nargs=+ -complete=command Bufdo call functions#BufDo(<q-args>)
-command! -bar DiffOff silent Bufdo noautocmd diffoff

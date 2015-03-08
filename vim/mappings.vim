@@ -3,7 +3,9 @@ xnoremap . :normal! .<CR>
 
 " To make Y inline with other capitals {{{1
 nnoremap Y y$
-nnoremap <silent> Q :if !empty(maparg('q', 'n')) <Bar> exe 'normal q' <Bar> else <Bar> exec 'normal! ZQ' <Bar> endif<CR>
+
+" Q to :q<CR> a window {{{1
+nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
 
 " Focus on current buffer {{{1
 nnoremap <C-W>O :tab split<CR>
