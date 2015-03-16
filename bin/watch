@@ -1,26 +1,22 @@
 #!/usr/bin/env ruby
-# watch.rb by Brett Terpstra, 2011 <http://brettterpstra.com>
+# watch.rb by Dhruva Sagar, 2015 <http://dhruvasagar.com>
+# with credit to Brett Terpstra, 2011 <http://brettterpstra.com>
 # with credit to Carlo Zottmann <https://github.com/carlo/haml-sass-file-watcher>
 
 trap("SIGINT") { exit }
 
 if ARGV.length < 2
-  puts "Usage: #{$0} watch_folder keyword"
+  # puts "Usage: #{$0} watch_folder keyword"
+  puts "Usage: #{$0} glob keyword"
   puts "Example: #{$0} . mywebproject"
   exit
 end
 
-dev_extension = 'dev'
-filetypes = ['css','html','htm','php','rb','erb','less','js', 'jsx']
-watch_folder = ARGV[0]
-keyword = ARGV[1]
-puts "Watching #{watch_folder} and subfolders for changes in project files..."
+glob, keyword = ARGV
+puts "Watching #{glob} files for changes..."
 
 while true do
-  files = []
-  filetypes.each {|type|
-    files += Dir.glob( File.join( watch_folder, "**", "*.#{type}" ) )
-  }
+  files = Dir.glob(glob)
   new_hash = files.collect {|f| [ f, File.stat(f).mtime.to_i ] }
   hash ||= new_hash
   diff_hash = new_hash - hash

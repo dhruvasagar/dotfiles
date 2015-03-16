@@ -36,3 +36,8 @@ stty -ixon
 export CASSANDRA_HOME=~/cassandra
 export PATH=$CASSANDRA_HOME/bin:$PATH
 # export JAVA_HOME=`/usr/libexec/java_home`
+
+# Use hub as git. 
+# "This is not dangerous; your normal git commands will all work. hub merely
+# adds some sugar."
+eval "$(hub alias -s)"
