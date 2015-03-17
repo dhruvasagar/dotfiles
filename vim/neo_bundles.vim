@@ -179,11 +179,6 @@ NeoBundleLazy 'pangloss/vim-javascript', {
       \   'filetypes': 'javascript'
       \ }
       \}
-" NeoBundleLazy 'jelera/vim-javascript-syntax', {
-"       \ 'autoload': {
-"       \   'filetypes': 'javascript'
-"       \ }
-"       \}
 NeoBundleLazy 'guns/xterm-color-table.vim', {
       \ 'autoload': {
       \   'commands': 'XtermColorTable'

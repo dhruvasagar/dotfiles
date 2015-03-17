@@ -11,7 +11,7 @@ PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH # Add rbenv
 eval "$(rbenv init -)"
 
-export CDPATH=$CDPATH:$HOME:$HOME/code:$HOME/code/vim_plugins
+cdpath=(~ ~/code ~/code/vim_plugins ~/code/modus)
 
 # tmux & TERM issue fix
 export TERM=xterm-256color
