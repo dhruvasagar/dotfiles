@@ -131,6 +131,7 @@ NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'mxw/vim-jsx'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'thinca/vim-themis'
+NeoBundle 'kchmck/vim-coffee-script'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
