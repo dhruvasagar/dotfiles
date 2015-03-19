@@ -13,3 +13,6 @@ ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_
 
 mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
+
+platform=$(uname | awk '{print tolower($0)}')
+source "install_$platform"

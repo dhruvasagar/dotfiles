@@ -1,0 +1,19 @@
+#!/bin/sh
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew install hub
+brew install zsh
+chsh -s `which zsh`
+
+brew install rbenv
+brew install ruby-build
+brew install rbenv-gem-rehash
+
+brew install caskroom/cask/brew-cask
+brew cask install skype
+brew cask insatll dropbox
+brew cask install spectacles
+brew cask install google-chrome
+
+./install_darwin_prezto
