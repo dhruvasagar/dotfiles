@@ -16,6 +16,7 @@ nnoremap <Leader>D :Dispatch<CR>
 " Fugitive {{{1
 nnoremap gsl :Glog<CR>
 nnoremap gsd :Gdiff<CR>
+nnoremap gse :Gedit<CR>
 nnoremap gsb :Gblame<CR>
 nnoremap gsw :Gwrite<CR>
 nnoremap gsC :Gcommit<CR>
