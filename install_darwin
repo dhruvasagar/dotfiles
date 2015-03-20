@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
 brew install hub
 brew install zsh
 chsh -s `which zsh`
