@@ -15,8 +15,10 @@ brew install the_silver_searcher
 
 brew install caskroom/cask/brew-cask
 brew cask install skype
-brew cask insatll dropbox
-brew cask install spectacles
+brew cask install iterm2
+brew cask install macvim
+brew cask install dropbox
+brew cask install spectacle
 brew cask install google-chrome
 
 ./install_darwin_prezto
