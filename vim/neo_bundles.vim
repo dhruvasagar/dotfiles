@@ -11,12 +11,11 @@ if has('vim_starting')
 endif
 
 " NeoBundles {{{1
-" begin {{{2
 call neobundle#begin(expand(g:bundles_path))
-" Settings {{{3
+" Settings {{{2
 let g:neobundle#types#git#default_protocol='ssh'
 
-" Shougo plugins {{{3
+" Shougo plugins {{{2
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build': {
@@ -28,7 +27,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \}
 NeoBundle 'Shougo/unite.vim'
 
-" tpope plugins {{{3
+" tpope plugins {{{2
 " NeoBundle 'tpope/timl'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-repeat'
@@ -117,7 +116,7 @@ NeoBundleLazy 'tpope/vim-characterize', {
       \ }
       \}
 
-" Other Plugins {{{3
+" Other Plugins {{{2
 NeoBundle 'joonty/vdebug'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kien/ctrlp.vim'
@@ -132,6 +131,8 @@ NeoBundle 'mxw/vim-jsx'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'thinca/vim-themis'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'darfink/vim-plist'
+NeoBundle 'tmux-plugins/vim-tmux-focus-events'
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
@@ -195,10 +196,9 @@ NeoBundleLazy 'PeterRincker/vim-argumentative', {
       \ }
       \}
 
-" My plugins {{{3
+" My plugins {{{2
 NeoBundleLocal ~/code/vim_plugins
-
-" end {{{2
+" }}}2
 call neobundle#end()
 
 " NeoBundleCheck {{{2
