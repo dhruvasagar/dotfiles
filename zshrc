@@ -41,3 +41,6 @@ export PATH=$CASSANDRA_HOME/bin:$PATH
 # "This is not dangerous; your normal git commands will all work. hub merely
 # adds some sugar."
 eval "$(hub alias -s)"
+
+# fzf setup
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

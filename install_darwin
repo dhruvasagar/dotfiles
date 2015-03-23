@@ -5,6 +5,7 @@ brew install zsh
 chsh -s `which zsh`
 
 brew install jq
+brew install fzf
 brew install tmux
 brew install rbenv
 brew install weechat
