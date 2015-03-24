@@ -133,6 +133,7 @@ NeoBundle 'thinca/vim-themis'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'darfink/vim-plist'
 NeoBundle 'tmux-plugins/vim-tmux-focus-events'
+NeoBundle 'skalnik/vim-vroom', { 'depends': 'benmills/vimux' }
 
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload': {
