@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ln -s ~/dotfiles/vim ~/.vim
+ln -s ~/dotfiles/vim ~/.nvim
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
 ln -s ~/dotfiles/zshrc ~/.zshrc

@@ -1,12 +1,13 @@
 " NoCompatible {{{1
 set nocp
 
+let g:vim_home = get(g:, 'vim_home', expand('~/.vim/'))
+
 " NeoBundle {{{1
-source ~/.vim/neo_bundles.vim
-" source ~/.vim/plugs.vim
+" exec 'source' g:vim_home.'/neo_bundles.vim'
+exec 'source' g:vim_home.'/plugs.vim'
 
 " Load all vim configs {{{1
-let s:vim_home = '~/.vim/'
 let config_list = [
       \ 'config.vim',
       \ 'autocmd.vim',
@@ -15,7 +16,7 @@ let config_list = [
       \ 'plugin_settings/*.vim'
       \]
 for files in config_list
-  for f in glob(s:vim_home.files, 1, 1)
+  for f in glob(g:vim_home.files, 1, 1)
     exec 'source' f
   endfor
 endfor

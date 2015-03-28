@@ -1,18 +1,15 @@
 " Vim-Plug Setup {{{1
-let g:vim_path = '~/.vim/'
-let g:bundles_path = g:vim_path . 'bundle/'
+let g:bundles_path = g:vim_home . 'plugged/'
 
-if !filereadable(expand(g:vim_path.'autoload/plug.vim'))
+if !filereadable(expand(g:vim_home.'autoload/plug.vim'))
   echo "Installing Vim-Plug\n"
   " silent execute '!git clone https://github.com/junegunn/vim-plug' g:bundles_path.'vim-plug'
-  silent! execute '!curl -fLo' g:vim_path.'autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  silent! execute '!curl -fLo' g:vim_home.'autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 " Plugs {{{1
-" begin {{{2
 call plug#begin(g:bundles_path)
-
-" tpope plugins {{{3
+" tpope plugins {{{2
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-endwise'
@@ -54,7 +51,7 @@ Plug 'tpope/vim-dispatch', {'on': ['Make', 'Start', 'Copen', 'Dispatch', 'FocusD
 Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
 Plug 'tpope/vim-characteriize'
 
-" Other plugins {{{3
+" Other plugins {{{2
 Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
 Plug 'kien/ctrlp.vim'
@@ -68,6 +65,10 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'mxw/vim-jsx'
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
+" Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'skalnik/vim-vroom'
+Plug 'benmills/vimux'
+" Plug 'janko-m/vim-test'
 
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}
@@ -83,11 +84,12 @@ Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
 Plug 'PeterRincker/vim-argumentative'
 
+" My plugins {{{2
 let g:local_bundles = '~/code/vim_plugins/*'
 for bundle in glob(g:local_bundles, 1, 1)
   if isdirectory(bundle)
     execute 'set runtimepath+='.bundle
   endif
 endfor
-
+" }}}2
 call plug#end()

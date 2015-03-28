@@ -5,10 +5,11 @@ augroup vimrcEx "{{{1
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
-augroup NeoBundles "{{{1
+augroup Plugins "{{{1
   au!
 
-  autocmd BufWritePost neo_bundles.vim source % | filetype plugin indent on
+  autocmd BufWritePost plugs.vim source % | filetype plugin indent on
+  " autocmd BufWritePost neo_bundles.vim source % | filetype plugin indent on
 augroup END
 
 augroup EditJump "{{{1
