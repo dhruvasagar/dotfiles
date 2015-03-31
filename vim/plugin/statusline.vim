@@ -33,14 +33,21 @@ function! StatusLinePWDGitFlag()
 endfunction
 
 function! StatusLineFileName()
-  let name = simplify(expand('%:~:.'))
+  let pre = ''
+  let pat = '://'
+  let name = expand('%:~:.')
+  if name =~# pat
+    let pre = name[:stridx(name, pat) + len(pat)-1] . '...'
+    let name = name[stridx(name, pat) + len(pat):]
+  endif
+  let name = simplify(name)
   let ratio = winwidth(0) / len(name)
   if ratio <= 2 && ratio > 1
     let name = pathshorten(name)
   elseif ratio <= 1
     let name = fnamemodify(name, ':t')
   endif
-  return name
+  return pre . name
 endfunction
 
 augroup StatusLine
