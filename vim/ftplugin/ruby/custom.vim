@@ -1,4 +1,3 @@
-setl foldlevel=1
 if expand('%') =~# '_test\.rb$'
   compiler rubyunit
   setl makeprg=testrb\ \"%:p\"

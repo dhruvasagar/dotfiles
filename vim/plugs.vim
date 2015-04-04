@@ -11,9 +11,12 @@ endif
 call plug#begin(g:bundles_path)
 " tpope plugins {{{2
 Plug 'tpope/vim-rake'
+Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -24,51 +27,38 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-characterize'
 
 Plug 'tpope/vim-haml', {'for': 'haml'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-eunuch', {
       \ 'on': [
-      \   'Unlink',
-      \   'Remove',
-      \   'Move',
-      \   'Rename',
-      \   'Chmod',
-      \   'Mkdir',
-      \   'Find',
-      \   'Locate',
-      \   'SudoEdit',
-      \   'SudoWrite',
-      \   'W'
+      \   'Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir',
+      \   'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'W'
       \ ]
       \}
-Plug 'tpope/vim-abolish', {'on': ['Abolish', 'Subvert']}
 Plug 'tpope/vim-bundler', {'for': 'ruby'}
 Plug 'tpope/vim-cucumber', {'for': 'cucumber'}
-Plug 'tpope/vim-dispatch', {'on': ['Make', 'Start', 'Copen', 'Dispatch', 'FocusDispatch']}
 Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
-Plug 'tpope/vim-characteriize'
 
 " Other plugins {{{2
+Plug 'mxw/vim-jsx'
 Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
 Plug 'kien/ctrlp.vim'
+Plug 'benmills/vimux'
 Plug 'SirVer/ultisnips'
+Plug 'janko-m/vim-test'
 Plug 'honza/vim-snippets'
 Plug 'jpalardy/vim-slime'
 Plug 'digitaltoad/vim-jade'
 Plug 'scrooloose/syntastic'
-Plug 'guns/vim-clojure-static'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'mxw/vim-jsx'
 Plug 'slim-template/vim-slim'
+Plug 'guns/vim-clojure-static'
 Plug 'kchmck/vim-coffee-script'
-" Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'skalnik/vim-vroom'
-Plug 'benmills/vimux'
-" Plug 'janko-m/vim-test'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'PeterRincker/vim-argumentative'
 
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}
@@ -82,7 +72,6 @@ Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quic
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
-Plug 'PeterRincker/vim-argumentative'
 
 " My plugins {{{2
 let g:local_bundles = '~/code/vim_plugins/*'

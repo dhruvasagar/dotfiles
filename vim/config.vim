@@ -4,6 +4,8 @@
 " using unicode characters in listchars
 scriptencoding utf-8
 
+let mapleader="\<Space>"
+
 set autoread
 set noswapfile
 
@@ -112,8 +114,8 @@ set mousehide
 set mouse=a                   " Enables mouse within terminals
 
 set foldenable
-set foldmethod=indent
-set foldlevel=0
+set foldmethod=syntax
+set foldlevelstart=1
 
 if has('balloon_eval') && has('unix')
   set ballooneval
