@@ -74,7 +74,7 @@ set title
 set hidden
 set cmdheight=1
 set matchtime=5
-set novisualbell
+set visualbell
 set noerrorbells
 set ttymouse=xterm2
 set lazyredraw
