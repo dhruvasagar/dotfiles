@@ -10,6 +10,7 @@ endif
 " Plugs {{{1
 call plug#begin(g:bundles_path)
 " tpope plugins {{{2
+Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-repeat'

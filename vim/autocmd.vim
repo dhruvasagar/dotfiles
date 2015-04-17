@@ -36,3 +36,9 @@ augroup CursorLine "{{{1
   autocmd BufEnter,WinEnter * setl cursorline
   autocmd BufLeave,WinLeave * setl nocursorline
 augroup END
+
+augroup Terminal "{{{1
+  au!
+
+  silent! autocmd TermOpen * setl nolist
+augroup END
