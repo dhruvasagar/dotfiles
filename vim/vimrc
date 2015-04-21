@@ -10,7 +10,6 @@ exec 'source' g:vim_home.'/plugs.vim'
 let config_list = [
       \ 'config.vim',
       \ 'autocmd.vim',
-      \ 'commands.vim',
       \ 'mappings.vim',
       \ 'plugin_settings/*.vim'
       \]
