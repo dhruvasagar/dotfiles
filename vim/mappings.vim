@@ -11,7 +11,7 @@ nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
 nnoremap <C-W>t :tab split<CR>
 
 " Dispatch {{{1
-nnoremap d<Enter> :Dispatch<CR>
+nnoremap d<CR> :Dispatch<CR>
 
 " Gundo {{{1
 nnoremap U :GundoToggle<CR>
@@ -22,7 +22,13 @@ xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 " Use ` when ' {{{1
 nnoremap ' `
 
+" Test {{{1
+nnoremap cil :TestLast<CR>
+nnoremap cif :TestFile<CR>
+nnoremap cia :TestSuite<CR>
+nnoremap cii :TestNearest<CR>
+
 " Remap Esc in terminal for NeoVim
-if exists(':tnoremap')
+if has('nvim') && exists(':tnoremap')
   tnoremap <Esc> <C-\><C-n>
 endif

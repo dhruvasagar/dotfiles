@@ -37,8 +37,10 @@ augroup CursorLine "{{{1
   autocmd BufLeave,WinLeave * setl nocursorline
 augroup END
 
-augroup Terminal "{{{1
-  au!
+if has('nvim')
+  augroup Terminal "{{{1
+    au!
 
-  silent! autocmd TermOpen * setl nolist
-augroup END
+    autocmd TermOpen * setl nolist
+  augroup END
+end
