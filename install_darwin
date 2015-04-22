@@ -9,6 +9,7 @@ brew install vim --override-system-vi --enable-python --enable-ruby --enable-lua
 brew install tmux
 brew install rbenv
 brew install weechat
+brew install git-flow
 brew install evernote
 brew install coreutils
 brew install ruby-build
