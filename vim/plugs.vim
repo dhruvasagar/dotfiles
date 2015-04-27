@@ -75,12 +75,14 @@ Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
 
+" NeoVim plugins {{{2
+if has('nvim')
+  Plug 'kassio/neoterm'
+endif
+
 " My plugins {{{2
-let g:local_bundles = '~/code/vim_plugins/*'
-for bundle in glob(g:local_bundles, 1, 1)
-  if isdirectory(bundle)
-    execute 'set runtimepath+='.bundle
-  endif
+for bundle in glob('~/code/vim_plugins/*/', 1, 1)
+  Plug bundle
 endfor
 " }}}2
 call plug#end()

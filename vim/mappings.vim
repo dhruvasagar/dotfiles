@@ -1,3 +1,35 @@
+" List of available normal mode mappings for future use :
+"
+" * cq
+" * cu
+" * cd
+" * cx
+" * cm
+" * c<CR>
+"
+" * dq
+" * dr
+" * dy
+" * du
+" * dx
+" * dc
+" * dm
+"
+" * gy
+" * go
+" * gz
+"
+" * yq
+" * yr
+" * yu
+" * yx
+" * yc
+" * ym
+"
+" * zq
+" * zy
+" * zp
+
 " Use repeat operator with visual selection {{{1
 xnoremap . :normal! .<CR>
 

@@ -1,7 +1,7 @@
 function! IncludeExpr()
-	if v:fname =~? '^this\.'
-		return substitute(v:fname, '^this\.', '', 'g')
-	endif
+  if v:fname =~? '^this\.'
+    return substitute(v:fname, '^this\.', '', 'g')
+  endif
   if !exists('g:Abolish') || empty(g:Abolish) | return | endif
   let l:fname = findfile(g:Abolish.camelcase(v:fname))
   if empty(l:fname)

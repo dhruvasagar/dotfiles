@@ -7,8 +7,8 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 # Customize to your needs...
-PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH # Add rbenv
+PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
 eval "$(rbenv init -)"
 
 export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus

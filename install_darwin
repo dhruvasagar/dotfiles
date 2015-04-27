@@ -5,16 +5,24 @@ brew install zsh
 chsh -s `which zsh`
 
 brew install jq
-brew install vim --override-system-vi --enable-python --enable-ruby --enable-lua
+brew install vim --override-system-vi --enable-python --enable-ruby --enable-lua --HEAD
 brew install tmux
 brew install rbenv
 brew install weechat
 brew install git-flow
 brew install evernote
-brew install coreutils
 brew install ruby-build
 brew install rbenv-gem-rehash
 brew install the_silver_searcher
+
+# gnu tools better than osx defaults
+brew install grep --with-default-names
+brew install gawk --with-default-names
+brew install gnutls --with-default-names
+brew install gnu-sed --with-default-names
+brew install gnu-tar --with-default-names
+brew install coreutils --with-default-names
+brew install gnu-indent --with-default-names
 
 brew install caskroom/cask/brew-cask
 brew cask install skype

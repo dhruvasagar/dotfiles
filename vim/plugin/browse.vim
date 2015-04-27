@@ -1,4 +1,4 @@
-function! s:CopyFileNameWithLineNumber() range
+function! s:Browse(bang) range
   if exists('b:git_dir')
     let path = b:git_dir
   else
@@ -19,9 +19,13 @@ function! s:CopyFileNameWithLineNumber() range
   else
     let name_with_lnum .= a:firstline . '-' . a:lastline
   endif
-  let @+ = name_with_lnum
-  echomsg @+ . ' Copied to clipboard'
+
+  if a:bang
+    let @+ = name_with_lnum
+    echomsg @+ . ' Copied to clipboard'
+  else
+    echomsg name_with_lnum
+  end
 endfunction
 
-command! -range CopyFileNameWithLineNumber <line1>,<line2>call s:CopyFileNameWithLineNumber()
-noremap cy. :CopyFileNameWithLineNumber<CR>
+command! -bang -range Browse <line1>,<line2>call s:Browse(<bang>0)
