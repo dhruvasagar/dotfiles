@@ -2,7 +2,7 @@ function! s:View(cmd)
   redir => output
   silent execute a:cmd
   redir END
-  Ssplit
+  Ssplit " depends on Scratch.vim
   call setline(1, split(output, '\n'))
 endfunction
 
