@@ -81,8 +81,12 @@ if has('nvim')
 endif
 
 " My plugins {{{2
-for bundle in glob('~/code/vim_plugins/*/', 1, 1)
-  Plug bundle
-endfor
+let g:my_plugins_path = '~/code/vim_plugins/'
+Plug g:my_plugins_path . 'vim-dotoo'
+Plug g:my_plugins_path . 'vim-open-url'
+Plug g:my_plugins_path . 'vim-prosession'
+Plug g:my_plugins_path . 'vim-table-mode'
+Plug g:my_plugins_path . 'vim-buffer-history'
+Plug g:my_plugins_path . 'vim-railscasts-theme'
 " }}}2
 call plug#end()
