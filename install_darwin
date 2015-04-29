@@ -11,6 +11,7 @@ brew install rbenv
 brew install weechat
 brew install git-flow
 brew install evernote
+brew install leiningen
 brew install ruby-build
 brew install rbenv-gem-rehash
 brew install the_silver_searcher
