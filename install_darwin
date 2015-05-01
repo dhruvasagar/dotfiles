@@ -6,6 +6,7 @@ chsh -s `which zsh`
 
 brew install jq
 brew install vim --override-system-vi --enable-python --enable-ruby --enable-lua --HEAD
+brew install nmap
 brew install tmux
 brew install rbenv
 brew install weechat
