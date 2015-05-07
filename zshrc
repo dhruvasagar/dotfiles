@@ -42,5 +42,5 @@ export PATH=$CASSANDRA_HOME/bin:$PATH
 # adds some sugar."
 eval "$(hub alias -s)"
 
-# fzf setup
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# boot2docker setup for docker
+$(boot2docker shellinit &>/dev/null)
