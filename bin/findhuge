@@ -21,5 +21,5 @@ while getopts ":h:d:t:c:" opts; do
   esac
 done
 
-find "$_DIR" -type "$_TYPE" -print0 | du -h --files0-from=- | sort -hr | head -"$_COUNT" | cut -f2 | xargs -I{} du -sh {}
+find "$_DIR" -type "$_TYPE" -print0 | du -h --files0-from=- | sort -hr | head -"$_COUNT"
 # vim: ts=8
