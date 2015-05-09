@@ -44,3 +44,10 @@ eval "$(hub alias -s)"
 
 # boot2docker setup for docker
 $(boot2docker shellinit &>/dev/null)
+
+# always prefer tmux
+tssh() {
+  ssh $1 -t 'tmux has-session && tmux attach -t dhruva || tmux new -s dhruva'
+}
+alias ssh=tssh
+compdef _ssh tssh=ssh
