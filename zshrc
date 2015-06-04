@@ -51,3 +51,6 @@ tssh() {
 }
 alias ssh=tssh
 compdef _ssh tssh=ssh
+
+alias usenode='brew unlink iojs && brew link node && echo Updating NPM && npm install -g npm@latest && echo Using Node.js'
+alias useio='brew unlink node && brew link --force iojs && echo Updating NPM && npm install -g npm@latest && echo Using io.js'

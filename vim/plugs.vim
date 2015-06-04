@@ -68,7 +68,6 @@ Plug 'mattn/gist-vim', {'on': 'Gist'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'godlygeek/tabular', {'on': 'Tabular'}
-Plug 'groenewege/vim-less', {'for': 'less'}
 Plug 'jnwhiteh/vim-golang', {'for': 'go'}
 Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
@@ -82,6 +81,7 @@ endif
 
 " My plugins {{{2
 let g:my_plugins_path = '~/code/vim_plugins/'
+Plug g:my_plugins_path . 'vim-less'
 Plug g:my_plugins_path . 'vim-dotoo'
 Plug g:my_plugins_path . 'vim-open-url'
 Plug g:my_plugins_path . 'vim-prosession'
