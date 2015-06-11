@@ -63,7 +63,7 @@ set numberwidth=3
 set nostartofline
 set fileformat=unix
 set virtualedit=block
-set formatoptions+=tcroqnj
+set formatoptions+=tcroqnjl21
 set colorcolumn=80
 
 " Visual Options {{{1
