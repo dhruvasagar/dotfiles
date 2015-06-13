@@ -40,7 +40,7 @@ nnoremap Y y$
 nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
 
 " Focus on current buffer {{{1
-nnoremap <C-W>t :tab split<CR>
+nnoremap <C-W>m :wincmd _<Bar>wincmd <Bar><CR>
 
 " Dispatch {{{1
 nnoremap d<CR> :Dispatch<CR>
