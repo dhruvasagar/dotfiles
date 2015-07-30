@@ -30,6 +30,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-characterize'
+" Plug 'tpope/vim-flagship'
 
 Plug 'tpope/vim-haml', {'for': 'haml'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
@@ -47,21 +48,24 @@ Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
 Plug 'mxw/vim-jsx'
 Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
-Plug 'kien/ctrlp.vim'
 Plug 'benmills/vimux'
+Plug 'vimwiki/vimwiki'
 Plug 'SirVer/ultisnips'
 Plug 'janko-m/vim-test'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'honza/vim-snippets'
 Plug 'jpalardy/vim-slime'
 Plug 'digitaltoad/vim-jade'
 Plug 'scrooloose/syntastic'
 Plug 'tommcdo/vim-exchange'
 Plug 'h1mesuke/vim-unittest'
+Plug 'AndrewRadev/switch.vim'
 Plug 'slim-template/vim-slim'
 Plug 'guns/vim-clojure-static'
 Plug 'kchmck/vim-coffee-script'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'PeterRincker/vim-argumentative'
+Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}

@@ -65,6 +65,7 @@ set fileformat=unix
 set virtualedit=block
 set formatoptions+=tcroqnjl21
 set colorcolumn=80
+set showtabline=2
 
 " Visual Options {{{1
 syntax on

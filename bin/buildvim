@@ -17,11 +17,10 @@ make distclean
 #
 #   OSX
 ./configure \
-  --enable-pythoninterp \
+  --prefix=/usr/local \
   --enable-rubyinterp \
-  --enable-luainterp=yes \
-  --with-lua-prefix=/usr/local \
-  --with-luajit \
+  --enable-pythoninterp \
+  --enable-perlinterp \
   --with-features=huge
 make
 sudo make install

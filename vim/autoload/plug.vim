@@ -14,6 +14,9 @@
 "   Plug 'junegunn/seoul256.vim'
 "   Plug 'junegunn/vim-easy-align'
 "
+"   " Group dependencies, vim-snippets depends on ultisnips
+"   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"
 "   " On-demand loading
 "   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 "   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
@@ -30,6 +33,7 @@
 "   " Unmanaged plugin (manually installed and updated)
 "   Plug '~/my-prototype-plugin'
 "
+"   " Add plugins to &runtimepath
 "   call plug#end()
 "
 " Then reload .vimrc and :PlugInstall to install plugins.
@@ -356,7 +360,9 @@ function! plug#load(...)
   for name in a:000
     call s:lod([name], ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
   endfor
-  doautocmd BufRead
+  if exists('#BufRead')
+    doautocmd BufRead
+  endif
   return 1
 endfunction
 
@@ -386,14 +392,21 @@ function! s:lod(names, types)
     for dir in a:types
       call s:source(rtp, dir.'/**/*.vim')
     endfor
+    if exists('#User#'.name)
+      execute 'doautocmd User' name
+    endif
   endfor
 endfunction
 
 function! s:lod_ft(pat, names)
   call s:lod(a:names, ['plugin', 'after/plugin'])
   execute 'autocmd! PlugLOD FileType' a:pat
-  doautocmd filetypeplugin FileType
-  doautocmd filetypeindent FileType
+  if exists('#filetypeplugin#FileType')
+    doautocmd filetypeplugin FileType
+  endif
+  if exists('#filetypeindent#FileType')
+    doautocmd filetypeindent FileType
+  endif
 endfunction
 
 function! s:lod_cmd(cmd, bang, l1, l2, args, names)
@@ -428,7 +441,7 @@ function! s:add(repo, ...)
       call add(g:plugs_order, name)
     endif
     let g:plugs[name] = spec
-    let s:loaded[name] = 0
+    let s:loaded[name] = get(s:loaded, name, 0)
   catch
     return s:err(v:exception)
   endtry
@@ -1052,27 +1065,6 @@ class InvalidURI(BaseExc):
 class Action(object):
   INSTALL, UPDATE, ERROR, DONE = ['+', '*', 'x', '-']
 
-class GLog(object):
-  ON = None
-  LOGDIR = None
-  @classmethod
-  def write(cls, msg):
-    if cls.ON is None:
-      cls.ON = int(vim.eval('get(g:, "plug_log_on", 0)'))
-      cls.LOGDIR = os.path.expanduser(vim.eval('get(g:, "plug_logs", "~/plug_logs")'))
-    if cls.ON:
-      if not os.path.exists(cls.LOGDIR):
-        os.makedirs(cls.LOGDIR)
-      cls._write(msg)
-  @classmethod
-  def _write(cls, msg):
-    name = thr.current_thread().name
-    fname = cls.LOGDIR + os.path.sep + name
-    with open(fname, 'ab') as flog:
-      ltime = datetime.datetime.now().strftime("%H:%M:%S.%f")
-      msg = '[{0},{1}] {2}{3}'.format(name, ltime, msg, '\n')
-      flog.write(msg.encode())
-
 class Buffer(object):
   def __init__(self, lock, num_plugs, is_pull, is_win):
     self.bar = ''
@@ -1133,7 +1125,7 @@ class Buffer(object):
 
       self.header()
     except vim.error:
-      GLog.write('Buffer Update FAILED.')
+      pass
 
 class Command(object):
   def __init__(self, cmd, cmd_dir=None, timeout=60, ntries=3, cb=None, clean=None):
@@ -1286,10 +1278,8 @@ class Plugin(object):
               'git merge --ff-only {0}'.format(self.merge),
               'git submodule update --init --recursive']
       cmd = ' 2>&1 && '.join(cmds)
-      GLog.write(cmd)
       com = Command(cmd, self.args['dir'], G_TIMEOUT, G_RETRIES, callback)
       result = com.attempt_cmd()
-      GLog.write(result)
       self.write(Action.DONE, self.name, result[-1:])
     else:
       self.write(Action.DONE, self.name, ['Already installed'])
@@ -1301,7 +1291,6 @@ class Plugin(object):
     return result[-1]
 
   def write(self, action, name, msg):
-    GLog.write('{0} {1}: {2}'.format(action, name, '\n'.join(msg)))
     self.buf_q.put((action, name, msg))
 
 class PlugThread(thr.Thread):
@@ -1317,12 +1306,11 @@ class PlugThread(thr.Thread):
     try:
       while not G_STOP.is_set():
         name, args = work_q.get_nowait()
-        GLog.write('{0}: Dir {1}'.format(name, args['dir']))
         plug = Plugin(name, args, buf_q, lock)
         plug.manage()
         work_q.task_done()
     except queue.Empty:
-      GLog.write('Queue now empty.')
+      pass
     finally:
       global G_THREADS
       with lock:
@@ -1369,17 +1357,10 @@ def nonblock_read(fname):
 
 def main():
   thr.current_thread().name = 'main'
-  GLog.write('')
-  if GLog.ON and os.path.exists(GLog.LOGDIR):
-    shutil.rmtree(GLog.LOGDIR)
-
   nthreads = int(vim.eval('s:update.threads'))
   plugs = vim.eval('s:update.todo')
   mac_gui = vim.eval('s:mac_gui') == '1'
   is_win = vim.eval('s:is_win') == '1'
-  GLog.write('Plugs: {0}'.format(plugs))
-  GLog.write('PULL: {0}, WIN: {1}, MAC: {2}'.format(G_PULL, is_win, mac_gui))
-  GLog.write('Num Threads: {0}'.format(nthreads))
 
   lock = thr.Lock()
   buf = Buffer(lock, len(plugs), G_PULL, is_win)
@@ -1387,7 +1368,6 @@ def main():
   for work in plugs.items():
     work_q.put(work)
 
-  GLog.write('Starting Threads')
   global G_THREADS
   for num in range(nthreads):
     tname = 'PlugT-{0:02}'.format(num)
@@ -1398,7 +1378,6 @@ def main():
     rthread = RefreshThread(lock)
     rthread.start()
 
-  GLog.write('Buffer Writing Loop')
   while not buf_q.empty() or len(G_THREADS) != 0:
     try:
       action, name, msg = buf_q.get(True, 0.25)
@@ -1412,7 +1391,6 @@ def main():
   if mac_gui:
     rthread.stop()
     rthread.join()
-  GLog.write('Cleanly Exited Main')
 
 main()
 EOF
@@ -1924,9 +1902,11 @@ function! s:preview_commit()
 
   execute 'pedit' sha
   wincmd P
-  setlocal filetype=git buftype=nofile nobuflisted
-  execute 'silent read !cd' s:shellesc(g:plugs[name].dir) '&& git show' sha
+  setlocal filetype=git buftype=nofile nobuflisted modifiable
+  execute 'silent read !cd' s:shellesc(g:plugs[name].dir) '&& git show --pretty=medium' sha
   normal! gg"_dd
+  setlocal nomodifiable
+  nnoremap <silent> <buffer> q :q<cr>
   wincmd p
 endfunction
 
