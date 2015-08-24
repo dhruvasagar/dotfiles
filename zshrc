@@ -50,7 +50,12 @@ $(boot2docker shellinit &>/dev/null)
 tssh() {
   ssh $1 -t 'tmux has-session && tmux attach -t dhruva || tmux new -s dhruva'
 }
-alias ssh=tssh
 compdef _ssh tssh=ssh
 
-source /usr/local/opt/nvm/nvm.sh
+export NVM_DIR="/home/dhruvasagar/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+
+source /home/dhruvasagar/.gvm/scripts/gvm
