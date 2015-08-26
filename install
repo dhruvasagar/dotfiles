@@ -1,5 +1,9 @@
 #!/bin/sh
 
+rm -rf ~/.vim ~/.nvim ~/.emacs.d ~/.weechat ~/.jshintrc ~/.tmux.conf \
+       ~/.zshrc ~/.gitconfig ~/.gitignore_global \
+       ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup ~/.ssh/config
+
 ln -s ~/dotfiles/vim ~/.vim
 ln -s ~/dotfiles/vim ~/.nvim
 ln -s ~/dotfiles/emacs ~/.emacs.d
@@ -16,4 +20,6 @@ mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
 
 platform=$(uname | awk '{print tolower($0)}')
-source "install_$platform"
+if [ -f "install_$platform" ]; then
+  . "./install_$platform"
+fi
