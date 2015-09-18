@@ -56,7 +56,7 @@ augroup StatusLine
   autocmd WinEnter,CursorHold * call <SID>StatusLineClearVars()
 augroup END
 
-set statusline=%(\ \ %{fugitive#head()}\ \|%)
+set statusline=%(\ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*\ %)\|\ %)
 set statusline+=%(%r%m\ %)
 set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
@@ -66,7 +66,7 @@ set statusline+=%4*%(%{dotoo#clock#summary()}\ %)%*
 set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)
 set statusline+=%(%3p%%\ \|\ %)
-set statusline+=\ %3l(%L):%-3c
+set statusline+=%3l(%L):%-3c
 
 
 " Bold
