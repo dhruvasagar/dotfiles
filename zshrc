@@ -29,22 +29,10 @@ compdef _git glgg2=git-log
 
 alias npm-exec='PATH=$(npm bin):$PATH'
 
-# Added by the Heroku Toolbelt
-# export PATH=/usr/local/heroku/bin:$PATH
-
 stty -ixon
 
 export CASSANDRA_HOME=~/cassandra
 export PATH=$CASSANDRA_HOME/bin:$PATH
-# export JAVA_HOME=`/usr/libexec/java_home`
-
-# Use hub as git. 
-# "This is not dangerous; your normal git commands will all work. hub merely
-# adds some sugar."
-eval "$(hub alias -s)"
-
-# boot2docker setup for docker
-$(boot2docker shellinit &>/dev/null)
 
 # always prefer tmux
 tssh() {
