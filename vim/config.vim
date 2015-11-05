@@ -83,7 +83,7 @@ set cursorline
 set updatetime=1000
 
 set list
-if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
+if &termencoding ==# 'utf-8' && &encoding ==# 'utf-8' && version >= 700
   set listchars=tab:›\ 
   set listchars+=eol:¬
   set listchars+=trail:⋅
@@ -96,6 +96,8 @@ if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   set fillchars+=vert:\|
   set fillchars+=fold:\⋅
   set fillchars+=diff:-
+
+  set showbreak=↪\ 
 else
   set listchars=tab:\ \ 
   set listchars+=eol:$
@@ -109,8 +111,9 @@ else
   set fillchars+=vert:\|
   set fillchars+=fold:\-
   set fillchars+=diff:-
+
+  set showbreak=->\ 
 endif
-set showbreak=↪\ 
 set mousehide
 set mouse=a                   " Enables mouse within terminals
 
