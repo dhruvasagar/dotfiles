@@ -14,7 +14,6 @@ ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
-ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
 
 mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
@@ -23,3 +22,5 @@ platform=$(uname | awk '{print tolower($0)}')
 if [ -f "install_$platform" ]; then
   . "./install_$platform"
 fi
+
+ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup

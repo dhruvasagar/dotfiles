@@ -1,3 +1,7 @@
 Host Blog
 HostName dhruvasagar.com
-User deploy
+User dhruvasagar
+IdentityFile ~/.ssh/id_rsa
+
+HostName github.com
+IdentityFile ~/.ssh/id_rsa

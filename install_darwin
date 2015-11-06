@@ -6,6 +6,7 @@ chsh -s `which zsh`
 
 brew install jq
 brew install vim --override-system-vi --enable-python --enable-ruby --enable-lua --HEAD
+brew install nvm
 brew install nmap
 brew install tmux
 brew install rbenv
@@ -29,9 +30,8 @@ brew install gnu-indent --with-default-names
 brew install caskroom/cask/brew-cask
 brew cask install skype
 brew cask install iterm2
-brew cask install macvim
 brew cask install dropbox
 brew cask install spectacle
 brew cask install google-chrome
 
-./install_darwin_prezto
+./install_prezto
