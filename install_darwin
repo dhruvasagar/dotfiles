@@ -33,5 +33,3 @@ brew cask install iterm2
 brew cask install dropbox
 brew cask install spectacle
 brew cask install google-chrome
-
-./install_prezto

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+mkdir -p ~/code/vim_plugins
+
+# Clone & buildvim
+git clone git@github.com:vim/vim.git ~/code/vim
+cd ~/code/vim
+./bin/buildvim
+cd -
+
+vim +PlugInstall +qall
+
+cd ~/code/vim_plugins
+git clone git@github.com:dhruvasagar/vim-dotoo.git
+git clone git@github.com:dhruvasagar/vim-prosession.git
+git clone git@github.com:dhruvasagar/vim-tablemode.git
+git clone git@github.com:dhruvasagar/vim-railscsts-theme.git
+cd -

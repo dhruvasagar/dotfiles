@@ -8,9 +8,6 @@ if [ $platform = "linux" ]; then
   ./configure \
     --with-x \
     --with-features=huge \
-    --enable-gui=auto \
-    --enable-gtk2-check \
-    --enable-gnome-check \
     --enable-rubyinterp \
     --enable-pythoninterp \
     --with-python-config-dir=$(/usr/bin/python2.7-config --configdir)

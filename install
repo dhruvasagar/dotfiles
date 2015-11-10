@@ -19,8 +19,7 @@ mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
 
 platform=$(uname | awk '{print tolower($0)}')
-if [ -f "install_$platform" ]; then
-  . "./install_$platform"
-fi
+[[ -f "install_$platform" ]] && source "./install_$platform"
 
-ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
+./install_vim
+./install_prezto
