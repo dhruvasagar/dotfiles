@@ -1,16 +1,18 @@
-# All dotfiles reside here
+# My dotfiles
 
-## Setup
+This repository contains all my dotfiles as well as other commonly used
+configuration files.
 
-```sh
-ln -s ~/dotfiles/vim ~/.vim
-ln -s ~/dotfiles/emacs ~/.emacs.d
-ln -s ~/dotfiles/irssi ~/.irssi
-ln -s ~/dotfiles/zshrc ~/.zshrc
-ln -s ~/dotfiles/jshintrc ~/.jshintrc
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/powerline ~/.config/powerline
-ln -s ~/dotfiles/gitconfig ~/.gitconfig
-ln -s ~/dotfiles/git_template ~/.git_template
-ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
-```
+It also provides a good platform agnostic installation process that not only
+sets up these configuration files needed by various developer tools that I use
+but also install all basic tools necessary to create my development
+environment on a new machine
+
+## Installation
+
+Simply run `./install` in this directory to install all required tools as well
+as set all configuration files appropriately.
+
+## License
+
+This repository is MIT-licensed.
