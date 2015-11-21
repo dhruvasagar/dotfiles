@@ -12,7 +12,9 @@ vim +PlugInstall +qall
 
 cd ~/code/vim_plugins
 git clone git@github.com:dhruvasagar/vim-dotoo.git
+git clone git@github.com:dhruvasagar/vim-open-url.git
 git clone git@github.com:dhruvasagar/vim-prosession.git
-git clone git@github.com:dhruvasagar/vim-tablemode.git
+git clone git@github.com:dhruvasagar/vim-table-mode.git
+git clone git@github.com:dhruvasagar/vim-buffer-history.git
 git clone git@github.com:dhruvasagar/vim-railscsts-theme.git
 cd -
