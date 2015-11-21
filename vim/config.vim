@@ -83,7 +83,7 @@ set cursorline
 set updatetime=1000
 
 set list
-if &termencoding ==# 'utf-8' && &encoding ==# 'utf-8' && version >= 700
+if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   set listchars=tab:›\ 
   set listchars+=eol:¬
   set listchars+=trail:⋅
