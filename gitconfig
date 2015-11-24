@@ -9,7 +9,7 @@
 [color]
 	ui = true
 [commit]
-	template = ~/.git_commit_template
+	template = ~/.gitcommit_template
 [github]
 	user = dhruvasagar
 [alias]

@@ -10,7 +10,7 @@ rm -rf ~/.vim \
        ~/.gitconfig \
        ~/.ssh/config \
        ~/.gitignore_global \
-       ~/.git_commit_template \
+       ~/.gitcommit_template \
        ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
 
 ln -s ~/dotfiles/vim ~/.vim
@@ -23,7 +23,7 @@ ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template
-ln -s ~/dotfiles/git_commit_template ~/.git_commit_template
+ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 
 mkdir -p ~/.ssh
