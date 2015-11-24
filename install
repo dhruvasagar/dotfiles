@@ -1,18 +1,29 @@
 #!/bin/sh
 
-rm -rf ~/.vim ~/.nvim ~/.emacs.d ~/.weechat ~/.jshintrc ~/.tmux.conf \
-       ~/.zshrc ~/.gitconfig ~/.gitignore_global \
-       ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup ~/.ssh/config
+rm -rf ~/.vim \
+       ~/.nvim \
+       ~/.zshrc \
+       ~/.emacs.d \
+       ~/.weechat \
+       ~/.jshintrc \
+       ~/.tmux.conf \
+       ~/.gitconfig \
+       ~/.ssh/config \
+       ~/.gitignore_global \
+       ~/.git_commit_template \
+       ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
 
 ln -s ~/dotfiles/vim ~/.vim
 ln -s ~/dotfiles/vim ~/.nvim
+ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
-ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/jshintrc ~/.jshintrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template
+ln -s ~/dotfiles/git_commit_template ~/.git_commit_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 
 mkdir -p ~/.ssh
