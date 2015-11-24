@@ -30,7 +30,7 @@ mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
 
 platform=$(uname | awk '{print tolower($0)}')
-[[ -f "install_$platform" ]] && source "./install_$platform"
+[[ -f "setup_$platform" ]] && source "./setup_$platform"
 
-./install_vim
-./install_prezto
+./setup_vim
+./setup_prezto
