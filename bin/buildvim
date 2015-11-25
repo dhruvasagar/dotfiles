@@ -16,7 +16,6 @@ else
     --prefix=/usr/local \
     --enable-rubyinterp \
     --enable-pythoninterp \
-    --enable-perlinterp \
     --with-features=huge
 fi
 

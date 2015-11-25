@@ -2,7 +2,7 @@
 
 sudo apt-get install jq \
                      zsh \
-		     nmap \
+                     nmap \
                      tmux \
                      weechat \
                      git-flow \
@@ -10,13 +10,25 @@ sudo apt-get install jq \
                      python-dev \
                      build-essential \
                      haskell-platform \
-		     silversearcher-ag
+                     silversearcher-ag
 
-chsh -s `which zsh`
+# Dependencies for VIM
+sudo apt-get install ruby-dev \
+                     libxt-dev \
+                     libx11-dev \
+                     libxpm-dev \
+                     python-dev \
+                     libncurses-dev
+
+[[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
 
 # Install rbenv & ruby-build
-git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+if [[ ! -d ~/.rbenv ]]; then
+  git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+  git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+fi
 
 # Install nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+if [[ ! -d ~/.nvm ]]; then
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+fi

@@ -1,20 +1,24 @@
 #!/bin/sh
 
-mkdir -p ~/code/vim_plugins
-
 # Clone & buildvim
-git clone git@github.com:vim/vim.git ~/code/vim
-cd ~/code/vim
-./bin/buildvim
-cd -
+if [[ ! -d ~/code/vim ]]; then
+  git clone git@github.com:vim/vim.git ~/code/vim
+  cd ~/code/vim
+  ~/dotfiles/bin/buildvim
+  cd -
 
-vim +PlugInstall +qall
+  vim +PlugInstall +qall
+fi
 
-cd ~/code/vim_plugins
-git clone git@github.com:dhruvasagar/vim-dotoo.git
-git clone git@github.com:dhruvasagar/vim-open-url.git
-git clone git@github.com:dhruvasagar/vim-prosession.git
-git clone git@github.com:dhruvasagar/vim-table-mode.git
-git clone git@github.com:dhruvasagar/vim-buffer-history.git
-git clone git@github.com:dhruvasagar/vim-railscsts-theme.git
-cd -
+# Clone my vim plugins
+if [[ ! -d ~/code/vim_plugins ]]; then
+  mkdir -p ~/code/vim_plugins
+  cd ~/code/vim_plugins
+  git clone git@github.com:dhruvasagar/vim-dotoo.git
+  git clone git@github.com:dhruvasagar/vim-open-url.git
+  git clone git@github.com:dhruvasagar/vim-prosession.git
+  git clone git@github.com:dhruvasagar/vim-table-mode.git
+  git clone git@github.com:dhruvasagar/vim-buffer-history.git
+  git clone git@github.com:dhruvasagar/vim-railscsts-theme.git
+  cd -
+fi
