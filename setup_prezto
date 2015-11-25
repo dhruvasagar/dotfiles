@@ -9,5 +9,6 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
+rm -rf ~/.zpreztorc
 ln -s ~/dotfiles/zpreztorc ~/.zpreztorc
 ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
