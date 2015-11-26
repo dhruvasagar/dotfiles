@@ -27,6 +27,7 @@ brew install gnu-indent --with-default-names
 brew install caskroom/cask/brew-cask
 brew cask install skype
 brew cask install iterm2
+brew cask install skitch
 brew cask install dropbox
 brew cask install evernote
 brew cask install spectacle
