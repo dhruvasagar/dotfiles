@@ -41,6 +41,7 @@ function prompt_dhruva_setup {
   PROMPT='%F{green}%~%f${(e)git_info[prompt]}
 $ '
   RPROMPT='${node_info[version]},${ruby_info[version]}'
+  SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
 function prompt_dhruva_preview {
