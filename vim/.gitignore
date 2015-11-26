@@ -6,8 +6,8 @@
 tmp/*
 undo/*
 snips/*
+backup/*
 bundle/*
 plugged/*
-backups/*
 session/*
 sessions/*
