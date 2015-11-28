@@ -40,3 +40,8 @@ NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 [[ -f ~/.gvm/scripts/gvm ]] && source ~/.gvm/scripts/gvm
+
+platform=$(uname | awk '{print tolower($0)}')
+if [[ "$platform" == "darwin" ]]; then
+  eval $(docker-machine env docker)
+fi
