@@ -1,12 +1,12 @@
 # vim: ft=conf
 
-function prompt_dhruva_precmd {
+function prompt_pristine_precmd {
   git-info
   node-info
   ruby-info
 }
 
-function prompt_dhruva_setup {
+function prompt_pristine_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
   prompt_opts=(cr percent subst)
@@ -15,7 +15,7 @@ function prompt_dhruva_setup {
   autoload -Uz add-zsh-hook
 
 # Add hook for calling git-info before each command.
-  add-zsh-hook precmd prompt_dhruva_precmd
+  add-zsh-hook precmd prompt_pristine_precmd
 
 # Set git-info parameters.
   zstyle ':prezto:module:git:info' verbose 'yes'
@@ -44,12 +44,12 @@ $ '
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
-function prompt_dhruva_preview {
+function prompt_pristine_preview {
   local +h PROMPT='%# '
   local +h RPROMPT=''
   local +h SPROMPT=''
 
-  prompt_preview_theme 'dhruva' "$@"
+  prompt_preview_theme 'pristine' "$@"
 }
 
-prompt_dhruva_setup "$@"
+prompt_pristine_setup "$@"

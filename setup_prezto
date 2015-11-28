@@ -11,4 +11,4 @@ done
 
 rm -rf ~/.zpreztorc
 ln -s ~/dotfiles/zpreztorc ~/.zpreztorc
-ln -s ~/dotfiles/prompt_dhruva_setup ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
+ln -s ~/dotfiles/prompt_pristine_setup ~/.zprezto/modules/prompt/functions/prompt_pristine_setup
