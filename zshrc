@@ -43,5 +43,13 @@ export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
-  eval $(docker-machine env docker)
+  docker-init() {
+    docker_vm=$(docker-machine ls | awk '{print $1}' | sed '1d' | head -1)
+    if [[ -z "docker_vm" ]]; then
+      docker-machine create --driver virtualbox docker
+    else
+      docker-machine start $docker_vm
+    fi
+    eval $(docker-machine env $docker_vm)
+  }
 fi
