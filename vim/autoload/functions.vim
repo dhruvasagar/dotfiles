@@ -19,4 +19,3 @@ function! functions#GitExecInPath(cmd, ...) "{{{2
 
   return system('cd ' . fnameescape(path) . '; ' . a:cmd)
 endfunction
-
