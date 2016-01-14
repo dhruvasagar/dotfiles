@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rsync -aruv Blog:~/dotoo-files ~/Documents/dotoo-files
+rsync -aruv ~/Documents/dotoo-files Blog:~/dotoo-files
