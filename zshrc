@@ -4,7 +4,7 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 # For directory completion
-export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus
+export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus:$HOME/code/clickapps
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -52,4 +52,11 @@ if [[ "$platform" == "darwin" ]]; then
     fi
     eval $(docker-machine env $docker_vm)
   }
+
+  export NDK_HOME=/usr/local/Cellar/android-ndk/r10e
+  export ANDROID_HOME=~/Library/Android/sdk
+  export STUDIO_JDK=/Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk
+
+  launchctl setenv NDK_HOME "$NDK_HOME"
+  launchctl setenv ANDROID_HOME "$ANDROID_HOME"
 fi

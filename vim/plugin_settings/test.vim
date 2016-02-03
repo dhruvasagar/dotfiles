@@ -3,3 +3,5 @@ if has('nvim')
 else
   let test#strategy = 'vimux'
 endif
+
+let g:VimuxOrientation = "h"

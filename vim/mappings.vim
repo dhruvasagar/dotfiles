@@ -49,6 +49,7 @@ nnoremap d<CR> :Dispatch<CR>
 nnoremap U :GundoToggle<CR>
 
 " Tabular {{{1
+nnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 
 " Use ` when ' {{{1
