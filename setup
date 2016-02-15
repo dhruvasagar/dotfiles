@@ -14,7 +14,11 @@ rm -rf ~/.vim \
        ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
 
 ln -s ~/dotfiles/vim ~/.vim
-ln -s ~/dotfiles/vim ~/.nvim
+
+mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+
+ln -s ~/dotfiles/vim ~/.config/nvim
 ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat

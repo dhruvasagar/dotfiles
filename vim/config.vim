@@ -77,10 +77,13 @@ set cmdheight=1
 set matchtime=5
 set visualbell
 set noerrorbells
-set ttymouse=xterm2
 set lazyredraw
 set cursorline
 set updatetime=1000
+
+if has('vim')
+  set ttymouse=xterm2
+endif
 
 set list
 if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
