@@ -57,7 +57,14 @@ Plug 'honza/vim-snippets'
 Plug 'jpalardy/vim-slime'
 Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
-Plug 'scrooloose/syntastic'
+
+if has('nvim')
+  Plug 'benekastah/neomake'
+  autocmd! BufWritePost * Neomake
+else
+  Plug 'scrooloose/syntastic'
+endif
+
 Plug 'tommcdo/vim-exchange'
 Plug 'elixir-lang/vim-elixir'
 Plug 'AndrewRadev/switch.vim'
