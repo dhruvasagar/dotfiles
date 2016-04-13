@@ -56,6 +56,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'honza/vim-snippets'
 Plug 'jpalardy/vim-slime'
 Plug 'avdgaag/vim-phoenix'
+Plug 'hsanson/vim-android'
 Plug 'digitaltoad/vim-jade'
 
 if has('nvim')
