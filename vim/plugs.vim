@@ -12,6 +12,7 @@ call plug#begin(g:bundles_path)
 " tpope plugins {{{2
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-rake'
+Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -56,8 +57,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'honza/vim-snippets'
 Plug 'jpalardy/vim-slime'
 Plug 'avdgaag/vim-phoenix'
-Plug 'hsanson/vim-android'
+" Plug 'hsanson/vim-android'
 Plug 'digitaltoad/vim-jade'
+Plug 'diepm/vim-rest-console'
 
 if has('nvim')
   Plug 'benekastah/neomake'
@@ -85,6 +87,7 @@ Plug 'godlygeek/tabular', {'on': 'Tabular'}
 Plug 'jnwhiteh/vim-golang', {'for': 'go'}
 Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
+Plug 'burnettk/vim-angular', {'for': 'javascript'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
 
@@ -105,3 +108,8 @@ Plug g:my_plugins_path . 'vim-buffer-history'
 Plug g:my_plugins_path . 'vim-railscasts-theme'
 " }}}2
 call plug#end()
+
+autocmd VimEnter *
+  \  if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall | q
+  \| endif

@@ -1,10 +1,13 @@
 stty -ixon
 
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
 export EDITOR='vim'
 export VISUAL='vim'
 
 # For directory completion
-export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus:$HOME/code/clickapps
+export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus:$HOME/code/clickapps:$HOME/code/shopx
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -29,6 +32,10 @@ tssh() {
   ssh $1 -t 'tmux has-session && tmux attach -t dhruva || tmux new -s dhruva'
 }
 compdef _ssh tssh=ssh
+
+rmd() {
+  pandoc $1 | lynx -stdin
+}
 
 # nvm
 export NVM_DIR=~/.nvm
@@ -60,3 +67,9 @@ if [[ "$platform" == "darwin" ]]; then
   launchctl setenv NDK_HOME "$NDK_HOME"
   launchctl setenv ANDROID_HOME "$ANDROID_HOME"
 fi
+
+PATH="/Users/dhruvasagar/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/dhruvasagar/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/dhruvasagar/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/dhruvasagar/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/dhruvasagar/perl5"; export PERL_MM_OPT;

@@ -120,6 +120,7 @@ endif
 set mousehide
 set mouse=a                   " Enables mouse within terminals
 
+set foldopen=hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldenable
 set foldmethod=syntax
 set foldlevelstart=1

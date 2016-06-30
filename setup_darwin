@@ -8,7 +8,9 @@ brew install jq
 brew install nvm
 brew install nmap
 brew install tmux
+brew install lynx
 brew install rbenv
+brew install pandoc
 brew install weechat
 brew install git-flow
 brew install leiningen
@@ -28,7 +30,10 @@ brew install caskroom/cask/brew-cask
 brew cask install skype
 brew cask install iterm2
 brew cask install skitch
+brew cask install typora
 brew cask install dropbox
+brew cask install macdown
 brew cask install evernote
+brew cask install karabiner
 brew cask install spectacle
 brew cask install google-chrome

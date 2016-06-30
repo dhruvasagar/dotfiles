@@ -65,3 +65,6 @@ nnoremap cii :TestNearest<CR>
 if has('nvim') && exists(':tnoremap')
   tnoremap <Esc> <C-\><C-n>
 endif
+
+nnoremap g> <ESC>vap:Twrite bottom-right<CR>
+xnoremap g> :Twrite bottom-right<CR>

@@ -1,0 +1,89 @@
+Delivered-To: dhruva.sagar@gmail.com
+Received: by 10.13.230.197 with SMTP id p188csp63140ywe;
+        Tue, 21 Jun 2016 02:12:51 -0700 (PDT)
+X-Received: by 10.194.141.131 with SMTP id ro3mr2376031wjb.51.1466500371402;
+        Tue, 21 Jun 2016 02:12:51 -0700 (PDT)
+Return-Path: <noreply@sunflowerr.com>
+Received: from snflr-242065.sunflowerr.com (snflr-242065.sunflowerr.com. [136.243.242.65])
+        by mx.google.com with ESMTPS id a8si34991498wjv.84.2016.06.21.02.12.51
+        for <dhruva.sagar@gmail.com>
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 21 Jun 2016 02:12:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of noreply@sunflowerr.com designates 136.243.242.65 as permitted sender) client-ip=136.243.242.65;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@sunflowerr.com;
+       spf=pass (google.com: domain of noreply@sunflowerr.com designates 136.243.242.65 as permitted sender) smtp.mailfrom=noreply@sunflowerr.com;
+       dmarc=pass (p=NONE dis=NONE) header.from=sunflowerr.com
+Date: Tue, 21 Jun 2016 14:44:58 +0530 (IST)
+X-DKIM: Sendmail DKIM Filter v2.8.2 snflr-242065.sunflowerr.com 11EDC1BEAB77
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=sunflowerr.com;
+	s=default; t=1466500498; bh=ud0EXRU3bGZKoFqLtm7SqCfrFVs=;
+	h=From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:List-Unsubscribe;
+	b=UiKckichdiNnoJv/DCmRQp7Wo/80U0AJLHiz9mycpMT0rr/K/6FSQkAlv8vm6xbgF
+	 oEuUuEnHWUfGhPCyqJZ9LO00gSzSMWWhq97TCA2eWg2mOcFfu2l8caDlzM0XOT7N9Z
+	 KFVV+8kHwCNeYjBjTVSf2+GmLNf7O2n8S5ARGQWg=
+X-DomainKeys: Sendmail DomainKeys Filter v1.0.2 snflr-242065.sunflowerr.com 11EDC1BEAB77
+DomainKey-Signature: a=rsa-sha1; s=dk1024; d=sunflowerr.com; c=nofws; q=dns;
+	h=from:reply-to:to:message-id:subject:mime-version:
+	content-type:content-transfer-encoding:x-mailer:x-complaints-to:list-unsubscribe;
+	b=U3Mc5Jp9ojHbcK6cCUqvwXl15WT+lCVOHXbD9/hehAMiRKeDpYL6KHnkPDUJKZ6jP
+	ufabezt5qMNg0wx511SaZ2I9yeg74FUOeLkfQsop1FYkLyr7dzZzwzGC7bDR9ZJq5DI
+	29jk7tY4uObokrihlOHWDM9ZpFo+zpD8jWuHrFw=
+From: Moto G4 <noreply@sunflowerr.com>
+Reply-To: noreply@sunflowerr.com
+To: "Dhruva Sagar (DS)" <dhruva.sagar@gmail.com>
+Message-ID: <sun_61052_609839_592632_6564_4_15_1800.689853817.398149.1466500498072.com.root@snflr-242065.sunflowerr.com>
+Subject: Moto G4 India Release Date Revealed..
+MIME-Version: 1.0
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Mailer: EMailer
+X-Complaints-To:: abuse@sunflowerr.com
+List-Unsubscribe: <mailto:unsubscribe@sunflowerr.com>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+ <center>   
+  <table align="center" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#ecf0f1; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding:10px;table-layout:fixed; margin:0 auto;"> 
+    
+    <tr> 
+     <td> 
+      <table align="center" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px; background:#fff;"> 
+        
+        <tr> 
+         <td align="center" style="padding:10px;"><a style="outline:none; border:0px;" href="http://t.sunflowerr.com/p/?j1=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIV&amp;~j2=EOo6hVUrKjBQKbYOKyw6EHI6EHoTEbTwDcdVEcoxFHL="><img border="0" alt="" style="display:block; vertical-align:bottom;" src="http://img.sunflowerr.com/i/216849424_2.png" /></a></td> 
+        </tr> 
+        <tr> 
+         <td><a style="outline:none; border:0px;" href="http://t.sunflowerr.com/p/?j1=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIV&amp;~j2=EOo6hVUrKjBQKbYOKyw6EHI6EHoTEbTwDcdVEcoxFHo="><img border="0" width="100%" alt="" style="display:block; vertical-align:bottom; max-width:600px;" src="http://img.sunflowerr.com/i/216849424_3.jpg" /></a></td> 
+        </tr> 
+        <tr> 
+         <td style="background:#1ab5dc; padding-top:30px;"></td> 
+        </tr> 
+        <tr> 
+         <td style="background:#1ab5dc; padding:10px; font-size:18px; color:#fff; font-weight:bold; text-align:center;"> Moto G4 India Release Date Revealed</td> 
+        </tr> 
+        <tr> 
+         <td style="background:#1ab5dc; padding:10px; font-size:14px; line-height:22px; color:#fff; text-align:center;">Motorola launched the Moto G4 and the Moto G4 Plus in May, and made the Moto G4 Plus available on Amazon India soon after. However, the Moto G4 price and availability details were not disclosed at that time. The company has now announced that the Moto G4</td> 
+        </tr> 
+        <tr> 
+         <td align="center" style="background:#1ab5dc; padding:20px;"><a style="outline:none; border:0px;" href="http://t.sunflowerr.com/p/?j1=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIV&amp;~j2=EOo6hVUrKjBQKbYOKyw6EHI6EHoTEbTwDcdVEcoxFHo="><img border="0" alt="" style="display:block;" src="http://img.sunflowerr.com/i/216849424_1.png" /></a></td> 
+        </tr> 
+        <tr> 
+         <td align="center" style="padding:15px; color:#444; font-size:11px; text-align:center;"> Thinkur &copy; Copyright 2016. All Rights Reserved</td> 
+        </tr> 
+        
+      </table> </td> 
+    </tr> 
+    
+  </table>  
+ </center>
+ <br />
+ <table width="480" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; color: rgb(153, 153, 153); font-size: 10px; line-height: 1.5em; border:1px solid #fff; ">
+  
+   <tr>
+    <td style="padding: 5px 0px;">To stop receiving these emails please <a href="http://t.sunflowerr.com/p/?j1=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIV&amp;~j2=EOo63GTTDCMtlj56DqFvKGTUFGTU2c0TDch=" style="color: rgb(153, 153, 153);">click here </a> to unsubscribe. <br /></td>
+   </tr>
+  
+ </table>   
+ <img alt="" src="http://t.sunflowerr.com/p/?j1=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIV&amp;~j2=EOo6HVTTDCMtlj56DqFvKGTUFGTU2c0TDch=" height="0px" width="0px" />     
+ <img alt="" src="http://www.google-analytics.com/collect?v=1&amp;tid=UA-67997581-1&amp;cid=FOATFHd=&amp;t=event&amp;ec=email&amp;ea=open&amp;el=FOATFHd=&amp;cs=newsletter&amp;cm=email&amp;cn=FHPVFOEVDclxFOh6FO0Y2cEYDclUEcIVDcdXDch=" height="0px" width="0px" />  

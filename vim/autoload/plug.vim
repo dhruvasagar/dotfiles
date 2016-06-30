@@ -28,6 +28,9 @@
 "   " Using a non-master branch
 "   Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 "
+"   " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+"   Plug 'fatih/vim-go', { 'tag': '*' }
+"
 "   " Plugin options
 "   Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 "
@@ -128,7 +131,7 @@ function! plug#begin(...)
 endfunction
 
 function! s:define_commands()
-  command! -nargs=+ -bar Plug call s:Plug(<args>)
+  command! -nargs=+ -bar Plug call plug#(<args>)
   if !executable('git')
     return s:err('`git` executable not found. Most commands will not be available. To suppress this message, prepend `silent!` to `call plug#begin(...)`.')
   endif
@@ -193,6 +196,9 @@ function! plug#end()
 
   filetype off
   for name in g:plugs_order
+    if !has_key(g:plugs, name)
+      continue
+    endif
     let plug = g:plugs[name]
     if get(s:loaded, name, 0) || !has_key(plug, 'on') && !has_key(plug, 'for')
       let s:loaded[name] = 1
@@ -222,7 +228,9 @@ function! plug#end()
     if has_key(plug, 'for')
       let types = s:to_a(plug.for)
       if !empty(types)
+        augroup filetypedetect
         call s:source(s:rtp(plug), 'ftdetect/**/*.vim', 'after/ftdetect/**/*.vim')
+        augroup END
       endif
       for type in types
         call s:assoc(lod.ft, type, name)
@@ -392,7 +400,20 @@ function! s:reorg_rtp()
 endfunction
 
 function! s:doautocmd(...)
-  execute 'doautocmd' ((v:version > 703 || has('patch442')) ? '<nomodeline>' : '') join(a:000)
+  if exists('#'.join(a:000, '#'))
+    execute 'doautocmd' ((v:version > 703 || has('patch442')) ? '<nomodeline>' : '') join(a:000)
+  endif
+endfunction
+
+function! s:dobufread(names)
+  for name in a:names
+    let path = s:rtp(g:plugs[name]).'/**'
+    for dir in ['ftdetect', 'ftplugin']
+      if len(finddir(dir, path))
+        return s:doautocmd('BufRead')
+      endif
+    endfor
+  endfor
 endfunction
 
 function! plug#load(...)
@@ -410,9 +431,7 @@ function! plug#load(...)
   for name in a:000
     call s:lod([name], ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
   endfor
-  if exists('#BufRead')
-    doautocmd BufRead
-  endif
+  call s:dobufread(a:000)
   return 1
 endfunction
 
@@ -448,9 +467,7 @@ function! s:lod(names, types, ...)
       endif
       call s:source(rtp, a:2)
     endif
-    if exists('#User#'.name)
-      call s:doautocmd('User', name)
-    endif
+    call s:doautocmd('User', name)
   endfor
 endfunction
 
@@ -458,21 +475,19 @@ function! s:lod_ft(pat, names)
   let syn = 'syntax/'.a:pat.'.vim'
   call s:lod(a:names, ['plugin', 'after/plugin'], syn, 'after/'.syn)
   execute 'autocmd! PlugLOD FileType' a:pat
-  if exists('#filetypeplugin#FileType')
-    doautocmd filetypeplugin FileType
-  endif
-  if exists('#filetypeindent#FileType')
-    doautocmd filetypeindent FileType
-  endif
+  call s:doautocmd('filetypeplugin', 'FileType')
+  call s:doautocmd('filetypeindent', 'FileType')
 endfunction
 
 function! s:lod_cmd(cmd, bang, l1, l2, args, names)
   call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
+  call s:dobufread(a:names)
   execute printf('%s%s%s %s', (a:l1 == a:l2 ? '' : (a:l1.','.a:l2)), a:cmd, a:bang, a:args)
 endfunction
 
 function! s:lod_map(map, names, prefix)
   call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
+  call s:dobufread(a:names)
   let extra = ''
   while 1
     let c = getchar(0)
@@ -481,10 +496,17 @@ function! s:lod_map(map, names, prefix)
     endif
     let extra .= nr2char(c)
   endwhile
+  if v:count
+    call feedkeys(v:count, 'n')
+  endif
+  call feedkeys('"'.v:register, 'n')
+  if mode(1) == 'no'
+    call feedkeys(v:operator)
+  endif
   call feedkeys(a:prefix . substitute(a:map, '^<Plug>', "\<Plug>", '') . extra)
 endfunction
 
-function! s:Plug(repo, ...)
+function! plug#(repo, ...)
   if a:0 > 1
     return s:err('Invalid number of arguments (1..2)')
   endif
@@ -717,15 +739,25 @@ function! s:assign_name()
   silent! execute 'f' fnameescape(name)
 endfunction
 
+function! s:chsh(swap)
+  let prev = [&shell, &shellredir]
+  if !s:is_win && a:swap
+    set shell=sh shellredir=>%s\ 2>&1
+  endif
+  return prev
+endfunction
+
 function! s:bang(cmd, ...)
   try
+    let [sh, shrd] = s:chsh(a:0)
     " FIXME: Escaping is incomplete. We could use shellescape with eval,
     "        but it won't work on Windows.
-    let cmd = a:0 > 0 ? s:with_cd(a:cmd, a:1) : a:cmd
+    let cmd = a:0 ? s:with_cd(a:cmd, a:1) : a:cmd
     let g:_plug_bang = '!'.escape(cmd, '#!%')
     execute "normal! :execute g:_plug_bang\<cr>\<cr>"
   finally
     unlet g:_plug_bang
+    let [&shell, &shellredir] = [sh, shrd]
   endtry
   return v:shell_error ? 'Exit status: ' . v:shell_error : ''
 endfunction
@@ -764,6 +796,7 @@ function! s:do(pull, force, todo)
       else
         let error = 'Invalid hook type'
       endif
+      call s:switch_in()
       call setline(4, empty(error) ? (getline(4) . 'OK')
                                  \ : ('x' . getline(4)[1:] . error))
       if !empty(error)
@@ -831,13 +864,14 @@ function! s:names(...)
 endfunction
 
 function! s:check_ruby()
-  silent! ruby require 'thread'; VIM::command('let g:plug_ruby = 1')
-  if get(g:, 'plug_ruby', 0)
-    unlet g:plug_ruby
-    return 1
+  silent! ruby require 'thread'; VIM::command("let g:plug_ruby = '#{RUBY_VERSION}'")
+  if !exists('g:plug_ruby')
+    redraw!
+    return s:warn('echom', 'Warning: Ruby interface is broken')
   endif
-  redraw!
-  return s:warn('echom', 'Warning: Ruby interface is broken')
+  let ruby_version = split(g:plug_ruby, '\.')
+  unlet g:plug_ruby
+  return s:version_requirement(ruby_version, [1, 8, 7])
 endfunction
 
 function! s:update_impl(pull, force, args) abort
@@ -964,8 +998,17 @@ function! s:update_finish()
         call s:log4(name, 'Checking out '.spec.commit)
         let out = s:checkout(spec)
       elseif has_key(spec, 'tag')
-        call s:log4(name, 'Checking out '.spec.tag)
-        let out = s:system('git checkout -q '.s:esc(spec.tag).' 2>&1', spec.dir)
+        let tag = spec.tag
+        if tag =~ '\*'
+          let tags = s:lines(s:system('git tag --list '.string(tag).' --sort -version:refname 2>&1', spec.dir))
+          if !v:shell_error && !empty(tags)
+            let tag = tags[0]
+            call s:log4(name, printf('Latest tag for %s -> %s', spec.tag, tag))
+            call append(3, '')
+          endif
+        endif
+        call s:log4(name, 'Checking out '.tag)
+        let out = s:system('git checkout -q '.s:esc(tag).' 2>&1', spec.dir)
       else
         let branch = s:esc(get(spec, 'branch', 'master'))
         call s:log4(name, 'Merging origin/'.branch)
@@ -1809,10 +1852,7 @@ endfunction
 
 function! s:system(cmd, ...)
   try
-    let [sh, shrd] = [&shell, &shellredir]
-    if !s:is_win
-      set shell=sh shellredir=>%s\ 2>&1
-    endif
+    let [sh, shrd] = s:chsh(1)
     let cmd = a:0 > 0 ? s:with_cd(a:cmd, a:1) : a:cmd
     return system(s:is_win ? '('.cmd.')' : cmd)
   finally
@@ -2225,4 +2265,3 @@ endif
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-

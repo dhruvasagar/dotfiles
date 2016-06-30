@@ -2,6 +2,7 @@
 
 rm -rf ~/.vim \
        ~/.nvim \
+       ~/.mutt \
        ~/.zshrc \
        ~/.emacs.d \
        ~/.weechat \
@@ -24,6 +25,7 @@ ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
 ln -s ~/dotfiles/jshintrc ~/.jshintrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/mutt ~/.mutt
 
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template

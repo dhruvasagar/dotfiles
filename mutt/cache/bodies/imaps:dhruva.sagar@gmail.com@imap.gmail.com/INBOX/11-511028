@@ -1,0 +1,273 @@
+Delivered-To: dhruva.sagar@gmail.com
+Received: by 10.13.230.197 with SMTP id p188csp490942ywe;
+        Tue, 21 Jun 2016 20:24:46 -0700 (PDT)
+X-Received: by 10.67.3.105 with SMTP id bv9mr15058565pad.29.1466565886499;
+        Tue, 21 Jun 2016 20:24:46 -0700 (PDT)
+Return-Path: <20160622032443c4a4d53d54b74ff39954822e6110p0eu@bounces.amazon.in>
+Received: from lux.smtp-out.eu-west-1.amazonses.com (lux.smtp-out.eu-west-1.amazonses.com. [176.32.127.139])
+        by mx.google.com with ESMTPS id 15si44075162pfx.153.2016.06.21.20.24.45
+        for <dhruva.sagar@gmail.com>
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 21 Jun 2016 20:24:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 20160622032443c4a4d53d54b74ff39954822e6110p0eu@bounces.amazon.in designates 176.32.127.139 as permitted sender) client-ip=176.32.127.139;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@amazon.in;
+       dkim=pass header.i=@amazonses.com;
+       spf=pass (google.com: domain of 20160622032443c4a4d53d54b74ff39954822e6110p0eu@bounces.amazon.in designates 176.32.127.139 as permitted sender) smtp.mailfrom=20160622032443c4a4d53d54b74ff39954822e6110p0eu@bounces.amazon.in;
+       dmarc=pass (p=QUARANTINE dis=NONE) header.from=amazon.in
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=2masotbytil2elqulldwr2i24nifintx; d=amazon.in; t=1466565884;
+	h=From:To:Message-ID:Subject:MIME-Version:Content-Type:Date;
+	bh=z4O4I8kg/0+6PykCfiBFk5i7ZN01Xi1+X6gnmOgsqus=;
+	b=Nt7YYZq4P07D/7G0Mo9XneGH7KUsv8u7UAyMfa2EnxzqswJHSmpVW2Y8py/mfa3l
+	2QSFKOmH3c4aah1Ky2fXALZ755lCD6ZuIJ8qfLmcxFknIhQ7cL6h5QougaD66xgij4T
+	IBYAw1ifTaaMQs7esMkIj0wXccR4Cq4vaIDmrFXw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=ihchhvubuqgjsxyuhssfvqohv7z3u4hn; d=amazonses.com; t=1466565884;
+	h=From:To:Message-ID:Subject:MIME-Version:Content-Type:Date:Feedback-ID;
+	bh=z4O4I8kg/0+6PykCfiBFk5i7ZN01Xi1+X6gnmOgsqus=;
+	b=XC1ahGDXNLYbLxsCD5ljVKL2oCXPrgqMzcgHUrsvZBG1sXEXAUP96ZyAYhOhVACG
+	NNKhcpQMIQR2Rnwn7nMUguC3faIEZm5m2WXHFpmV5juFhsxeVxsABkODzuCeHHwiCM/
+	HCM6mNZDsigzzvaZreRe3PYoHECybmheMbxbhn/g=
+From: order-update@amazon.in
+To: dhruva.sagar@gmail.com
+Message-ID: <0102015576237b44-b67b4f12-f57b-48d0-bec6-0d83bc0ec8e9-000000@eu-west-1.amazonses.com>
+Subject: Your Amazon.in order #403-7024731-9769952 is out for delivery
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_3265950_334434655.1466565884736"
+X-AMAZON-MAIL-RELAY-TYPE: notification
+Bounces-to: 20160622032443c4a4d53d54b74ff39954822e6110p0eu@bounces.amazon.in
+X-AMAZON-METADATA: CA=CBZKMX5VJUAQ0-CU=A3LM4A9SNIXSR5-RI=AVF02TD9IAN95
+X-Original-MessageID: <urn.rtn.msg.20160622032443c4a4d53d54b74ff39954822e6110p0eu@1466565884737.rtn-svc-eu-2c-i-be54dc33.eu-west-1.amazon.com>
+Date: Wed, 22 Jun 2016 03:24:44 +0000
+X-SES-Outgoing: 2016.06.22-10.42.156.188
+Feedback-ID: 1.eu-west-1.KxLUKazDI5D9NzBxTS3SoD/MTlcLZY0yvg8x5uoOkSk=:AmazonSES
+
+------=_Part_3265950_334434655.1466565884736
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+Hello Dhruva Sagar,
+
+We would like to inform you that the following item/s from your order is/are out for delivery. You will receive your shipment by the end of the day.
+
+Your package is shipped by Amazon Transportation Services and the tracking ID is 230114771606.
+
+Please note that a signature is required for the delivery of the package. If no one will be available to sign for this package, you may wish to make alternate delivery arrangements with the carrier. 
+
+
+You can track your order here:
+https://www.amazon.in/gp/css/shiptrack/view.html/ref=tnp_emailtyp?ie=UTF8&orderID=403-7024731-9769952&orderingShipmentId=1122945799106&packageId=1
+
+We hope to see you again soon!
+Amazon.in
+
+
+Remember to sign up for SMS Alerts: https://www.amazon.in/gp/css/texttrace/view.html?ie=UTF8&ref_=tnp_email_texttrace_acct_level&
+
+Track your order with the Amazon App: http://www.amazon.in/app?ref_=tnp_emailtex_cs_sce_ap/
+
+Returns are easy. Visit our Returns Centre: http://www.amazon.in/gp/css/returns/homepage.html/ref=tnp_emailr
+
+This email was sent from a notification-only address that cannot accept incoming email. Please do not reply to this message.
+        
+------=_Part_3265950_334434655.1466565884736
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+ <head>=20
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8" =
+/>=20
+  <title></title>=20
+  <style type=3D"text/css">
+              .topHeaderLinks a { text-decoration: none; color:#006699; fon=
+t-family:Arial, san-serif; }
+=09</style>=20
+ </head>=20
+ <body><img width=3D"1" height=3D"1" src=3D"https://www.amazon.in/gp/r.html=
+?C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DO&U=3Dhttps%3A%=
+2F%2Fimages-eu.ssl-images-amazon.com%2Fimages%2FG%2F01%2Fnav%2Ftransp.gif&A=
+=3DL4W3OHN5BUZHPBJNNODN3SCTBZYA&H=3DBTGE2EVPFYAARUNGA9GJXMPUVJUA&ref_=3Dpe_=
+1909141_77686011_opens" />=20
+  <table width=3D"640" cellspacing=3D"0" style=3D"font: 12px/ 16px Arial, s=
+ans-serif; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); ma=
+rgin:0 auto;" id=3D"container" cellpadding=3D"0">=20
+   <tbody>=20
+    <tr>=20
+     <td valign=3D"top" style=3D"padding: 20px 0px 10px 20px; width: 100px;=
+ border-collapse: collapse;" id=3D"topNav"> <a href=3D"https://www.amazon.i=
+n/gp/r.html?C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=
+=3Dhttps%3A%2F%2Fwww.amazon.in%2Fref%3Dpe_1909141_77686011_tnp_emailg_i&A=
+=3D2XAAZXAOPJWGQLGUP7XIDA0BVLUA&H=3DVJNCYS9EPSWCJSQONE5U67BZZ4KA&ref_=3Dpe_=
+1909141_77686011_tnp_emailg_i" title=3D"Visit Amazon.in"><img alt=3D"Amazon=
+" border=3D"0" height=3D"31" id=3D"amazonLogo" src=3D"http://g-ec2.images-a=
+mazon.com/images/G/31/x-locale/common/amazon-logo._V13" style=3D"font-size:=
+11px;" width=3D"108" /></a> </td>=20
+     <td style=3D"text-align:right; padding:0px 20px;">=20
+      <table cellspacing=3D"0" style=3D"font:12px/ 16px Arial, sans-serif; =
+color: rgb(51, 51, 51); margin:0 auto; border-collapse:collapse;" id=3D"mar=
+ketingContent" cellpadding=3D"0">=20
+       <tbody>=20
+        <tr>=20
+         <td style=3D"border-bottom: 1px solid rgb(204, 204, 204); width: 4=
+90px;" class=3D"topHeaderLinks">=20
+          <table align=3D"right" style=3D"font:12px/ 16px Arial, sans-serif=
+; color: rgb(51, 51, 51);">=20
+           <tbody>=20
+            <tr style=3D"padding: 5px 0px 5px 0px; white-space: nowrap; bor=
+der-collapse: collapse; text-align: right; width: 490px;">=20
+             <td> <a href=3D"https://www.amazon.in/gp/r.html?C=3D271LVDSQZT=
+ACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon=
+.in%2Fgp%2Fcss%2Fyour-orders-access%2Fref%3Dpe_1909141_77686011_tnp_emailoh=
+_tn&A=3DAQCRIRORVDZMKRMSVR8HYXMQZEAA&H=3DFIKKYLNLKVCY8IBLEOFDQCWIJYGA&ref_=
+=3Dpe_1909141_77686011_tnp_emailoh_tn" style=3D"text-decoration: none; colo=
+r: rgb(0, 102, 153); font-family: Arial, san-serif">Your Orders</a> </td>=
+=20
+             <td> <span style=3D"text-decoration:none; color:#CCC; font:15p=
+x Arial, san-serif;">&nbsp;|&nbsp;</span> </td>=20
+             <td> <a href=3D"https://www.amazon.in/gp/r.html?C=3D271LVDSQZT=
+ACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon=
+.in%2Fref%3Dpe_1909141_77686011_tnp_emailg_tn&A=3DARDD7IGEJKWSXPBMQYKHWZXZC=
+KYA&H=3DFLSG4JSYMGIYP8OWNSI3AH8IVAEA&ref_=3Dpe_1909141_77686011_tnp_emailg_=
+tn" style=3D"text-decoration: none; color: rgb(0, 102, 153); font-family: A=
+rial, san-serif"> Amazon.in</a> </td>=20
+            </tr>=20
+           </tbody>=20
+          </table> </td>=20
+        </tr>=20
+        <tr>=20
+         <td style=3D"padding: 7px 0px 0px 20px; text-align: right; width: =
+490px;"> <span style=3D"font:20px Arial, san-serif;">Shipment Tracking</spa=
+n> </td>=20
+        </tr>=20
+        <tr>=20
+         <td style=3D"padding: 0px 0px 5px 20px; text-align: right; width: =
+120px;"> <span style=3D"font-size:12px;"> Order Id: </span> <span style=3D"=
+font-size:12px;"> <a href=3D"https://www.amazon.in/gp/r.html?C=3D271LVDSQZT=
+ACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon=
+.in%2Fgp%2Fcss%2Fsummary%2Fedit.html%2Fref%3Dpe_1909141_77686011_tnp_email_=
+oh%3Fie%3DUTF8%26orderID%3D403-7024731-9769952&A=3DZI28LAJR8JIG6JCO0PWXVRND=
+MZ8A&H=3D3YCWTRNAIKAUEWPTJNPVUN302YGA&ref_=3Dpe_1909141_77686011_tnp_email_=
+oh" style=3D"text-decoration:none; color:#006699;">403-7024731-9769952</a> =
+<br /> </span> </td>
+        </tr>=20
+       </tbody>=20
+      </table> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"width:640px;"> <p style=3D"font:18px Arial,=
+ sans-serif; color:#cc6600; margin:15px 20px 0 20px;">Hello Dhruva Sagar,</=
+p> <br /> <p style=3D"margin:4px 20px 18px 20px; width:640px;"> We would li=
+ke to inform you that your order is/are out for delivery. You will receive =
+your shipment by the end of the day. <br /><br /> Your package is shipped b=
+y Amazon Transportation Services and the tracking ID is 230114771606. <br /=
+><br /> Please note that a signature is required for the delivery of the pa=
+ckage. If no one will be available to sign for this package, you may wish t=
+o make alternate delivery arrangements with the carrier. <br /><br /> </p> =
+</td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"padding:0 20px;width:640px;">=20
+      <table cellspacing=3D"0" style=3D"border-top:3px solid #2d3741;width:=
+640px;" cellpadding=3D"0">=20
+       <tbody>=20
+        <tr>=20
+         <td valign=3D"top" style=3D"font:14px Arial, san-serif; padding:11=
+px 0 14px 18px;width:280px;background-color:#efefef;"> <a href=3D"https://w=
+ww.amazon.in/gp/r.html?C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDN=
+TD&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.in%2Fgp%2Fcss%2Fshiptrack%2Fview.html=
+%2Fref%3Dpe_1909141_77686011_tnp_emailtyp%3Fie%3DUTF8%26orderID%3D403-70247=
+31-9769952%26orderingShipmentId%3D1122945799106%26packageId%3D1&A=3DZH0EKXT=
+SLHSVKFRWIJGTT7L0FAGA&H=3DPYBHQHR6JRFZVHURWRFNVUX6JVKA&ref_=3Dpe_1909141_77=
+686011_tnp_emailtyp"> <img alt=3D"Track your package" border=3D"0" height=
+=3D"26" id=3D"trackYourPackage" src=3D"https://images-na.ssl-images-amazon.=
+com/images/G/01/x-locale/cs/te/button-track.png" style=3D"font-size:13px;" =
+width=3D"149" /> </a> </td>=20
+         <td valign=3D"top" style=3D"font:14px Arial, san-serif; padding:11=
+px 0 14px 18px;width:280px;background-color:#efefef;"> <p style=3D"margin:2=
+px 0;"> <strong> Arun Kumar Gupta <br /> 13/3 Ashirwad Enclave <br /> Ballu=
+pur Road <br />=20
+            <nowrap>
+             DEHRADUN, UTTARAKHAND 248001
+            </nowrap> <br /> India </strong> </p> </td>=20
+        </tr>=20
+       </tbody>
+      </table> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"width:640px;"> <p style=3D"font:18px Arial,=
+ sans-serif; color:#cc6600; border-bottom:1px solid #ccc; margin:10px 20px =
+3px 20px; padding:0 0 3px 0;"> Package Contents </p> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"padding:16px 40px;width:640px;">=20
+      <table width=3D"560" cellspacing=3D"0" cellpadding=3D"0">=20
+       <tbody>=20
+        <tr>=20
+         <td align=3D"center" valign=3D"top" style=3D"width:150px;height:11=
+5px;"> <a href=3D"https://www.amazon.in/gp/r.html?C=3D271LVDSQZTACD&K=3DA3L=
+M4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttp%3A%2F%2Fwww.amazon.in%2Fdp%2FB=
+00L22B5ZO%2Fref%3Dpe_1909141_77686011_tnp_emaildp_i1&A=3DRYSJ1J6H7BRASYUTGV=
+UKJVJ88ASA&H=3DT0WHGRXRA31RUVYMOEXPGIYOQAMA&ref_=3Dpe_1909141_77686011_tnp_=
+emaildp_i1" style=3D"margin:0 20px 0 0;" title=3D"ItemImage"> <img border=
+=3D"0" id=3D"asin" src=3D"https://images-na.ssl-images-amazon.com/images/I/=
+21deWCS7i2L._SCLZZZZZZZ__SY115_SX115_.jpg" style=3D"margin:0 0 14px 0;" /> =
+</a> </td>=20
+         <td align=3D"center" style=3D"color:#666; padding:10px 10px 0 10px=
+;width:410px;height:115px;"> <p style=3D"margin:0 0 0 7px; padding:0;"> <a =
+href=3D"https://www.amazon.in/gp/r.html?C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR=
+5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttp%3A%2F%2Fwww.amazon.in%2Fdp%2FB00L22B5ZO%=
+2Fref%3Dpe_1909141_77686011_tnp_emaildp_1&A=3DX1B4JBE8DGLP9IHKUC09SQ1ZM3AA&=
+H=3DZFV4A9PXY6VSTFXPDVQBIEXBUKUA&ref_=3Dpe_1909141_77686011_tnp_emaildp_1" =
+style=3D"font:14px Arial, sans-serif; text-decoration:none; color:#006699;"=
+> Milton Thermosteel Duo Deluxe, 700 ml (EC-TMS-FIS-0018_Color May Vary) </=
+a> </p><p> </p></td>=20
+        </tr>=20
+       </tbody>=20
+      </table> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"padding:0 20px; line-height:22px;width:640p=
+x;"> <p style=3D"border-top:1px solid #ccc; padding:20px 0 0 0;"> Remember =
+to sign up for <a href=3D"https://www.amazon.in/gp/f.html?C=3D271LVDSQZTACD=
+&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.in=
+%2Fgp%2Fcss%2Ftexttrace%2Fview.html%3Fie%3DUTF8%26ref_%3Dpe_1909141_7768601=
+1_tnp_email_texttrace_acct_level%26&A=3DK78WOJEDMESHAWJHRTKXTUSFVOKA&H=3D8P=
+K0WUBNWLSHZG6TAZNMINOJNMMA&ref_=3Dpe_1909141_77686011_tnp_email_texttrace_a=
+cct_level" style=3D"color:#006699;text-decoration: none;">SMS alerts</a>. <=
+br /> Track your order with the <a href=3D"https://www.amazon.in/gp/f.html?=
+C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttp%3A%2F=
+%2Fwww.amazon.in%2Fapp%3Fref_%3Dpe_1909141_77686011_tnp_emailtex_cs_sce_ap%=
+2F&A=3DW60VA3A6GMAGUKYJO5MWIKV6XQUA&H=3DIZUYGRLLC5DRYBMVSKPSQZAIE6GA&ref_=
+=3Dpe_1909141_77686011_tnp_emailtex_cs_sce_ap" style=3D"color:#006699;text-=
+decoration: none;">Amazon App</a>. <br /> Returns are easy. Visit our <a hr=
+ef=3D"https://www.amazon.in/gp/f.html?C=3D271LVDSQZTACD&K=3DA3LM4A9SNIXSR5&=
+R=3D2IHOI1K1MDNTD&T=3DC&U=3Dhttp%3A%2F%2Fwww.amazon.in%2Fgp%2Fcss%2Freturns=
+%2Fhomepage.html%2Fref%3Dpe_1909141_77686011_tnp_emailr&A=3DB6BGNIJNWGJHQXA=
+LMTK6TIKYHNOA&H=3DKM0DINBLM3RMDVZNAPS3AZX9G10A&ref_=3Dpe_1909141_77686011_t=
+np_emailr" style=3D"color:#006699;text-decoration: none;">Returns Centre</a=
+>. </p> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"padding:0 20px 0 20px; line-height:22px;wid=
+th:640px;"> <p style=3D"margin:10px 0; padding:0 0 20px 0; border-bottom:1p=
+x solid #eaeaea;">We hope to see you again soon!<br /> <span style=3D"font:=
+14px Arial, san-serif;"> <strong>Amazon.in</strong> </span> </p> </td>=20
+    </tr>=20
+    <tr>=20
+     <td colspan=3D"2" style=3D"font-size:10px; color:#666; padding:0 20px =
+20px 20px; line-height:16px;width:640px;"> <p>This email was sent from a no=
+tification-only address that cannot accept incoming email. Please do not re=
+ply to this message.</p> </td>=20
+    </tr>=20
+   </tbody>=20
+  </table> =20
+ <img width=3D"1" height=3D"1" src=3D"https://www.amazon.in/gp/r.html?C=3D2=
+71LVDSQZTACD&K=3DA3LM4A9SNIXSR5&R=3D2IHOI1K1MDNTD&T=3DE&U=3Dhttps%3A%2F%2Fi=
+mages-eu.ssl-images-amazon.com%2Fimages%2FG%2F01%2Fnav%2Ftransp.gif&A=3DFOH=
+ZAMCWDKIT4XQKXGIQWTZFNM8A&H=3DAHLBCXOWAX9I1PHOQ4O0ABWENHQA&ref_=3Dpe_190914=
+1_77686011_open" /></body>
+</html>
+------=_Part_3265950_334434655.1466565884736--

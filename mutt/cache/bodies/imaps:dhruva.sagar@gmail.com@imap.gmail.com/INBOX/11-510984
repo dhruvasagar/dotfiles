@@ -1,0 +1,224 @@
+Delivered-To: dhruva.sagar@gmail.com
+Received: by 10.13.230.197 with SMTP id p188csp1917ywe;
+        Mon, 20 Jun 2016 23:03:30 -0700 (PDT)
+X-Received: by 10.200.45.178 with SMTP id p47mr26954870qta.27.1466489010519;
+        Mon, 20 Jun 2016 23:03:30 -0700 (PDT)
+Return-Path: <noreply@github.com>
+Received: from github-smtp2a-ext-cp1-prd.iad.github.net (github-smtp2-ext8.iad.github.net. [192.30.252.199])
+        by mx.google.com with ESMTPS id b190si24086619qkc.242.2016.06.20.23.03.30
+        for <dhruva.sagar@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Jun 2016 23:03:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of noreply@github.com designates 192.30.252.199 as permitted sender) client-ip=192.30.252.199;
+Authentication-Results: mx.google.com;
+       dkim=pass (test mode) header.i=@github.com;
+       spf=pass (google.com: domain of noreply@github.com designates 192.30.252.199 as permitted sender) smtp.mailfrom=noreply@github.com;
+       dmarc=pass (p=NONE dis=NONE) header.from=github.com
+Date: Mon, 20 Jun 2016 23:03:30 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
+	s=pf2014; t=1466489010;
+	bh=+NUWY8wFTLmwi+KryIsntS6Afi2JXgozEPCXm5QuETc=;
+	h=From:Reply-To:To:Cc:Subject:List-ID:List-Archive:List-Post:
+	 List-Unsubscribe:From;
+	b=GoqGNfSCwsf3q75z+FhX/iKSbhPr7P57a8qyTtnR6VXb9R02YEBesPT1BWL8m7elf
+	 5ljFVNH+lgBtTByjmGXPN8tLMKVekj7w7T0dTJbrZ1SgDoI+UQZkPrrd0y26DB3p9X
+	 vZJq63oxwu0b7DjNLxRptyiO9WThCRAxD9PQQwjA=
+From: Kalpesh Patel <notifications@github.com>
+Reply-To: tarkalabs/mobileworkbook-droid <reply+000158c2f5c6e290b400a2757cdabab9b304dee84f0313df92cf0000000113809ab292a169ce099e1819@reply.github.com>
+To: tarkalabs/mobileworkbook-droid <mobileworkbook-droid@noreply.github.com>
+Cc: 
+Message-ID: <tarkalabs/mobileworkbook-droid/pull/49@github.com>
+Subject: [tarkalabs/mobileworkbook-droid] Fixed few WorkOrder issues. (#49)
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5768d8b21f3ff_31773fc1a545d2a098287";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Precedence: list
+X-GitHub-Sender: kalpeshp0310
+X-GitHub-Recipient: dhruvasagar
+List-ID: tarkalabs/mobileworkbook-droid
+ <mobileworkbook-droid.tarkalabs.github.com>
+List-Archive: https://github.com/tarkalabs/mobileworkbook-droid
+List-Post: <mailto:reply+000158c2f5c6e290b400a2757cdabab9b304dee84f0313df92cf0000000113809ab292a169ce099e1819@reply.github.com>
+List-Unsubscribe: <mailto:unsub+000158c2f5c6e290b400a2757cdabab9b304dee84f0313df92cf0000000113809ab292a169ce099e1819@reply.github.com>,
+ <https://github.com/notifications/unsubscribe/AAFYwqMFad8hdbiAjdSOyYASIhp5Ojndks5qN36ygaJpZM4I6YyV>
+X-Auto-Response-Suppress: All
+X-GitHub-Recipient-Address: dhruva.sagar@gmail.com
+
+
+----==_mimepart_5768d8b21f3ff_31773fc1a545d2a098287
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+You can view, comment on, or merge this pull request online at:
+
+  https://github.com/tarkalabs/mobileworkbook-droid/pull/49
+
+-- Commit Summary --
+
+  * Fixed few WorkOrder issues.
+  * Merge branch 'new_refactoring' of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring
+  * Changed the way we query Overdue WorkOrder.
+  * Merge branch 'new_refactoring' of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring
+  * Fixed small issue for Attachment dialog not disappearing.
+  * Merge branch 'new_refactoring' of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring
+  * Fixed a issue where StartActivity call back not received in Fragment.
+  * Merge branch 'new_refactoring' of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring
+
+-- File Changes --
+
+    M app/src/main/java/com/sedintechnologies/workbook/data/ApiConstants.java (4)
+    M app/src/main/java/com/sedintechnologies/workbook/data/WorkOrderRepo.java (9)
+    M app/src/main/java/com/sedintechnologies/workbook/presenter/WorkOrderDetailPresenter.java (49)
+    M app/src/main/java/com/sedintechnologies/workbook/presenter/WorkOrdersPresenter.java (2)
+    M app/src/main/java/com/sedintechnologies/workbook/utils/DateTimeUtils.java (5)
+    M app/src/main/java/com/sedintechnologies/workbook/utils/UiUtils.java (4)
+    M app/src/main/java/com/sedintechnologies/workbook/view/WorkOrderDetailView.java (2)
+    M app/src/main/java/com/sedintechnologies/workbook/view/activity/CreateWorkOrderActivity.java (1)
+    M app/src/main/java/com/sedintechnologies/workbook/view/activity/WorkOrderDetailActivity.java (43)
+    M app/src/main/java/com/sedintechnologies/workbook/view/adapters/WorkOrderAdapter.java (10)
+    M app/src/main/java/com/sedintechnologies/workbook/view/common/AttachmentSelector.java (73)
+    M app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/AttachmentsFragment.java (26)
+    M app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/LogFragment.java (30)
+    M app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/TaskFragment.java (4)
+    M app/src/main/res/layout/item_fab_menu.xml (25)
+    M app/src/main/res/layout/item_worksheet.xml (10)
+
+-- Patch Links --
+
+https://github.com/tarkalabs/mobileworkbook-droid/pull/49.patch
+https://github.com/tarkalabs/mobileworkbook-droid/pull/49.diff
+
+---
+You are receiving this because you are subscribed to this thread.
+Reply to this email directly or view it on GitHub:
+https://github.com/tarkalabs/mobileworkbook-droid/pull/49
+
+----==_mimepart_5768d8b21f3ff_31773fc1a545d2a098287
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+<hr>
+
+<h4>You can view, comment on, or merge this pull request online at:</h4>
+<p>&nbsp;&nbsp;<a href='https://github.com/tarkalabs/mobileworkbook-droid/pull/49'>https://github.com/tarkalabs/mobileworkbook-droid/pull/49</a></p>
+
+<h4>Commit Summary</h4>
+<ul>
+  <li>Fixed few WorkOrder issues.</li>
+  <li>Merge branch &#39;new_refactoring&#39; of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring</li>
+  <li>Changed the way we query Overdue WorkOrder.</li>
+  <li>Merge branch &#39;new_refactoring&#39; of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring</li>
+  <li>Fixed small issue for Attachment dialog not disappearing.</li>
+  <li>Merge branch &#39;new_refactoring&#39; of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring</li>
+  <li>Fixed a issue where StartActivity call back not received in Fragment.</li>
+  <li>Merge branch &#39;new_refactoring&#39; of https://github.com/tarkalabs/mobileworkbook-droid into new_refectoring</li>
+</ul>
+
+<h4>File Changes</h4>
+<ul>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-0">app/src/main/java/com/sedintechnologies/workbook/data/ApiConstants.java</a>
+    (4)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-1">app/src/main/java/com/sedintechnologies/workbook/data/WorkOrderRepo.java</a>
+    (9)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-2">app/src/main/java/com/sedintechnologies/workbook/presenter/WorkOrderDetailPresenter.java</a>
+    (49)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-3">app/src/main/java/com/sedintechnologies/workbook/presenter/WorkOrdersPresenter.java</a>
+    (2)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-4">app/src/main/java/com/sedintechnologies/workbook/utils/DateTimeUtils.java</a>
+    (5)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-5">app/src/main/java/com/sedintechnologies/workbook/utils/UiUtils.java</a>
+    (4)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-6">app/src/main/java/com/sedintechnologies/workbook/view/WorkOrderDetailView.java</a>
+    (2)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-7">app/src/main/java/com/sedintechnologies/workbook/view/activity/CreateWorkOrderActivity.java</a>
+    (1)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-8">app/src/main/java/com/sedintechnologies/workbook/view/activity/WorkOrderDetailActivity.java</a>
+    (43)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-9">app/src/main/java/com/sedintechnologies/workbook/view/adapters/WorkOrderAdapter.java</a>
+    (10)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-10">app/src/main/java/com/sedintechnologies/workbook/view/common/AttachmentSelector.java</a>
+    (73)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-11">app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/AttachmentsFragment.java</a>
+    (26)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-12">app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/LogFragment.java</a>
+    (30)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-13">app/src/main/java/com/sedintechnologies/workbook/view/fragments/startworkorder/TaskFragment.java</a>
+    (4)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-14">app/src/main/res/layout/item_fab_menu.xml</a>
+    (25)
+  </li>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49/files#diff-15">app/src/main/res/layout/item_worksheet.xml</a>
+    (10)
+  </li>
+</ul>
+
+<h4>Patch Links:</h4>
+<ul>
+  <li><a href='https://github.com/tarkalabs/mobileworkbook-droid/pull/49.patch'>https://github.com/tarkalabs/mobileworkbook-droid/pull/49.patch</a></li>
+  <li><a href='https://github.com/tarkalabs/mobileworkbook-droid/pull/49.diff'>https://github.com/tarkalabs/mobileworkbook-droid/pull/49.diff</a></li>
+</ul>
+
+<p style="font-size:small;-webkit-text-size-adjust:none;color:#666;">&mdash;<br />You are receiving this because you are subscribed to this thread.<br />Reply to this email directly, <a href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49">view it on GitHub</a>, or <a href="https://github.com/notifications/unsubscribe/AAFYwqMFad8hdbiAjdSOyYASIhp5Ojndks5qN36ygaJpZM4I6YyV">mute the thread</a>.<img alt="" height="1" src="https://github.com/notifications/beacon/AAFYwnDtsktSDZKOY9-wpeTwVvKLOqvcks5qN36ygaJpZM4I6YyV.gif" width="1" /></p>
+<div itemscope itemtype="http://schema.org/EmailMessage">
+<div itemprop="action" itemscope itemtype="http://schema.org/ViewAction">
+  <link itemprop="url" href="https://github.com/tarkalabs/mobileworkbook-droid/pull/49"></link>
+  <meta itemprop="name" content="View Pull Request"></meta>
+</div>
+<meta itemprop="description" content="View this Pull Request on GitHub"></meta>
+</div>
+
+
+----==_mimepart_5768d8b21f3ff_31773fc1a545d2a098287--
