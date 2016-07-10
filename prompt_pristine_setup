@@ -38,7 +38,7 @@ function prompt_pristine_setup {
   zstyle ':prezto:module:node:info:version' format ' %F{red}node-%v%f'
 
 # Define prompts.
-  PROMPT='%F{green}%~%f${(e)git_info[prompt]}
+  PROMPT='%F{blue}%M%f in %F{green}%~%f${(e)git_info[prompt]}
 $ '
   RPROMPT='${node_info[version]},${ruby_info[version]}'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
