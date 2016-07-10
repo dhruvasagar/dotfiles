@@ -27,6 +27,7 @@ brew install coreutils --with-default-names
 brew install gnu-indent --with-default-names
 
 brew install caskroom/cask/brew-cask
+brew cask install ngrok
 brew cask install skype
 brew cask install iterm2
 brew cask install skitch
