@@ -11,8 +11,7 @@ rm -rf ~/.vim \
        ~/.gitconfig \
        ~/.ssh/config \
        ~/.gitignore_global \
-       ~/.gitcommit_template \
-       ~/.zprezto/modules/prompt/functions/prompt_dhruva_setup
+       ~/.gitcommit_template
 
 ln -s ~/dotfiles/vim ~/.vim
 
