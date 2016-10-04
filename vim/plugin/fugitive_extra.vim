@@ -25,11 +25,11 @@ function! s:GitComplete(ArgLead, Cmdline, Cursor, ...) "{{{1
 endfunction
 
 function! s:GitExtraComplete(ArgLead, CmdLine, Cursor, type) "{{{1
-  if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
-    return ['finish']
-  else
+  " if (empty(a:ArgLead) || a:ArgLead =~? '^f\%[inish]$') && a:CmdLine !~? 'finish\s*$'
+  "   return ['finish']
+  " else
     return s:GitComplete(a:ArgLead, a:CmdLine, a:Cursor, 'branch', a:type)
-  endif
+  " endif
 endfunction
 
 function! s:GitBugComplete(ArgLead, CmdLine, Cursor) "{{{1

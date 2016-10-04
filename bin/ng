@@ -1,7 +1,7 @@
 #!/bin/zsh
 # http://iamvery.com/2013/11/16/tmux-pairing-anywhere-on-your-box.html
 
-ngrok_host=${NGROK_HOST:-ngrok.com}
+ngrok_host=${NGROK_HOST:-ngrok.io}
 tmux_user=${TMUX_USER:-$USER}
 
 if [ ! $(command -v ngrok) ]; then
@@ -22,7 +22,7 @@ connect(){
   if [ $@ ]; then
     ngrok $@
   else
-    ngrok --proto=tcp 22
+    ngrok tcp 22
   fi
 }
 
@@ -30,7 +30,7 @@ ssh(){
   port=$(tunnel_port)
 
   if [ ! -z $port ]; then
-    ssh_command="ssh -p $port $tmux_user@$ngrok_host"
+    ssh_command="ssh -p $port $tmux_user@0.tcp.$ngrok_host"
     echo $ssh_command
   else
     echo "Tunnel with TCP forwarding doesn't seem to be connected."
@@ -38,11 +38,11 @@ ssh(){
 }
 
 tunnel_port(){
-  tunnel_info_endpoint="http://localhost:4040/http/in"
-  search_string="tcp://$ngrok_host"
+  tunnel_info_endpoint="http://localhost:4040/status"
+  search_string="tcp://.*$ngrok_host"
   port_strip_regex="s/^.*$ngrok_host:\([0-9]*\).*$/\1/"
 
-  curl -s $tunnel_info_endpoint | grep $search_string | sed $port_strip_regex
+  curl -s $tunnel_info_endpoint | grep $search_string  | sed $port_strip_regex
 }
 
 subcommand=$1

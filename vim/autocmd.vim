@@ -37,6 +37,12 @@ augroup CursorLine "{{{1
   autocmd BufLeave,WinLeave * setl nocursorline
 augroup END
 
+augroup Gemfile "{{{1
+  au!
+
+  autocmd BufWritePost Gemfile Dispatch bundle install
+augroup END
+
 if has('nvim')
   augroup Terminal "{{{1
     au!

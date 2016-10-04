@@ -7,7 +7,8 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 # For directory completion
-export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus:$HOME/code/clickapps:$HOME/code/shopx
+export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus
+export CDPATH=$CDPATH:$HOME/code/clickapps:$HOME/code/shopx:$HOME/code/oss:$HOME/code/aisle
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
