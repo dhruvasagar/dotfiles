@@ -28,6 +28,9 @@ endfunction
 function! StatusLinePWDGitFlag()
   if !exists('b:statusline_pwd_git_flag')
     let b:statusline_pwd_git_flag = functions#GitExecInPath("git status --porcelain 2>/dev/null | head -1 | awk '{print $1}'", getcwd())[:-2]
+    if !empty(b:statusline_pwd_git_flag)
+      let b:statusline_pwd_git_flag .= ' '
+    endif
   endif
   return b:statusline_pwd_git_flag
 endfunction
@@ -57,7 +60,7 @@ augroup StatusLine
 augroup END
 
 set statusline=%(\ %{fugitive#head()}\ \|%)
-set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*\ %)\|\ %)
+set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*%)\|\ %)
 set statusline+=%(%r%m\ %)
 set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 
