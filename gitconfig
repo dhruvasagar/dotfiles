@@ -10,6 +10,7 @@
 	ui = true
 [commit]
 	template = ~/.gitcommit_template
+	verbose = true
 [github]
 	user = dhruvasagar
 [alias]
