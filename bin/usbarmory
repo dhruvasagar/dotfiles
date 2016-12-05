@@ -1,0 +1,10 @@
+#!/bin/sh
+
+inet=${1-'en7'}
+ifconfig $inet 10.0.0.2
+if [ $? -eq 0 ]; then
+  sysctl -w net.inet.ip.forwarding=1
+  pfctl -e
+  echo "nat on en0 from $inet:network to any -> (en0)" | pfctl -f -
+  echo "nat on en0 from 10.0.0.0/8 to any -> (en0)" | pfctl -f -
+fi

@@ -60,6 +60,13 @@ augroup StatusLine
 augroup END
 
 set statusline=%(\ %{fugitive#head()}\ \|%)
+
+if has('nvim')
+  set statusline+=%(\ %2*%{neoterm#test#status('running')}%)
+  set statusline+=%3*%{neoterm#test#status('success')}
+  set statusline+=%4*%{neoterm#test#status('failed')}%*
+endif
+
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*%)\|\ %)
 set statusline+=%(%r%m\ %)
 set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*

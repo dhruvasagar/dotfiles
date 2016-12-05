@@ -29,6 +29,7 @@ brew install gnu-indent --with-default-names
 brew install caskroom/cask/brew-cask
 brew cask install ngrok
 brew cask install skype
+brew cask install docker
 brew cask install iterm2
 brew cask install skitch
 brew cask install typora
@@ -38,3 +39,7 @@ brew cask install evernote
 brew cask install karabiner
 brew cask install spectacle
 brew cask install google-chrome
+
+# Terminalisation
+brew install rtv # reddit
+sudo pip install rainbowstream

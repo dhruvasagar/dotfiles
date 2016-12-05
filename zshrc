@@ -8,7 +8,7 @@ export VISUAL='vim'
 
 # For directory completion
 export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus
-export CDPATH=$CDPATH:$HOME/code/clickapps:$HOME/code/shopx:$HOME/code/oss:$HOME/code/aisle
+export CDPATH=$CDPATH:$HOME/code/oss:$HOME/code/aisle:$HOME/code/jifflenow
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -74,3 +74,5 @@ PERL5LIB="/Users/dhruvasagar/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export P
 PERL_LOCAL_LIB_ROOT="/Users/dhruvasagar/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/Users/dhruvasagar/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/dhruvasagar/perl5"; export PERL_MM_OPT;
+
+# export BROWSER=w3m
