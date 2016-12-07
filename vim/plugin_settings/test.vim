@@ -8,7 +8,6 @@ if has('nvim')
         \}
   let g:neoterm_run_tests_bg = 1
   let g:neoterm_raise_when_tests_fail = 1
-  let g:neoterm_focus_when_tests_fail = 1
   let g:neoterm_close_when_tests_succeed = 1
 else
   let test#strategy = 'vimux'
