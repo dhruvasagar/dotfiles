@@ -81,10 +81,6 @@ set lazyredraw
 set cursorline
 set updatetime=1000
 
-if has('vim')
-  set ttymouse=xterm2
-endif
-
 set list
 if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   set listchars=tab:›\ 
@@ -117,8 +113,12 @@ else
 
   set showbreak=->\ 
 endif
+
 set mousehide
 set mouse=a                   " Enables mouse within terminals
+if &term =~# '^screen'
+  set ttymouse=xterm2
+endif
 
 set foldopen=hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldenable
