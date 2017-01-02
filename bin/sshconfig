@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cat ~/dotfiles/sshconfig ~/.ssh/configs/* > ~/.ssh/config
+echo 'Done'

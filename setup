@@ -32,7 +32,8 @@ ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 
 mkdir -p ~/.ssh
-ln -s ~/dotfiles/sshconfig ~/.ssh/config
+# ln -s ~/dotfiles/sshconfig ~/.ssh/config
+cat ~/dotfiles/sshconfig > ~/.ssh/config
 
 platform=$(uname | awk '{print tolower($0)}')
 [[ -f "setup_$platform" ]] && source "./setup_$platform"

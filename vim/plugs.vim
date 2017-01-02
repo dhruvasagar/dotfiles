@@ -83,10 +83,10 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}
 
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'godlygeek/tabular', {'on': 'Tabular'}
-Plug 'jnwhiteh/vim-golang', {'for': 'go'}
 Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'burnettk/vim-angular', {'for': 'javascript'}

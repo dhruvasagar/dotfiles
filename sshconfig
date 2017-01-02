@@ -1,5 +1,38 @@
-IdentityFile ~/.ssh/id_rsa
+# vim: ft=sshconfig
 
-Host Blog
+IdentityFile ~/.ssh/id_rsa
+ServerAliveInterval 240
+
+Host bitbucket.org
+HostName bitbucket.org
+User git
+IdentityFile ~/.ssh/bitbucket
+IdentitiesOnly yes
+PreferredAuthentications publickey
+
+Host blog
 HostName dhruvasagar.com
 User dhruvasagar
+
+Host blog-tunnel
+HostName dhruvasagar.com
+User dhruvasagar
+RemoteForward 9022 localhost:22
+
+Host pi
+HostName 192.168.1.104
+User pi
+
+Host pi-ngrok
+HostName 0.tcp.ngrok.io
+Port 14350
+User pi
+
+Host pi-anywhere
+HostName dhruvasagar.com
+Port 9022
+User pi
+
+Host usbarmory
+HostName 10.0.0.1
+User root
