@@ -100,7 +100,9 @@ endif
 
 " My plugins {{{2
 let g:my_plugins_path = '~/code/vim_plugins/'
+Plug g:my_plugins_path . 'vim-marp'
 Plug g:my_plugins_path . 'vim-less'
+Plug g:my_plugins_path . 'vim-zoom'
 Plug g:my_plugins_path . 'vim-dotoo'
 Plug g:my_plugins_path . 'vim-testify'
 Plug g:my_plugins_path . 'vim-open-url'
