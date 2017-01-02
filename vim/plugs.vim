@@ -51,11 +51,10 @@ Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
 Plug 'benmills/vimux'
 Plug 'vimwiki/vimwiki'
-Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'janko-m/vim-test'
 Plug 'majutsushi/tagbar'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'honza/vim-snippets'
 Plug 'vim-scripts/DrawIt'
 " Plug 'jpalardy/vim-slime'
 Plug 'avdgaag/vim-phoenix'
@@ -100,16 +99,16 @@ endif
 
 " My plugins {{{2
 let g:my_plugins_path = '~/code/vim_plugins/'
-Plug g:my_plugins_path . 'vim-marp'
-Plug g:my_plugins_path . 'vim-less'
-Plug g:my_plugins_path . 'vim-zoom'
-Plug g:my_plugins_path . 'vim-dotoo'
-Plug g:my_plugins_path . 'vim-testify'
-Plug g:my_plugins_path . 'vim-open-url'
-Plug g:my_plugins_path . 'vim-prosession'
-Plug g:my_plugins_path . 'vim-table-mode'
-Plug g:my_plugins_path . 'vim-buffer-history'
-Plug g:my_plugins_path . 'vim-railscasts-theme'
+Plug 'groenewege/vim-less', {'dir': g:my_plugins_path.'vim-less'}
+Plug 'dhruvasagar/vim-marp', {'dir': g:my_plugins_path.'vim-marp'}
+Plug 'dhruvasagar/vim-zoom', {'dir': g:my_plugins_path.'vim-zoom'}
+Plug 'dhruvasagar/vim-dotoo', {'dir': g:my_plugins_path.'vim-dotoo'}
+Plug 'dhruvasagar/vim-testify', {'dir': g:my_plugins_path.'vim-testify'}
+Plug 'dhruvasagar/vim-open-url', {'dir': g:my_plugins_path.'vim-open-url'}
+Plug 'dhruvasagar/vim-prosession', {'dir': g:my_plugins_path.'vim-prosession'}
+Plug 'dhruvasagar/vim-table-mode', {'dir': g:my_plugins_path.'vim-table-mode'}
+Plug 'dhruvasagar/vim-buffer-history', {'dir': g:my_plugins_path.'vim-buffer-history'}
+Plug 'dhruvasagar/vim-railscasts-theme', {'dir': g:my_plugins_path.'vim-railscasts-theme'}
 " }}}2
 call plug#end()
 
