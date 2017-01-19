@@ -11,6 +11,7 @@ brew install tmux
 brew install lynx
 brew install rbenv
 brew install pandoc
+brew install ripgrep
 brew install weechat
 brew install git-flow
 brew install leiningen

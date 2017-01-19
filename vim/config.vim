@@ -30,7 +30,9 @@ set dictionary+=/usr/share/dict/words
 " Vim supports thesaurus autocomplete Ctrl_X+Ctrl_T
 set thesaurus+=~/.vim/spell/mthesaur.txt
 
-if executable('ag')
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading gfm=%f:%l:%c:%m,%f:%l%m,%f\ \ %l%m
+elseif executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --column
 else
   set grepprg=grep\ -rnH\ --exclude=tags\ --exclude-dir=.git\ --exclude-dir=node_modules
@@ -55,6 +57,7 @@ set breakindent
 set smarttab
 set expandtab
 set shiftwidth=2
+set tabstop=2
 set softtabstop=2
 set nojoinspaces
 set showmatch
