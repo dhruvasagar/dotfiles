@@ -10,5 +10,6 @@ let g:markdown_fenced_languages = [
       \ 'xml',
       \ 'html',
       \ 'zsh',
-      \ 'sh'
+      \ 'sh',
+      \ 'sql'
       \ ]

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-rsync -aruv Blog:~/dotoo-files/ ~/Documents/dotoo-files
-rsync -aruv --delete ~/Documents/dotoo-files/ Blog:~/dotoo-files
+rsync -aruv blog:~/dotoo-files/ ~/Documents/dotoo-files
+rsync -aruv --delete ~/Documents/dotoo-files/ blog:~/dotoo-files

@@ -61,6 +61,7 @@ Plug 'avdgaag/vim-phoenix'
 " Plug 'hsanson/vim-android'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
+Plug 'cohama/agit.vim'
 
 if has('nvim')
   Plug 'benekastah/neomake'
