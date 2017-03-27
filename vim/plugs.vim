@@ -56,12 +56,10 @@ Plug 'janko-m/vim-test'
 Plug 'majutsushi/tagbar'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/DrawIt'
-" Plug 'jpalardy/vim-slime'
 Plug 'avdgaag/vim-phoenix'
-" Plug 'hsanson/vim-android'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
-Plug 'cohama/agit.vim'
+Plug 'cohama/agit.vim', {'on': 'Agit'}
 
 if has('nvim')
   Plug 'benekastah/neomake'
@@ -85,7 +83,6 @@ Plug 'mattn/gist-vim', {'on': 'Gist'}
 
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
-Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'godlygeek/tabular', {'on': 'Tabular'}
 Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
@@ -104,12 +101,16 @@ Plug 'groenewege/vim-less', {'dir': g:my_plugins_path.'vim-less'}
 Plug 'dhruvasagar/vim-marp', {'dir': g:my_plugins_path.'vim-marp'}
 Plug 'dhruvasagar/vim-zoom', {'dir': g:my_plugins_path.'vim-zoom'}
 Plug 'dhruvasagar/vim-dotoo', {'dir': g:my_plugins_path.'vim-dotoo'}
+Plug 'dhruvasagar/vim-pairify', {'dir': g:my_plugins_path.'vim-pairify'}
 Plug 'dhruvasagar/vim-testify', {'dir': g:my_plugins_path.'vim-testify'}
 Plug 'dhruvasagar/vim-open-url', {'dir': g:my_plugins_path.'vim-open-url'}
 Plug 'dhruvasagar/vim-prosession', {'dir': g:my_plugins_path.'vim-prosession'}
 Plug 'dhruvasagar/vim-table-mode', {'dir': g:my_plugins_path.'vim-table-mode'}
 Plug 'dhruvasagar/vim-buffer-history', {'dir': g:my_plugins_path.'vim-buffer-history'}
 Plug 'dhruvasagar/vim-railscasts-theme', {'dir': g:my_plugins_path.'vim-railscasts-theme'}
+
+Plug g:my_plugins_path . 'vim-txtobj-complete'
+
 " }}}2
 call plug#end()
 

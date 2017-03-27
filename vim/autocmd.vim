@@ -43,6 +43,12 @@ augroup Gemfile "{{{1
   autocmd BufWritePost Gemfile Dispatch bundle install
 augroup END
 
+augroup LargeFiles "{{{1
+  au!
+
+  autocmd BufWinEnter * if line2byte(line("$") + 1) > 500000 | syntax clear | endif
+augroup END
+
 if has('nvim')
   augroup Terminal "{{{1
     au!
