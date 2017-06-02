@@ -17,6 +17,7 @@ Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -55,11 +56,13 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'janko-m/vim-test'
 Plug 'majutsushi/tagbar'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'wellle/targets.vim'
 Plug 'vim-scripts/DrawIt'
 Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
 Plug 'cohama/agit.vim', {'on': 'Agit'}
+
 
 if has('nvim')
   Plug 'benekastah/neomake'

@@ -39,10 +39,10 @@ rmd() {
 }
 
 # nvm
-export NVM_DIR=~/.nvm
-NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh
-[[ -f $NVM_SH ]] && source $NVM_SH
-[[ -n "$(npm bin 2>/dev/null)" ]] && export PATH=$(npm bin):$PATH # Add local node_modules binaries to path
+# export NVM_DIR=~/.nvm
+# NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh
+# [[ -f $NVM_SH ]] && source $NVM_SH
+# [[ -n "$(npm bin 2>/dev/null)" ]] && export PATH=$(npm bin):$PATH # Add local node_modules binaries to path
 
 # go lang
 export GOPATH=$HOME/.go
