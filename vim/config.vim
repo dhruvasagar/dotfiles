@@ -119,9 +119,6 @@ endif
 
 set mousehide
 set mouse=a                   " Enables mouse within terminals
-if &term =~# '^screen'
-  set ttymouse=xterm2
-endif
 
 set foldopen=hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldenable
@@ -143,12 +140,12 @@ set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,tags
 " execute 'set t_kB=' . nr2char(27) . '[Z'
 set t_kB=[Z
 
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+set termguicolors
+set term=xterm-256color
+if &term =~# '^screen'
+  set ttymouse=xterm2
 endif
 
 " let g:solarized_termcolors=256

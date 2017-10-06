@@ -7,8 +7,7 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 # For directory completion
-export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/modus
-export CDPATH=$CDPATH:$HOME/code/oss:$HOME/code/aisle:$HOME/code/jifflenow
+export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/oss
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -20,9 +19,8 @@ export PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/loc
 [[ -n "$(rbenv 2>/dev/null)" ]] && eval "$(rbenv init -)"
 export PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
 
-# tmux & TERM issue fix
+# TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color
-[[ -n $TMUX ]] && export TERM=screen-256color
 
 # cassandra
 export CASSANDRA_HOME=~/cassandra
@@ -74,5 +72,8 @@ PERL5LIB="/Users/dhruvasagar/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export P
 PERL_LOCAL_LIB_ROOT="/Users/dhruvasagar/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/Users/dhruvasagar/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/dhruvasagar/perl5"; export PERL_MM_OPT;
+
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # export BROWSER=w3m

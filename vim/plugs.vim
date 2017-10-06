@@ -63,7 +63,6 @@ Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
 Plug 'cohama/agit.vim', {'on': 'Agit'}
 
-
 if has('nvim')
   Plug 'benekastah/neomake'
   autocmd! BufWritePost * Neomake
@@ -76,6 +75,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'AndrewRadev/switch.vim'
 Plug 'slim-template/vim-slim'
 Plug 'guns/vim-clojure-static'
+Plug 'guns/vim-sexp' | Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'kchmck/vim-coffee-script'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'PeterRincker/vim-argumentative'
