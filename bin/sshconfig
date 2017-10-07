@@ -3,11 +3,11 @@
 action=${1:-'build'}
 configs_dir=~/.ssh/configs
 
-if [[ "$action" == "list" ]]; then
-  ls -l1 $configs_dir | tail -n+2 | awk '{print $9}'
-elif [[ "$action" == "build" ]]; then
+if [[ "$action" == "build" ]]; then
   cat ~/dotfiles/sshconfig $configs_dir/* > ~/.ssh/config 2>/dev/null
   echo 'sshconfig generated'
+elif [[ "$action" == "list" ]]; then
+  ls -l1 $configs_dir | tail -n+2 | awk '{print $9}'
 elif [[ "$action" == "rm" ]]; then
   file=$2
   rm -f $configs_dir/$file
