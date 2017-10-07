@@ -9,6 +9,7 @@ elif [[ "$action" == "build" ]]; then
   cat ~/dotfiles/sshconfig $configs_dir/* > ~/.ssh/config 2>/dev/null
   echo 'sshconfig generated'
 elif [[ "$action" == "rm" ]]; then
-  rm -f $configs_dir/$2
+  file=$2
+  rm -f $configs_dir/$file
   exec $0 build
 fi
