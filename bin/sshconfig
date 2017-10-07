@@ -1,4 +1,14 @@
 #!/bin/sh
 
-cat ~/dotfiles/sshconfig ~/.ssh/configs/* > ~/.ssh/config 2>/dev/null
-echo 'Done'
+action=${1:-'build'}
+configs_dir=~/.ssh/configs
+
+if [[ "$action" == "list" ]]; then
+  ls -l1 $configs_dir | tail -n+2 | awk '{print $9}'
+elif [[ "$action" == "build" ]]; then
+  cat ~/dotfiles/sshconfig $configs_dir/* > ~/.ssh/config 2>/dev/null
+  echo 'sshconfig generated'
+elif [[ "$action" == "rm" ]]; then
+  rm -f $configs_dir/$2
+  exec $0 build
+fi
