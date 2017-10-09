@@ -10,11 +10,11 @@ elif [ "$action" = "list" ]; then
   find "$configs_dir" -type f -exec basename {} \;
 elif [ "$action" = "rm" ]; then
   file="$2"
-  rm -f $configs_dir/$file
+  rm -f "$configs_dir/$file"
   $0 build
 elif [ "$action" = "create" ]; then
   file="$2"
-  $EDITOR $configs_dir/file
+  $EDITOR "$configs_dir/$file"
 else
   echo 'Usage: sshconfig build|list|rm|create <filename>'
 fi
