@@ -9,7 +9,7 @@ if [[ "$action" == "build" ]]; then
 elif [[ "$action" == "list" ]]; then
   ls -l1 $configs_dir | tail -n+2 | awk '{print $9}'
 elif [[ "$action" == "rm" ]]; then
-  file=$2
+  file="$2"
   rm -f $configs_dir/$file
-  exec $0 build
+  $0 build
 fi
