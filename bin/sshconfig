@@ -3,18 +3,18 @@
 action=${1:-'build'}
 configs_dir=~/.ssh/configs
 
-if [[ "$action" == "build" ]]; then
+if [ "$action" = "build" ]; then
   cat ~/dotfiles/sshconfig $configs_dir/* > ~/.ssh/config 2>/dev/null
   echo 'sshconfig generated'
-elif [[ "$action" == "list" ]]; then
-  ls -l1 $configs_dir | tail -n+2 | awk '{print $9}'
-elif [[ "$action" == "rm" ]]; then
+elif [ "$action" = "list" ]; then
+  find "$configs_dir" -type f -exec basename {} \;
+elif [ "$action" = "rm" ]; then
   file="$2"
   rm -f $configs_dir/$file
   $0 build
-elif [[ "$action" == "create" ]]; then
+elif [ "$action" = "create" ]; then
   file="$2"
-  $EDITOR $configs_dir/$file
+  $EDITOR $configs_dir/file
 else
   echo 'Usage: sshconfig build|list|rm|create <filename>'
 fi
