@@ -2,5 +2,6 @@ tags
 *.rest
 .vimrc
 .nvimrc
+test.sql
 .projections.json
 config/projections.json

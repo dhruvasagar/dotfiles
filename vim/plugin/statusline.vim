@@ -42,6 +42,8 @@ function! StatusLineFileName()
   if name =~# pat
     let pre = name[:stridx(name, pat) + len(pat)-1] . '...'
     let name = name[stridx(name, pat) + len(pat):]
+  elseif empty(name) && &filetype ==# 'netrw'
+    let name = fnamemodify(b:netrw_curdir, ':~:.')
   endif
   let name = simplify(name)
   let ratio = winwidth(0) / len(name)
