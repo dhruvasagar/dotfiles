@@ -1,0 +1,1 @@
+set path^=~/.go/src

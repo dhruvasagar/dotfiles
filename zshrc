@@ -8,7 +8,7 @@ export VISUAL='vim'
 
 # For directory completion
 export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/oss
-export CDPATH=$HOME:$HOME/code/moove
+export CDPATH=$CDPATH:$HOME/code/moove
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -78,3 +78,7 @@ export WORKON_HOME=$HOME/.virtualenvs
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # export BROWSER=w3m
+
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi

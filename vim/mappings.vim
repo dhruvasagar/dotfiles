@@ -3,7 +3,6 @@
 " * cq
 " * cu
 " * cd
-" * cx
 " * cm
 " * c<CR>
 "
@@ -57,16 +56,16 @@ nnoremap ' `
 
 " Test {{{1
 if has('nvim')
-  nnoremap cil :call neoterm#test#rerun()<CR>
-  nnoremap cif :call neoterm#test#run('file')<CR>
-  nnoremap cia :call neoterm#test#run('all')<CR>
-  nnoremap cii :call neoterm#test#run('current')<CR>
-  nnoremap cic :Ttoggle<CR>
+  nnoremap stl :call neoterm#test#rerun()<CR>
+  nnoremap stf :call neoterm#test#run('file')<CR>
+  nnoremap sta :call neoterm#test#run('all')<CR>
+  nnoremap stt :call neoterm#test#run('current')<CR>
+  nnoremap stc :Ttoggle<CR>
 else
-  nnoremap cil :TestLast<CR>
-  nnoremap cif :TestFile<CR>
-  nnoremap cia :TestSuite<CR>
-  nnoremap cii :TestNearest<CR>
+  nnoremap stl :TestLast<CR>
+  nnoremap stf :TestFile<CR>
+  nnoremap sta :TestSuite<CR>
+  nnoremap stu :TestNearest<CR>
 endif
 
 
@@ -77,3 +76,11 @@ endif
 
 nnoremap g> <ESC>vap:Twrite bottom-right<CR>
 xnoremap g> :Twrite bottom-right<CR>
+
+function! s:vinegar()
+  let fname = expand('%:t')
+  edit %:h
+  normal! gg
+  call search('\<'.fname.'\>')
+endfunction
+nnoremap - :<C-U>call <SID>vinegar()<CR>

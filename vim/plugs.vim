@@ -18,7 +18,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-vinegar'
+" Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
@@ -61,7 +61,8 @@ Plug 'vim-scripts/DrawIt'
 Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
-Plug 'cohama/agit.vim', {'on': 'Agit'}
+" Plug 'cohama/agit.vim', {'on': 'Agit'}
+Plug 'junegunn/gv.vim'
 
 if has('nvim')
   Plug 'benekastah/neomake'
@@ -78,7 +79,6 @@ Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp' | Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'kchmck/vim-coffee-script'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'PeterRincker/vim-argumentative'
 Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'mattn/webapi-vim'
@@ -92,6 +92,8 @@ Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'burnettk/vim-angular', {'for': 'javascript'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'racer-rust/vim-racer', {'for': 'rust'}
 
 " NeoVim plugins {{{2
 if has('nvim')

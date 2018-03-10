@@ -67,7 +67,8 @@ set nostartofline
 set fileformat=unix
 set virtualedit=block
 set formatoptions+=tcroqnjl21
-set colorcolumn=80
+set textwidth=80
+set colorcolumn=+1
 set showtabline=2
 
 " Visual Options {{{1
@@ -143,8 +144,10 @@ set t_kB=[Z
 " Get 24 bit colors working in vim (working under tmux)
 let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-set termguicolors
-set term=xterm-256color
+if !has('nvim')
+  set termguicolors
+  set term=xterm-256color
+endif
 if &term =~# '^screen'
   set ttymouse=xterm2
 endif
