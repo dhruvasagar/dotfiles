@@ -10,13 +10,15 @@ if [ $platform = "linux" ]; then
     --with-features=huge \
     --enable-rubyinterp \
     --enable-pythoninterp \
+    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
     --with-python-config-dir=$(/usr/bin/python2.7-config --configdir)
 else
   ./configure \
     --prefix=/usr/local \
     --enable-rubyinterp \
     --enable-pythoninterp \
-    --with-features=huge
+    --with-features=huge \
+    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>"
 fi
 
 make

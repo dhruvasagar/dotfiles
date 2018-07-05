@@ -48,7 +48,7 @@ Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
 
 " Other plugins {{{2
 Plug 'mxw/vim-jsx'
-Plug 'joonty/vdebug'
+" Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
 Plug 'benmills/vimux'
 Plug 'vimwiki/vimwiki'
@@ -113,8 +113,8 @@ Plug 'dhruvasagar/vim-prosession', {'dir': g:my_plugins_path.'vim-prosession'}
 Plug 'dhruvasagar/vim-table-mode', {'dir': g:my_plugins_path.'vim-table-mode'}
 Plug 'dhruvasagar/vim-buffer-history', {'dir': g:my_plugins_path.'vim-buffer-history'}
 Plug 'dhruvasagar/vim-railscasts-theme', {'dir': g:my_plugins_path.'vim-railscasts-theme'}
+" Plug 'dhruvasagar/vim-txtobj-complete', {'dir': g:my_plugins_path.'vim-txtobj-complete'}
 
-Plug g:my_plugins_path . 'vim-txtobj-complete'
 
 " }}}2
 call plug#end()
