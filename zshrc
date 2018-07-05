@@ -75,7 +75,7 @@ PERL_MB_OPT="--install_base \"/Users/dhruvasagar/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/dhruvasagar/perl5"; export PERL_MM_OPT;
 
 export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper_lazy.sh
+[[ -f /usr/local/bin/virtualenvwrapper_lazy ]] && source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # export BROWSER=w3m
 

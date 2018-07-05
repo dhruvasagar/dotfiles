@@ -18,6 +18,7 @@ brew install leiningen
 brew install ruby-build
 brew install rbenv-gem-rehash
 brew install the_silver_searcher
+brew install reattach-to-user-namespace
 
 # gnu tools better than osx defaults
 brew install gawk --with-default-names
@@ -37,9 +38,9 @@ brew cask install typora
 brew cask install dropbox
 brew cask install macdown
 brew cask install evernote
-brew cask install karabiner
 brew cask install spectacle
 brew cask install google-chrome
+brew cask install karabiner-elements
 
 # Terminalisation
 brew install rtv # reddit
