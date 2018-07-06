@@ -47,6 +47,7 @@ Plug 'tpope/vim-cucumber', {'for': 'cucumber'}
 Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
 
 " Other plugins {{{2
+Plug 'w0rp/ale'
 Plug 'mxw/vim-jsx'
 " Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
@@ -64,12 +65,12 @@ Plug 'diepm/vim-rest-console'
 " Plug 'cohama/agit.vim', {'on': 'Agit'}
 Plug 'junegunn/gv.vim'
 
-if has('nvim')
-  Plug 'benekastah/neomake'
-  autocmd! BufWritePost * Neomake
-else
-  Plug 'scrooloose/syntastic'
-endif
+" if has('nvim')
+"   Plug 'benekastah/neomake'
+"   autocmd! BufWritePost * Neomake
+" else
+"   Plug 'scrooloose/syntastic'
+" endif
 
 Plug 'tommcdo/vim-exchange'
 Plug 'elixir-lang/vim-elixir'
@@ -84,7 +85,7 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}
 
-Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': 'GoUpdateBinaries'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'godlygeek/tabular', {'on': 'Tabular'}
 Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
@@ -94,6 +95,10 @@ Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " NeoVim plugins {{{2
 if has('nvim')

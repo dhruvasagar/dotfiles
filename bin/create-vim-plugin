@@ -1,0 +1,28 @@
+#!/bin/sh
+
+command=$(basename $0)
+
+help(){
+  echo "Usage: $command <name>"
+}
+
+createvimplugin(){
+  plugindir="vim-$1"
+  mkdir $plugindir
+  cd $plugindir
+  touch README.md
+  mkdir plugin doc autoload
+  touch doc/$1.txt plugin/$1.vim autoload/$1.vim
+  git init
+  echo "execute 'cd $plugindir' to switch to the new plugin directory"
+}
+
+subcommand=$1
+case $subcommand in
+  '' | '-h' | '--help')
+    help
+    ;;
+  *)
+    createvimplugin $1
+    ;;
+esac

@@ -8,7 +8,8 @@ export VISUAL='vim'
 
 # For directory completion
 export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/oss
-export CDPATH=$CDPATH:$HOME/code/moove
+export CDPATH=$CDPATH:$HOME/code/tarkalabs:$HOME/code/klstr
+export CDPATH=$CDPATH:$HOME/.go/src
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -44,7 +45,7 @@ rmd() {
 # [[ -n "$(npm bin 2>/dev/null)" ]] && export PATH=$(npm bin):$PATH # Add local node_modules binaries to path
 
 # go lang
-export GOPATH=$HOME/.go
+export GOPATH=$HOME/.go:$HOME/code/go
 export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 [[ -f ~/.gvm/scripts/gvm ]] && source ~/.gvm/scripts/gvm
 
@@ -82,3 +83,9 @@ export WORKON_HOME=$HOME/.virtualenvs
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'; fi

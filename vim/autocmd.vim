@@ -43,10 +43,14 @@ augroup Gemfile "{{{1
   autocmd BufWritePost Gemfile Dispatch bundle install
 augroup END
 
+let g:LargeFile = 70000
+function! LargeFile()
+  set ft=
+endfunction
 augroup LargeFiles "{{{1
   au!
 
-  autocmd BufWinEnter * if line2byte(line("$") + 1) > 500000 | syntax clear | endif
+  autocmd BufRead * let f = getfsize(expand('<afile>')) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
 augroup END
 
 if has('nvim')

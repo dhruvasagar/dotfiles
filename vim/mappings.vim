@@ -56,16 +56,16 @@ nnoremap ' `
 
 " Test {{{1
 if has('nvim')
-  nnoremap stl :call neoterm#test#rerun()<CR>
-  nnoremap stf :call neoterm#test#run('file')<CR>
-  nnoremap sta :call neoterm#test#run('all')<CR>
-  nnoremap stt :call neoterm#test#run('current')<CR>
-  nnoremap stc :Ttoggle<CR>
+  nnoremap cil :call neoterm#test#rerun()<CR>
+  nnoremap cif :call neoterm#test#run('file')<CR>
+  nnoremap cia :call neoterm#test#run('all')<CR>
+  nnoremap cit :call neoterm#test#run('current')<CR>
+  nnoremap cic :Ttoggle<CR>
 else
-  nnoremap stl :TestLast<CR>
-  nnoremap stf :TestFile<CR>
-  nnoremap sta :TestSuite<CR>
-  nnoremap stu :TestNearest<CR>
+  nnoremap cil :TestLast<CR>
+  nnoremap cif :TestFile<CR>
+  nnoremap cia :TestSuite<CR>
+  nnoremap cit :TestNearest<CR>
 endif
 
 
@@ -79,7 +79,7 @@ xnoremap g> :Twrite bottom-right<CR>
 
 function! s:vinegar()
   let fname = expand('%:t')
-  edit %:h
+  edit %:p:h
   normal! gg
   call search('\<'.fname.'\>')
 endfunction
