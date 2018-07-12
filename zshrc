@@ -45,7 +45,7 @@ rmd() {
 # [[ -n "$(npm bin 2>/dev/null)" ]] && export PATH=$(npm bin):$PATH # Add local node_modules binaries to path
 
 # go lang
-export GOPATH=$HOME/.go:$HOME/code/go
+export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 [[ -f ~/.gvm/scripts/gvm ]] && source ~/.gvm/scripts/gvm
 
