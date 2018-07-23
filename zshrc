@@ -51,22 +51,8 @@ export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
-  docker-init() {
-    docker_vm=$(docker-machine ls | awk '{print $1}' | sed '1d' | head -1)
-    if [[ -z "docker_vm" ]]; then
-      docker-machine create --driver virtualbox docker
-    else
-      docker-machine start $docker_vm
-    fi
-    eval $(docker-machine env $docker_vm)
-  }
-
-  export NDK_HOME=/usr/local/Cellar/android-ndk/r10e
-  export ANDROID_HOME=~/Library/Android/sdk
-  export STUDIO_JDK=/Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk
-
-  launchctl setenv NDK_HOME "$NDK_HOME"
-  launchctl setenv ANDROID_HOME "$ANDROID_HOME"
+  export ANDROID_NDK_HOME="/usr/local/share/android-ndk"
+  export ANDROID_SDK_HOME="/usr/local/share/android-sdk"
 fi
 
 PATH="/Users/dhruvasagar/perl5/bin${PATH:+:${PATH}}"; export PATH;

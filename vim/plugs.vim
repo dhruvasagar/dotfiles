@@ -49,10 +49,11 @@ Plug 'tpope/vim-classpath', {'for': ['java', 'clojure']}
 " Other plugins {{{2
 Plug 'w0rp/ale'
 Plug 'mxw/vim-jsx'
+Plug 'rakr/vim-one'
 " Plug 'joonty/vdebug'
 Plug 'kana/vim-vspec'
 Plug 'benmills/vimux'
-Plug 'vimwiki/vimwiki'
+Plug 'junegunn/gv.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'janko-m/vim-test'
 Plug 'majutsushi/tagbar'
@@ -62,8 +63,6 @@ Plug 'vim-scripts/DrawIt'
 Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
-" Plug 'cohama/agit.vim', {'on': 'Agit'}
-Plug 'junegunn/gv.vim'
 
 " if has('nvim')
 "   Plug 'benekastah/neomake'
@@ -88,7 +87,6 @@ Plug 'mattn/gist-vim', {'on': 'Gist'}
 Plug 'fatih/vim-go', {'for': 'go', 'do': 'GoUpdateBinaries'}
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'godlygeek/tabular', {'on': 'Tabular'}
-Plug 'thinca/vim-quickrun', {'on': ['QuickRun', '<Plug>(quickrun)', '<Plug>(quickrun-op)']}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 Plug 'burnettk/vim-angular', {'for': 'javascript'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
@@ -118,8 +116,6 @@ Plug 'dhruvasagar/vim-prosession', {'dir': g:my_plugins_path.'vim-prosession'}
 Plug 'dhruvasagar/vim-table-mode', {'dir': g:my_plugins_path.'vim-table-mode'}
 Plug 'dhruvasagar/vim-buffer-history', {'dir': g:my_plugins_path.'vim-buffer-history'}
 Plug 'dhruvasagar/vim-railscasts-theme', {'dir': g:my_plugins_path.'vim-railscasts-theme'}
-" Plug 'dhruvasagar/vim-txtobj-complete', {'dir': g:my_plugins_path.'vim-txtobj-complete'}
-
 
 " }}}2
 call plug#end()
