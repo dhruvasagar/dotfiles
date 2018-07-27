@@ -1,0 +1,4 @@
+#!/bin/sh
+
+location=${1:-"Bangalore"}
+curl -s wttr.in/$location

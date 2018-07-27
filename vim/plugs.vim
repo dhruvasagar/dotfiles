@@ -63,6 +63,7 @@ Plug 'vim-scripts/DrawIt'
 Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
+Plug 'powerman/vim-plugin-AnsiEsc'
 
 " if has('nvim')
 "   Plug 'benekastah/neomake'
