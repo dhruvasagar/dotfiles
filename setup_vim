@@ -23,6 +23,6 @@ if [[ ! -d ~/code/vim_plugins ]]; then
   git clone git@github.com:dhruvasagar/vim-prosession.git
   git clone git@github.com:dhruvasagar/vim-table-mode.git
   git clone git@github.com:dhruvasagar/vim-buffer-history.git
-  git clone git@github.com:dhruvasagar/vim-railscsts-theme.git
+  git clone git@github.com:dhruvasagar/vim-railscasts-theme.git
   cd -
 fi
