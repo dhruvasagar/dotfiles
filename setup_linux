@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 sudo apt-get install jq \
                      zsh \
@@ -6,15 +6,13 @@ sudo apt-get install jq \
                      tmux \
                      weechat \
                      git-flow \
-                     ruby-dev \
                      python-dev \
                      build-essential \
                      haskell-platform \
                      silversearcher-ag
 
 # Dependencies for VIM
-sudo apt-get install ruby-dev \
-                     libxt-dev \
+sudo apt-get install libxt-dev \
                      libx11-dev \
                      libxpm-dev \
                      python-dev \
