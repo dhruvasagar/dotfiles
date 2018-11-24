@@ -2,8 +2,8 @@
 
 # Clone & buildvim
 if [[ ! -d ~/code/vim ]]; then
-  git clone git@github.com:vim/vim.git ~/code/vim
-  cd ~/code/vim
+  git clone git@github.com:vim/vim.git ~/code/github.com/vim/vim
+  cd ~/code/github.com/vim/vim
   ~/dotfiles/bin/buildvim
   cd -
 

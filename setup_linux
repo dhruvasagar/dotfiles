@@ -9,7 +9,7 @@ sudo apt-get install jq \
                      python-dev \
                      build-essential \
                      haskell-platform \
-                     silversearcher-ag
+		     ripgrep
 
 # Dependencies for VIM
 sudo apt-get install libxt-dev \
