@@ -1,1 +1,1 @@
-set path^=./vendor,~/.go/src
+set path^=./vendor

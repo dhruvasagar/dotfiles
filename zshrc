@@ -9,7 +9,7 @@ export VISUAL='vim'
 # For directory completion
 export CDPATH=$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/oss
 export CDPATH=$CDPATH:$HOME/code/tarkalabs:$HOME/code/klstr
-export CDPATH=$CDPATH:$HOME/.go/src
+export CDPATH=$CDPATH:$HOME/code/go/src
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh

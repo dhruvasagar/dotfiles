@@ -14,12 +14,14 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-rbenv'
+Plug 'tpope/vim-apathy'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
 " Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -38,7 +40,7 @@ Plug 'tpope/vim-haml', {'for': 'haml'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-eunuch', {
       \ 'on': [
-      \   'Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir',
+      \   'Unlink', 'Delete', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir',
       \   'Find', 'Locate', 'SudoEdit', 'SudoWrite', 'W'
       \ ]
       \}
@@ -64,14 +66,6 @@ Plug 'avdgaag/vim-phoenix'
 Plug 'digitaltoad/vim-jade'
 Plug 'diepm/vim-rest-console'
 Plug 'powerman/vim-plugin-AnsiEsc'
-
-" if has('nvim')
-"   Plug 'benekastah/neomake'
-"   autocmd! BufWritePost * Neomake
-" else
-"   Plug 'scrooloose/syntastic'
-" endif
-
 Plug 'tommcdo/vim-exchange'
 Plug 'elixir-lang/vim-elixir'
 Plug 'AndrewRadev/switch.vim'
@@ -81,7 +75,6 @@ Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp' | Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'kchmck/vim-coffee-script'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'on': 'Gist'}
@@ -100,11 +93,6 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh',
     \ }
 
-" NeoVim plugins {{{2
-if has('nvim')
-  Plug 'kassio/neoterm'
-endif
-
 " My plugins {{{2
 let g:my_plugins_path = '~/code/vim_plugins/'
 Plug 'groenewege/vim-less', {'dir': g:my_plugins_path.'vim-less'}
@@ -118,6 +106,8 @@ Plug 'dhruvasagar/vim-prosession', {'dir': g:my_plugins_path.'vim-prosession'}
 Plug 'dhruvasagar/vim-table-mode', {'dir': g:my_plugins_path.'vim-table-mode'}
 Plug 'dhruvasagar/vim-buffer-history', {'dir': g:my_plugins_path.'vim-buffer-history'}
 Plug 'dhruvasagar/vim-railscasts-theme', {'dir': g:my_plugins_path.'vim-railscasts-theme'}
+
+Plug 'dhruvasagar/vim-refactor', {'dir': g:my_plugins_path.'vim-refactor'}
 
 " }}}2
 call plug#end()
