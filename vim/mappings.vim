@@ -55,17 +55,12 @@ xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 nnoremap ' `
 
 " Test {{{1
+nnoremap cil :TestLast<CR>
+nnoremap cif :TestFile<CR>
+nnoremap cia :TestSuite<CR>
+nnoremap cit :TestNearest<CR>
 if has('nvim')
-  nnoremap cil :call neoterm#test#rerun()<CR>
-  nnoremap cif :call neoterm#test#run('file')<CR>
-  nnoremap cia :call neoterm#test#run('all')<CR>
-  nnoremap cit :call neoterm#test#run('current')<CR>
   nnoremap cic :Ttoggle<CR>
-else
-  nnoremap cil :TestLast<CR>
-  nnoremap cif :TestFile<CR>
-  nnoremap cia :TestSuite<CR>
-  nnoremap cit :TestNearest<CR>
 endif
 
 
@@ -84,3 +79,6 @@ function! s:vinegar()
   call search('\<'.fname.'\>')
 endfunction
 nnoremap - :<C-U>call <SID>vinegar()<CR>
+
+nnoremap <, :SidewaysLeft<CR>
+nnoremap >, :SidewaysRight<CR>

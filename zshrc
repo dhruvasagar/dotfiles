@@ -38,6 +38,19 @@ rmd() {
   pandoc $1 | lynx -stdin
 }
 
+# Maintain a directory structure with repo domain names
+# eg.) ~/code/github.com, ~/code/bitbucket.org
+#
+# Simply call gitch with repo name such as dhruvasagar/vim-table-mode to clone it
+# while you're within the github.com directory to clone it from github.com
+#
+# eg.) ~/code/github.com $ gitch dhruvasagar/vim-dotoo
+gitc() {
+  src="${PWD##*/}"
+  repo="$1"
+  git clone git@"$src":"$repo".git "$repo"
+}
+
 # nvm
 # export NVM_DIR=~/.nvm
 # NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh

@@ -14,7 +14,6 @@
 [github]
 	user = dhruvasagar
 [alias]
-	st = status -sb
 	purr = pull --rebase
 	ready = rebase -i @{u}
 	stats = shortlog -sn --no-merges
