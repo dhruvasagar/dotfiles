@@ -22,5 +22,5 @@ else
     --with-python-config-dir=$(/usr/bin/python-config --includes | awk '{print $2}')
 fi
 
-make
+sudo make
 sudo make install
