@@ -18,7 +18,8 @@ else
     --enable-rubyinterp \
     --enable-pythoninterp \
     --with-features=huge \
-    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>"
+    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
+    --with-python-config-dir=$(/usr/bin/python-config --includes | awk '{print $2}')
 fi
 
 make
