@@ -4,10 +4,10 @@
 *tags
 .netrwhist
 tmp/*
+pack/*
 undo/*
 snips/*
 backup/*
 bundle/*
-plugged/*
 session/*
 sessions/*

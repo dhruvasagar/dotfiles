@@ -4,7 +4,7 @@ set nocp
 let g:vim_home = get(g:, 'vim_home', expand('~/.vim/'))
 
 " NeoBundle {{{1
-exec 'source' g:vim_home.'/plugs.vim'
+exec 'source' g:vim_home.'/packs.vim'
 
 " Load all vim configs {{{1
 let config_list = [
