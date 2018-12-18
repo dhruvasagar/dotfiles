@@ -50,7 +50,10 @@ gitc() {
   repo="$1"
   git clone git@"$src":"$repo".git "$repo"
 }
-
+gocover () {
+  t="/tmp/go-cover.$$.tmp"
+  go test -coverprofile=$t $@ && go tool cover -html=$t && unlink $t
+}
 # nvm
 # export NVM_DIR=~/.nvm
 # NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh
