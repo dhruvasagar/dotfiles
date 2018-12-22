@@ -70,13 +70,14 @@ function! s:PackInit()
 
   call minpac#add('fatih/vim-go', {'do': 'GoUpdateBinaries'})
   call minpac#add('sjl/gundo.vim')
+  call minpac#add('junegunn/goyo.vim')
   call minpac#add('godlygeek/tabular')
+  call minpac#add('rust-lang/rust.vim')
   call minpac#add('derekwyatt/vim-scala')
   call minpac#add('burnettk/vim-angular')
+  call minpac#add('racer-rust/vim-racer')
   call minpac#add('pangloss/vim-javascript')
   call minpac#add('guns/xterm-color-table.vim')
-  call minpac#add('rust-lang/rust.vim')
-  call minpac#add('racer-rust/vim-racer')
   call minpac#add('autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': {-> system('bash install.sh')},

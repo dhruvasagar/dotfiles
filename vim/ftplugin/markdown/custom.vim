@@ -12,5 +12,6 @@ let g:markdown_fenced_languages = [
       \ 'zsh',
       \ 'sh',
       \ 'sql',
-      \ 'go'
+      \ 'go',
+      \ 'vim'
       \ ]

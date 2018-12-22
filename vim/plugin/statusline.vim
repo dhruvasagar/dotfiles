@@ -61,6 +61,24 @@ augroup StatusLine
   autocmd WinEnter,CursorHold * call <SID>StatusLineClearVars()
 augroup END
 
+function! StatusLineALE() abort
+  if !exists(':ALE*')
+    return ''
+  endif
+  let l:s = ''
+  let ale = ale#statusline#Count(bufnr('%'))
+  if ale['error'] > 0
+    let l:s .= 'E: ' . ale['error']
+  endif
+  if ale['warning'] > 0
+    let l:s .= 'W: ' . ale['warning']
+  endif
+  if !empty(l:s)
+    return '[ALE '.l:s.']'
+  endif
+  return ''
+endfunction
+
 set statusline=%(\ %{fugitive#head()}\ \|%)
 
 if has('nvim')
@@ -76,7 +94,7 @@ set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 " if has('nvim')
 "   set statusline+=%2*%(%{neomake#statusline#LoclistStatus()}\ %)%*
 " else
-"   set statusline+=%2*%(%{SyntasticStatuslineFlag()}\ %)%*
+set statusline+=%2*%(%{StatusLineALE()}\ %)%*
 " endif
 set statusline+=%1*%{StatusLineFileName()}\ %*
 
@@ -89,18 +107,3 @@ set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)
 set statusline+=%(%3p%%\ \|\ %)
 set statusline+=%3l(%L):%-3c
-
-
-" Bold
-hi User1 guifg=#eeeeee guibg=#606060 gui=bold ctermfg=255 ctermbg=241 cterm=bold
-" Yellow
-hi User2 guifg=#FFAF00 guibg=#606060 gui=bold ctermfg=214 ctermbg=241 cterm=bold
-" Green
-hi User3 guifg=#5fff00 guibg=#606060 gui=bold ctermfg=82 ctermbg=241 cterm=bold
-" Red
-hi User4 guifg=#870000 guibg=#606060 gui=bold ctermfg=88 ctermbg=241 cterm=bold
-hi User5 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User6 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User7 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User8 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User9 guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
