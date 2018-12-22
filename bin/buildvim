@@ -2,7 +2,7 @@
 
 platform=$(uname | awk '{print tolower($0)}')
 
-make distclean
+sudo make distclean
 
 if [ $platform = "linux" ]; then
   ./configure \
