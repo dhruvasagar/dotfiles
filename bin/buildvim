@@ -4,14 +4,14 @@ platform=$(uname | awk '{print tolower($0)}')
 
 sudo make distclean
 
-if [ $platform = "linux" ]; then
+if [ "$platform" = "linux" ]; then
   ./configure \
     --with-x \
     --with-features=huge \
     --enable-rubyinterp \
     --enable-pythoninterp \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir=$(/usr/bin/python2.7-config --configdir)
+    --with-python-config-dir="$(/usr/bin/python2.7-config --configdir)"
 else
   ./configure \
     --prefix=/usr/local \
@@ -19,7 +19,7 @@ else
     --enable-pythoninterp \
     --with-features=huge \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir=$(/usr/bin/python-config --includes | awk '{print $2}')
+    --with-python-config-dir="$(/usr/local/bin/python2.7-config --ldflags | awk '{print $1}' | tr -d '\-L')"
 fi
 
 sudo make
