@@ -1,28 +1,30 @@
 #!/bin/bash
 
 # Clone & buildvim
-if [[ ! -d ~/code/vim ]]; then
-  git clone git@github.com:vim/vim.git ~/code/github.com/vim/vim
-  cd ~/code/github.com/vim/vim
+if [[ ! -d ~/code/oss/vim ]]; then
+  git clone git@github.com:vim/vim.git ~/code/oss/vim
+  cd ~/code/oss/vim
   ~/dotfiles/bin/buildvim
-  cd -
 
-  vim +PlugInstall +qall
+  vim +PackUpdate +qall
 fi
 
 # Clone my vim plugins
-if [[ ! -d ~/code/vim_plugins ]]; then
-  mkdir -p ~/code/vim_plugins
-  cd ~/code/vim_plugins
+if [[ ! -d ~/dotfiles/vim/pack/local ]]; then
+  mkdir -p "~/dotfiles/vim/pack/local/opt"
+  mkdir -p "~/dotfiles/vim/pack/local/start"
+
+  cd "~/dotfiles/vim/pack/local/start"
   git clone git@github.com:groenewege/vim-less.git
   git clone git@github.com:dhruvasagar/vim-marp.git
   git clone git@github.com:dhruvasagar/vim-zoom.git
   git clone git@github.com:dhruvasagar/vim-dotoo.git
   git clone git@github.com:dhruvasagar/vim-testify.git
   git clone git@github.com:dhruvasagar/vim-open-url.git
-  git clone git@github.com:dhruvasagar/vim-prosession.git
   git clone git@github.com:dhruvasagar/vim-table-mode.git
   git clone git@github.com:dhruvasagar/vim-buffer-history.git
   git clone git@github.com:dhruvasagar/vim-railscasts-theme.git
-  cd -
+
+  cd "~/dotfiles/vim/pack/local/opt"
+  git clone git@github.com:dhruvasagar/vim-prosession.git
 fi

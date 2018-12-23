@@ -7,9 +7,15 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 # For directory completion
-export CDPATH=.:$HOME:$HOME/code:$HOME/code/vim_plugins:$HOME/code/oss
-export CDPATH=$CDPATH:$HOME/code/tarkalabs:$HOME/code/klstr
-export CDPATH=$CDPATH:$HOME/code/go/src
+CDPATH=.:$HOME:$HOME/code
+CDPATH=$CDPATH:$HOME/code/oss
+CDPATH=$CDPATH:$HOME/code/go/src
+CDPATH=$CDPATH:$HOME/code/tarkalabs
+CDPATH=$CDPATH:$HOME/code/dhruvasagar
+CDPATH=$CDPATH:$HOME/code/railsfactory
+CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/local/opt
+CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/local/start
+export CDPATH
 
 # Source Prezto.
 [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
@@ -38,18 +44,6 @@ rmd() {
   pandoc $1 | lynx -stdin
 }
 
-# Maintain a directory structure with repo domain names
-# eg.) ~/code/github.com, ~/code/bitbucket.org
-#
-# Simply call gitch with repo name such as dhruvasagar/vim-table-mode to clone it
-# while you're within the github.com directory to clone it from github.com
-#
-# eg.) ~/code/github.com $ gitch dhruvasagar/vim-dotoo
-gitc() {
-  src="${PWD##*/}"
-  repo="$1"
-  git clone git@"$src":"$repo".git "$repo"
-}
 gocover () {
   t="/tmp/go-cover.$$.tmp"
   go test -coverprofile=$t $@ && go tool cover -html=$t && unlink $t

@@ -82,3 +82,5 @@ nnoremap - :<C-U>call <SID>vinegar()<CR>
 
 nnoremap <, :SidewaysLeft<CR>
 nnoremap >, :SidewaysRight<CR>
+
+nnoremap <silent> go :Goyo<CR>
