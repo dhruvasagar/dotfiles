@@ -23,6 +23,11 @@ export CDPATH
 # Customize to your needs...
 export PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
 
+# Add cabal bins to PATH
+if [[ -d ~/.cabal/bin ]]; then
+  export PATH=$HOME/.cabal/bin:$PATH
+fi
+
 # rbenv
 [[ -n "$(rbenv 2>/dev/null)" ]] && eval "$(rbenv init -)"
 export PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH

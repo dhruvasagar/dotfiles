@@ -6,7 +6,7 @@
 
 (setq inhibit-splash-screen t)
 
-(global-linum-mode)
+(global-display-line-numbers-mode)
 
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 
