@@ -91,3 +91,7 @@ if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then sourc
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'; fi
+
+npm-do() {
+  (PATH=$(npm bin):$PATH; eval $@;)
+}

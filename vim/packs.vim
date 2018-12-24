@@ -79,6 +79,8 @@ function! s:PackInit()
   call minpac#add('racer-rust/vim-racer')
   call minpac#add('pangloss/vim-javascript')
   call minpac#add('guns/xterm-color-table.vim')
+  call minpac#add('leafgarland/typescript-vim')
+  call minpac#add('purescript-contrib/purescript-vim')
   call minpac#add('autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': {-> system('bash install.sh')},
