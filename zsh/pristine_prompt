@@ -1,7 +1,7 @@
 # vim: ft=zsh
 
 asdf-version() {
-  if (( ! $+commands[asdf] )); then
+  if [ ! $+commands[asdf] ]; then
     return
   fi
   asdf current $1 | awk '{print $1}' | sed "s/^/ ${1:0:4}:/"
@@ -20,7 +20,7 @@ git-change-summary() {
     return
   fi
   changes=$(git status --porcelain | head -1 2>/dev/null)
-  if [[ ! -z "$changes" ]]; then
+  if [ ! -z "$changes" ]; then
     echo " %F{red}✗%f"
   else
     echo " %F{green}✔%f"
@@ -32,7 +32,7 @@ git-info() {
     return
   fi
   ref=$(command git symbolic-ref HEAD 2>/dev/null)
-  if [[ -n "$ref" ]]; then
+  if [ -n "$ref" ]; then
     echo " on %F{magenta}${ref#refs/heads/}%f$(git-change-summary)"
   fi
 

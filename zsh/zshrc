@@ -35,12 +35,12 @@ export MANPATH
 export TERM=xterm-256color
 
 # Add cabal bins to PATH
-if [[ -d ~/.cabal/bin ]]; then
+if [ -d ~/.cabal/bin ]; then
   export PATH=$HOME/.cabal/bin:$PATH
 fi
 
 # cassandra
-if [[ -d "$HOME/cassandra" ]]; then
+if [ -d "$HOME/cassandra" ]; then
   export CASSANDRA_HOME=~/cassandra
   export PATH=$CASSANDRA_HOME/bin:$PATH
 fi
@@ -72,7 +72,7 @@ if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
 fi
 
-if [[ -d "$HOME/.asdf" ]]; then
+if [ -d "$HOME/.asdf" ]; then
   . "$HOME/.asdf/asdf.sh"
   # completions require compdef which slows zsh a bit
   # . "$HOME/.asdf/completions/asdf.bash"
