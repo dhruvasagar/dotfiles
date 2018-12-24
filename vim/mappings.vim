@@ -84,5 +84,3 @@ nnoremap <, :SidewaysLeft<CR>
 nnoremap >, :SidewaysRight<CR>
 
 nnoremap <silent> go :Goyo<CR>
-
-inoremap <silent><expr> <c-space> coc#refresh()
