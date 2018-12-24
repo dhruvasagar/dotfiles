@@ -46,7 +46,7 @@ if [[ -d "$HOME/cassandra" ]]; then
 fi
 
 # go lang
-if command go 2>/dev/null; then
+if [ $+commands[go] ]; then
   export GOPATH=$HOME/code/go
   export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 fi
@@ -58,7 +58,7 @@ if [[ "$platform" == "darwin" ]]; then
 fi
 
 # Commented because very slow
-# if [ $commands[kubectl] ]; then
+# if [ $+commands[kubectl] ]; then
 #   source <(kubectl completion zsh)
 # fi
 
