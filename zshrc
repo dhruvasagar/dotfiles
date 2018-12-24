@@ -19,7 +19,8 @@ CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/local/start
 export CDPATH
 
 # Source Prezto.
-[[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
+# [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
+. ~/dotfiles/prompt_pristine_setup
 
 # Customize to your needs...
 export PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
@@ -28,10 +29,6 @@ export PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/loc
 if [[ -d ~/.cabal/bin ]]; then
   export PATH=$HOME/.cabal/bin:$PATH
 fi
-
-# rbenv
-[[ -n "$(rbenv 2>/dev/null)" ]] && eval "$(rbenv init -)"
-export PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
 
 # TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color
@@ -54,11 +51,6 @@ gocover () {
   t="/tmp/go-cover.$$.tmp"
   go test -coverprofile=$t $@ && go tool cover -html=$t && unlink $t
 }
-# nvm
-# export NVM_DIR=~/.nvm
-# NVM_SH=$(brew --prefix nvm 2>/dev/null || echo $NVM_DIR)/nvm.sh
-# [[ -f $NVM_SH ]] && source $NVM_SH
-# [[ -n "$(npm bin 2>/dev/null)" ]] && export PATH=$(npm bin):$PATH # Add local node_modules binaries to path
 
 # go lang
 export GOPATH=$HOME/code/go
@@ -95,3 +87,7 @@ if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
 npm-do() {
   (PATH=$(npm bin):$PATH; eval $@;)
 }
+if [[ -d "$HOME/.asdf" ]]; then
+  . "$HOME/.asdf/asdf.sh"
+  . "$HOME/.asdf/completions/asdf.bash"
+fi
