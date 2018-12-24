@@ -18,16 +18,16 @@ MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 export MANPATH
 
 # Setup CDPATH for directory completion
-. ~/dotfiles/zsh/cdpath.zsh
+. ~/dotfiles/zsh/cdpath
 
 # Setup Prompt
-. ~/dotfiles/zsh/prestine_prompt.zsh
+. ~/dotfiles/zsh/pristine_prompt
 
 # Setup functions
-. ~/dotfiles/zsh/funcs.zsh
+. ~/dotfiles/zsh/funcs
 
 # Setup aliases
-. ~/dotfiles/zsh/aliases.zsh
+. ~/dotfiles/zsh/aliases
 
 # TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color

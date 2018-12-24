@@ -1,3 +1,5 @@
+# vim: ft=zsh
+
 CDPATH=.:$HOME:$HOME/code
 CDPATH=$CDPATH:$HOME/code/oss
 CDPATH=$CDPATH:$HOME/code/go/src

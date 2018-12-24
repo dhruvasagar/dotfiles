@@ -1,9 +1,16 @@
+# vim: ft=zsh
+
+mkdcd () {
+  [[ -n "$1" ]] && mkdir -p "$1" && builtin cd "$1"
+}
+
+slit () {
+  awk "{ print ${(j:,:):-\$${^@}} }"
+}
+
 tssh () {
   ssh $1 -t 'tmux has-session && tmux attach -t dhruva || tmux new -s dhruva'
 }
-autoload -Uz compinit
-compinit
-compdef _ssh tssh=ssh
 
 go-cover () {
   t="/tmp/go-cover.$$.tmp"
