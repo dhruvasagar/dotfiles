@@ -1,4 +1,7 @@
 asdf-version() {
+  if ! command asdf 2>/dev/null; then
+    return
+  fi
   asdf current $1 | awk '{print $1}' | sed "s/^/ ${1}-/"
 }
 ruby-version() {

@@ -1,5 +1,7 @@
 stty -ixon
 
+bindkey -e
+
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
@@ -20,7 +22,7 @@ export CDPATH
 
 # Source Prezto.
 # [[ -f ~/.zprezto/init.zsh ]] && source ~/.zprezto/init.zsh
-. ~/dotfiles/prompt_pristine_setup
+. ~/dotfiles/prestine_prompt.zsh
 
 # Customize to your needs...
 export PATH=$HOME/bin:$HOME/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
@@ -41,6 +43,8 @@ export PATH=$CASSANDRA_HOME/bin:$PATH
 tssh() {
   ssh $1 -t 'tmux has-session && tmux attach -t dhruva || tmux new -s dhruva'
 }
+autoload -Uz compinit
+compinit
 compdef _ssh tssh=ssh
 
 rmd() {
