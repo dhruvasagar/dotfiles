@@ -39,7 +39,6 @@ function! s:PackInit()
   " Other plugins {{{2
   call minpac#add('w0rp/ale')
   call minpac#add('mxw/vim-jsx')
-  call minpac#add('rakr/vim-one')
   call minpac#add('kana/vim-vspec')
   call minpac#add('benmills/vimux')
   call minpac#add('junegunn/gv.vim')

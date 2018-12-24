@@ -4,7 +4,7 @@ asdf-version() {
   if (( ! $+commands[asdf] )); then
     return
   fi
-  asdf current $1 | awk '{print $1}' | sed "s/^/ ${1}-/"
+  asdf current $1 | awk '{print $1}' | sed "s/^/ ${1:0:4}:/"
 }
 
 ruby-version() {

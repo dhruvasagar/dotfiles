@@ -19,12 +19,11 @@ mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
 ln -s ~/.vim $XDG_CONFIG_HOME/nvim
 
 ln -s ~/dotfiles/vim ~/.config/nvim
-ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
+ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/jshintrc ~/.jshintrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/mutt ~/.mutt
 
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template
