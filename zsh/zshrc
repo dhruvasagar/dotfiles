@@ -1,6 +1,11 @@
-# zmodload zsh/zprof
+if [[ "$ZPROF" = true ]]; then
+  zmodload zsh/zprof
+fi
 
 stty -ixon
+
+autoload -Uz compinit
+compinit
 
 bindkey -e
 
@@ -18,6 +23,9 @@ PATH=$HOME/bin:$PATH
 export PATH
 MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 export MANPATH
+
+# Setup zsh styles
+. ~/dotfiles/zsh/zstyles
 
 # Setup CDPATH for directory completion
 . ~/dotfiles/zsh/cdpath
@@ -78,4 +86,6 @@ if [ -d "$HOME/.asdf" ]; then
   # . "$HOME/.asdf/completions/asdf.bash"
 fi
 
-# zprof
+if [[ "$ZPROF" = true ]]; then
+  zprof
+fi

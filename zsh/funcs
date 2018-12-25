@@ -20,3 +20,11 @@ go-cover () {
 npm-do() {
   (PATH=$(npm bin):$PATH; eval $@;)
 }
+
+timezsh() {
+  for i in $(seq 1 10); do /usr/bin/time $SHELL -i -c exit; done
+}
+
+profzsh() {
+  ZPROF=true zsh -i -c exit
+}
