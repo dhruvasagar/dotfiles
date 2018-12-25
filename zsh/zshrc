@@ -15,14 +15,11 @@ export LANG="en_US.UTF-8"
 export EDITOR='vim'
 export VISUAL='vim'
 
+# Setup history
+. ~/dotfiles/zsh/hist
+
 # Setup PATH
-PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-PATH=/usr/local/bin:/usr/local/sbin:$PATH
-PATH=$HOME/dotfiles/bin:$PATH
-PATH=$HOME/bin:$PATH
-export PATH
-MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
-export MANPATH
+. ~/dotfiles/zsh/paths
 
 # Setup zsh styles
 . ~/dotfiles/zsh/zstyles

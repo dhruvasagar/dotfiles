@@ -1,0 +1,9 @@
+# vim: ft=zsh
+
+PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=$HOME/dotfiles/bin:$PATH
+PATH=$HOME/bin:$PATH
+export PATH
+MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+export MANPATH
