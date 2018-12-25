@@ -29,3 +29,5 @@ if [ $+commands[python3] ]; then
 else
   alias http-serve='python -m SimpleHTTPServer'
 fi
+
+alias grep='grep --color=auto'
