@@ -22,9 +22,11 @@ npm-do() {
 }
 
 timezsh() {
-  for i in $(seq 1 10); do /usr/bin/time $SHELL -i -c exit; done
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
 }
 
 profzsh() {
-  ZPROF=true zsh -i -c exit
+  shell=${1-$SHELL}
+  ZPROF=true $shell -i -c exit
 }
