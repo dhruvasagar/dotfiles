@@ -1,6 +1,5 @@
 #!/bin/bash
 
-brew install hub
 brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
 
@@ -9,15 +8,10 @@ brew install nvm
 brew install nmap
 brew install tmux
 brew install lynx
-brew install rbenv
 brew install pandoc
 brew install ripgrep
 brew install weechat
-brew install git-flow
 brew install leiningen
-brew install ruby-build
-brew install rbenv-gem-rehash
-brew install the_silver_searcher
 brew install reattach-to-user-namespace
 
 # gnu tools better than osx defaults
@@ -36,12 +30,6 @@ brew cask install iterm2
 brew cask install skitch
 brew cask install typora
 brew cask install dropbox
-brew cask install macdown
-brew cask install evernote
 brew cask install spectacle
 brew cask install google-chrome
 brew cask install karabiner-elements
-
-# Terminalisation
-brew install rtv # reddit
-sudo pip install rainbowstream
