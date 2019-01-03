@@ -36,6 +36,9 @@ export VISUAL='vim'
 # Setup aliases
 . ~/dotfiles/zsh/aliases
 
+# Setup bindkeys
+. ~/dotfiles/zsh/bindkeys
+
 # TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color
 

@@ -1,6 +1,7 @@
 # vim: ft=zsh
 
 setopt autocd
+setopt autopushd
 
 CDPATH=.:$HOME:$HOME/code
 CDPATH=$CDPATH:$HOME/code/oss
