@@ -65,10 +65,13 @@ if [[ "$platform" == "darwin" ]]; then
   export ANDROID_SDK_HOME="/usr/local/share/android-sdk"
 fi
 
-# Commented because very slow
-# if [ $+commands[kubectl] ]; then
-#   source <(kubectl completion zsh)
-# fi
+function kubectl() {
+  if ! type __start_kubectl >/dev/null 2>&1; then
+    source <(command kubectl completion zsh)
+  fi
+
+  command kubectl "$@"
+}
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then
@@ -82,8 +85,7 @@ fi
 
 if [ -d "$HOME/.asdf" ]; then
   . "$HOME/.asdf/asdf.sh"
-  # completions require compdef which slows zsh a bit
-  # . "$HOME/.asdf/completions/asdf.bash"
+  . "$HOME/.asdf/completions/asdf.bash"
 fi
 
 if [[ "$ZPROF" = true ]]; then
