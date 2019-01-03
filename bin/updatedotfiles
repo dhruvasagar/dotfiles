@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+cd ~/dotfiles
+git pull origin master
+
+[[ "$ZSH_NAME" = "zsh" ]] && echo "reloading ~/.zshrc" && source ~/.zshrc
+[[ -n "$TMUX" ]] && echo "reloading ~/.tmux.conf" && tmux source-file ~/.tmux.conf
