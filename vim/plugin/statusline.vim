@@ -82,7 +82,7 @@ function! StatusLineALE() abort
   return ''
 endfunction
 
-set statusline=%(\ %5*%{zoom#statusline()}%*\ \|\ %)
+set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
 set statusline+=%(\ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*%)\|\ %)
 set statusline+=%(%r%m\ %)
