@@ -65,8 +65,8 @@ function! s:PackInit()
   call minpac#add('kchmck/vim-coffee-script')
   call minpac#add('AndrewRadev/splitjoin.vim')
 
-  call minpac#add('mattn/webapi-vim')
   call minpac#add('mattn/gist-vim')
+  call minpac#add('mattn/webapi-vim')
 
   call minpac#add('fatih/vim-go', {'do': 'GoUpdateBinaries'})
   call minpac#add('sjl/gundo.vim')
@@ -87,6 +87,6 @@ function! s:PackInit()
   " }}}2
 endfunction
 
-command! PackUpdate call s:PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
-command! PackClean  call s:PackInit() | call minpac#clean()
-command! PackStatus call s:PackInit() | call minpac#status()
+command! PackUpdate source ~/.vim/packs.vim | call s:PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  source ~/.vim/packs.vim | call s:PackInit() | call minpac#clean()
+command! PackStatus source ~/.vim/packs.vim | call s:PackInit() | call minpac#status()
