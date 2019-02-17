@@ -55,12 +55,12 @@ xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 nnoremap ' `
 
 " Test {{{1
-nnoremap cil :TestLast<CR>
-nnoremap cif :TestFile<CR>
-nnoremap cia :TestSuite<CR>
-nnoremap cit :TestNearest<CR>
+nnoremap cul :TestLast<CR>
+nnoremap cuf :TestFile<CR>
+nnoremap cua :TestSuite<CR>
+nnoremap cut :TestNearest<CR>
 if has('nvim')
-  nnoremap cic :Ttoggle<CR>
+  nnoremap cuc :Ttoggle<CR>
 endif
 
 

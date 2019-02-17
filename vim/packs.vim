@@ -43,10 +43,12 @@ function! s:PackInit()
   call minpac#add('benmills/vimux')
   call minpac#add('junegunn/gv.vim')
   call minpac#add('janko-m/vim-test')
-  call minpac#add('SirVer/ultisnips')
   call minpac#add('majutsushi/tagbar')
   " call minpac#add('neoclide/coc.nvim', {'do': 'call coc#util#install()'})
+
+  call minpac#add('SirVer/ultisnips')
   call minpac#add('honza/vim-snippets')
+
   call minpac#add('ctrlpvim/ctrlp.vim')
   call minpac#add('wellle/targets.vim')
   call minpac#add('vim-scripts/DrawIt')
