@@ -24,7 +24,7 @@ function! s:search(type, ...)
 endfunction
 
 nnoremap <silent> g/ :set opfunc=<SID>search<CR>g@
-xnoremap <silent> g/ :<C-U>call Search(visualmode(), 1)<CR>
+xnoremap <silent> g/ :<C-U>call <SID>search(visualmode(), 1)<CR>
 
 xnoremap <silent> * <Esc>/\v<<C-R>=<SID>Vword()<CR>><CR>
 xnoremap <silent> g* <Esc>/\v<C-R>=<SID>Vword()<CR><CR>

@@ -4,6 +4,7 @@ let g:LanguageClient_serverCommands = {
       \ 'javascript.jsx': ['javascript-typescript-stdio'],
       \ 'typescript': ['javascript-typescript-stdio'],
       \ }
+let g:LanguageClient_diagnosticsList = "Disabled"
 
 function! LC_maps()
   if has_key(g:LanguageClient_serverCommands, &filetype)

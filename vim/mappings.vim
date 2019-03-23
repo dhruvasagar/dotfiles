@@ -60,7 +60,7 @@ nnoremap cuf :TestFile<CR>
 nnoremap cua :TestSuite<CR>
 nnoremap cut :TestNearest<CR>
 if has('nvim')
-  nnoremap cuc :Ttoggle<CR>
+  nnoremap cuc :botright Ttoggle<CR>
 endif
 
 

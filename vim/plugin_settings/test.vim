@@ -1,8 +1,7 @@
 if has('nvim')
   let test#strategy = 'neoterm'
 else
-  let test#strategy = 'vimux'
-  let g:VimuxOrientation = 'h'
+  let test#strategy = 'vimterminal'
 endif
 
 let test#ruby#rspec#options = {
