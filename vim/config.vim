@@ -52,6 +52,7 @@ set spellsuggest=best,5
 
 " Formatting Options {{{1
 " set nowrap
+set showcmd
 set conceallevel=1
 set linebreak
 set breakindent
