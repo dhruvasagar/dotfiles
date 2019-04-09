@@ -1,3 +1,4 @@
 {
-  "coc.preferences.autoTrigger": "trigger"
+  "suggest.autoTrigger": "none",
+  "suggest.minTriggerInputLength": 2
 }

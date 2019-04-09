@@ -85,10 +85,12 @@ function! s:PackInit()
   call minpac#add('guns/xterm-color-table.vim')
   call minpac#add('leafgarland/typescript-vim')
   call minpac#add('purescript-contrib/purescript-vim')
-  call minpac#add('autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': {-> system('bash install.sh')},
-        \ })
+  call minpac#add('neoclide/coc.nvim', {'do': { -> 'call coc#util#install()'}})
+  call minpac#add('Lenovsky/nuake')
+  " call minpac#add('autozimu/LanguageClient-neovim', {
+  "       \ 'branch': 'next',
+  "       \ 'do': {-> system('bash install.sh')},
+  "       \ })
   " }}}2
 endfunction
 
