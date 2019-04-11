@@ -1,6 +1,6 @@
 #!/bin/sh
 
-command=$(basename $0)
+command=$(basename "$0")
 
 help(){
   echo "Usage: $command <name>"
@@ -8,11 +8,11 @@ help(){
 
 createvimplugin(){
   plugindir="vim-$1"
-  mkdir $plugindir
-  cd $plugindir
+  mkdir "$plugindir"
+  cd "$plugindir" || return
   touch README.md
   mkdir plugin doc autoload
-  touch doc/$1.txt plugin/$1.vim autoload/$1.vim
+  touch doc/"$1".txt plugin/"$1".vim autoload/"$1".vim
   git init
   echo "execute 'cd $plugindir' to switch to the new plugin directory"
 }
@@ -23,6 +23,6 @@ case $subcommand in
     help
     ;;
   *)
-    createvimplugin $1
+    createvimplugin "$1"
     ;;
 esac
