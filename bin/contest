@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+set -e
+
+info () {
+  tput setaf 6; echo "$1"; tput sgr0
+}
+
+error () {
+  tput setaf 1; (>&2 echo "$1"); tput sgr0
+}
+
+success () {
+  tput setaf 2; echo "$1"; tput sgr0
+}
+
+quit () {
+  usage
+  exit 1
+}
+
+usage () {
+  cat <<EOM
+  contest v0.1
+  Dhruva Sagar <dhruva.sagar@gmail.com>
+
+  Scaffolds files for solving a new contest problem
+
+  USAGE:
+    $0 [COMMAND] [ARGS]
+
+  COMMANDS:
+    create
+      Scaffolds all the files in a new directory for the given programming
+      language.
+
+      Examples:
+        $0 create <LANG> <NAME>
+
+    help
+      Prints this usage information.
+EOM
+}
+
+TEMPLATE_DIR="${HOME}/dotfiles/templates"
+
+create_project () {
+  extn="$1"
+  name="$2"
+  cd "$name"
+  if [ -f "${TEMPLATE_DIR}/file.${extn}" ]; then
+    cp "${TEMPLATE_DIR}/file.${extn}" "${name}.${extn}"
+  elif [ -d "${TEMPLATE_DIR}/${extn}" ]; then
+    cp -R "${TEMPLATE_DIR}/shared/." .
+    cp -R "${TEMPLATE_DIR}/${extn}/." .
+    mv "file.${extn}" "${name}.${extn}"
+    sed -i "s/{{name}}/\u${name}/g" ./*
+  fi
+}
+
+create () {
+  lang="$1"
+  if [ -z "$lang" ]; then
+    quit
+  fi
+  name="$2"
+  if [ -z "$name" ]; then
+    quit
+  fi
+  name="$2"
+  mkdir -p "$name"
+  create_project "$lang" "$name"
+}
+
+COMMAND=$1
+case "$COMMAND" in
+  create)
+    create "${@:2}"
+    ;;
+  help)
+    usage
+    ;;
+  *)
+    quit
+esac
