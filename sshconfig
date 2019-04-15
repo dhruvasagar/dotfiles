@@ -2,6 +2,7 @@
 
 IdentityFile ~/.ssh/id_rsa
 ServerAliveInterval 240
+Include configs/*
 
 Host bitbucket.org
 HostName bitbucket.org
