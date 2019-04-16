@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Install asdf
+if [[ ! -d ~/.asdf ]]; then
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+fi

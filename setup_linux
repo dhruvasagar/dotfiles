@@ -4,12 +4,10 @@ sudo apt-get install jq \
                      zsh \
                      nmap \
                      tmux \
+                     ripgrep \
                      weechat \
                      git-flow \
-                     python-dev \
-                     build-essential \
-                     haskell-platform \
-		     ripgrep
+                     build-essential
 
 # Dependencies for VIM
 sudo apt-get install libxt-dev \
@@ -19,8 +17,3 @@ sudo apt-get install libxt-dev \
                      libncurses-dev
 
 [[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
-
-# Install asdf
-if [[ ! -d ~/.asdf ]]; then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-fi
