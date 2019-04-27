@@ -10,15 +10,15 @@ rm -rf ~/.vim \
        ~/.tmux.conf \
        ~/.gitconfig \
        ~/.ssh/config \
+       ~/.tridactylrc \
        ~/.gitignore_global \
        ~/.gitcommit_template
 
 ln -s ~/dotfiles/vim ~/.vim
 
 mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
-ln -s ~/.vim "${XDG_CONFIG_HOME}/nvim"
+ln -s ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 
-ln -s ~/dotfiles/vim ~/.config/nvim
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
@@ -27,6 +27,7 @@ ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 # ln -s ~/dotfiles/git_template ~/.git_template
+ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 

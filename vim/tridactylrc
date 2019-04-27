@@ -4,3 +4,5 @@ set searchurls.wd  https://en.wiktionary.org/wiki/?search=%s
 
 set yankto both
 set putfrom selection
+
+autocmd DocStart mail.google.com mode ignore

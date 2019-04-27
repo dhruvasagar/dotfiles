@@ -1,18 +1,10 @@
 # vim: ft=zsh
 
-asdf-version() {
+asdf-current-info() {
   if [ ! $+commands[asdf] ]; then
     return
   fi
-  asdf current $1 | awk '{print $1}' | sed "s/^/ ${1:0:4}:/"
-}
-
-ruby-version() {
-  asdf-version ruby
-}
-
-node-version() {
-  asdf-version nodejs
+  asdf current 2>&1 | awk '{print $1":"$2","}' | tr '\n' ' ' | sed 's/,\s$/\n/'
 }
 
 git-change-summary() {
@@ -40,4 +32,4 @@ git-info() {
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%M%f in %F{green}%~%f$(git-info)
 %F{yellow}$%f '
-RPROMPT='%F{red}$(node-version),$(ruby-version)'
+RPROMPT='%F{red}$(asdf-current-info)'

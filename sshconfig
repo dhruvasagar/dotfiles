@@ -20,6 +20,12 @@ HostName dhruvasagar.com
 User dhruvasagar
 RemoteForward 9022 localhost:22
 
+Host blog-socks
+HostName dhruvasagar.com
+User dhruvasagar
+RequestTTY no
+DynamicForward 5000
+
 Host pi
 HostName 192.168.1.104
 User pi
