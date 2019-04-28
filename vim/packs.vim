@@ -92,6 +92,19 @@ function! s:PackInit()
   "       \ 'do': {-> system('bash install.sh')},
   "       \ })
   " }}}2
+
+  " My plugins {{{2
+  call minpac#add('groenewege/vim-less')
+  call minpac#add('dhruvasagar/vim-marp')
+  call minpac#add('dhruvasagar/vim-zoom')
+  call minpac#add('dhruvasagar/vim-dotoo')
+  call minpac#add('dhruvasagar/vim-testify')
+  call minpac#add('dhruvasagar/vim-open-url')
+  call minpac#add('dhruvasagar/vim-table-mode')
+  call minpac#add('dhruvasagar/vim-buffer-history')
+  call minpac#add('dhruvasagar/vim-railscasts-theme')
+
+  call minpac#add('dhruvasagar/vim-prosession', {'type': 'opt'})
 endfunction
 
 command! PackUpdate source ~/.vim/packs.vim | call s:PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
