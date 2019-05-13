@@ -6,6 +6,7 @@ setopt autopushd
 CDPATH=.:$HOME:$HOME/code
 CDPATH=$CDPATH:$HOME/code/oss
 CDPATH=$CDPATH:$HOME/code/go/src
+CDPATH=$CDPATH:$HOME/code/tunecore
 CDPATH=$CDPATH:$HOME/code/tarkalabs
 CDPATH=$CDPATH:$HOME/code/dhruvasagar
 CDPATH=$CDPATH:$HOME/code/railsfactory

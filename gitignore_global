@@ -2,9 +2,8 @@ tags
 *.rest
 .vimrc
 .nvimrc
-todo.txt
-test.sql
-todo.dotoo
+todo.*
+test.*
 .tool-versions
 .projections.json
 config/projections.json
