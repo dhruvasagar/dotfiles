@@ -31,3 +31,4 @@ else
 fi
 
 alias grep='grep --color=auto'
+alias standup='open https://zoom.us/j/608345662'
