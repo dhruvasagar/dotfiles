@@ -8,23 +8,3 @@ if [[ ! -d ~/code/oss/vim ]]; then
 
   vim +PackUpdate +qall
 fi
-
-# Clone my vim plugins
-if [[ ! -d ~/dotfiles/vim/pack/local ]]; then
-  mkdir -p "${HOME}/dotfiles/vim/pack/local/opt"
-  mkdir -p "${HOME}/dotfiles/vim/pack/local/start"
-
-  cd "${HOME}/dotfiles/vim/pack/local/start"
-  git clone git@github.com:groenewege/vim-less.git
-  git clone git@github.com:dhruvasagar/vim-marp.git
-  git clone git@github.com:dhruvasagar/vim-zoom.git
-  git clone git@github.com:dhruvasagar/vim-dotoo.git
-  git clone git@github.com:dhruvasagar/vim-testify.git
-  git clone git@github.com:dhruvasagar/vim-open-url.git
-  git clone git@github.com:dhruvasagar/vim-table-mode.git
-  git clone git@github.com:dhruvasagar/vim-buffer-history.git
-  git clone git@github.com:dhruvasagar/vim-railscasts-theme.git
-
-  cd "${HOME}/dotfiles/vim/pack/local/opt"
-  git clone git@github.com:dhruvasagar/vim-prosession.git
-fi
