@@ -9,7 +9,7 @@ function! s:FilterQuickfixList(bang, pattern)
 endfunction
 
 function! s:FilterLocationList(bang, pattern)
-  call setloclist('%', s:FilterList(getloclist('%'), a:bang, a:pattern))
+  call setloclist(0, s:FilterList(getloclist(0), a:bang, a:pattern))
 endfunction
 
 command! -bang -nargs=1 -complete=file Qfilter call s:FilterQuickfixList(<bang>0, <q-args>)

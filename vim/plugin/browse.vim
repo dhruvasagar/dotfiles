@@ -5,12 +5,14 @@ function! s:Browse(bang) range
     let path = fugitive#extract_git_dir(expand('%:p'))
   endif
 
+  " Get working directory name
   if empty(path)
-    let path = expand('%:p:h:h')
+    let path = expand('%:p:h')
   else
-    let path = fnamemodify(path, ':h:h:t')
+    let path = fnamemodify(path, ':h:t')
   endif
-  " Get path relative to path
+
+  " Get path relative to working directory
   let path = fnamemodify(expand('%:p'), ':s?.*' . path . '/??')
 
   let name_with_lnum = path . ':'

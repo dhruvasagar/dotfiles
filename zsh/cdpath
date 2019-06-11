@@ -11,6 +11,6 @@ CDPATH=$CDPATH:$HOME/code/tarkalabs
 CDPATH=$CDPATH:$HOME/code/dhruvasagar
 CDPATH=$CDPATH:$HOME/code/railsfactory
 CDPATH=$CDPATH:$HOME/code/gaeaglobaldev
-CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/local/opt
-CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/local/start
+CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/minpac/opt
+CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/minpac/start
 export CDPATH

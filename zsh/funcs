@@ -30,3 +30,7 @@ profzsh() {
   shell=${1-$SHELL}
   ZPROF=true $shell -i -c exit
 }
+
+mac-cam() {
+  ffplay -f avfoundation -framerate 30 -i "0" -fflags nobuffer -noborder -left 1120 -top 660
+}

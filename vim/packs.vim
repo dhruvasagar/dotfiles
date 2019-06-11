@@ -4,7 +4,7 @@ function! s:PackInit()
   call minpac#init()
   call minpac#add('k-takata/minpac', {'type': 'opt'})
 
-  " Plugs {{{1
+  " Plugins {{{1
   " tpope plugins {{{2
   call minpac#add('tpope/vim-rsi')
   call minpac#add('tpope/vim-rake')
@@ -43,11 +43,8 @@ function! s:PackInit()
   call minpac#add('benmills/vimux')
   call minpac#add('rbong/vim-flog')
   call minpac#add('janko-m/vim-test')
-  if has('nvim')
-    call minpac#add('kassio/neoterm')
-  endif
+  call minpac#add('direnv/direnv.vim')
   call minpac#add('majutsushi/tagbar')
-
   call minpac#add('SirVer/ultisnips')
   call minpac#add('honza/vim-snippets')
 
@@ -87,17 +84,13 @@ function! s:PackInit()
   call minpac#add('purescript-contrib/purescript-vim')
   call minpac#add('neoclide/coc.nvim', {'do': { -> 'call coc#util#install()'}})
   call minpac#add('Lenovsky/nuake')
-  " call minpac#add('autozimu/LanguageClient-neovim', {
-  "       \ 'branch': 'next',
-  "       \ 'do': {-> system('bash install.sh')},
-  "       \ })
   " }}}2
-
   " My plugins {{{2
   call minpac#add('groenewege/vim-less')
   call minpac#add('dhruvasagar/vim-marp')
   call minpac#add('dhruvasagar/vim-zoom')
   call minpac#add('dhruvasagar/vim-dotoo')
+  call minpac#add('dhruvasagar/vim-pairify')
   call minpac#add('dhruvasagar/vim-testify')
   call minpac#add('dhruvasagar/vim-open-url')
   call minpac#add('dhruvasagar/vim-table-mode')
@@ -105,6 +98,8 @@ function! s:PackInit()
   call minpac#add('dhruvasagar/vim-railscasts-theme')
 
   call minpac#add('dhruvasagar/vim-prosession', {'type': 'opt'})
+  " }}}2
+  " }}}1
 endfunction
 
 command! PackUpdate source ~/.vim/packs.vim | call s:PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
