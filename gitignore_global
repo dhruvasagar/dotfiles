@@ -1,9 +1,11 @@
 tags
+todo.*
+test.*
 *.rest
 .vimrc
 .nvimrc
-todo.*
-test.*
+.zshrc.exit
+.zshrc.enter
 .tool-versions
 .projections.json
 config/projections.json
