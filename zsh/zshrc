@@ -95,3 +95,19 @@ fi
 if [ $+commands[direnv] ]; then
   eval "$(direnv hook zsh)"
 fi
+
+_cd_hook () {
+  if [ -f "$OLDPWD/.zshrc.exit" ]; then
+    echo "dirsh: unloading"
+    source "$OLDPWD/.zshrc.exit" 2>/dev/null
+  fi
+  # builtin cd "$@" || return
+  if [ -f "$PWD/.zshrc.enter" ]; then
+    echo "dirsh: loading .zshrc.enter"
+    source "$PWD/.zshrc.enter" 2>/dev/null
+  fi
+}
+typeset -ag precmd_functions;
+if [[ -z ${precmd_functions[(r)_cd_hook]} ]]; then
+  precmd_functions+=_cd_hook
+fi
