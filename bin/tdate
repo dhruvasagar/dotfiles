@@ -1,0 +1,4 @@
+#!/bin/sh
+
+_tz="${1:-"Asia/Kolkata"}"
+TZ="$_tz" date +"%d-%m-%Y %H:%M %Z"

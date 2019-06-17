@@ -31,3 +31,9 @@ else
 fi
 
 alias grep='grep --color=auto'
+
+alias gst='git status'
+alias gco='git checkout'
+alias gpull='git pull'
+alias gpurr='git purr'
+alias gpush='git push'
