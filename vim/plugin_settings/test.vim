@@ -1,7 +1,7 @@
 if has('nvim')
   let test#strategy = 'neoterm'
 else
-  let test#strategy = 'dispatch_background'
+  let test#strategy = 'vimux'
 endif
 
 let test#ruby#rspec#options = {

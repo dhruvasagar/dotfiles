@@ -1,3 +1,5 @@
+packadd cfilter
+
 function! s:PackInit()
   packadd minpac
 
