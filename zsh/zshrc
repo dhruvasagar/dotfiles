@@ -39,6 +39,8 @@ export VISUAL='vim'
 # Setup bindkeys
 . ~/dotfiles/zsh/bindkeys
 
+for f (~/dotfiles/zsh/plugin/*) source $f
+
 # TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color
 
@@ -90,27 +92,4 @@ fi
 
 if [[ "$ZPROF" = true ]]; then
   zprof
-fi
-
-if [ $+commands[direnv] ]; then
-  eval "$(direnv hook zsh)"
-fi
-
-typeset -A _dirsh_cache
-_dirsh_hook () {
-  [ ${_dirsh_cache["$PWD"]} ] && [ ${_dirsh_cache["$PWD"]} = 1 ] && return
-  if [ -f "$OLDPWD/.zshrc.exit" ]; then
-    echo "dirsh: unloading"
-    source "$OLDPWD/.zshrc.exit" 2>/dev/null
-    _dirsh_cache["$OLDPWD"]=0
-  fi
-  if [ -f "$PWD/.zshrc.enter" ]; then
-    echo "dirsh: loading .zshrc.enter"
-    source "$PWD/.zshrc.enter" 2>/dev/null
-    _dirsh_cache["$PWD"]=1
-  fi
-}
-typeset -ag precmd_functions;
-if [[ -z ${precmd_functions[_dirsh_hook]} ]]; then
-  precmd_functions+=_dirsh_hook
 fi

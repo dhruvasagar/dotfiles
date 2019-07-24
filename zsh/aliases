@@ -30,10 +30,12 @@ else
   alias http-serve='python -m SimpleHTTPServer'
 fi
 
-alias grep='grep --color=auto'
+alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 
 alias gst='git status'
 alias gco='git checkout'
 alias gpull='git pull'
 alias gpurr='git purr'
 alias gpush='git push'
+
+alias vimgit="git -c pager.color=false -c pager.show='vim -R -' -c pager.diff='vim -R -'"

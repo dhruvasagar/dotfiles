@@ -1,33 +1,14 @@
 " List of available normal mode mappings for future use :
 "
-" * cq
-" * cu
-" * cd
-" * cm
-" * c<CR>
+" * cq, cu, cd, cm, c<CR>, c<, c>, c.
 "
-" * dq
-" * dr
-" * dy
-" * du
-" * dx
-" * dc
-" * dm
+" * dq, dr, dy, du, dx, dc, dm, d<, d>, d.
 "
-" * gy
-" * go
-" * gz
+" * gy, go, gz
 "
-" * yq
-" * yr
-" * yu
-" * yx
-" * yc
-" * ym
+" * yq, yr, yu, yx, yc, ym
 "
-" * zq
-" * zy
-" * zp
+" * zq, zy, zp
 
 " Use repeat operator with visual selection {{{1
 xnoremap . :normal! .<CR>
@@ -37,9 +18,6 @@ nnoremap Y y$
 
 " Q to :q<CR> a window {{{1
 nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
-
-" Focus on current buffer {{{1
-nnoremap <C-W>m :wincmd _<Bar>wincmd <Bar><CR>
 
 " Dispatch {{{1
 nnoremap d<CR> :Dispatch<CR>
@@ -63,7 +41,6 @@ if has('nvim')
   nnoremap cuc :botright Ttoggle<CR>
 endif
 
-
 " Remap Esc in terminal for NeoVim
 if has('nvim') && exists(':tnoremap')
   tnoremap <Esc> <C-\><C-n>
@@ -74,15 +51,9 @@ xnoremap g< :Twrite bottom-left<CR>
 nnoremap g> <ESC>vap:Twrite bottom-right<CR>
 xnoremap g> :Twrite bottom-right<CR>
 
-function! s:vinegar()
-  let fname = expand('%:t')
-  edit %:p:h
-  normal! gg
-  call search('\<'.fname.'\>')
-endfunction
-nnoremap - :<C-U>call <SID>vinegar()<CR>
-
 nnoremap <, :SidewaysLeft<CR>
 nnoremap >, :SidewaysRight<CR>
 
 nnoremap <silent> go :Goyo<CR>
+
+cnoremap <C-P> <UP>
