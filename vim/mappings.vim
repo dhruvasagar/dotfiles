@@ -42,7 +42,7 @@ if has('nvim')
 endif
 
 " Remap Esc in terminal for NeoVim
-if has('nvim') && exists(':tnoremap')
+if exists(':tnoremap')
   tnoremap <Esc> <C-\><C-n>
 endif
 
