@@ -1,4 +1,4 @@
-let g:jekyll_path = "~/code/dhruvasagar.com"
+let g:jekyll_path = "~/src/dhruvasagar.com"
 
 nnoremap <Leader>jb :JekyllBuild<CR>
 nnoremap <Leader>jn :JekyllPost<CR>

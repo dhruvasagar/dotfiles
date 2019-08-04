@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ~/code/oss/vim
+cd ~/src/oss/vim
 git pull origin master
 cd src
 buildvim

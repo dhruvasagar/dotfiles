@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Clone & buildvim
-if [[ ! -d ~/code/oss/vim ]]; then
-  git clone git@github.com:vim/vim.git ~/code/oss/vim
-  cd ~/code/oss/vim
+if [[ ! -d ~/src/oss/vim ]]; then
+  git clone git@github.com:vim/vim.git ~/src/oss/vim
+  cd ~/src/oss/vim
   ~/dotfiles/bin/buildvim
 
   vim +PackUpdate +qall

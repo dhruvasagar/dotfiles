@@ -39,7 +39,6 @@ function! s:PackInit()
   call minpac#add('tpope/vim-classpath')
 
   " Other plugins {{{2
-  call minpac#add('w0rp/ale')
   call minpac#add('mxw/vim-jsx')
   call minpac#add('kana/vim-vspec')
   call minpac#add('benmills/vimux')
@@ -47,6 +46,7 @@ function! s:PackInit()
   call minpac#add('SirVer/ultisnips')
   call minpac#add('janko-m/vim-test')
   call minpac#add('majutsushi/tagbar')
+  call minpac#add('dense-analysis/ale')
   call minpac#add('honza/vim-snippets')
 
   call minpac#add('ctrlpvim/ctrlp.vim')

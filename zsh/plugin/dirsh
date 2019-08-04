@@ -2,7 +2,7 @@
 
 # GistID: 87c59acf3b53cf1911bc6e3a8055afbf
 
-call_func () {
+_call_func () {
   declare -f -F "$1" && $1
 }
 
@@ -12,7 +12,7 @@ _dirsh_hook () {
   if [ "$OLDPWD" != "$HOME" ] && [ -f "$OLDPWD/.zshrc" ]; then
     echo "dirsh: unloading"
     source "$OLDPWD/.zshrc" &>/dev/null
-    call_func "_unload" &>/dev/null
+    _call_func "_unload" &>/dev/null
     unset -f _load
     unset -f _unload
     _dirsh_cache["$OLDPWD"]=0
@@ -20,7 +20,7 @@ _dirsh_hook () {
   if [ "$PWD" != "$HOME" ] && [ -f "$PWD/.zshrc" ]; then
     echo "dirsh: loading .zshrc"
     source "$PWD/.zshrc" &>/dev/null
-    call_func "_load" &>/dev/null
+    _call_func "_load" &>/dev/null
     _dirsh_cache["$PWD"]=1
   fi
 }

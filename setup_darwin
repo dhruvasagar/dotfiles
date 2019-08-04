@@ -4,15 +4,10 @@ brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
 
 brew install jq
-brew install nvm
 brew install nmap
 brew install tmux
-brew install lynx
-brew install direnv
-brew install pandoc
 brew install ripgrep
 brew install weechat
-brew install leiningen
 brew install reattach-to-user-namespace
 
 # gnu tools better than osx defaults
@@ -33,4 +28,3 @@ brew cask install typora
 brew cask install dropbox
 brew cask install spectacle
 brew cask install google-chrome
-brew cask install karabiner-elements

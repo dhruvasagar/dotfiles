@@ -57,7 +57,7 @@ fi
 
 # go lang
 if [ $+commands[go] ]; then
-  export GOPATH=$HOME/code/go
+  export GOPATH=$HOME/src/go
   export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 fi
 
