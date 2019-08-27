@@ -1,4 +1,4 @@
-# Talk : Writng a VIM Plugin
+# Talk : Writing a VIM Plugin
 
 ## Outline
 
