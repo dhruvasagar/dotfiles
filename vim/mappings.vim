@@ -57,3 +57,5 @@ nnoremap >, :SidewaysRight<CR>
 nnoremap <silent> go :Goyo<CR>
 
 cnoremap <C-P> <UP>
+
+nnoremap <C-P> :FZF<CR>

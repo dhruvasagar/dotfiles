@@ -1,5 +1,7 @@
 packadd cfilter
 
+set rtp+=/usr/local/opt/fzf
+
 function! s:PackInit()
   packadd minpac
 
@@ -30,12 +32,14 @@ function! s:PackInit()
   call minpac#add('tpope/vim-speeddating')
   call minpac#add('tpope/vim-projectionist')
   call minpac#add('tpope/vim-characterize')
+  call minpac#add('tpope/vim-sexp-mappings-for-regular-people')
 
   call minpac#add('tpope/vim-haml')
   call minpac#add('tpope/vim-rails')
   call minpac#add('tpope/vim-eunuch')
   call minpac#add('tpope/vim-bundler')
   call minpac#add('tpope/vim-cucumber')
+  call minpac#add('tpope/vim-markdown')
   call minpac#add('tpope/vim-classpath')
 
   " Other plugins {{{2
@@ -48,8 +52,6 @@ function! s:PackInit()
   call minpac#add('majutsushi/tagbar')
   call minpac#add('dense-analysis/ale')
   call minpac#add('honza/vim-snippets')
-
-  call minpac#add('ctrlpvim/ctrlp.vim')
   call minpac#add('wellle/targets.vim')
   call minpac#add('vim-scripts/DrawIt')
   call minpac#add('avdgaag/vim-phoenix')
@@ -64,7 +66,6 @@ function! s:PackInit()
 
   call minpac#add('guns/vim-sexp')
   call minpac#add('guns/vim-clojure-static')
-  call minpac#add('tpope/vim-sexp-mappings-for-regular-people')
 
   call minpac#add('kchmck/vim-coffee-script')
   call minpac#add('AndrewRadev/splitjoin.vim')
@@ -111,6 +112,8 @@ function! s:PackInit()
   call minpac#add('dhruvasagar/vim-prosession', {'type': 'opt'})
   " }}}2
   " }}}1
+
+  call minpac#add('junegunn/fzf.vim')
 endfunction
 
 command! PackUpdate source ~/.vim/packs.vim | call s:PackInit() | call minpac#update('', {'do': 'call minpac#status()'})

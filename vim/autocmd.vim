@@ -53,10 +53,12 @@ augroup LargeFiles "{{{1
   autocmd BufRead * let f = getfsize(expand('<afile>')) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
 augroup END
 
-if has('nvim')
-  augroup Terminal "{{{1
-    au!
+augroup Terminal "{{{1
+  au!
 
+  if has('nvim')
     autocmd TermOpen * setl nolist
-  augroup END
-end
+  else
+    autocmd TerminalOpen * setl nolist
+  end
+augroup END

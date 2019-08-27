@@ -9,7 +9,21 @@ function! s:ScratchEdit(cmd, options)
   if !empty(a:options) | exe 'setl' a:options | endif
 endfunction
 
+let s:filetype_extensions = {
+      \ 'ruby': 'rb',
+      \}
+
+function! s:ScratchFile(cmd, ft)
+  let extn = get(s:filetype_extensions, a:ft, a:ft)
+  exec a:cmd 'scratch.'.extn
+endfunction
+
 command! -bar -nargs=* Sedit call s:ScratchEdit('edit', <q-args>)
 command! -bar -nargs=* Ssplit call s:ScratchEdit('split', <q-args>)
 command! -bar -nargs=* Svsplit call s:ScratchEdit('vsplit', <q-args>)
 command! -bar -nargs=* Stabedit call s:ScratchEdit('tabe', <q-args>)
+
+command! -bar -nargs=1 -complete=filetype Sfedit call s:ScratchFile('edit', <q-args>)
+command! -bar -nargs=1 -complete=filetype Sfsplit call s:ScratchFile('split', <q-args>)
+command! -bar -nargs=1 -complete=filetype Sfvsplit call s:ScratchFile('vsplit', <q-args>)
+command! -bar -nargs=1 -complete=filetype Sftabedit call s:ScratchFile('tabe', <q-args>)

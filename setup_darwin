@@ -4,6 +4,7 @@ brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
 
 brew install jq
+brew install fzf
 brew install nmap
 brew install tmux
 brew install ripgrep

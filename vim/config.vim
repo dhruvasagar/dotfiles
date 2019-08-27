@@ -53,7 +53,7 @@ set spellsuggest=best,5
 " Formatting Options {{{1
 " set nowrap
 set showcmd
-set conceallevel=1
+set conceallevel=2
 set linebreak
 set breakindent
 set smarttab
@@ -144,14 +144,16 @@ set wildignore+=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,tags
 set t_kB=[Z
 
 " Get 24 bit colors working in vim (working under tmux)
-let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-if !has('nvim')
-  set termguicolors
-  set term=xterm-256color
-endif
-if &term =~# '^screen'
-  set ttymouse=xterm2
+if !empty($TMUX)
+  let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+  let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+  if !has('nvim')
+    set termguicolors
+    set term=xterm-256color
+  endif
+  if &term =~# '^screen'
+    set ttymouse=xterm2
+  endif
 endif
 
 " let g:solarized_termcolors=256
