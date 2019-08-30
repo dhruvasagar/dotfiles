@@ -4,7 +4,7 @@ packadd packup
 call packup#init()
 
 " Plugins {{{1
-call packup#add('/usr/local/opt/fzf')
+call packup#add('git@github.com:dhruvasagar/packup.git', {'type': 'opt'})
 
 " tpope plugins {{{2
 call packup#add('git@github.com:tpope/vim-rsi.git')
@@ -41,10 +41,9 @@ call packup#add('git@github.com:tpope/vim-classpath.git')
 " }}}2
 
 " Other plugins {{{2
-call packup#add('git@github.com:mxw/vim-jsx.git')
+call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
 call packup#add('git@github.com:kana/vim-vspec.git')
 call packup#add('git@github.com:benmills/vimux.git')
-call packup#add('git@github.com:rbong/vim-flog.git')
 call packup#add('git@github.com:SirVer/ultisnips.git')
 call packup#add('git@github.com:janko-m/vim-test.git')
 call packup#add('git@github.com:majutsushi/tagbar.git')
@@ -72,7 +71,7 @@ call packup#add('git@github.com:editorconfig/editorconfig-vim.git')
 call packup#add('git@github.com:mattn/gist-vim.git')
 call packup#add('git@github.com:mattn/webapi-vim.git')
 
-call packup#add('git@github.com:fatih/vim-go.git', {'do': 'GoUpdateBinaries'})
+call packup#add('git@github.com:fatih/vim-go.git', {'do': 'GoInstallBinaries'})
 call packup#add('git@github.com:sjl/gundo.vim.git')
 call packup#add('git@github.com:junegunn/goyo.vim.git')
 call packup#add('git@github.com:godlygeek/tabular.git')
@@ -87,6 +86,9 @@ call packup#add('git@github.com:leafgarland/typescript-vim.git')
 call packup#add('git@github.com:purescript-contrib/purescript-vim.git')
 " call packup#add('git@github.com:neoclide/coc.nvim.git', {'do': { -> 'call coc#util#install()'}})
 call packup#add('git@github.com:Lenovsky/nuake.git')
+
+call packup#add('/usr/local/opt/fzf')
+call packup#add('git@github.com:junegunn/fzf.vim.git')
 "}}}2
 
 " Color Schemes {{{2
@@ -111,3 +113,5 @@ call packup#add('git@github.com:dhruvasagar/vim-railscasts-theme.git')
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
 " }}}2
 " }}}1
+
+call packup#autoremove()
