@@ -39,5 +39,3 @@ alias gpurr='git purr'
 alias gpush='git push'
 
 alias vimgit="git -c pager.color=false -c pager.show='vim -R -' -c pager.diff='vim -R -'"
-
-alias loc='git ls-files | xargs wc -l'

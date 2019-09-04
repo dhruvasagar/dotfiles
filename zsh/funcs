@@ -34,3 +34,7 @@ profzsh() {
 mac-cam() {
   ffplay -f avfoundation -framerate 30 -i "0" -fflags nobuffer -noborder -left 1120 -top 660
 }
+
+sloc () {
+  git ls-files | grep "$1" | grep -v grep | xargs wc -l
+}
