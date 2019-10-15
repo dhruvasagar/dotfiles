@@ -99,17 +99,17 @@ listed in the tmux statusline at the bottom
 
 You can navigate between windows in a number of ways :
 
-`<Prefix> + <number>` takes you to the window with the specified number
-`<Prefix> + n` takes you to the next window
-`<Prefix> + p` takes you to the previous window
-`<Prefix> + l` takes you to the last window (can be used to swap between two windows quickly)
+* `<Prefix> + <number>` takes you to the window with the specified number
+* `<Prefix> + n` takes you to the next window
+* `<Prefix> + p` takes you to the previous window
+* `<Prefix> + l` takes you to the last window (can be used to swap between two windows quickly)
 
 Panes are terminals in splits within the same window
 
 You can navigate between panes in a number of ways :
 
-`<Prefix> + o` cycle between panes
-`<Prefix> + <Arrow>` takes you to the pane in the direction of the arrow
+* `<Prefix> + o` cycle between panes
+* `<Prefix> + <Arrow>` takes you to the pane in the direction of the arrow
 
                          © Dhruva Sagar - Tarka Labs
 ---
