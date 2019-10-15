@@ -17,17 +17,21 @@ xnoremap . :normal! .<CR>
 nnoremap Y y$
 
 " Q to :q<CR> a window {{{1
-nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
+" nmap <expr> <silent> Q empty(maparg('q', 'n')) ? ':q<CR>' : 'q'
+nnoremap Q :echo "Use :q instead"<CR>
 
 " Dispatch {{{1
 nnoremap d<CR> :Dispatch<CR>
 
 " Gundo {{{1
-nnoremap U :GundoToggle<CR>
+" nnoremap U :GundoToggle<CR>
+nnoremap U :MundoToggle<CR>
 
 " Tabular {{{1
 nnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
+nnoremap z// :Tabular/
+xnoremap z// :Tabular/
 
 " Use ` when ' {{{1
 nnoremap ' `

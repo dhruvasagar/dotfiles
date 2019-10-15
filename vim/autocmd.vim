@@ -37,12 +37,6 @@ augroup CursorLine "{{{1
   autocmd BufLeave,WinLeave * setl nocursorline
 augroup END
 
-augroup Gemfile "{{{1
-  au!
-
-  autocmd BufWritePost Gemfile Dispatch bundle install
-augroup END
-
 let g:LargeFile = 70000
 function! LargeFile()
   set ft=

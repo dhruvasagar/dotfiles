@@ -11,6 +11,8 @@ endfunction
 
 let s:filetype_extensions = {
       \ 'ruby': 'rb',
+      \ 'python': 'py',
+      \ 'javascript': 'js',
       \}
 
 function! s:ScratchFile(cmd, ft)

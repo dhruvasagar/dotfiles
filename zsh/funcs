@@ -31,6 +31,10 @@ profzsh() {
   ZPROF=true $shell -i -c exit
 }
 
+timevim() {
+  for i in $(seq 1 10); do /usr/bin/time vim +qa; done
+}
+
 mac-cam() {
   ffplay -f avfoundation -framerate 30 -i "0" -fflags nobuffer -noborder -left 1120 -top 660
 }

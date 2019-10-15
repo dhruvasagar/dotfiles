@@ -38,4 +38,9 @@ alias gpull='git pull'
 alias gpurr='git purr'
 alias gpush='git push'
 
-alias vimgit="git -c pager.color=false -c pager.show='vim -R -' -c pager.diff='vim -R -'"
+alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vim -R -' -c pager.diff='vim -R -'"
+
+alias dc='docker-compose'
+alias dce='docker-compose exec'
+alias dcr='docker-compose run'
+alias dcu='docker-compose up'

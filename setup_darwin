@@ -25,7 +25,8 @@ brew cask install skype
 brew cask install docker
 brew cask install iterm2
 brew cask install skitch
-brew cask install typora
 brew cask install dropbox
 brew cask install spectacle
+
+brew cask install firefox
 brew cask install google-chrome
