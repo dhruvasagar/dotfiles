@@ -2,7 +2,8 @@
 
 ## Outline
 
-* What is Tmux and why use it for development ?
+* What is Tmux ?
+* Why use Tmux ?
 * Installing Tmux
 * Tmux Configuration
 * Tmux Sessions
@@ -27,13 +28,30 @@ useful on servers and you don't have to use `nohup`.
 This can be used for remote pair programming on a server by connecting to the
 same session.
 
-# Why use it ?
+                         © Dhruva Sagar - Tarka Labs
+---
+# Why use Tmux ?
 
-Being portable, it is available on any platform, eg.) raspberry pi
+Being portable, it is available on any platform, for example raspberry pi
 
-When you ssh to a server, you can avoid sshing multiple times to the server
-when you want to do multiple things and just create new windows / panes in
-a tmux session instead, it's much faster and convenient.
+When you ssh to a server, you can avoid having to ssh multiple times to the
+server when you want to do multiple things and just create new windows / panes
+in a tmux session instead, it's much faster and convenient.
+
+In contrast to using terminals like iterm / terminator etc. which offer native
+GUI ways to do terminal splitting, tmux has a few advantages :
+
+* Tmux can be used on a remote server
+* Tmux is significantly more lightweight
+* Tmux can be used on any terminal and your experience is consistent,
+  eliminating dependency on external tools
+* Tmux TUI is significantly more succinct and IMO makes better use of real
+  estate
+* Tmux windows & panes are optimized for keyboard navigation, so you don't
+  need to use mouse. Key bindings can also be changed as per your liking.
+
+  NOTE : Tmux also has support for mouse within most modern terminals although
+         that is generally discouraged.
 
                          © Dhruva Sagar - Tarka Labs
 ---
