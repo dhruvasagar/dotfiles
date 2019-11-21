@@ -10,16 +10,19 @@ if [ "$platform" = "linux" ]; then
     --with-features=huge \
     --enable-rubyinterp \
     --enable-pythoninterp \
+    --enable-python3interp \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir="$(/usr/bin/python2.7-config --configdir)"
+    --with-python-config-dir="$(/usr/bin/python2.7-config --configdir)" \
+    --with-python3-config-dir="$(/usr/bin/python3.7-config --configdir)"
 else
   ./configure \
     --prefix=/usr/local \
     --enable-rubyinterp \
-    --enable-pythoninterp \
+    --enable-python3interp \
     --with-features=huge \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir="$(/usr/local/bin/python2.7-config --ldflags | awk '{print $1}' | tr -d '\-L')"
+    --with-python3-command=/usr/local/bin/python3.7 \
+    --with-python3-config-dir="$(/usr/local/bin/python3.7-config --ldflags | awk '{print $1}' | sed 's/^-L//')"
 fi
 
 sudo make

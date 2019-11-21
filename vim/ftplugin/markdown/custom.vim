@@ -1,4 +1,5 @@
 setl textwidth=78
+let g:markdown_folding = 1
 let g:markdown_fenced_languages = [
       \ 'css',
       \ 'erb=eruby',

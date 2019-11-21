@@ -37,13 +37,10 @@ xnoremap z// :Tabular/
 nnoremap ' `
 
 " Test {{{1
-nnoremap cul :TestLast<CR>
-nnoremap cuf :TestFile<CR>
-nnoremap cua :TestSuite<CR>
-nnoremap cut :TestNearest<CR>
-if has('nvim')
-  nnoremap cuc :botright Ttoggle<CR>
-endif
+nnoremap <Leader>cl :TestLast<CR>
+nnoremap <Leader>cf :TestFile<CR>
+nnoremap <Leader>ca :TestSuite<CR>
+nnoremap <Leader>cc :TestNearest<CR>
 
 " Remap Esc in terminal for NeoVim
 if exists(':tnoremap')

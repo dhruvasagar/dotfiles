@@ -4,7 +4,7 @@ asdf-current-info() {
   if [ ! $+commands[asdf] ]; then
     return
   fi
-  asdf current 2>&1 | awk '{print $1":"$2","}' | tr '\n' ' ' | sed 's/,\s$/\n/'
+  asdf current 2>&1 | awk '{print substr($1,1,2)":"$2","}' | tr '\n' ' ' | sed 's/,\s$/\n/'
 }
 
 git-change-summary() {

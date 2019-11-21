@@ -1,7 +1,7 @@
 #!/bin/bash
 
 brew install zsh
-[[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
+[[ ! $SHELL =~ "zsh" ]] && chsh -s "$(command -v zsh)"
 
 brew install jq
 brew install fzf

@@ -19,7 +19,7 @@ call packup#add('git@github.com:tpope/vim-rhubarb.git')
 call packup#add('git@github.com:tpope/vim-dispatch.git')
 call packup#add('git@github.com:tpope/vim-fugitive.git')
 call packup#add('git@github.com:tpope/vim-sensible.git')
-call packup#add('git@github.com:tpope/vim-surround.git')
+" call packup#add('git@github.com:tpope/vim-surround.git')
 call packup#add('git@github.com:tpope/vim-fireplace.git')
 call packup#add('git@github.com:tpope/vim-leiningen.git')
 call packup#add('git@github.com:tpope/vim-obsession.git')
@@ -41,7 +41,8 @@ call packup#add('git@github.com:tpope/vim-classpath.git')
 " }}}2
 
 " Other plugins {{{2
-call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
+" call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
+call packup#add('git@github.com:MaxMEllon/vim-jsx-pretty.git', {'for': 'javascript'})
 call packup#add('git@github.com:kana/vim-vspec.git')
 call packup#add('git@github.com:benmills/vimux.git')
 call packup#add('git@github.com:SirVer/ultisnips.git')
@@ -90,10 +91,14 @@ call packup#add('git@github.com:Lenovsky/nuake.git')
 
 call packup#add('/usr/local/opt/fzf')
 call packup#add('git@github.com:junegunn/fzf.vim.git')
+call packup#add('git@github.com:rbong/vim-flog.git')
+call packup#add('git@github.com:machakann/vim-sandwich.git')
+call packup#add('git@github.com:rhysd/devdocs.vim.git')
+call packup#add('git@github.com:airblade/vim-gitgutter.git')
 "}}}2
 
 " Color Schemes {{{2
-call packup#add('git@github.com:morhetz/gruvbox.git')
+" call packup#add('git@github.com:morhetz/gruvbox.git')
 " call packup#add('git@github.com:NLKNguyen/papercolor-theme.git')
 " call packup#add('git@github.com:drewtempelmeyer/palenight.vim.git')
 " call packup#add('git@github.com:altercation/vim-colors-solarized.git')
