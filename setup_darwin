@@ -12,21 +12,27 @@ brew install weechat
 brew install reattach-to-user-namespace
 
 # gnu tools better than osx defaults
-brew install gawk --with-default-names
-brew install gnutls --with-default-names
-brew install gnu-sed --with-default-names
-brew install gnu-tar --with-default-names
-brew install coreutils --with-default-names
-brew install gnu-indent --with-default-names
+brew install gawk
+brew install gnupg
+brew install gnutls
+brew install gnu-sed
+brew install gnu-tar
+brew install coreutils
+brew install gnu-indent
 
 brew install caskroom/cask/brew-cask
+brew tap homebrew/cask-versions
+
 brew cask install ngrok
 brew cask install skype
+brew cask install slack
 brew cask install docker
 brew cask install iterm2
 brew cask install skitch
 brew cask install dropbox
+brew cask install keybase
+brew cask install caffeine
 brew cask install spectacle
 
-brew cask install firefox
 brew cask install google-chrome
+brew cask install firefox-developer-edition
