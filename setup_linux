@@ -3,12 +3,24 @@
 sudo apt-get install jq \
                      fzf \
                      zsh \
+                     htop \
                      nmap \
                      tmux \
                      ripgrep \
                      weechat \
                      git-flow \
+                     caffeine \
+                     docker.io \
                      build-essential
+
+if [ $+commands[snap] ]; then
+  sudo snap install ngrok
+
+  sudo snap install slack --classic
+  sudo snap install skype --classic
+
+  sudo snap install keybase --edge
+fi
 
 # Dependencies for VIM
 sudo apt-get install libxt-dev \
