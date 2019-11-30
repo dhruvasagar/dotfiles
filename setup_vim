@@ -6,5 +6,8 @@ if [[ ! -d ~/src/oss/vim ]]; then
   cd ~/src/oss/vim
   ~/dotfiles/bin/buildvim
 
-  vim +PackUpdate +qall
+  # Install Packup
+  git clone git@github.com:dhruvasagar/packup.git ~/.vim/pack/packup/opt/packup
+
+  vim +PackupInstall +qall
 fi
