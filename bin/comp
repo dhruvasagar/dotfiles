@@ -21,10 +21,10 @@ quit () {
 
 usage () {
   cat <<EOM
-  contest v0.1
+  comp v0.1
   Dhruva Sagar <dhruva.sagar@gmail.com>
 
-  Scaffolds files for solving a new contest problem
+  Scaffolds files for solving a new comp problem
 
   USAGE:
     $0 [COMMAND] [ARGS]
