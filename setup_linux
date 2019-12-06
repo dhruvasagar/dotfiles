@@ -16,9 +16,9 @@ sudo apt-get install jq \
 if [ $+commands[snap] ]; then
   sudo snap install ngrok
 
+  snap install hub --classic
   sudo snap install slack --classic
   sudo snap install skype --classic
-
   sudo snap install keybase --edge
 fi
 
