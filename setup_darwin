@@ -6,6 +6,7 @@ brew install zsh
 brew install jq
 brew install fzf
 brew install hub
+brew install bash
 brew install htop
 brew install nmap
 brew install tmux
