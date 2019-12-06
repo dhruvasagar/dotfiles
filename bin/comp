@@ -47,6 +47,7 @@ TEMPLATE_DIR="${HOME}/dotfiles/templates"
 # Ensure you have bash version 4+
 declare -A extn_map
 extn_map['ruby']='rb'
+extn_map['python']='py'
 extn_map['haskell']='hs'
 
 create_project () {
