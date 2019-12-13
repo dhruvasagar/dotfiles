@@ -86,7 +86,10 @@ set noerrorbells
 set lazyredraw
 set cursorline
 set updatetime=1000
-set completeopt+=popup
+
+if !has('nvim')
+  set completeopt+=popup
+endif
 
 set list
 if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700

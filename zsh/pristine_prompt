@@ -29,6 +29,7 @@ git-info() {
   fi
 
 }
+
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%M%f in %F{green}%~%f$(git-info)
 %F{yellow}$%f '
