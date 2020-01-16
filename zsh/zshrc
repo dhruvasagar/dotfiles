@@ -95,3 +95,7 @@ export REVIEW_BASE=master
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
+
+if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
+  source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+fi
