@@ -95,6 +95,7 @@ call packup#add('git@github.com:rbong/vim-flog.git')
 call packup#add('git@github.com:machakann/vim-sandwich.git')
 call packup#add('git@github.com:rhysd/devdocs.vim.git')
 call packup#add('git@github.com:airblade/vim-gitgutter.git')
+call packup#add('git@github.com:dstein64/vim-win.git')
 "}}}2
 
 " Color Schemes {{{2

@@ -1,7 +1,8 @@
 # vim: ft=zsh
 
-PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
+PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
 export PATH

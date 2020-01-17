@@ -22,6 +22,10 @@ func logCase(num int, out string) {
 type Case struct {
 }
 
+func (c Case) String() string {
+	return ""
+}
+
 type Input struct {
 	t     int
 	cases []Case
@@ -29,11 +33,12 @@ type Input struct {
 
 func parseInput(lines []string) Input {
 	r := Input{}
+	r.t, _ = strconv.Atoi(lines[0])
 	return r
 }
 
 func solve(c Case) string {
-	return ""
+	return fmt.Sprintf("%s", c)
 }
 
 func main() {
