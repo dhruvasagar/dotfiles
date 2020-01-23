@@ -42,3 +42,13 @@ mac-cam() {
 sloc () {
   git ls-files | grep "$1" | grep -v grep | xargs wc -l
 }
+
+docker-dev () {
+  port="$1"
+  project=${PWD##*/}
+  if [ -z "$port" ]; then
+    docker run -dt -v $PWD:/opt/projects --name $project debian:10 bash
+  else
+    docker run -dt -v $PWD:/opt/projects -p $port:$port --name $project debian:10 bash
+  fi
+}
