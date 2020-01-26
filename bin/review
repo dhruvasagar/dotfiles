@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+set -e
 
-get_prno() {
+get_prno () {
   echo "${1##*/}"
 }
 
@@ -21,13 +22,62 @@ usage () {
   Review creates a simple workflow for adding reviews for github PRs from cli
 
   REQUIREMENTS:
+    jq <https://stedolan.github.io/jq/>
     hub <https://github.com/github/hub>
 
   USAGE:
-    $0 <Github PR URL>
+    $0 [COMMAND] [ARGS]
 
-  EXAMPLE:
-    $0 https://github.com/dhruvasagar/vim-table-mode/pull/1
+  COMMANDS:
+    create <PR>
+      Create a new review for given PR
+
+      eg.) $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
+
+    submit <PR>
+      Submit a pending review for given PR
+      Prompts for :
+        * Review ID
+        * Comment
+        * Review Action (APPROVE | REQUEST_CHANGES | COMMENT)
+
+    delete <PR>
+      Delete a pending review for given PR
+      Prompts for :
+        * Review ID
+
+    invoke [ARGS]
+      This allows you to invoke any function within this script individually.
+      Useful for debugging.
+
+      eg.)
+
+  EXAMPLES:
+    $ $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
+    Opening PR 1
+    # add comments by reviewing diff within vim then close vim
+    Submitting review...
+    Review response saved at /tmp/file
+
+    $ $0 submit https://github.com/dhruvasagar/vim-table-mode/pull/1
+    Enter review ID:
+    123
+    Enter Review comment:
+    Test comment
+    Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT):
+    APPROVE
+    Submiting Review ID: 123
+    API Response
+
+    $ $0 delete https://github.com/dhruvasagar/vim-table-mode/pull/1
+    Enter review ID:
+    123
+    Deleting Review ID: 123
+    API Response
+
+    $ $0 invoke get_prno https://github.com/dhruvasagar/vim-table-mode/pull/1
+    Invoking comment get_prno with args https://github.com/dhruvasagar/vim-table-mode/pull/1
+    1
 EOM
 }
 
@@ -74,6 +124,7 @@ open_pr () {
   local tmpdiff=$(mktemp -t "$prno.XXXX.diff")
   get_pr_description "$1" "$tmpdesc"
   get_pr_diff "$1" "$tmpdiff"
+  echo "Opening PR $prno"
   vim -o "$tmpdesc" "$tmpdiff" \
     +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h"
 }
@@ -90,7 +141,7 @@ post_review () {
   echo "Review response saved at $tmpfile"
 }
 
-review () {
+create_review () {
   local prurl="$1"
   if [ -z "$prurl" ]; then
     usage
@@ -102,33 +153,58 @@ review () {
   post_review "$prurl" "$reviewjson"
 }
 
-# review_submit () {
-#   prno=$(get_prno "$1")
-#   repo=$(get_repo "$1")
-#   echo "Enter review ID: "
-#   read -r reviewid
-#   if [ -z "$reviewid" ]; then
-#     echo "Missing review ID"
-#     exit 1
-#   fi
-#   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid/events"
-#   echo "Review comment: "
-#   read -r review_comment
+submit_review () {
+  prno=$(get_prno "$1")
+  repo=$(get_repo "$1")
+  echo "Enter review ID: "
+  read -r reviewid
+  if [ -z "$reviewid" ]; then
+    echo "Missing review ID"
+    exit 1
+  fi
+  reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid/events"
+  echo "Enter Review comment: "
+  read -r review_comment
 
-#   echo "Review Action (APPROVE | REQUEST_CHANGES | COMMENT): "
-#   read -r review_action
-#   hub api -X POST "$reviewurl" -F body="$review_comment" -F event="$review_action"
-# }
+  echo "Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT): "
+  read -r review_action
+  echo "Submitting Review ID: $reviewid"
+  hub api -X POST "$reviewurl" \
+    -F body="$review_comment" \
+    -F event="$review_action" | jq
+}
 
-# review_delete() {
-#   prno=$(get_prno "$1")
-#   repo=$(get_repo "$1")
-#   echo "Enter review ID: "
-#   read -r reviewid
-#   if [ -z "$reviewid" ]; then
-#     echo "Missing review ID"
-#     exit 1
-#   fi
-#   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid"
-#   hub api -X DELETE "$reviewurl" | jq
-# }
+delete_review () {
+  prno=$(get_prno "$1")
+  repo=$(get_repo "$1")
+  echo "Enter review ID: "
+  read -r reviewid
+  if [ -z "$reviewid" ]; then
+    echo "Missing review ID"
+    exit 1
+  fi
+  reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid"
+  echo "Deleting Review ID: $reviewid"
+  hub api -X DELETE "$reviewurl" | jq
+}
+
+invoke () {
+  func=$1
+  shift
+  echo "Invoking command $func with args $*"
+  $func "$@"
+}
+
+COMMAND=${1:-"create"}
+PR="$2"
+
+if [ "$COMMAND" = "create" ] || [ "$COMMAND" = "submit" ] || [ "$COMMAND" = "delete" ]; then
+  "${COMMAND}_review" "$PR"
+elif [ "$COMMAND" = "invoke" ]; then
+  invoke "${@:2}"
+elif [ "$COMMAND" = "help" ]; then
+  usage
+else
+  usage
+  exit 1
+fi
