@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 set -e
 
+info () {
+  tput setaf 6; echo "$1"; tput sgr0
+}
+
+error () {
+  tput setaf 1; (>&2 echo "$1"); tput sgr0
+}
+
+success () {
+  tput setaf 2; echo "$1"; tput sgr0
+}
+
+if [ ! -x "$(command -v jq)" ] || [ ! -x "$(command -v hub)" ]; then
+  error 'Please install following dependencies: '
+  error '* jq <https://stedolan.github.io/jq/>'
+  error '* hub <https://github.com/github/hub>'
+  exit 1
+fi
+
 get_prno () {
   echo "${1##*/}"
 }
@@ -124,7 +143,7 @@ open_pr () {
   local tmpdiff=$(mktemp -t "$prno.XXXX.diff")
   get_pr_description "$1" "$tmpdesc"
   get_pr_diff "$1" "$tmpdiff"
-  echo "Opening PR $prno"
+  info "Opening PR $prno"
   vim -o "$tmpdesc" "$tmpdiff" \
     +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h"
 }
@@ -134,16 +153,17 @@ post_review () {
   local repo=$(get_repo "$1")
   local reviewjson="$2"
 
-  echo "Submitting review..."
+  info "Submitting review..."
   local tmpfile=$(mktemp -t "$prno.XXXX.json")
   local reviewurl="/repos/$repo/pulls/$prno/reviews"
   hub api -X POST "$reviewurl" --input "$reviewjson" | jq | tee "$tmpfile" | jq
-  echo "Review response saved at $tmpfile"
+  info "Review response saved at $tmpfile"
 }
 
 create_review () {
   local prurl="$1"
   if [ -z "$prurl" ]; then
+    error 'Missing PR URL'
     usage
     exit 1
   fi
@@ -156,19 +176,19 @@ create_review () {
 submit_review () {
   prno=$(get_prno "$1")
   repo=$(get_repo "$1")
-  echo "Enter review ID: "
+  info "Enter review ID: "
   read -r reviewid
   if [ -z "$reviewid" ]; then
-    echo "Missing review ID"
+    error "Missing review ID"
     exit 1
   fi
   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid/events"
-  echo "Enter Review comment: "
+  info "Enter Review comment: "
   read -r review_comment
 
-  echo "Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT): "
+  info "Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT): "
   read -r review_action
-  echo "Submitting Review ID: $reviewid"
+  info "Submitting Review ID: $reviewid"
   hub api -X POST "$reviewurl" \
     -F body="$review_comment" \
     -F event="$review_action" | jq
@@ -177,21 +197,21 @@ submit_review () {
 delete_review () {
   prno=$(get_prno "$1")
   repo=$(get_repo "$1")
-  echo "Enter review ID: "
+  info "Enter review ID: "
   read -r reviewid
   if [ -z "$reviewid" ]; then
-    echo "Missing review ID"
+    error "Missing review ID"
     exit 1
   fi
   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid"
-  echo "Deleting Review ID: $reviewid"
+  info "Deleting Review ID: $reviewid"
   hub api -X DELETE "$reviewurl" | jq
 }
 
 invoke () {
   func=$1
   shift
-  echo "Invoking command $func with args $*"
+  info "Invoking command $func with args $*"
   $func "$@"
 }
 
