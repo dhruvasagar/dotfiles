@@ -21,6 +21,7 @@ brew install gnutls
 brew install gnu-sed
 brew install gnu-tar
 brew install coreutils
+brew install moreutils
 brew install gnu-indent
 
 brew install caskroom/cask/brew-cask

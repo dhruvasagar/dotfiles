@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+
+get_prno() {
+  echo "${1##*/}"
+}
+
+get_repo () {
+  local url="$1"
+  # remove everything till github.com
+  local repo=${url##*github.com/}
+  # remove everything at back end from /pull
+  local repo=${repo%%/pull*}
+  echo "$repo"
+}
+
+usage () {
+  cat <<EOM
+  $0 v0.0.1
+  Dhruva Sagar <dhruva.sagar@gmail.com>
+
+  Review creates a simple workflow for adding reviews for github PRs from cli
+
+  REQUIREMENTS:
+    hub <https://github.com/github/hub>
+
+  USAGE:
+    $0 <Github PR URL>
+
+  EXAMPLE:
+    $0 https://github.com/dhruvasagar/vim-table-mode/pull/1
+EOM
+}
+
+generate_reviewjson () {
+  local reviewjson="/tmp/review.json"
+  rm -rf "$reviewjson"
+  cat > "$reviewjson" <<EOF
+{
+  "body": "Required when using REQUEST_CHANGES or COMMENT for the event parameter. The body text of the pull request review.",
+  "event": "The review action you want to perform. The review actions include: APPROVE, REQUEST_CHANGES, or COMMENT. By leaving this blank, you set the review action state to PENDING, which means you will need to submit the pull request review when you are ready.",
+  "comments": [
+    {
+      "path": "Required. The relative path to the file that necessitates a review comment.",
+      "position": "Required. The position value equals the number of lines down from the first '@@' hunk header in the file you want to add a comment. The line just below the '@@' line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+      "body": "Required. Text of the review comment."
+    }
+  ]
+}
+EOF
+  echo "$reviewjson"
+}
+
+get_pr_description () {
+  local file="$2"
+  local prno=$(get_prno "$1")
+  local repo=$(get_repo "$1")
+  local prurl="/repos/$repo/pulls/$prno"
+  hub api -X GET "$prurl" | jq -r '.title + "\n\n" + .body' >> "$file"
+}
+
+get_pr_diff () {
+  local file="$2"
+  local prurl="$1.diff"
+  hub api -X GET "$prurl" >> "$file"
+}
+
+open_pr () {
+  local prno=$(get_prno "$1")
+  local repo=$(get_repo "$1")
+  local reviewjson="$2"
+
+  local prurl="/repos/$repo/pulls/$prno"
+  local tmpdesc=$(mktemp -t "$prno.XXXX.txt")
+  local tmpdiff=$(mktemp -t "$prno.XXXX.diff")
+  get_pr_description "$1" "$tmpdesc"
+  get_pr_diff "$1" "$tmpdiff"
+  vim -o "$tmpdesc" "$tmpdiff" \
+    +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h"
+}
+
+post_review () {
+  local prno=$(get_prno "$1")
+  local repo=$(get_repo "$1")
+  local reviewjson="$2"
+
+  echo "Submitting review..."
+  local tmpfile=$(mktemp -t "$prno.XXXX.json")
+  local reviewurl="/repos/$repo/pulls/$prno/reviews"
+  hub api -X POST "$reviewurl" --input "$reviewjson" | jq | tee "$tmpfile" | jq
+  echo "Review response saved at $tmpfile"
+}
+
+review () {
+  local prurl="$1"
+  if [ -z "$prurl" ]; then
+    usage
+    exit 1
+  fi
+
+  local reviewjson=$(generate_reviewjson)
+  open_pr "$prurl" "$reviewjson"
+  post_review "$prurl" "$reviewjson"
+}
+
+# review_submit () {
+#   prno=$(get_prno "$1")
+#   repo=$(get_repo "$1")
+#   echo "Enter review ID: "
+#   read -r reviewid
+#   if [ -z "$reviewid" ]; then
+#     echo "Missing review ID"
+#     exit 1
+#   fi
+#   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid/events"
+#   echo "Review comment: "
+#   read -r review_comment
+
+#   echo "Review Action (APPROVE | REQUEST_CHANGES | COMMENT): "
+#   read -r review_action
+#   hub api -X POST "$reviewurl" -F body="$review_comment" -F event="$review_action"
+# }
+
+# review_delete() {
+#   prno=$(get_prno "$1")
+#   repo=$(get_repo "$1")
+#   echo "Enter review ID: "
+#   read -r reviewid
+#   if [ -z "$reviewid" ]; then
+#     echo "Missing review ID"
+#     exit 1
+#   fi
+#   reviewurl="/repos/$repo/pulls/$prno/reviews/$reviewid"
+#   hub api -X DELETE "$reviewurl" | jq
+# }

@@ -118,6 +118,7 @@ call packup#add('git@github.com:dhruvasagar/vim-open-url.git')
 call packup#add('git@github.com:dhruvasagar/vim-table-mode.git')
 call packup#add('git@github.com:dhruvasagar/vim-buffer-history.git')
 call packup#add('git@github.com:dhruvasagar/vim-railscasts-theme.git')
+call packup#add('git@github.com:dhruvasagar/vim-github-review.git')
 
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
 " }}}2
