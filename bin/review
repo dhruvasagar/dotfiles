@@ -129,8 +129,10 @@ get_pr_description () {
 
 get_pr_diff () {
   local file="$2"
-  local prurl="$1.diff"
-  hub api -X GET "$prurl" >> "$file"
+  local prno=$(get_prno "$1")
+  local repo=$(get_repo "$1")
+  local prurl="/repos/$repo/pulls/$prno"
+  hub api -X GET -H Accept:application/vnd.github.v3.diff "$prurl" >> "$file"
 }
 
 open_pr () {
