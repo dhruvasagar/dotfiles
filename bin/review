@@ -148,7 +148,8 @@ open_pr () {
   get_pr_diff "$1" "$tmpdiff"
   info "Opening PR $prno"
   vim -o "$tmpdesc" "$tmpdiff" \
-    +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h"
+    +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h" \
+    +"let g:review_json_path='$reviewjson'"
 }
 
 post_review () {
