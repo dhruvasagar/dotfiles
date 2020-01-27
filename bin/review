@@ -101,7 +101,8 @@ EOM
 }
 
 generate_reviewjson () {
-  local reviewjson="/tmp/review.json"
+  local prno=$(get_prno "$1")
+  local reviewjson="/tmp/review.$prno.json"
   rm -rf "$reviewjson"
   cat > "$reviewjson" <<EOF
 {
@@ -170,7 +171,7 @@ create_review () {
     exit 1
   fi
 
-  local reviewjson=$(generate_reviewjson)
+  local reviewjson=$(generate_reviewjson "$1")
   open_pr "$prurl" "$reviewjson"
   post_review "$prurl" "$reviewjson"
 }
