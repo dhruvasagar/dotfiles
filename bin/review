@@ -35,68 +35,68 @@ get_repo () {
 
 usage () {
   cat <<EOM
-  $0 v0.0.1
-  Dhruva Sagar <dhruva.sagar@gmail.com>
+$0 v0.0.1
+Dhruva Sagar <dhruva.sagar@gmail.com>
 
-  Review creates a simple workflow for adding reviews for github PRs from cli
+Review creates a simple workflow for adding reviews for github PRs from cli
 
-  REQUIREMENTS:
-    jq <https://stedolan.github.io/jq/>
-    hub <https://github.com/github/hub>
+REQUIREMENTS:
+  jq <https://stedolan.github.io/jq/>
+  hub <https://github.com/github/hub>
 
-  USAGE:
-    $0 [COMMAND] [ARGS]
+USAGE:
+  $0 [COMMAND] [ARGS]
 
-  COMMANDS:
-    create <PR>
-      Create a new review for given PR
+COMMANDS:
+  create <PR>
+    Create a new review for given PR
 
-      eg.) $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
+    eg.) $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
 
-    submit <PR>
-      Submit a pending review for given PR
-      Prompts for :
-        * Review ID
-        * Comment
-        * Review Action (APPROVE | REQUEST_CHANGES | COMMENT)
+  submit <PR>
+    Submit a pending review for given PR
+    Prompts for :
+      * Review ID
+      * Comment
+      * Review Action (APPROVE | REQUEST_CHANGES | COMMENT)
 
-    delete <PR>
-      Delete a pending review for given PR
-      Prompts for :
-        * Review ID
+  delete <PR>
+    Delete a pending review for given PR
+    Prompts for :
+      * Review ID
 
-    invoke [ARGS]
-      This allows you to invoke any function within this script individually.
-      Useful for debugging.
+  invoke [ARGS]
+    This allows you to invoke any function within this script individually.
+    Useful for debugging.
 
-      eg.)
+    eg.)
 
-  EXAMPLES:
-    $ $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
-    Opening PR 1
-    # add comments by reviewing diff within vim then close vim
-    Submitting review...
-    Review response saved at /tmp/file
+EXAMPLES:
+  $ $0 create https://github.com/dhruvasagar/vim-table-mode/pull/1
+  Opening PR 1
+  # add comments by reviewing diff within vim then close vim
+  Submitting review...
+  Review response saved at /tmp/file
 
-    $ $0 submit https://github.com/dhruvasagar/vim-table-mode/pull/1
-    Enter review ID:
-    123
-    Enter Review comment:
-    Test comment
-    Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT):
-    APPROVE
-    Submiting Review ID: 123
-    API Response
+  $ $0 submit https://github.com/dhruvasagar/vim-table-mode/pull/1
+  Enter review ID:
+  123
+  Enter Review comment:
+  Test comment
+  Enter Review Action (APPROVE | REQUEST_CHANGES | COMMENT):
+  APPROVE
+  Submiting Review ID: 123
+  API Response
 
-    $ $0 delete https://github.com/dhruvasagar/vim-table-mode/pull/1
-    Enter review ID:
-    123
-    Deleting Review ID: 123
-    API Response
+  $ $0 delete https://github.com/dhruvasagar/vim-table-mode/pull/1
+  Enter review ID:
+  123
+  Deleting Review ID: 123
+  API Response
 
-    $ $0 invoke get_prno https://github.com/dhruvasagar/vim-table-mode/pull/1
-    Invoking comment get_prno with args https://github.com/dhruvasagar/vim-table-mode/pull/1
-    1
+  $ $0 invoke get_prno https://github.com/dhruvasagar/vim-table-mode/pull/1
+  Invoking comment get_prno with args https://github.com/dhruvasagar/vim-table-mode/pull/1
+  1
 EOM
 }
 
