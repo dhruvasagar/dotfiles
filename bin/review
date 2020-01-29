@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# GistID: 6db76639d8874eb9ffd091021bedba8e
+
 set -e
 
 info () {
@@ -103,8 +106,8 @@ EOM
 generate_reviewjson () {
   local prno=$(get_prno "$1")
   local reviewjson="/tmp/review.$prno.json"
-  rm -rf "$reviewjson"
-  cat > "$reviewjson" <<EOF
+  if [ ! -f "$reviewjson" ]; then
+    cat > "$reviewjson" <<EOF
 {
   "body": "Required when using REQUEST_CHANGES or COMMENT for the event parameter. The body text of the pull request review.",
   "event": "The review action you want to perform. The review actions include: APPROVE, REQUEST_CHANGES, or COMMENT. By leaving this blank, you set the review action state to PENDING, which means you will need to submit the pull request review when you are ready.",
@@ -117,6 +120,7 @@ generate_reviewjson () {
   ]
 }
 EOF
+  fi
   echo "$reviewjson"
 }
 

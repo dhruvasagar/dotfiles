@@ -100,10 +100,6 @@ call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
 "}}}2
 
 " Color Schemes {{{2
-" call packup#add('git@github.com:morhetz/gruvbox.git')
-" call packup#add('git@github.com:NLKNguyen/papercolor-theme.git')
-" call packup#add('git@github.com:drewtempelmeyer/palenight.vim.git')
-" call packup#add('git@github.com:altercation/vim-colors-solarized.git')
 " }}}2
 
 " My plugins {{{2
@@ -111,7 +107,7 @@ call packup#add('git@github.com:groenewege/vim-less.git')
 call packup#add('git@github.com:dhruvasagar/vim-marp.git')
 call packup#add('git@github.com:dhruvasagar/vim-zoom.git')
 call packup#add('git@github.com:dhruvasagar/vim-dotoo.git')
-call packup#add('git@github.com:dhruvasagar/vim-markify.git')
+" call packup#add('git@github.com:dhruvasagar/vim-markify.git')
 call packup#add('git@github.com:dhruvasagar/vim-pairify.git')
 call packup#add('git@github.com:dhruvasagar/vim-testify.git')
 call packup#add('git@github.com:dhruvasagar/vim-open-url.git')

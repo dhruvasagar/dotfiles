@@ -13,7 +13,7 @@ function! functions#GitExecInPath(cmd, ...) "{{{2
     let path = b:git_dir
     let path = fnamemodify(path, ':h')
   else
-    let path = fugitive#extract_git_dir('.')
+    let path = FugitiveExtractGitDir('.')
     let path = fnamemodify(path, ':h')
   endif
 
