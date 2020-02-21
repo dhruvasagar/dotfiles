@@ -86,6 +86,7 @@ call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
 call packup#add('git@github.com:junegunn/goyo.vim.git')
 " Fancy Shit {{{3
 call packup#add('git@github.com:vim-scripts/DrawIt.git')
+call packup#add('git@github.com:junegunn/vim-emoji.git')
 call packup#add('git@github.com:RRethy/vim-hexokinase.git', {'do': { -> system('make hexokinase')}})
 call packup#add('git@github.com:guns/xterm-color-table.vim.git')
 call packup#add('git@github.com:vimwiki/vimwiki.git')
@@ -97,6 +98,12 @@ call packup#add('git@github.com:ledger/vim-ledger.git')
 " Uncategorized {{{3
 call packup#add('git@github.com:Lenovsky/nuake.git')
 " call packup#add('git@github.com:chengzeyi/multiterm.vim.git')
+"}}}2
+
+" Color Schemes {{{2
+" }}}2
+
+>>>>>>> Updated configs
 " My plugins {{{2
 call packup#add('git@github.com:groenewege/vim-less.git')
 call packup#add('git@github.com:dhruvasagar/vim-marp.git')
@@ -115,4 +122,3 @@ call packup#add('git@github.com:dhruvasagar/vim-comp.git')
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
 " }}}1
 
-call packup#autoremove()
