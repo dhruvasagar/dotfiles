@@ -6,6 +6,7 @@ sudo apt-get install jq \
                      htop \
                      nmap \
                      tmux \
+                     awscli \
                      ripgrep \
                      weechat \
                      git-flow \

@@ -10,6 +10,7 @@ brew install bash
 brew install htop
 brew install nmap
 brew install tmux
+brew install awscli
 brew install ripgrep
 brew install weechat
 brew install reattach-to-user-namespace
