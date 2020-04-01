@@ -42,6 +42,7 @@ alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vi
 
 alias dc='docker-compose'
 alias dce='docker-compose exec'
+alias dcd='docker-compose down'
 alias dcr='docker-compose run'
 alias dcu='docker-compose up'
 
