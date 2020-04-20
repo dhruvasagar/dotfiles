@@ -86,7 +86,6 @@ call packup#add('git@github.com:pangloss/vim-javascript.git', {'for': 'javascrip
 call packup#add('git@github.com:guns/xterm-color-table.vim.git')
 call packup#add('git@github.com:leafgarland/typescript-vim.git')
 call packup#add('git@github.com:purescript-contrib/purescript-vim.git')
-call packup#add('git@github.com:neoclide/coc.nvim.git', {'do': { -> 'call coc#util#install()'}})
 call packup#add('git@github.com:Lenovsky/nuake.git')
 
 call packup#add('/usr/local/opt/fzf')
@@ -97,6 +96,9 @@ call packup#add('git@github.com:rhysd/devdocs.vim.git')
 call packup#add('git@github.com:airblade/vim-gitgutter.git')
 call packup#add('git@github.com:dstein64/vim-win.git')
 call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
+call packup#add('git@github.com:vimwiki/vimwiki.git')
+
+call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
 "}}}2
 
 " Color Schemes {{{2
@@ -115,6 +117,7 @@ call packup#add('git@github.com:dhruvasagar/vim-table-mode.git')
 call packup#add('git@github.com:dhruvasagar/vim-buffer-history.git')
 call packup#add('git@github.com:dhruvasagar/vim-railscasts-theme.git')
 call packup#add('git@github.com:dhruvasagar/vim-github-review.git')
+call packup#add('git@github.com:dhruvasagar/vim-comp.git')
 
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
 " }}}2

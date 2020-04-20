@@ -72,6 +72,7 @@ set formatoptions+=tcroqnjl21
 set textwidth=80
 set colorcolumn=+1
 set showtabline=2
+set shortmess+=c
 
 " Visual Options {{{1
 syntax on
@@ -85,7 +86,7 @@ set visualbell
 set noerrorbells
 set lazyredraw
 set cursorline
-set updatetime=1000
+set updatetime=300
 
 if !has('nvim')
   set completeopt+=popup

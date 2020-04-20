@@ -7,6 +7,9 @@ stty -ixon
 autoload -Uz compinit
 compinit
 
+autoload -Uz bashcompinit
+bashcompinit
+
 bindkey -e
 
 export LC_ALL="en_US.UTF-8"

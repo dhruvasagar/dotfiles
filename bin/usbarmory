@@ -1,6 +1,6 @@
 #!/bin/sh
 
-inet=${1-'en7'}
+inet=${1-'en8'}
 ifconfig $inet 10.0.0.2
 if [ $? -eq 0 ]; then
   sysctl -w net.inet.ip.forwarding=1

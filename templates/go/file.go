@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func readInput() []string {
@@ -37,13 +38,13 @@ func parseInput(lines []string) Input {
 	return r
 }
 
-func solve(c Case) string {
+func (c Case) solve() string {
 	return fmt.Sprintf("%s", c)
 }
 
 func main() {
 	in := parseInput(readInput())
 	for i, c := range in.cases {
-		logCase(i+1, solve(c))
+		logCase(i+1, c.solve())
 	}
 }

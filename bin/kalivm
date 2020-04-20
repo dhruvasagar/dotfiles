@@ -1,0 +1,20 @@
+#!/bin/bash -
+
+if [ -z $(docker volume ls -qf "name=kalivm") ] ; then
+  echo "Creating volume for kalivm"
+  docker volume create kalivm
+fi
+
+if [ -z $(docker ps -qf "name=kalivm") ]; then
+  echo "Starting kalivm container"
+  docker run \
+    --rm \
+    --privileged \
+    -v kalivm:/var/run/postgresql \
+    --name kalivm \
+    -d \
+    -it booyaabes/kali-linux-full:latest \
+    /bin/bash
+fi
+# Use <C-P><C-Q> to detach without killing
+docker attach kalivm

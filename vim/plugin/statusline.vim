@@ -86,13 +86,9 @@ set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
 set statusline+=%(\ %{fugitive#head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*%)\|\ %)
 set statusline+=%(%r%m\ %)
-set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 
-" if has('nvim')
-"   set statusline+=%2*%(%{neomake#statusline#LoclistStatus()}\ %)%*
-" else
+set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 set statusline+=%2*%(%{StatusLineALE()}\ %)%*
-" endif
 set statusline+=%1*%{StatusLineFileName()}\ %*
 
 if exists(':Tagbar')
