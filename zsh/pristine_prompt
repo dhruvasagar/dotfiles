@@ -12,8 +12,12 @@ git-change-summary() {
     return
   fi
   changes=$(git status --porcelain | head -1 2>/dev/null)
-  if [ ! -z "$changes" ]; then
-    echo " %F{red}✗%f"
+  if [ -n "$changes" ]; then
+    if [ "${changes:0:1}" = "?" ]; then
+      echo " %F{cyan}?%f"
+    else
+      echo " %F{red}✗%f"
+    fi
   else
     echo " %F{green}✔%f"
   fi

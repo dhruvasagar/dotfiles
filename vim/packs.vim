@@ -97,11 +97,14 @@ call packup#add('git@github.com:airblade/vim-gitgutter.git')
 call packup#add('git@github.com:dstein64/vim-win.git')
 call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
 call packup#add('git@github.com:vimwiki/vimwiki.git')
+call packup#add('git@github.com:mattn/calendar-vim.git')
 
 call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
 "}}}2
 
 " Color Schemes {{{2
+call packup#add('git@github.com:arzg/vim-colors-xcode.git')
+call packup#add('git@github.com:sonph/onehalf.git', {'rtp': 'vim'})
 " }}}2
 
 " My plugins {{{2
