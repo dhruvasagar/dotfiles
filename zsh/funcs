@@ -52,3 +52,15 @@ docker-dev () {
     docker run -dt -v $PWD:/opt/projects -p $port:$port --name $project debian:10 bash
   fi
 }
+
+asdf () {
+  echo "ASDF not loaded! Loading now..."
+  unset -f asdf
+  if [ -d "$HOME/.asdf" ]; then
+    autoload -Uz bashcompinit
+    bashcompinit
+    . "$HOME/.asdf/asdf.sh"
+    . "$HOME/.asdf/completions/asdf.bash"
+    asdf "$@"
+  fi
+}

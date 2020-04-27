@@ -1,0 +1,12 @@
+# vim: ft=zsh
+
+autoload -Uz compinit
+setopt extendedglob
+for dump in $HOME/.zcompdump(#qN.m1); do
+  compinit
+  if [[ -s "$dump" && (! -s "$dump.zwc" || "$dump" -nt "$dump.zwc") ]]; then
+    zcompile "$dump"
+  fi
+done
+unsetopt extendedglob
+compinit -C

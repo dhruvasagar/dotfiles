@@ -4,13 +4,12 @@ setopt autocd
 setopt autopushd
 
 CDPATH=.:$HOME:$HOME/src
-CDPATH=$CDPATH:$HOME/src/oss
 CDPATH=$CDPATH:$HOME/src/go/src
-CDPATH=$CDPATH:$HOME/src/tunecore
-CDPATH=$CDPATH:$HOME/src/tarkalabs
-CDPATH=$CDPATH:$HOME/src/dhruvasagar
-CDPATH=$CDPATH:$HOME/src/railsfactory
-CDPATH=$CDPATH:$HOME/src/gaeaglobaldev
+
+for dir in $(ls -d $HOME/src/*); do
+  CDPATH=$CDPATH:$dir
+done
+
 CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/packup/opt
 CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/packup/start
 export CDPATH

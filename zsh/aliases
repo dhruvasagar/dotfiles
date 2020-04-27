@@ -1,8 +1,8 @@
 # vim: ft=zsh
 
-alias l='ls -1tA'
+alias l='ls --color=auto -1tA'
 alias ls='ls --color=auto --group-directories-first'
-alias ll='ls -lth'
+alias ll='ls --color=auto -lth'
 
 if [[ "$OSTYPE" == darwin* ]]; then
   alias o='open'

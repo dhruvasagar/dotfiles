@@ -4,11 +4,7 @@ fi
 
 stty -ixon
 
-autoload -Uz compinit
-compinit
-
-autoload -Uz bashcompinit
-bashcompinit
+. ~/dotfiles/zsh/compinit
 
 bindkey -e
 
@@ -86,11 +82,6 @@ fi
 # The next line enables shell command completion for gcloud.
 if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
-fi
-
-if [ -d "$HOME/.asdf" ]; then
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
 fi
 
 export REVIEW_BASE=master
