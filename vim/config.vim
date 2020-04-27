@@ -64,7 +64,6 @@ set softtabstop=2
 set nojoinspaces
 set showmatch
 set number
-set relativenumber
 set numberwidth=3
 set nostartofline
 set fileformat=unix
