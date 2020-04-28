@@ -59,4 +59,4 @@ nnoremap <silent> go :Goyo<CR>
 
 cnoremap <C-P> <UP>
 
-nnoremap <C-P> :Files<CR>
+nnoremap <C-P> :FzfFiles<CR>
