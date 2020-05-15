@@ -91,10 +91,6 @@ set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 set statusline+=%2*%(%{StatusLineALE()}\ %)%*
 set statusline+=%1*%{StatusLineFileName()}\ %*
 
-if exists(':Tagbar')
-  set statusline+=%1*ϝ:%{tagbar#currenttag('%s','')}\ %*
-endif
-
 set statusline+=%4*%(%{dotoo#clock#summary()}\ %)%*
 set statusline+=%<%=
 set statusline+=%(%{&filetype}\ \|\ %)

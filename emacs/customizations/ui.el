@@ -8,6 +8,8 @@
 
 (global-display-line-numbers-mode)
 
+(set-face-attribute 'default nil :height 150)
+
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 
 (provide 'ui)

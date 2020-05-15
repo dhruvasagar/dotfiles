@@ -5,8 +5,6 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
 
 (package-initialize)
@@ -25,11 +23,16 @@
     evil-matchit
     evil-exchange
     evil-visualstar
+    evil-collection
+    evil-magit
 
     railscasts-theme
 
     org
-    org-evil))
+    org-evil
+
+    mu4e-alert
+    mu4e-conversation))
 
 (dolist (p my-packages)
   (if (not (package-installed-p p))

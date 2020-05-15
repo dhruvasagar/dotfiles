@@ -10,9 +10,11 @@
 (require 'init-packages)
 (require 'ui)
 (require 'init-evil)
+(require 'init-mu4e)
 
 (setq backup-inhibited t)
 (setq create-lockfiles nil)
+(setq make-backup-files nil)
 (setq auto-save-default nil)
 
 (custom-set-variables
@@ -22,7 +24,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (railscasts-theme org-evil evil-visualstar evil-surround evil-rails evil-numbers evil-matchit evil-exchange evil-commentary))))
+    (mu4e-alert evil-collection railscasts-theme org-evil evil-visualstar evil-surround evil-rails evil-numbers evil-matchit evil-exchange evil-commentary))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -56,8 +56,9 @@ fi
 
 # go lang
 if [ $+commands[go] ]; then
+  export GOBIN=$HOME/src/go/bin
   export GOPATH=$HOME/src/go
-  export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+  export PATH=$GOBIN:/usr/local/go/bin:$PATH
 fi
 
 platform=$(uname | awk '{print tolower($0)}')
@@ -86,10 +87,17 @@ fi
 
 export REVIEW_BASE=master
 
-if [[ "$ZPROF" = true ]]; then
-  zprof
+if [ -d "$HOME/.asdf" ]; then
+  autoload -Uz bashcompinit
+  bashcompinit
+  . "$HOME/.asdf/asdf.sh"
+  . "$HOME/.asdf/completions/asdf.bash"
 fi
 
 if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
   source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+fi
+
+if [[ "$ZPROF" = true ]]; then
+  zprof
 fi

@@ -43,5 +43,10 @@ brew cask install keybase
 brew cask install caffeine
 brew cask install spectacle
 
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+brew cask install font-fira-nerd-font
+brew cask install font-source-code-pro
+
 brew cask install google-chrome
 brew cask install firefox-developer-edition
