@@ -40,7 +40,12 @@ alias gpush='git push'
 
 alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vim -R -' -c pager.diff='vim -R -'"
 
+alias d='docker'
+alias db='docker build'
+alias de='docker exec'
+alias dr='docker run'
 alias da='docker attach --detach-keys="ctrl-c"'
+
 alias dc='docker-compose'
 alias dce='docker-compose exec'
 alias dcd='docker-compose down'
