@@ -10,7 +10,6 @@
 (require 'init-packages)
 (require 'ui)
 (require 'init-evil)
-(require 'init-mu4e)
 
 (setq backup-inhibited t)
 (setq create-lockfiles nil)

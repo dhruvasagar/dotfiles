@@ -17,10 +17,6 @@ go-cover () {
   go test -coverprofile=$t $@ && go tool cover -html=$t && unlink $t
 }
 
-npm-do() {
-  (PATH=$(npm bin):$PATH; eval $@;)
-}
-
 timezsh() {
   shell=${1-$SHELL}
   for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
@@ -63,4 +59,9 @@ asdf () {
     . "$HOME/.asdf/completions/asdf.bash"
     asdf "$@"
   fi
+}
+
+lcflow () {
+	period=${1-"this month"}
+	ledger --current --invert --real --wide -s -X $ -S "amount" -p "$period" reg income expenses
 }
