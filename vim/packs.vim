@@ -95,7 +95,7 @@ call packup#add('git@github.com:ledger/vim-ledger.git')
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
 "
 " Uncategorized {{{3
-call packup#add('git@github.com:Lenovsky/nuake.git')
+" call packup#add('git@github.com:Lenovsky/nuake.git')
 " call packup#add('git@github.com:chengzeyi/multiterm.vim.git')
 " My plugins {{{2
 call packup#add('git@github.com:groenewege/vim-less.git')
