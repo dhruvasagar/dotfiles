@@ -31,8 +31,7 @@
     org
     org-evil
 
-    mu4e-alert
-    mu4e-conversation))
+    markdown-mode))
 
 (dolist (p my-packages)
   (if (not (package-installed-p p))

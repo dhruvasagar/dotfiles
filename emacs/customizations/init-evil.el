@@ -29,3 +29,5 @@
 (require 'evil-magit)
 
 (provide 'init-evil)
+
+(define-key evil-normal-state-map (kbd "C-p") 'helm-find-files)

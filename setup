@@ -30,7 +30,6 @@ ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
-ln -s ~/dotfiles/offlineimaprc ~/.offlineimaprc
 
 mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config

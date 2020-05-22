@@ -34,7 +34,6 @@ call packup#add('git@github.com:tpope/vim-rails.git')
 call packup#add('git@github.com:tpope/vim-eunuch.git')
 call packup#add('git@github.com:tpope/vim-bundler.git')
 call packup#add('git@github.com:tpope/vim-cucumber.git')
-" }}}2
 " Other plugins {{{2
 " VIM Enhacements (operators, text objects, etc.) {{{3
 call packup#add('git@github.com:wellle/targets.vim.git')
@@ -92,10 +91,12 @@ call packup#add('git@github.com:guns/xterm-color-table.vim.git')
 call packup#add('git@github.com:vimwiki/vimwiki.git')
 call packup#add('git@github.com:mattn/calendar-vim.git')
 call packup#add('git@github.com:ledger/vim-ledger.git')
+" Colorschemes {{{3
+" call packup#add('git@github.com:flazz/vim-colorschemes.git')
+"
 " Uncategorized {{{3
-" call packup#add('git@github.com:Lenovsky/nuake.git')
+call packup#add('git@github.com:Lenovsky/nuake.git')
 " call packup#add('git@github.com:chengzeyi/multiterm.vim.git')
-"}}}2
 " My plugins {{{2
 call packup#add('git@github.com:groenewege/vim-less.git')
 call packup#add('git@github.com:dhruvasagar/vim-marp.git')
@@ -112,7 +113,6 @@ call packup#add('git@github.com:dhruvasagar/vim-github-review.git')
 call packup#add('git@github.com:dhruvasagar/vim-comp.git')
 
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
-" }}}2
 " }}}1
 
 call packup#autoremove()
