@@ -10,7 +10,3 @@ zstyle ':completion:*:messages' format '%d'
 zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
 zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
-
-# Allow completions to not be case sensitive, i.e. be case insensitive
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
-  '+l:|?=** r:|?=**'
