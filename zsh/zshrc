@@ -13,6 +13,8 @@ export LANG="en_US.UTF-8"
 
 export EDITOR='vim'
 export VISUAL='vim'
+export TERMINAL='alacritty'
+export BROWSER='qutebrowser'
 
 # Setup history
 . ~/dotfiles/zsh/hist

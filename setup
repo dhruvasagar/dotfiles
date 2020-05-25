@@ -7,6 +7,7 @@ rm -rf ~/.vim \
        ~/.emacs.d \
        ~/.weechat \
        ~/.tmux.conf \
+       ~/.alacritty \
        ~/.gitconfig \
        ~/.ssh/config \
        ~/.tridactylrc \
@@ -29,6 +30,9 @@ ln -s ~/dotfiles/qutebrowser ~/.qutebrowser
 ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
+
+mkdir -p ~/.config/alacritty
+ln -s ~/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
 
 mkdir -p ~/.ssh
 ln -s ~/dotfiles/sshconfig ~/.ssh/config
