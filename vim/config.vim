@@ -159,6 +159,10 @@ if $COLORTERM =~# '^\(truecolor\|24bit\)$'
   if &term =~# '^screen'
     set ttymouse=xterm2
   endif
+  " Enable _italics_ within vim
+  " REF: https://rsapkf.netlify.app/blog/enabling-italics-vim-tmux
+  set t_ZH=[3m
+  set t_ZR=[23m
 endif
 
 if exists('$TMUX')
