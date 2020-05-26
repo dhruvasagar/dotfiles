@@ -159,6 +159,32 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
+# GNOME Terminal Tango Dark
+colors:
+  primary:
+    background: '0x121212'
+    foreground: '0xe4e4e4'
+
+  normal:
+    black: '0x121212'
+    red: '0xcc0000'
+    green: '0x4e9a06'
+    yellow: '0xc4a000'
+    blue: '0x3465a4'
+    magenta: '0x75507b'
+    cyan: '0x06989a'
+    white: '0xd3d7cf'
+
+  bright:
+    black: '0x555753'
+    red: '0xef2929'
+    green: '0x8ae234'
+    yellow: '0xfce94f'
+    blue: '0x729fcf'
+    magenta: '0xad7fa8'
+    cyan: '0x34e2e2'
+    white: '0xeeeeec'
+
 # Colors (Tomorrow Night)
 #colors:
   # Default colors
@@ -683,6 +709,7 @@ key_bindings:
   - { key: Key4,      mods: Alt,       chars: "\x1b4"                       }
   - { key: Key5,      mods: Alt,       chars: "\x1b5"                       }
   - { key: Key6,      mods: Alt,       chars: "\x1b6"                       }
+  - { key: Key6,      mods: Control,   chars: "\x1e"                        }
   - { key: Key7,      mods: Alt,       chars: "\x1b7"                       }
   - { key: Key8,      mods: Alt,       chars: "\x1b8"                       }
   - { key: Key9,      mods: Alt,       chars: "\x1b9"                       }
