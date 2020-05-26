@@ -37,17 +37,17 @@ brew cask install skype
 brew cask install slack
 brew cask install steam
 brew cask install docker
-brew cask install iterm2
 brew cask install skitch
 brew cask install dropbox
 brew cask install keybase
 brew cask install caffeine
+brew cask install alacritty
 brew cask install spectacle
+brew cask install hammerspoon
 
 brew tap homebrew/cask-fonts
-brew cask install font-hack-nerd-font
-brew cask install font-fira-nerd-font
-brew cask install font-source-code-pro
+brew cask install font-fira-sans # for Italics
+brew cask install font-firacode-nerd-font
 
-brew cask install google-chrome
+brew cask install qutebrowser
 brew cask install firefox-developer-edition

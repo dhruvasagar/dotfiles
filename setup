@@ -11,6 +11,7 @@ rm -rf ~/.vim \
        ~/.gitconfig \
        ~/.ssh/config \
        ~/.tridactylrc \
+       ~/.hammerspoon \
        ~/.qutebrowser \
        ~/.gitignore_global \
        ~/.gitcommit_template
@@ -25,6 +26,7 @@ ln -s ~/dotfiles/weechat ~/.weechat
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
+ln -s ~/dotfiles/hammerspoon ~/.hammerspoon
 ln -s ~/dotfiles/qutebrowser ~/.qutebrowser
 # ln -s ~/dotfiles/git_template ~/.git_template
 ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
