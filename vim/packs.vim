@@ -100,11 +100,8 @@ call packup#add('git@github.com:ledger/vim-ledger.git')
 call packup#add('git@github.com:Lenovsky/nuake.git')
 " call packup#add('git@github.com:chengzeyi/multiterm.vim.git')
 "}}}2
-
 " Color Schemes {{{2
 " }}}2
-
->>>>>>> Updated configs
 " My plugins {{{2
 call packup#add('git@github.com:groenewege/vim-less.git')
 call packup#add('git@github.com:dhruvasagar/vim-marp.git')
