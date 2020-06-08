@@ -120,3 +120,4 @@ call packup#add('git@github.com:dhruvasagar/vim-comp.git')
 call packup#add('git@github.com:dhruvasagar/vim-prosession.git', {'type': 'opt'})
 " }}}1
 
+call packup#autoremove()
