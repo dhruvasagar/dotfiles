@@ -7,7 +7,6 @@ rm -rf ~/.vim \
        ~/.emacs.d \
        ~/.weechat \
        ~/.tmux.conf \
-       ~/.alacritty \
        ~/.gitconfig \
        ~/.ssh/config \
        ~/.tridactylrc \
@@ -18,7 +17,9 @@ rm -rf ~/.vim \
 
 ln -s ~/dotfiles/vim ~/.vim
 
-mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
+XDG_CONFIG_HOME=$XDG_CONFIG_HOME:=$HOME/.config
+rm -rf "${XDG_CONFIG_HOME}/nvim"
+mkdir -p "${XDG_CONFIG_HOME}"
 ln -s ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 
 ln -s ~/dotfiles/emacs ~/.emacs.d
@@ -33,6 +34,7 @@ ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
 ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 
+rm -rf ~/.config/alacritty
 mkdir -p ~/.config/alacritty
 ln -s ~/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
 

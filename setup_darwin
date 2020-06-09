@@ -33,6 +33,7 @@ brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 brew install caskroom/cask/brew-cask
 brew tap homebrew/cask-versions
 
+brew cask install kap
 brew cask install ngrok
 brew cask install skype
 brew cask install slack
