@@ -33,9 +33,9 @@ window:
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  #padding:
-  #   x: 0
-  #   y: 0
+  padding:
+     x: 10
+     y: 10
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -135,7 +135,7 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 15.0
+  size: 13.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -722,6 +722,7 @@ key_bindings:
   - { key: Key3,      mods: Alt|Shift, chars: "\x1b#"                       } # Alt + #
   - { key: Period,    mods: Alt|Shift, chars: "\x1b>"                       } # Alt + >
   - { key: Comma,     mods: Alt|Shift, chars: "\x1b<"                       } # Alt + <
+  - { key: Q,         mods: Control,   chars: "\x11"                        }
 
 #debug:
   # Display the time it takes to redraw each frame.
