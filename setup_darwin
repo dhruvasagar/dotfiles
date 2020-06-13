@@ -4,6 +4,7 @@ brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s "$(command -v zsh)"
 
 brew install jq
+brew install bat
 brew install fzf
 brew install gcc
 brew install hub

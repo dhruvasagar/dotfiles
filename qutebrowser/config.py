@@ -1,7 +1,7 @@
 import dracula.draw
 
 # Load existing settings made via :set
-config.load_autoconfig()
+# config.load_autoconfig()
 config.set('auto_save.session', True)
 # config.set('window.hide_decoration', True)
 config.set('colors.webpage.prefers_color_scheme_dark', True)

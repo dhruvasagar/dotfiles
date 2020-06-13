@@ -44,6 +44,6 @@ alias diffdir='diff -rq'
 
 alias ledger="ledger -f ~/Dropbox/Documents/ledger/personal.dat"
 alias lb="ledger bal -R"
-alias lbn='ledger -R -X $ --current --depth 2 bal assets liabilities'
+alias lbn='ledger -R -X $ --current bal assets liabilities'
 
 alias bat='bat --plain'
