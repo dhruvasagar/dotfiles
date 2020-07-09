@@ -4,6 +4,6 @@ set guioptions-=T
 set guioptions-=r
 set guioptions-=L
 
-set guifont=Inconsolata\ for\ Powerline\ Medium\ 11
+set guifont=FiraCode\ Nerd\ Font\ 11
 
 set guitablabel=%t%m

@@ -80,7 +80,7 @@ call packup#add('git@github.com:mattn/webapi-vim.git')
 call packup#add('git@github.com:editorconfig/editorconfig-vim.git')
 call packup#add('git@github.com:godlygeek/tabular.git')
 call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
-call packup#add('/usr/local/opt/fzf')
+call packup#add('git@github.com:junegunn/fzf.git', {'do': { -> fzf#install()}})
 call packup#add('git@github.com:junegunn/fzf.vim.git')
 call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
 " Productivity {{{3

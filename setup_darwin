@@ -8,7 +8,6 @@ brew install bat
 brew install fzf
 brew install gcc
 brew install hub
-brew install mpv
 brew install bash
 brew install htop
 brew install nmap
@@ -31,7 +30,7 @@ brew install moreutils
 brew install gnu-indent
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-brew install caskroom/cask/brew-cask
+brew tap homebrew/cask
 brew tap homebrew/cask-versions
 
 brew cask install kap
