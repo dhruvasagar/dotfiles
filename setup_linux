@@ -23,11 +23,19 @@ if [ $+commands[snap] ]; then
   sudo snap install keybase --edge
 fi
 
-# Dependencies for VIM
+# Install dependencies for VIM
 sudo apt-get install libxt-dev \
                      libx11-dev \
                      libxpm-dev \
                      python-dev \
+                     python3-dev \
                      libncurses-dev
+
+# Install dependencies for TMUX
+sudo apt install -y automake \
+                    bison \
+                    pkg-config \
+                    libevent-dev \
+                    libncurses5-dev
 
 [[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`

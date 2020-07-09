@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Clone & buildvim
+# Clone & build vim
 if [[ ! -d ~/src/oss/vim ]]; then
   git clone git@github.com:vim/vim.git ~/src/oss/vim
   cd ~/src/oss/vim
+
+  # Compile and Install VIM
   ~/dotfiles/bin/buildvim
 
   # Install Packup

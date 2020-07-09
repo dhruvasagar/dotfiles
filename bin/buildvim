@@ -12,8 +12,8 @@ if [ "$platform" = "linux" ]; then
     --enable-pythoninterp \
     --enable-python3interp \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir="$(/usr/bin/python2.7-config --configdir)" \
-    --with-python3-config-dir="$(/usr/bin/python3.7-config --configdir)"
+    --with-python-config-dir="$(python2-config --configdir)" \
+    --with-python3-config-dir="$(python3-config --configdir)"
 else
   ./configure \
     --prefix=/usr/local \

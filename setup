@@ -46,4 +46,5 @@ platform=$(uname | awk '{print tolower($0)}')
 [[ -f "setup_$platform" ]] && source "./setup_$platform"
 
 ./setup_vim
+./setup_tmux
 ./setup_asdf
