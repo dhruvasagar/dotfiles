@@ -43,3 +43,7 @@ User pi
 Host usbarmory
 HostName 10.0.0.1
 User root
+
+Host kali
+HostName 192.168.1.184
+User=h4x0rdud3

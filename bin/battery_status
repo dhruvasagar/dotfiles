@@ -3,11 +3,18 @@
 platform=`uname`
 
 if [ "$platform" = 'Linux' ]; then
-  BATTERY_PATH="/sys/class/power_supply/BAT0"
-  ENERGY_NOW=`cat $BATTERY_PATH/energy_now`
-  ENERGY_FULL=`cat $BATTERY_PATH/energy_full`
-  BATTERY_STATUS=`cat $BATTERY_PATH/status`
-  echo "$ENERGY_NOW*100/$ENERGY_FULL" | bc -l | xargs printf "%.2f%% $BATTERY_STATUS"
+  if command -v upower; then
+    BATTERY_STATUS=$(upower -i $(upower -e | grep BAT) | grep state | awk '{print $2}')
+    BATTERY_PERCENTAGE=$(upower -i $(upower -e | grep BAT) | grep percentage | awk '{print $2}')
+    printf "%s $BATTERY_STATUS" $BATTERY_PERCENTAGE
+  else
+    BATTERY_PATH="/sys/class/power_supply/BAT0"
+    ENERGY_NOW=`cat $BATTERY_PATH/energy_now`
+    ENERGY_FULL=`cat $BATTERY_PATH/energy_full`
+    BATTERY_STATUS=`cat $BATTERY_PATH/status`
+    BATTERY_PERCENTAGE=$($ENERGY_NOW*100/$ENERGY_FULL | bc -l)
+    printf "%.2f%% $BATTERY_STATUS" $BATTERY_PERCENTAGE
+  fi
 elif [ "$platform" = 'Darwin' ]; then
   PERCENTAGE=`pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f1 -d';'`
   CHARGING=`pmset -g batt | egrep "([0-9]+\%).*" -o --colour=auto | cut -f2 -d';'`
