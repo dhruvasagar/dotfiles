@@ -21,8 +21,7 @@ else
     --enable-python3interp \
     --with-features=huge \
     --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python3-command=/usr/local/bin/python3.7 \
-    --with-python3-config-dir="$(/usr/local/bin/python3.7-config --ldflags | awk '{print $1}' | sed 's/^-L//')"
+    --with-python3-config-dir="$(python3-config --configdir)"
 fi
 
 sudo make
