@@ -37,4 +37,4 @@ git-info() {
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%n%f@%F{blue}%M%f in %F{green}%~%f$(git-info)
 %F{yellow}λ%f '
-RPROMPT='%F{red}$(asdf-current-info)'
+# RPROMPT='%F{red}$(asdf-current-info)'
