@@ -65,3 +65,7 @@ lcflow () {
 	period=${1-"this month"}
 	ledger --current --invert --real --wide -s -X $ -S "amount" -p "$period" reg income expenses
 }
+
+calc () {
+  echo "$1" | bc -l
+}
