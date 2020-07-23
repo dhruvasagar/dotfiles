@@ -84,10 +84,9 @@ endfunction
 
 set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
 set statusline+=%(\ %{fugitive#head()}\ \|%)
-set statusline+=%(\ %{StatusLinePWD()}\ %(%3*%{StatusLinePWDGitFlag()}%*%)\|\ %)
+set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
 set statusline+=%(%r%m\ %)
 
-set statusline+=%3*%(%{StatusLineGitFlag()}\ %)%*
 set statusline+=%2*%(%{StatusLineALE()}\ %)%*
 set statusline+=%1*%{StatusLineFileName()}\ %*
 
