@@ -1,5 +1,6 @@
 # vim: ft=zsh
 
+[ -d "$HOME/Android/Sdk" ] && PATH=$HOME/Android/Sdk/platform-tools:$PATH
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
 PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
