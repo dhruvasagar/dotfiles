@@ -1,4 +1,3 @@
-finish
 if exists('g:loaded_vinegar')
   finish
 endif
