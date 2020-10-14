@@ -4,22 +4,22 @@ echo "Benchmarking vanila zsh"
 docker build -q \
   -f benchmarks/Dockerfile-zsh \
   -t bench-zsh . \
-  && docker run --rm bench-zsh
+  && docker run --rm -t bench-zsh
 
 echo "Benchmarking my zsh"
 docker build -q \
   -f benchmarks/Dockerfile-myzsh \
   -t bench-myzsh . \
-  && docker run --rm bench-myzsh
+  && docker run --rm -t bench-myzsh
 
 echo "Benchmarking prezto"
 docker build -q \
   -f benchmarks/Dockerfile-prezto \
   -t bench-prezto . \
-  && docker run --rm bench-prezto
+  && docker run --rm -t bench-prezto
 
 echo "Benchmarking ohmyzsh"
 docker build -q \
   -f benchmarks/Dockerfile-ohmyzsh \
   -t bench-ohmyzsh . \
-  && docker run --rm bench-ohmyzsh
+  && docker run --rm -t bench-ohmyzsh
