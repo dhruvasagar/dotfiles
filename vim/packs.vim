@@ -92,6 +92,7 @@ call packup#add('git@github.com:guns/xterm-color-table.vim.git')
 call packup#add('git@github.com:vimwiki/vimwiki.git')
 call packup#add('git@github.com:mattn/calendar-vim.git')
 call packup#add('git@github.com:ledger/vim-ledger.git')
+call packup#add('git@github.com:puremourning/vimspector.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
 "
