@@ -1,0 +1,12 @@
+#!/bin/bash
+
+rm -rf ~/.gitconfig \
+       ~/.gitignore \
+       ~/.gitattributes \
+       ~/.gitcommit_template
+
+ln -s ~/dotfiles/git/config ~/.gitconfig
+ln -s ~/dotfiles/git/ignore ~/.gitignore
+# ln -s ~/dotfiles/git/template ~/.git_template
+ln -s ~/dotfiles/git/attributes ~/.gitattributes
+ln -s ~/dotfiles/git/commit_template ~/.gitcommittemplate

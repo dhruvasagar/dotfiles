@@ -8,14 +8,11 @@ rm -rf ~/.vim \
        ~/.emacs.d \
        ~/.weechat \
        ~/.tmux.conf \
-       ~/.gitconfig \
        ~/.ssh/config \
        ~/.tridactylrc \
        ~/.hammerspoon \
        ~/.qutebrowser \
-       ~/.password-store \
-       ~/.gitignore_global \
-       ~/.gitcommit_template
+       ~/.password-store
 
 ln -s ~/dotfiles/vim ~/.vim
 
@@ -28,13 +25,9 @@ ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/hammerspoon ~/.hammerspoon
 ln -s ~/dotfiles/qutebrowser ~/.qutebrowser
-# ln -s ~/dotfiles/git_template ~/.git_template
 ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
-ln -s ~/dotfiles/gitignore_global ~/.gitignore_global
-ln -s ~/dotfiles/gitcommit_template ~/.gitcommit_template
 
 ln -s ~/dotfiles/gnupg ~/.gnupg
 ln -s ~/dotfiles/password-store ~/.password-store
@@ -50,6 +43,7 @@ platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null
 [[ -f "setup_$platform" ]] && source "./setup_$platform"
 
+./setup_git
 ./setup_vim
 ./setup_tmux
 ./setup_asdf
