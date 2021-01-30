@@ -7,6 +7,7 @@ rm -rf ~/.vim \
        ~/.zshrc \
        ~/.emacs.d \
        ~/.weechat \
+       ~/.xprofile \
        ~/.tmux.conf \
        ~/.ssh/config \
        ~/.tridactylrc \
@@ -23,6 +24,7 @@ ln -s ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 
 ln -s ~/dotfiles/emacs ~/.emacs.d
 ln -s ~/dotfiles/weechat ~/.weechat
+ln -s ~/dotfiles/xprofile ~/.xprofile
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/hammerspoon ~/.hammerspoon
