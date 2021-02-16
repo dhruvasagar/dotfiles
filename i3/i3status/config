@@ -1,0 +1,57 @@
+general {
+  output_format = "i3bar"
+  colors = false
+  markup = pango
+  interval = 5
+  color_good = '#2f343f'
+  color_degraded = '#ebcb8b'
+  color_bad = '#ba5e57'
+}
+
+order += "load"
+order += "disk /"
+order += "disk /home"
+order += "ethernet enp2s0"
+order += "wireless wlp3s0"
+order += "volume master"
+order += "tztime local"
+
+load {
+  format = "<span background='#f59335'> L: %5min Load </span>"
+}
+
+cpu_temperature 0 {
+  format = "<span background='#bf616a'> Temp: %degrees °C </span>"
+  path = "/sys/class/thermal/thermal_zone0/temp"
+}
+
+disk "/" {
+  format = "<span background='#fec7cd'> S: %free Free </span>"
+}
+
+disk "/home" {
+  format = "<span background='#a1d569'> S (home): %free Free </span>"
+}
+
+ethernet enp2s0 {
+  format_up = "<span background='#88c0d0'>E: %ip </span>"
+  format_down = "<span background='#88c0d0'>E: Disconnected </span>"
+}
+
+wireless wlp3s0 {
+  format_up = "<span background='#b48ead'> W: %essid </span>"
+  format_down = "<span background='#b48ead'> W: Disconnected </span>"
+}
+
+volume master {
+  format = "<span background='#ebcb8b'> V: %volume </span>"
+  format_muted = "<span background='#ebcb8b'> V: Muted </span>"
+  device = "default"
+  mixer = "Master"
+  mixer_idx = 0
+}
+
+tztime local {
+  format = "<span background='#81a1c1'> %time </span>"
+  format_time = "T: %a %-d %b %H:%M"
+}

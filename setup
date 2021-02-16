@@ -1,19 +1,20 @@
 #!/bin/bash
 
-rm -rf ~/.vim \
-       ~/.nvim \
-       ~/.mutt \
-       ~/.gnupg \
-       ~/.zshrc \
-       ~/.emacs.d \
-       ~/.weechat \
-       ~/.xprofile \
-       ~/.tmux.conf \
-       ~/.ssh/config \
-       ~/.tridactylrc \
-       ~/.hammerspoon \
-       ~/.qutebrowser \
-       ~/.password-store
+rm -rf ~/.i3 \
+  ~/.vim \
+  ~/.nvim \
+  ~/.mutt \
+  ~/.gnupg \
+  ~/.zshrc \
+  ~/.emacs.d \
+  ~/.weechat \
+  ~/.xprofile \
+  ~/.tmux.conf \
+  ~/.ssh/config \
+  ~/.tridactylrc \
+  ~/.hammerspoon \
+  ~/.qutebrowser \
+  ~/.password-store
 
 ln -s ~/dotfiles/vim ~/.vim
 
@@ -33,6 +34,9 @@ ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 
 ln -s ~/dotfiles/gnupg ~/.gnupg
 ln -s ~/dotfiles/password-store ~/.password-store
+
+rm -rf ~/.config/i3
+ln -s ~/dotfiles/i3 ~/.config/i3
 
 rm -rf ~/.config/alacritty
 mkdir -p ~/.config/alacritty
