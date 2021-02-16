@@ -329,7 +329,7 @@ bar {
   font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   font pango:DejaVu Sans Mono 9
   status_command bumblebee-status \
-    -m cpu load nvidiagpu memory datetime nic \
+    -m cpu load nvidiagpu memory nic datetime \
     -p nic.exclude="lo,enp30s0" \
     -p nic.format="{intf}:{ip}" \
     -p interval=2.5 \
