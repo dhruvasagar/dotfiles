@@ -328,7 +328,13 @@ bar {
   position top
   font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   font pango:DejaVu Sans Mono 9
-  status_command bumblebee-status -m cpu nvidiagpu memory battery datetime nic -p interval=2.5 -t gruvbox-powerline
+  status_command bumblebee-status \
+    -m cpu load nvidiagpu memory datetime nic speedtest \
+    -p nic.exclude="lo,enp30s0" \
+    -p nic.format="{intf}:{ip}" \
+    -p interval=2.5 \
+    -p datetime.format="%d %b '%y %a %H:%M:%S" \
+    -t solarized
   # docker_ps
   # status_command polybar main
 }
