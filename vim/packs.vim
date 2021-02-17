@@ -54,18 +54,20 @@ call packup#add('git@github.com:burnettk/vim-angular.git')
 call packup#add('git@github.com:guns/vim-sexp.git')
 call packup#add('git@github.com:guns/vim-clojure-static.git')
 " }}}4
+" Haskell {{{4
+call packup#add('git@github.com:neovimhaskell/haskell-vim.git')
+" }}}4
+" Others {{{4
 call packup#add('git@github.com:kana/vim-vspec.git')
 call packup#add('git@github.com:avdgaag/vim-phoenix.git')
 call packup#add('git@github.com:digitaltoad/vim-jade.git')
 call packup#add('git@github.com:elixir-lang/vim-elixir.git')
 call packup#add('git@github.com:slim-template/vim-slim.git')
 call packup#add('git@github.com:fatih/vim-go.git', {'do': 'GoInstallBinaries'})
-call packup#add('git@github.com:rust-lang/rust.vim.git')
 call packup#add('git@github.com:racer-rust/vim-racer.git')
-call packup#add('git@github.com:derekwyatt/vim-scala.git')
 call packup#add('git@github.com:leafgarland/typescript-vim.git')
 call packup#add('git@github.com:purescript-contrib/purescript-vim.git')
-call packup#add('git@github.com:neovimhaskell/haskell-vim.git')
+" }}}4
 " Utility Plugins {{{3
 call packup#add('git@github.com:SirVer/ultisnips.git')
 call packup#add('git@github.com:honza/vim-snippets.git')
@@ -82,6 +84,7 @@ call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
 call packup#add('git@github.com:junegunn/fzf.git', {'do': { -> fzf#install()}})
 call packup#add('git@github.com:junegunn/fzf.vim.git')
 call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
+call packup#add('git@github.com:iamcco/markdown-preview.nvim')
 " Productivity {{{3
 call packup#add('git@github.com:junegunn/goyo.vim.git')
 " Fancy Shit {{{3
