@@ -84,7 +84,7 @@ call packup#add('git@github.com:vim-scripts/SyntaxRange.git')
 call packup#add('git@github.com:junegunn/fzf.git', {'do': { -> fzf#install()}})
 call packup#add('git@github.com:junegunn/fzf.vim.git')
 call packup#add('git@github.com:neoclide/coc.nvim.git', {'branch': 'release'})
-call packup#add('git@github.com:iamcco/markdown-preview.nvim')
+call packup#add('git@github.com:iamcco/markdown-preview.nvim.git', {'do': { -> mkdp#util#install()}})
 " Productivity {{{3
 call packup#add('git@github.com:junegunn/goyo.vim.git')
 " Fancy Shit {{{3

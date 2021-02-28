@@ -105,3 +105,4 @@ fi
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
+[ -f "/home/h4x0rdud3/.ghcup/env" ] && source "/home/h4x0rdud3/.ghcup/env" # ghcup-env

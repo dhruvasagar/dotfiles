@@ -5,6 +5,7 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
 PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 PATH=/usr/local/opt/llvm/bin:$PATH
+PATH=$HOME/.ghcup/bin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
 export PATH
