@@ -23,3 +23,5 @@ nnoremap gst :Gstatus<CR>
 nnoremap gsq :GstatusClose<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>
 nnoremap gsld :Glcd<Bar>pwd<CR>
+nnoremap gsps :Git push<CR>
+nnoremap gspl :Git pull<CR>
