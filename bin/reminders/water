@@ -1,0 +1,8 @@
+#!/bin/bash
+
+platform=$(uname)
+if [ "$platform" = 'Linux' ]; then
+  notify-send -u critical -t 1000 Reminder "Drink Water"
+elif [ "$platform" = 'Darwin' ]; then
+  osascript -e 'tell app "System Events" to display dialog "Drink Water" with title "Reminder"'
+fi
