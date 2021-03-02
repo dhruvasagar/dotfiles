@@ -51,9 +51,6 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
-exec --no-startup-id pulseaudio
-exec --no-startup-id pa-applet
 bindsym $mod+Ctrl+m exec pavucontrol
 
 ################################################################################################
@@ -194,19 +191,13 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
-for_window [class="calamares"] floating enable border normal
-for_window [class="Clipgrab"] floating enable
 for_window [title="File Transfer*"] floating enable
-for_window [class="fpakman"] floating enable
-for_window [class="Galculator"] floating enable border pixel 1
 for_window [class="GParted"] floating enable border normal
 for_window [title="i3_help"] floating enable sticky enable border normal
 for_window [class="Lightdm-settings"] floating enable
-for_window [class="Lxappearance"] floating enable sticky enable border normal
 for_window [class="Manjaro-hello"] floating enable
 for_window [class="Manjaro Settings Manager"] floating enable border normal
 for_window [title="MuseScore: Play Panel"] floating enable
-for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Oblogout"] fullscreen enable
 for_window [class="octopi"] floating enable
 for_window [title="About Pale Moon"] floating enable
@@ -258,10 +249,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 5 px or 5 ppt
-        bindsym k resize grow height 5 px or 5 ppt
-        bindsym l resize shrink height 5 px or 5 ppt
-        bindsym semicolon resize grow width 5 px or 5 ppt
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -278,17 +269,16 @@ mode "resize" {
 bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-# exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 exec --no-startup-id blueman-applet
-# exec_always --no-startup-id sbxkb
-# exec --no-startup-id start_conky_maia
-# exec --no-startup-id start_conky_green
-# exec --no-startup-id xautolock -time 60 -locker blurlock
+exec --no-startup-id volumeicon
+exec --no-startup-id pulseaudio
+exec --no-startup-id pa-applet
+exec --no-startup-id xautolock -time 60 -locker blurlock
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
 exec_always --no-startup-id fix_xcursor
 
 # Color palette used for the terminal ( ~/.Xresources file )
@@ -329,7 +319,7 @@ bar {
   font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   font pango:DejaVu Sans Mono 9
   status_command bumblebee-status \
-    -m cpu load nvidiagpu memory nic datetime \
+    -m sensors2 load nvidiagpu memory nic datetime \
     -p nic.exclude="lo,enp30s0" \
     -p nic.format="{intf}:{ip}" \
     -p interval=2.5 \
@@ -368,7 +358,7 @@ client.background           #2f343f
 
 # Set inner/outer gaps
 gaps inner 5
-gaps outer -2
+# gaps outer -2
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>

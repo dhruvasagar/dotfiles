@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for session in $(tmux list-session -F '#S'); do
+  pane=$(tmux list-panes -F '#{session_name}:#{window_index}.#{pane_index}' -f '#{pane_active}' -t "${session}:")
+  tmux send-keys -t "$pane" Escape gAa
+done

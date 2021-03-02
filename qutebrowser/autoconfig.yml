@@ -6,7 +6,20 @@
 
 config_version: 2
 settings:
+  content.geolocation:
+    https://www.horizonblue.com: true
+  content.media.audio_capture:
+    https://meet.google.com: true
+  content.media.audio_video_capture:
+    https://meet.google.com: true
+  content.media.video_capture:
+    https://meet.google.com: true
   content.notifications:
     https://mail.google.com: true
+    https://meet.google.com: true
+    https://www.facebook.com: true
+    https://www.producthunt.com: true
+    https://www.reddit.com: true
+    https://yourstory.com: true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true

@@ -56,3 +56,9 @@ augroup Terminal "{{{1
     autocmd TerminalOpen * setl nolist
   end
 augroup END
+
+augroup CronTab "{{{1
+  au!
+
+  autocmd BufWritePost crontab !updatecron
+augroup END
