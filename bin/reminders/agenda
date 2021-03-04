@@ -1,6 +1,10 @@
 #!/bin/bash
 
 for session in $(tmux list-session -F '#S'); do
-  pane=$(tmux list-panes -F '#{session_name}:#{window_index}.#{pane_index}' -f '#{pane_active}' -t "${session}:")
+  pane=$(tmux list-panes \
+    -F '#{session_name}:#{window_index}.#{pane_index} #{?pane_active,active,inactive}' \
+    -t "${session}:" \
+    | grep -w active \
+    | awk '{print $1}')
   tmux send-keys -t "$pane" Escape gAa
 done
