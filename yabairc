@@ -10,9 +10,9 @@
 #
 # see this wiki page for information:
 #  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
-#
-# sudo yabai --load-sa
-# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 # global settings
 yabai -m config mouse_follows_focus          off
@@ -42,6 +42,9 @@ yabai -m config top_padding                  0
 yabai -m config bottom_padding               0
 yabai -m config left_padding                 0
 yabai -m config right_padding                0
-yabai -m config window_gap                   05
+yabai -m config window_gap                   5
+
+yabai -m rule --add app="^Alacritty$" manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app="^System Preferences$" manage=off grid=5:5:2:1:2:2
 
 echo "yabai configuration loaded.."
