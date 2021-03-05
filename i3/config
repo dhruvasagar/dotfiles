@@ -270,15 +270,13 @@ bindsym $mod+9 exec --no-startup-id blurlock
 # Autostart applications
 exec --no-startup-id nm-applet
 exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
 exec --no-startup-id blueman-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id pulseaudio
 exec --no-startup-id pa-applet
 exec --no-startup-id xautolock -time 60 -locker blurlock
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
-exec_always --no-startup-id fix_xcursor
+exec --no-startup-id dropbox
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
