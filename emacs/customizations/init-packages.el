@@ -1,11 +1,11 @@
 (require 'package)
 
 (add-to-list 'package-archives
-             '("tromey" . "http://tromey.com/elpa/") t)
+             '("tromey" . "http://tromey.com/elpa/"))
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
+	     '("org" . "https://orgmode.org/elpa/"))
 
 (package-initialize)
 
@@ -24,7 +24,6 @@
     evil-exchange
     evil-visualstar
     evil-collection
-    evil-magit
 
     railscasts-theme
 

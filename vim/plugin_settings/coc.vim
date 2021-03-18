@@ -9,12 +9,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation() abort
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    if !CocAction('doHover')
-      normal! K
-    endif
+  if !CocAction('doHover')
+    normal! K
   endif
 endfunction
 
@@ -27,3 +23,18 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
+
+let g:coc_global_extensions = [
+      \ 'coc-sh',
+      \ 'coc-css',
+      \ 'coc-sql',
+      \ 'coc-json',
+      \ 'coc-yaml',
+      \ 'coc-reason',
+      \ 'coc-vimlsp',
+      \ 'coc-graphql',
+      \ 'coc-swagger',
+      \ 'coc-tsserver',
+      \ 'coc-solargraph',
+      \ 'coc-rust-analyzer',
+      \ ]

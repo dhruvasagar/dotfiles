@@ -1,1 +1,2 @@
-set concealcursor=nc
+setl nowrap
+setl concealcursor=nc
