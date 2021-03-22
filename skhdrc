@@ -125,8 +125,8 @@ alt + shift - r : yabai -m space --rotate 270
 
 # toggle window zoom
 alt - f : yabai -m window --toggle zoom-fullscreen
-# cmd + shift - f : yabai -m window --toggle zoom-parent
-alt + shift - f : yabai -m window --warp largest
+alt + shift - f : yabai -m window --toggle zoom-parent
+# alt + shift - f : yabai -m window --warp largest
 
 # switch spaces
 alt - l : yabai -m space --focus last
@@ -166,6 +166,9 @@ alt + shift - 5 : yabai -m window --space  5; yabai -m space --focus 5
 alt + shift - 6 : yabai -m window --space  6; yabai -m space --focus 6
 alt + shift - 7 : yabai -m window --space  7; yabai -m space --focus 7
 alt + shift - 8 : yabai -m window --space  8; yabai -m space --focus 8
+
+alt + ctrl + cmd - 1 : yabai -m window --display 1; yabai -m display --focus 1
+alt + ctrl + cmd - 2 : yabai -m window --display 2; yabai -m display --focus 2
 
 # restart yabai
 alt + ctrl + shift - r : osascript 'display notification "Restarting Yabai" with title "Yabai"; \

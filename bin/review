@@ -129,7 +129,7 @@ get_pr_description () {
   local prno=$(get_prno "$1")
   local repo=$(get_repo "$1")
   local prurl="/repos/$repo/pulls/$prno"
-  hub api -X GET "$prurl" | jq -r '.title + "\n\n" + .body' >> "$file"
+  hub api -X GET "$prurl" | jq -r '.title + "\n\n" + .body' | sed 's/\r//g' >> "$file"
 }
 
 get_pr_diff () {
@@ -140,6 +140,14 @@ get_pr_diff () {
   hub api -X GET -H Accept:application/vnd.github.v3.diff "$prurl" >> "$file"
 }
 
+get_pr_reviews () {
+  local file="$2"
+  local prno=$(get_prno "$1")
+  local repo=$(get_repo "$1")
+  local prurl="/repos/$repo/pulls/$prno/reviews"
+  hub api -X GET "$prurl" | jq '.' >> "$file"
+}
+
 open_pr () {
   local prno=$(get_prno "$1")
   local repo=$(get_repo "$1")
@@ -148,8 +156,10 @@ open_pr () {
   local prurl="/repos/$repo/pulls/$prno"
   local tmpdesc=$(mktemp -t "$prno.XXXX.txt")
   local tmpdiff=$(mktemp -t "$prno.XXXX.diff")
+  local tmprevs=$(mktemp -t "$prno.XXXX.reviews.json")
   get_pr_description "$1" "$tmpdesc"
   get_pr_diff "$1" "$tmpdiff"
+  get_pr_reviews "$1" "$tmprevs"
   info "Opening PR $prno"
   vim -o "$tmpdesc" "$tmpdiff" \
     +"vsplit +set\ foldlevel=99 $reviewjson" +"wincmd L" +"wincmd h" \

@@ -60,5 +60,5 @@ augroup END
 augroup CronTab "{{{1
   au!
 
-  autocmd BufWritePost crontab !updatecron
+  autocmd BufWritePost ~/dotfiles/crontab !updatecron
 augroup END
