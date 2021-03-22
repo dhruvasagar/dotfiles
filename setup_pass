@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ ! -d ~/src/dhruvasagar/password-store ]]; then
+  git clone git@github.com:dhruvasagar/password-store.git \
+    ~/src/dhruvasagar/password-store
+fi
+
+relink ~/src/dhruvasagar/password-store/gnupg ~/.gnupg
+relink ~/src/dhruvasagar/password-store ~/.password-store

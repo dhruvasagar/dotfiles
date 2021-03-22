@@ -8,10 +8,10 @@ endfunction
 command! GstatusClose call s:close_gstatus()
 
 " Commands & Mappings {{{1
-command! -bar -nargs=* Gpurr Gpull --rebase
-command! -bar Gpnp silent Gpull | Git push
-command! -bar Gprp silent Gpurr | Git push
-command! -bar Gush silent Git push origin head
+command! -bar -nargs=* Gpurr Git pull --rebase
+command! -bar Gpnp Git pull | Git push
+command! -bar Gprp Gpurr | Git push
+command! -bar Gush Git push origin head
 
 nnoremap gsl :Glog<CR>
 nnoremap gsd :Gdiff<CR>

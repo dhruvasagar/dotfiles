@@ -1,5 +1,9 @@
 #!/bin/bash
 
+relink ~/dotfiles/skhdrc "${XDG_CONFIG_HOME}/skhd/skhdrc"
+relink ~/dotfiles/yabairc ~/.yabairc
+relink ~/dotfiles/hammerspoon ~/.hammerspoon
+
 brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s "$(command -v zsh)"
 
@@ -14,10 +18,14 @@ brew install nmap
 brew install tmux
 brew install wget
 brew install awscli
+brew install neovim
 brew install ledger
 brew install ripgrep
 brew install weechat
 brew install reattach-to-user-namespace
+
+brew install koekeishiya/formulae/skhd
+brew install koekeishiya/formulae/yabai
 
 # gnu tools better than osx defaults
 brew install gawk
@@ -33,23 +41,23 @@ brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 brew tap homebrew/cask
 brew tap homebrew/cask-versions
 
-brew cask install kap
-brew cask install ngrok
-brew cask install skype
-brew cask install slack
-brew cask install steam
-brew cask install docker
-brew cask install skitch
-brew cask install dropbox
-brew cask install keybase
-brew cask install caffeine
-brew cask install alacritty
-brew cask install spectacle
-brew cask install hammerspoon
+brew install --cask kap
+brew install --cask ngrok
+brew install --cask skype
+brew install --cask slack
+brew install --cask steam
+brew install --cask docker
+brew install --cask skitch
+brew install --cask dropbox
+brew install --cask keybase
+brew install --cask caffeine
+brew install --cask alacritty
+brew install --cask spectacle
+brew install --cask hammerspoon
 
 brew tap homebrew/cask-fonts
-brew cask install font-fira-sans # for Italics
-brew cask install font-firacode-nerd-font
+brew install --cask font-fira-sans # for Italics
+brew install --cask font-firacode-nerd-font
 
-brew cask install qutebrowser
-brew cask install firefox-developer-edition
+brew install --cask firefox
+brew install --cask qutebrowser

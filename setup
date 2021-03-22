@@ -1,49 +1,32 @@
 #!/bin/bash
 
-rm -rf ~/.i3 \
-  ~/.vim \
-  ~/.nvim \
-  ~/.mutt \
-  ~/.gnupg \
-  ~/.zshrc \
-  ~/.emacs.d \
-  ~/.weechat \
-  ~/.xprofile \
-  ~/.tmux.conf \
-  ~/.ssh/config \
-  ~/.tridactylrc \
-  ~/.hammerspoon \
-  ~/.qutebrowser \
-  ~/.password-store
+relink () {
+  src="$1"
+  dst="$2"
 
-ln -s ~/dotfiles/vim ~/.vim
+  rm -rf "$dst"
+
+  dir=$(dirname "$dst")
+  [[ ! -d "$dir" ]] && mkdir -p "$dir"
+
+  ln -s "$src" "$dst"
+}
 
 XDG_CONFIG_HOME=$XDG_CONFIG_HOME:=$HOME/.config
-rm -rf "${XDG_CONFIG_HOME}/nvim"
-mkdir -p "${XDG_CONFIG_HOME}"
-ln -s ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 
-ln -s ~/dotfiles/emacs ~/.emacs.d
-ln -s ~/dotfiles/weechat ~/.weechat
-ln -s ~/dotfiles/xprofile ~/.xprofile
-ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/hammerspoon ~/.hammerspoon
-ln -s ~/dotfiles/qutebrowser ~/.qutebrowser
-ln -s ~/dotfiles/vim/tridactylrc ~/.tridactylrc
+relink ~/dotfiles/vim ~/.vim
+relink ~/dotfiles/emacs ~/.emacs.d
+relink ~/dotfiles/weechat ~/.weechat
+relink ~/dotfiles/zsh/zshrc ~/.zshrc
+relink ~/dotfiles/tmux.conf ~/.tmux.conf
+relink ~/dotfiles/qutebrowser ~/.qutebrowser
+relink ~/dotfiles/vim/tridactylrc ~/.tridactylrc
+relink ~/dotfiles/sshconfig ~/.ssh/config
+relink ~/dotfiles/xprofile ~/.xprofile
 
-ln -s ~/dotfiles/gnupg ~/.gnupg
-ln -s ~/dotfiles/password-store ~/.password-store
-
-rm -rf ~/.config/i3
-ln -s ~/dotfiles/i3 ~/.config/i3
-
-rm -rf ~/.config/alacritty
-mkdir -p ~/.config/alacritty
-ln -s ~/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
-
-mkdir -p ~/.ssh
-ln -s ~/dotfiles/sshconfig ~/.ssh/config
+relink ~/dotfiles/i3 "${XDG_CONFIG_HOME}/i3"
+relink ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
+relink ~/dotfiles/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
 
 platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null
@@ -53,3 +36,4 @@ platform=$(uname | awk '{print tolower($0)}')
 ./setup_vim
 ./setup_tmux
 ./setup_asdf
+./setup_pass

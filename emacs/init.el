@@ -10,6 +10,7 @@
 (require 'init-packages)
 (require 'ui)
 (require 'init-evil)
+(require 'init-org)
 
 (setq backup-inhibited t)
 (setq create-lockfiles nil)

@@ -21,6 +21,16 @@
 #
 # History:
 #
+# 2019-07-11, Simmo Saan <simmo.saan@gmail.com>
+#     version 2.6: fix detection of "/input search_text_here"
+# 2017-04-01, Sébastien Helleu <flashcode@flashtux.org>:
+#     version 2.5: add option "buffer_number"
+# 2017-03-02, Sébastien Helleu <flashcode@flashtux.org>:
+#     version 2.4: fix syntax and indentation error
+# 2017-02-25, Simmo Saan <simmo.saan@gmail.com>
+#     version 2.3: fix fuzzy search breaking buffer number search display
+# 2016-01-28, ylambda <ylambda@koalabeast.com>
+#     version 2.2: add option "fuzzy_search"
 # 2015-11-12, nils_2 <weechatter@arcor.de>
 #     version 2.1: fix problem with buffer short_name "weechat", using option
 #                  "use_core_instead_weechat", see:
@@ -36,7 +46,7 @@
 #     version 1.8: fix jump to non-active merged buffers (jump with buffer name
 #                  instead of number)
 # 2012-01-03 nils_2 <weechatter@arcor.de>
-#     version 1.7: add option use_core_instead_weechat
+#     version 1.7: add option "use_core_instead_weechat"
 # 2012-01-03, Sébastien Helleu <flashcode@flashtux.org>:
 #     version 1.6: make script compatible with Python 3.x
 # 2011-08-24, stfn <stfnmd@googlemail.com>:
@@ -50,9 +60,9 @@
 #     version 1.2: use high priority for hooks to prevent conflict with other
 #                  plugins/scripts (WeeChat >= 0.3.4 only)
 # 2010-03-25, Elián Hanisch <lambdae2@gmail.com>:
-#     version 1.1: use a space for match the end of a string
+#     version 1.1: use a space to match the end of a string
 # 2009-11-16, Sébastien Helleu <flashcode@flashtux.org>:
-#     version 1.0: add new option for displaying short names
+#     version 1.0: add new option to display short names
 # 2009-06-15, Sébastien Helleu <flashcode@flashtux.org>:
 #     version 0.9: fix typo in /help go with command /key
 # 2009-05-16, Sébastien Helleu <flashcode@flashtux.org>:
@@ -84,7 +94,7 @@ from __future__ import print_function
 
 SCRIPT_NAME = 'go'
 SCRIPT_AUTHOR = 'Sébastien Helleu <flashcode@flashtux.org>'
-SCRIPT_VERSION = '2.1'
+SCRIPT_VERSION = '2.6'
 SCRIPT_LICENSE = 'GPL3'
 SCRIPT_DESC = 'Quick jump to buffers'
 
@@ -142,6 +152,12 @@ SETTINGS = {
     'auto_jump': (
         'off',
         'automatically jump to buffer when it is uniquely selected'),
+    'fuzzy_search': (
+        'off',
+        'search buffer matches using approximation'),
+    'buffer_number': (
+        'on',
+        'display buffer number'),
 }
 
 # hooks management
@@ -239,6 +255,29 @@ def go_match_beginning(buf, string):
     return False
 
 
+def go_match_fuzzy(name, string):
+    """Check if string matches name using approximation."""
+    if not string:
+        return False
+
+    name_len = len(name)
+    string_len = len(string)
+
+    if string_len > name_len:
+        return False
+    if name_len == string_len:
+        return name == string
+
+    # Attempt to match all chars somewhere in name
+    prev_index = -1
+    for i, char in enumerate(string):
+        index = name.find(char, prev_index+1)
+        if index == -1:
+            return False
+        prev_index = index
+    return True
+
+
 def go_now(buf, args):
     """Go to buffer specified by args."""
     listbuf = go_matching_buffers(args)
@@ -297,6 +336,8 @@ def go_matching_buffers(strinput):
         matching = name.lower().find(strinput) >= 0
         if not matching and strinput[-1] == ' ':
             matching = name.lower().endswith(strinput.strip())
+        if not matching and go_option_enabled('fuzzy_search'):
+            matching = go_match_fuzzy(name.lower(), strinput)
         if not matching and strinput.isdigit():
             matching = str(number).startswith(strinput)
         if len(strinput) == 0 or matching:
@@ -364,23 +405,49 @@ def go_buffers_to_string(listbuf, pos, strinput):
     strinput = strinput.lower()
     for i in range(len(listbuf)):
         selected = '_selected' if i == pos else ''
-        index = listbuf[i]['name'].lower().find(strinput)
+        buffer_name = listbuf[i]['name']
+        index = buffer_name.lower().find(strinput)
         if index >= 0:
             index2 = index + len(strinput)
             name = '%s%s%s%s%s' % (
-                listbuf[i]['name'][:index],
+                buffer_name[:index],
                 weechat.color(weechat.config_get_plugin(
                     'color_name_highlight' + selected)),
-                listbuf[i]['name'][index:index2],
+                buffer_name[index:index2],
                 weechat.color(weechat.config_get_plugin(
                     'color_name' + selected)),
-                listbuf[i]['name'][index2:])
+                buffer_name[index2:])
+        elif go_option_enabled("fuzzy_search") and \
+                go_match_fuzzy(buffer_name.lower(), strinput):
+            name = ""
+            prev_index = -1
+            for char in strinput.lower():
+                index = buffer_name.lower().find(char, prev_index+1)
+                if prev_index < 0:
+                    name += buffer_name[:index]
+                    name += weechat.color(weechat.config_get_plugin(
+                        'color_name_highlight' + selected))
+                if prev_index >= 0 and index > prev_index+1:
+                    name += weechat.color(weechat.config_get_plugin(
+                        'color_name' + selected))
+                    name += buffer_name[prev_index+1:index]
+                    name += weechat.color(weechat.config_get_plugin(
+                        'color_name_highlight' + selected))
+                name += buffer_name[index]
+                prev_index = index
+
+            name += weechat.color(weechat.config_get_plugin(
+                'color_name' + selected))
+            name += buffer_name[prev_index+1:]
         else:
-            name = listbuf[i]['name']
-        string += ' %s%s%s%s%s' % (
-            weechat.color(weechat.config_get_plugin(
-                'color_number' + selected)),
-            str(listbuf[i]['number']),
+            name = buffer_name
+        string += ' '
+        if go_option_enabled('buffer_number'):
+            string += '%s%s' % (
+                weechat.color(weechat.config_get_plugin(
+                    'color_number' + selected)),
+                str(listbuf[i]['number']))
+        string += '%s%s%s' % (
             weechat.color(weechat.config_get_plugin(
                 'color_name' + selected)),
             name,
@@ -415,7 +482,7 @@ def go_input_modifier(data, modifier, modifier_data, string):
 def go_command_run_input(data, buf, command):
     """Function called when a command "/input xxx" is run."""
     global buffers, buffers_pos
-    if command == '/input search_text' or command.find('/input jump') == 0:
+    if command.startswith('/input search_text') or command.startswith('/input jump'):
         # search text or jump to another buffer is forbidden now
         return weechat.WEECHAT_RC_OK_EAT
     elif command == '/input complete_next':

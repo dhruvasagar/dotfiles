@@ -23,3 +23,7 @@ settings:
     https://yourstory.com: true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
+  fonts.default_size:
+    global: 10pt
+  zoom.default:
+    global: '100'
