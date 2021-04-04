@@ -288,6 +288,7 @@ exec --no-startup-id xautolock -time 60 -locker blurlock
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id dropbox
 exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1080 --pos 0x540 --output DP-2 --primary --mode 3840x2160 --pos 1920x0
+exec --no-startup-id feh --bg-scale ~/Downloads/wp2003064.png
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:

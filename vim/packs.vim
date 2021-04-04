@@ -96,7 +96,7 @@ call packup#add('git@github.com:vimwiki/vimwiki.git')
 call packup#add('git@github.com:mattn/calendar-vim.git')
 call packup#add('git@github.com:ledger/vim-ledger.git')
 call packup#add('git@github.com:puremourning/vimspector.git')
-call packup#add('git@github.com:nathanaelkane/vim-indent-guides.git')
+call packup#add('git@github.com:Yggdroot/indentLine.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
 "

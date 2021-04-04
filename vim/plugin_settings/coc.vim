@@ -28,6 +28,7 @@ let g:coc_global_extensions = [
       \ 'coc-sh',
       \ 'coc-css',
       \ 'coc-sql',
+      \ 'coc-java',
       \ 'coc-json',
       \ 'coc-yaml',
       \ 'coc-reason',

@@ -18,12 +18,15 @@ settings:
     https://mail.google.com: true
     https://meet.google.com: true
     https://www.facebook.com: true
+    https://www.netflix.com: true
     https://www.producthunt.com: true
     https://www.reddit.com: true
     https://yourstory.com: true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
+  fonts.default_family:
+    global: FiraCode Nerd Font
   fonts.default_size:
-    global: 10pt
+    global: 8pt
   zoom.default:
     global: '100'
