@@ -31,7 +31,6 @@ let g:coc_global_extensions = [
       \ 'coc-java',
       \ 'coc-json',
       \ 'coc-yaml',
-      \ 'coc-reason',
       \ 'coc-vimlsp',
       \ 'coc-graphql',
       \ 'coc-swagger',

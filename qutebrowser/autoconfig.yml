@@ -15,6 +15,7 @@ settings:
   content.media.video_capture:
     https://meet.google.com: true
   content.notifications:
+    https://lichess.org: true
     https://mail.google.com: true
     https://meet.google.com: true
     https://www.facebook.com: true

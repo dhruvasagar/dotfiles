@@ -16,6 +16,69 @@ export VISUAL='vim'
 export TERMINAL='alacritty'
 export BROWSER='qutebrowser'
 
+# TERM with at least 256 colors (24 bit on supported terminals)
+export TERM=xterm-256color
+
+export REVIEW_BASE=master
+
+# Add cabal bins to PATH
+if [ -d ~/.cabal/bin ]; then
+  export PATH=$HOME/.cabal/bin:$PATH
+fi
+
+# cassandra
+if [ -d "$HOME/cassandra" ]; then
+  export CASSANDRA_HOME=~/cassandra
+  export PATH=$CASSANDRA_HOME/bin:$PATH
+fi
+
+# go lang
+if [ $+commands[go] ]; then
+  export GOBIN=$HOME/src/go/bin
+  export GOPATH=$HOME/src/go
+  export PATH=$GOBIN:/usr/local/go/bin:$PATH
+fi
+
+platform=$(uname | awk '{print tolower($0)}')
+if [[ "$platform" == "darwin" ]]; then
+  export ANDROID_NDK_HOME="/usr/local/share/android-ndk"
+  export ANDROID_SDK_HOME="/usr/local/share/android-sdk"
+  export PATH=$android_sdk_home
+elif [ -d "$HOME/Android/Sdk" ]; then
+  export ANDROID_SDK_HOME="$HOME/Android/Sdk"
+fi
+
+function kubectl() {
+  if ! type __start_kubectl >/dev/null 2>&1; then
+    source <(command kubectl completion zsh)
+  fi
+
+  command kubectl "$@"
+}
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then
+  source '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
+  source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
+fi
+
+if [ -d "$HOME/.asdf" ]; then
+  autoload -Uz bashcompinit
+  bashcompinit
+  . "$HOME/.asdf/asdf.sh"
+  . "$HOME/.asdf/completions/asdf.bash"
+fi
+
+if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
+  source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+fi
+
+[ -f "/home/h4x0rdud3/.ghcup/env" ] && source "/home/h4x0rdud3/.ghcup/env" # ghcup-env
+
 # Setup history
 . ~/dotfiles/zsh/hist
 
@@ -42,67 +105,6 @@ export BROWSER='qutebrowser'
 
 for f (~/dotfiles/zsh/plugin/*) source $f
 
-# TERM with at least 256 colors (24 bit on supported terminals)
-export TERM=xterm-256color
-
-# Add cabal bins to PATH
-if [ -d ~/.cabal/bin ]; then
-  export PATH=$HOME/.cabal/bin:$PATH
-fi
-
-# cassandra
-if [ -d "$HOME/cassandra" ]; then
-  export CASSANDRA_HOME=~/cassandra
-  export PATH=$CASSANDRA_HOME/bin:$PATH
-fi
-
-# go lang
-if [ $+commands[go] ]; then
-  export GOBIN=$HOME/src/go/bin
-  export GOPATH=$HOME/src/go
-  export PATH=$GOBIN:/usr/local/go/bin:$PATH
-fi
-
-platform=$(uname | awk '{print tolower($0)}')
-if [[ "$platform" == "darwin" ]]; then
-  export android_ndk_home="/usr/local/share/android-ndk"
-  export android_sdk_home="/usr/local/share/android-sdk"
-elif [ -d "$HOME/Android/Sdk" ]; then
-  export android_sdk_home="$HOME/Android/Sdk/platform-tools"
-fi
-
-function kubectl() {
-  if ! type __start_kubectl >/dev/null 2>&1; then
-    source <(command kubectl completion zsh)
-  fi
-
-  command kubectl "$@"
-}
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
-fi
-
-export REVIEW_BASE=master
-
-if [ -d "$HOME/.asdf" ]; then
-  autoload -Uz bashcompinit
-  bashcompinit
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
-fi
-
-if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
-  source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
-fi
-
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
-[ -f "/home/h4x0rdud3/.ghcup/env" ] && source "/home/h4x0rdud3/.ghcup/env" # ghcup-env
