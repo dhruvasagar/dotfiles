@@ -14,7 +14,7 @@ settings:
     https://meet.google.com: true
   content.media.video_capture:
     https://meet.google.com: true
-  content.notifications:
+  content.notifications.enabled:
     https://lichess.org: true
     https://mail.google.com: true
     https://meet.google.com: true
@@ -28,6 +28,8 @@ settings:
   fonts.default_family:
     global: FiraCode Nerd Font
   fonts.default_size:
-    global: 8pt
+    global: 10pt
+  qt.highdpi:
+    global: true
   zoom.default:
     global: '100'
