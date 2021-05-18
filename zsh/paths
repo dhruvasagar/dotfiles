@@ -1,13 +1,25 @@
 # vim: ft=zsh
 
-[ -d "$HOME/Android/Sdk" ] && PATH=$HOME/Android/Sdk/platform-tools:$PATH
+if [ -d "$HOME/Android/Sdk" ]; then
+  PATH=$ANDROID_SDK_HOME/emulator:$PATH
+  PATH=$ANDROID_SDK_HOME/platform-tools:$PATH
+fi
+
+platform=$(uname | awk '{print tolower($0)}')
+if [[ "$platform" == "darwin" ]]; then
+  PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
+  PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+  PATH=/usr/local/opt/llvm/bin:$PATH
+
+  MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+fi
+
+[ -d "$HOME/.ghcup" ] && PATH=$HOME/.ghcup/bin:$PATH
+[ -d "$HOME/.cargo" ] && PATH=$HOME/.cargo/bin:$PATH
+
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
-PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
-PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-PATH=/usr/local/opt/llvm/bin:$PATH
-PATH=$HOME/.ghcup/bin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
+
 export PATH
-MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 export MANPATH

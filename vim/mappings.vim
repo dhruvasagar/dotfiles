@@ -4,7 +4,7 @@
 "
 " * dq, dr, dy, du, dx, dc, dm, d<, d>, d.
 "
-" * gy, go, gz
+" * gy, gz
 "
 " * yq, yr, yu, yx, yc, ym
 "
@@ -61,3 +61,7 @@ cnoremap <C-P> <UP>
 
 nnoremap <C-P> :FzfFiles<CR>
 nnoremap <C-s> :FzfRg<CR>
+
+nnoremap c- :.!toilet -w 200 -f small<CR>
+nnoremap c+ :.!toilet -w 200 -f standard<CR>
+nnoremap cb :.!toilet -w 200 -f term -F border<CR>

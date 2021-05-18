@@ -106,6 +106,7 @@ if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   set fillchars+=vert:\|
   set fillchars+=fold:\⋅
   set fillchars+=diff:-
+  set fillchars+=eob:\ 
 
   set showbreak=↪\ 
 else
@@ -121,6 +122,7 @@ else
   set fillchars+=vert:\|
   set fillchars+=fold:\-
   set fillchars+=diff:-
+  set fillchars+=eob:\ 
 
   set showbreak=->\ 
 endif
