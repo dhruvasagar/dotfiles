@@ -100,6 +100,8 @@ call packup#add('git@github.com:nathanaelkane/vim-indent-guides.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
 "
+" DevOps {{{3
+call packup#add('git@github.com:towolf/vim-helm.git')
 " Uncategorized {{{3
 call packup#add('git@github.com:Lenovsky/nuake.git')
 " call packup#add('git@github.com:chengzeyi/multiterm.vim.git')
