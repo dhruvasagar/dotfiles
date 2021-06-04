@@ -55,3 +55,5 @@
   ; instead of opening all files:
   ; git reviewone foo.js bar.js
   reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+[init]
+	defaultBranch = main

@@ -19,7 +19,7 @@ nnoremap gse :Gedit<CR>
 nnoremap gsb :Gblame<CR>
 nnoremap gsw :Gwrite<CR>
 nnoremap gsC :Gcommit<CR>
-nnoremap gst :Gstatus<CR>
+nnoremap gst :Git<CR>
 nnoremap gsq :GstatusClose<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>
 nnoremap gsld :Glcd<Bar>pwd<CR>

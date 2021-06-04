@@ -329,7 +329,7 @@ bar {
   # font pango:DejaVu Sans Mono 9
   status_command bumblebee-status \
     -m sensors2 load nvidiagpu memory nic datetime \
-    -p nic.exclude="lo,enp30s0" \
+    -p nic.exclude="lo,enp30s0,docker0" \
     -p nic.format="{intf}:{ip}" \
     -p interval=2.5 \
     -p datetime.format="%d %b '%y %a %H:%M:%S" \
