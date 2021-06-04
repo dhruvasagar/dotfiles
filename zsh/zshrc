@@ -43,7 +43,7 @@ platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
   export ANDROID_NDK_HOME="/usr/local/share/android-ndk"
   export ANDROID_SDK_HOME="/usr/local/share/android-sdk"
-  export PATH=$android_sdk_home
+  export PATH=$ANDROID_SDK_HOME:$PATH
 elif [ -d "$HOME/Android/Sdk" ]; then
   export ANDROID_SDK_HOME="$HOME/Android/Sdk"
 fi

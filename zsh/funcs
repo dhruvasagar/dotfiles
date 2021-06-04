@@ -69,3 +69,7 @@ lcflow () {
 calc () {
   echo "$1" | bc -l
 }
+
+rmd () {
+  pandoc $1 | lynx -stdin
+}

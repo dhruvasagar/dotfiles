@@ -46,4 +46,8 @@ User root
 
 Host kali
 HostName 192.168.1.184
-User=h4x0rdud3
+User h4x0rdud3
+
+Host Desktop
+HostName 192.168.1.170
+User h4x0rdud3
