@@ -14,7 +14,7 @@ export LANG="en_US.UTF-8"
 export EDITOR='vim'
 export VISUAL='vim'
 export TERMINAL='alacritty'
-export BROWSER='qutebrowser'
+export BROWSER='brave'
 
 # TERM with at least 256 colors (24 bit on supported terminals)
 export TERM=xterm-256color

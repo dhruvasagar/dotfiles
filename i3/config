@@ -59,7 +59,7 @@ bindsym XF86MonBrightnessUp exec "sudo light -A 1; notify-send 'brightness up'"
 bindsym XF86MonBrightnessDown exec "sudo light -U 1; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+F2 exec qutebrowser
+bindsym $mod+F2 exec brave
 bindsym $mod+F3 exec ranger
 
 # do not disturb

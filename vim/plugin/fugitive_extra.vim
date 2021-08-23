@@ -18,7 +18,7 @@ nnoremap gsd :Gdiff<CR>
 nnoremap gse :Gedit<CR>
 nnoremap gsb :Gblame<CR>
 nnoremap gsw :Gwrite<CR>
-nnoremap gsC :Gcommit<CR>
+nnoremap gsC :Git commit<CR>
 nnoremap gst :Git<CR>
 nnoremap gsq :GstatusClose<CR>
 nnoremap gscd :Gcd<Bar>pwd<CR>

@@ -6,6 +6,12 @@
 
 config_version: 2
 settings:
+  content.autoplay:
+    global: true
+  content.blocking.method:
+    global: both
+  content.desktop_capture:
+    https://meet.google.com: true
   content.geolocation:
     https://www.horizonblue.com: true
   content.media.audio_capture:
@@ -18,6 +24,7 @@ settings:
     https://lichess.org: true
     https://mail.google.com: true
     https://meet.google.com: true
+    https://www.chess.com: true
     https://www.facebook.com: true
     https://www.netflix.com: true
     https://www.producthunt.com: true
