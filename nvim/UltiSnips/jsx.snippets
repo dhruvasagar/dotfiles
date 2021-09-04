@@ -1,0 +1,30 @@
+extends html
+
+snippet h5 "XHTML <h5>" w
+<h5>$0</h5>
+endsnippet
+
+snippet div. "<div> with className" w!
+<div`!p snip.rv=' className="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""`>
+	$0
+</div>
+endsnippet
+
+snippet div# "<div> with ID & className" w!
+<div`!p snip.rv=' id="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""``!p snip.rv=' className="' if t[2] else ""`${2:name}`!p snip.rv = '"' if t[2] else ""`>
+	$0
+</div>
+endsnippet
+
+snippet span "<span>" w
+<span>$0</span>
+endsnippet
+
+snippet span. "<span> with className" w
+<span className="$1">$0</span>
+endsnippet
+
+snippet . "className" w
+className="$0"
+endsnippet
+# vim:ft=snippets:

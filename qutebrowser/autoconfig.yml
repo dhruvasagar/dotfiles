@@ -7,12 +7,13 @@
 config_version: 2
 settings:
   content.autoplay:
-    global: true
+    global: false
   content.blocking.method:
     global: both
   content.desktop_capture:
     https://meet.google.com: true
   content.geolocation:
+    https://www.google.com: true
     https://www.horizonblue.com: true
   content.media.audio_capture:
     https://meet.google.com: true
@@ -23,6 +24,7 @@ settings:
   content.notifications.enabled:
     https://lichess.org: true
     https://mail.google.com: true
+    https://mail.protonmail.com: true
     https://meet.google.com: true
     https://www.chess.com: true
     https://www.facebook.com: true
@@ -39,4 +41,4 @@ settings:
   qt.highdpi:
     global: true
   zoom.default:
-    global: '100'
+    global: '250'
