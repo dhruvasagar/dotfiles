@@ -41,4 +41,4 @@ settings:
   qt.highdpi:
     global: true
   zoom.default:
-    global: '250'
+    global: '100'

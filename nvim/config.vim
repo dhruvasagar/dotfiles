@@ -41,7 +41,7 @@ endif
 " Undo Options {{{2
 set undofile                  " Use undofile to persist undo history
 set undolevels=1000           " Increase undo level to 1000
-set undodir=~/.vim/undo       " Specifies where to keep undo files
+" set undodir=~/.vim/undo       " Specifies where to keep undo files
 if !isdirectory(expand(&undodir))
   call mkdir(expand(&undodir), 'p')
 endif
