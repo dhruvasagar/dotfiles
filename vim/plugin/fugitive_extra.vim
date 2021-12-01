@@ -16,7 +16,7 @@ command! -bar Gush Git push origin head
 nnoremap gsl :Glog<CR>
 nnoremap gsd :Gdiff<CR>
 nnoremap gse :Gedit<CR>
-nnoremap gsb :Gblame<CR>
+nnoremap gsb :Git blame<CR>
 nnoremap gsw :Gwrite<CR>
 nnoremap gsC :Git commit<CR>
 nnoremap gst :Git<CR>

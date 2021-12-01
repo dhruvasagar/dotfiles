@@ -110,18 +110,23 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
   },
-  lspconfig = {
-    loaded = true,
-    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/lspconfig"
-  },
   ["lua-dev.nvim"] = {
-    config = { "\27LJ\1\2k\0\0\4\0\5\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\0024\1\0\0%\2\3\0>\1\2\0027\2\4\0017\2\2\2\16\3\0\0>\2\2\1G\0\1\0\16sumneko_lua\14lspconfig\nsetup\flua-dev\frequire\0" },
+    config = { "\27LJ\1\2O\0\0\3\0\4\0\n4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\0024\1\0\0%\2\3\0>\1\2\2G\0\1\0\14lspconfig\nsetup\flua-dev\frequire\0" },
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/lua-dev.nvim"
   },
   mkdx = {
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/mkdx"
+  },
+  neorg = {
+    config = { "\27LJ\1\2Ø\2\0\0\6\0\18\0\0254\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\16\0003\2\3\0002\3\0\0:\3\4\0023\3\6\0003\4\5\0:\4\a\3:\3\b\0022\3\0\0:\3\t\0022\3\0\0:\3\n\0023\3\14\0003\4\f\0003\5\v\0:\5\r\4:\4\a\3:\3\15\2:\2\17\1>\0\2\1G\0\1\0\tload\1\0\0\21core.norg.dirman\1\0\0\15workspaces\1\0\0\1\0\1\17my_workspace\30~/Dropbox/Documents/neorg core.integrations.telescope\24core.norg.concealer\18core.keybinds\vconfig\1\0\0\1\0\2\17neorg_leader\14<Leader>o\21default_keybinds\2\18core.defaults\1\0\0\nsetup\nneorg\frequire\0" },
+    loaded = true,
+    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/neorg"
+  },
+  ["neorg-telescope"] = {
+    loaded = true,
+    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/neorg-telescope"
   },
   nuake = {
     loaded = true,
@@ -149,6 +154,7 @@ _G.packer_plugins = {
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
   },
   ["nvim-treesitter"] = {
+    config = { "\27LJ\1\2ï\2\0\0\4\0\14\0\0204\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\0023\1\a\0003\2\4\0003\3\5\0:\3\6\2:\2\b\1:\1\3\0004\1\0\0%\2\t\0>\1\2\0027\1\n\0013\2\f\0003\3\v\0:\3\r\2>\1\2\1G\0\1\0\21ensure_installed\1\0\0\1\t\0\0\tnorg\fhaskell\bcpp\6c\15javascript\trust\15typescript\ago\nsetup\28nvim-treesitter.configs\17install_info\1\0\0\nfiles\1\3\0\0\17src/parser.c\19src/scanner.cc\1\0\2\vbranch\tmain\burl4 https://github.com/nvim-neorg/tree-sitter-norg\tnorg\23get_parser_configs\28nvim-treesitter.parsers\frequire\0" },
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
   },
@@ -347,6 +353,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/vim-mundo"
   },
+  ["vim-mustache-handlebars"] = {
+    loaded = true,
+    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/vim-mustache-handlebars"
+  },
   ["vim-obsession"] = {
     loaded = true,
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/vim-obsession"
@@ -368,9 +378,8 @@ _G.packer_plugins = {
     path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/vim-plugin-AnsiEsc"
   },
   ["vim-prosession"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/opt/vim-prosession"
+    loaded = true,
+    path = "/home/h4x0rdud3/.local/share/nvim/site/pack/packer/start/vim-prosession"
   },
   ["vim-racer"] = {
     loaded = true,
@@ -494,13 +503,17 @@ time([[Defining packer_plugins]], false)
 time([[Config for octo.nvim]], true)
 try_loadstring("\27LJ\1\0022\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\tocto\frequire\0", "config", "octo.nvim")
 time([[Config for octo.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+try_loadstring("\27LJ\1\2ï\2\0\0\4\0\14\0\0204\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\0023\1\a\0003\2\4\0003\3\5\0:\3\6\2:\2\b\1:\1\3\0004\1\0\0%\2\t\0>\1\2\0027\1\n\0013\2\f\0003\3\v\0:\3\r\2>\1\2\1G\0\1\0\21ensure_installed\1\0\0\1\t\0\0\tnorg\fhaskell\bcpp\6c\15javascript\trust\15typescript\ago\nsetup\28nvim-treesitter.configs\17install_info\1\0\0\nfiles\1\3\0\0\17src/parser.c\19src/scanner.cc\1\0\2\vbranch\tmain\burl4 https://github.com/nvim-neorg/tree-sitter-norg\tnorg\23get_parser_configs\28nvim-treesitter.parsers\frequire\0", "config", "nvim-treesitter")
+time([[Config for nvim-treesitter]], false)
 -- Config for: vim-railscasts-theme
 time([[Config for vim-railscasts-theme]], true)
 try_loadstring("\27LJ\1\2:\0\0\2\0\3\0\0054\0\0\0007\0\1\0%\1\2\0>\0\2\1G\0\1\0\27colorscheme railscasts\bcmd\bvim\0", "config", "vim-railscasts-theme")
 time([[Config for vim-railscasts-theme]], false)
 -- Config for: lua-dev.nvim
 time([[Config for lua-dev.nvim]], true)
-try_loadstring("\27LJ\1\2k\0\0\4\0\5\0\0144\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\0024\1\0\0%\2\3\0>\1\2\0027\2\4\0017\2\2\2\16\3\0\0>\2\2\1G\0\1\0\16sumneko_lua\14lspconfig\nsetup\flua-dev\frequire\0", "config", "lua-dev.nvim")
+try_loadstring("\27LJ\1\2O\0\0\3\0\4\0\n4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\0024\1\0\0%\2\3\0>\1\2\2G\0\1\0\14lspconfig\nsetup\flua-dev\frequire\0", "config", "lua-dev.nvim")
 time([[Config for lua-dev.nvim]], false)
 -- Config for: rust-tools.nvim
 time([[Config for rust-tools.nvim]], true)
@@ -510,6 +523,10 @@ time([[Config for rust-tools.nvim]], false)
 time([[Config for indent-blankline.nvim]], true)
 try_loadstring("\27LJ\1\2j\0\0\3\0\6\0\t4\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\4\0003\2\3\0:\2\5\1>\0\2\1G\0\1\0\20buftype_exclude\1\0\0\1\2\0\0\rterminal\nsetup\21indent_blankline\frequire\0", "config", "indent-blankline.nvim")
 time([[Config for indent-blankline.nvim]], false)
+-- Config for: neorg
+time([[Config for neorg]], true)
+try_loadstring("\27LJ\1\2Ø\2\0\0\6\0\18\0\0254\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\16\0003\2\3\0002\3\0\0:\3\4\0023\3\6\0003\4\5\0:\4\a\3:\3\b\0022\3\0\0:\3\t\0022\3\0\0:\3\n\0023\3\14\0003\4\f\0003\5\v\0:\5\r\4:\4\a\3:\3\15\2:\2\17\1>\0\2\1G\0\1\0\tload\1\0\0\21core.norg.dirman\1\0\0\15workspaces\1\0\0\1\0\1\17my_workspace\30~/Dropbox/Documents/neorg core.integrations.telescope\24core.norg.concealer\18core.keybinds\vconfig\1\0\0\1\0\2\17neorg_leader\14<Leader>o\21default_keybinds\2\18core.defaults\1\0\0\nsetup\nneorg\frequire\0", "config", "neorg")
+time([[Config for neorg]], false)
 -- Config for: nvim-lspinstall
 time([[Config for nvim-lspinstall]], true)
 try_loadstring("\27LJ\1\2¢\1\0\0\b\0\6\0\0244\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\0014\0\0\0%\1\1\0>\0\2\0027\0\3\0>\0\1\0024\1\4\0\16\2\0\0>\1\2\4D\4\a€4\6\0\0%\a\5\0>\6\2\0026\6\5\0067\6\2\0062\a\0\0>\6\2\1B\4\3\3N\4÷G\0\1\0\14lspconfig\npairs\22installed_servers\nsetup\15lspinstall\frequire\21\0\0\1\1\0\0\3+\0\0\0>\0\1\1G\0\1\0\0ÀV\1\0\3\0\5\0\n1\0\0\0\16\1\0\0>\1\1\0014\1\1\0%\2\2\0>\1\2\0021\2\4\0:\2\3\0010\0\0€G\0\1\0\0\22post_install_hook\15lspinstall\frequire\0\0", "config", "nvim-lspinstall")

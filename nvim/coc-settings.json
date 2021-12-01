@@ -3,9 +3,6 @@
   "suggest.minTriggerInputLength": 2,
   "solargraph.useBundler": true,
   "suggest.enablePreview": true,
-  "rust-analyzer.procMacro.enable": true,
-  "rust-analyzer.diagnostics.enableExperimental": true,
-  "rust-analyzer.completion.autoimport.enable": true,
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server-wrapper",

@@ -61,12 +61,14 @@ create_project () {
     cp "${TEMPLATE_DIR}/file.${extn}" "${name}.${extn}"
   elif [ -d "${TEMPLATE_DIR}/${extn}" ]; then
     cp -R "${TEMPLATE_DIR}/${extn}/." .
-    mv "file.${extn}" "${name}.${extn}"
+    if [ -f "file.${extn}" ]; then
+      mv "file.${extn}" "${name}.${extn}"
+    fi
   else
     touch "${name}.${extn}"
   fi
   cp -R "${TEMPLATE_DIR}/shared/." .
-  find . -type f -exec sed -i "s/{{name}}/\u${name}/g" {} +
+  find . -type f -exec sed -i "s/{{name}}/${name}/g" {} +
 }
 
 create () {

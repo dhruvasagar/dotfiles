@@ -6,6 +6,8 @@
 
 config_version: 2
 settings:
+  colors.webpage.darkmode.enabled:
+    global: false
   content.autoplay:
     global: false
   content.blocking.method:
@@ -22,6 +24,7 @@ settings:
   content.media.video_capture:
     https://meet.google.com: true
   content.notifications.enabled:
+    https://calendar.google.com: true
     https://lichess.org: true
     https://mail.google.com: true
     https://mail.protonmail.com: true
@@ -33,6 +36,7 @@ settings:
     https://www.reddit.com: true
     https://yourstory.com: true
   content.register_protocol_handler:
+    https://calendar.google.com?cid=%25s: true
     https://mail.google.com?extsrc=mailto&url=%25s: true
   fonts.default_family:
     global: FiraCode Nerd Font
@@ -40,5 +44,7 @@ settings:
     global: 10pt
   qt.highdpi:
     global: true
+  tabs.show:
+    global: always
   zoom.default:
     global: '100'

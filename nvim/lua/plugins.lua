@@ -35,9 +35,12 @@ return require('packer').startup(function()
     config = function()
       local luadev = require('lua-dev').setup{}
       local lspconfig = require('lspconfig')
-      lspconfig.sumneko_lua.setup(luadev)
+      -- lspconfig.sumneko_lua.setup(luadev)
+      -- lspconfig[%YOUR_LSP_SERVER%].setup {
+      --   capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      -- }
     end,
-    requires = {'neovim/lspconfig'}
+    requires = {'neovim/nvim-lspconfig'}, -- {'hrsh7th/cmp-nvim-lsp'}},
   }
   use 'andymass/vim-matchup'
   use 'tpope/vim-unimpaired'
@@ -110,6 +113,28 @@ return require('packer').startup(function()
   }
   use {
     'nvim-treesitter/nvim-treesitter',
+    config = function()
+      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+      parser_configs.norg = {
+        install_info = {
+          url = " https://github.com/nvim-neorg/tree-sitter-norg",
+          files = { "src/parser.c", "src/scanner.cc" },
+          branch = "main"
+        },
+      }
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          "norg",
+          "haskell",
+          "cpp",
+          "c",
+          "javascript",
+          "rust",
+          "typescript",
+          "go",
+        },
+      }
+    end,
     run = ':TSUpdate'
   }
 
@@ -141,7 +166,24 @@ return require('packer').startup(function()
   --     vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
   --   end
   -- }
-  -- use 'hrsh7th/nvim-cmp'
+  -- use {
+  --   'hrsh7th/nvim-cmp',
+  --   config = function()
+  --     local cmp = require('cmp')
+  --     cmp.setup {
+  --       snippet = {
+  --         expand = function(args)
+  --           vim.fn["UltiSnips#Anon"](args.body)
+  --         end,
+  --       },
+  --       sources = {
+  --         { name = 'nvim_lsp' },
+  --         { name = 'ultisnips' },
+  --         { name = 'buffer' },
+  --       },
+  --     }
+  --   end
+  -- }
 
   use {
     'ellisonleao/glow.nvim',
@@ -186,23 +228,51 @@ return require('packer').startup(function()
   --   end
   -- }
   use 'kyazdani42/nvim-web-devicons'
+  use 'mustache/vim-mustache-handlebars'
 
-  use 'groenewege/vim-less'
-  use 'dhruvasagar/vim-marp'
-  use 'dhruvasagar/vim-zoom'
-  use 'dhruvasagar/vim-dotoo'
-  use 'dhruvasagar/vim-pairify'
-  use 'dhruvasagar/vim-testify'
-  use 'dhruvasagar/vim-open-url'
-  use 'dhruvasagar/vim-table-mode'
-  use 'dhruvasagar/vim-buffer-history'
   use {
-    'dhruvasagar/vim-railscasts-theme',
+    'nvim-neorg/neorg',
+    config = function()
+      require('neorg').setup {
+        load = {
+          ["core.defaults"] = {},
+          ["core.keybinds"] = {
+            config = {
+              default_keybinds = true,
+              neorg_leader = "<Leader>o"
+            }
+          },
+          ["core.norg.concealer"] = {},
+          ["core.integrations.telescope"] = {},
+          ["core.norg.dirman"] = {
+            config = {
+              workspaces = {
+                my_workspace = "~/Dropbox/Documents/neorg"
+              }
+            }
+          },
+        },
+      }
+    end,
+    requires = {{'nvim-lua/plenary.nvim'}, {'nvim-neorg/neorg-telescope'}},
+  }
+
+  use '~/dotfiles/vim/pack/packup/start/vim-less'
+  use '~/dotfiles/vim/pack/packup/start/vim-marp'
+  use '~/dotfiles/vim/pack/packup/start/vim-zoom'
+  use '~/dotfiles/vim/pack/packup/start/vim-dotoo'
+  use '~/dotfiles/vim/pack/packup/start/vim-pairify'
+  use '~/dotfiles/vim/pack/packup/start/vim-testify'
+  use '~/dotfiles/vim/pack/packup/start/vim-open-url'
+  use '~/dotfiles/vim/pack/packup/start/vim-table-mode'
+  use '~/dotfiles/vim/pack/packup/start/vim-buffer-history'
+  use {
+    '~/dotfiles/vim/pack/packup/start/vim-railscasts-theme',
     config = function()
       vim.cmd('colorscheme railscasts')
     end
   }
-  use 'dhruvasagar/vim-github-review'
-  use 'dhruvasagar/vim-comp'
-  use { 'dhruvasagar/vim-prosession', opt = true }
+  use '~/dotfiles/vim/pack/packup/start/vim-github-review'
+  use '~/dotfiles/vim/pack/packup/start/vim-comp'
+  use '~/dotfiles/vim/pack/packup/opt/vim-prosession'
 end)
