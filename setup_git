@@ -1,12 +1,7 @@
 #!/bin/bash
 
-rm -rf ~/.gitconfig \
-       ~/.gitignore \
-       ~/.gitattributes \
-       ~/.gitcommit_template
-
-ln -s ~/dotfiles/git/config ~/.gitconfig
-ln -s ~/dotfiles/git/ignore ~/.gitignore
-# ln -s ~/dotfiles/git/template ~/.git_template
-ln -s ~/dotfiles/git/attributes ~/.gitattributes
-ln -s ~/dotfiles/git/commit_template ~/.gitcommittemplate
+relink ~/dotfiles/git/config ~/.gitconfig
+relink ~/dotfiles/git/ignore ~/.gitignore
+# relink ~/dotfiles/git/template ~/.git_template
+relink ~/dotfiles/git/attributes ~/.gitattributes
+relink ~/dotfiles/git/commit_template ~/.gitcommittemplate

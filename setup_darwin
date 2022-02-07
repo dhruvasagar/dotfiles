@@ -1,8 +1,9 @@
 #!/bin/bash
 
-relink ~/dotfiles/skhdrc "${XDG_CONFIG_HOME}/skhd/skhdrc"
-relink ~/dotfiles/yabairc ~/.yabairc
+relink ~/dotfiles/config/skhdrc "${XDG_CONFIG_HOME}/skhd/skhdrc"
+relink ~/dotfiles/config/yabairc ~/.yabairc
 relink ~/dotfiles/hammerspoon ~/.hammerspoon
+relink ~/dotfiles/config/spacebarrc "${XDG_CONFIG_HOME}/spacebar/spacebarrc"
 
 brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s "$(command -v zsh)"
@@ -52,12 +53,12 @@ brew install --cask dropbox
 brew install --cask keybase
 brew install --cask caffeine
 brew install --cask alacritty
-brew install --cask spectacle
+brew install --cask rectangle
 brew install --cask hammerspoon
 
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-sans # for Italics
-brew install --cask font-firacode-nerd-font
+brew install --cask font-fira-code-nerd-font
 
 brew install --cask firefox
 brew install --cask qutebrowser

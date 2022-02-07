@@ -44,6 +44,9 @@ yabai -m config left_padding                 0
 yabai -m config right_padding                0
 yabai -m config window_gap                   3
 
+SPACEBAR_HEIGHT=26
+yabai -m config external_bar all:0:$SPACEBAR_HEIGHT
+
 yabai -m rule --add app="^Alacritty$" manage=off sticky=on layer=above grid=4:4:1:1:2:2
 yabai -m rule --add app="^Calculator$" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^System Information$" manage=off grid=4:4:1:1:2:2
