@@ -7,17 +7,17 @@ fi
 
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
-  PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
-  PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-  PATH=/usr/local/opt/llvm/bin:$PATH
+  PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH
+  # PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
+  PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
 
-  MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+  MANPATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
 [ -d "$HOME/.ghcup" ] && PATH=$HOME/.ghcup/bin:$PATH
 [ -d "$HOME/.cargo" ] && PATH=$HOME/.cargo/bin:$PATH
 
-PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
 

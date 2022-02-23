@@ -5,6 +5,7 @@ let g:markdown_fenced_languages = [
       \ 'erb=eruby',
       \ 'javascript',
       \ 'js=javascript',
+      \ 'tsx=typescript',
       \ 'json=javascript',
       \ 'ruby',
       \ 'sass',

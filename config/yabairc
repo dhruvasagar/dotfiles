@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
 # the scripting-addition must be loaded manually if
 # you are running yabai on macOS Big Sur. Uncomment
 # the following line to have the injection performed
@@ -47,9 +50,10 @@ yabai -m config window_gap                   3
 SPACEBAR_HEIGHT=26
 yabai -m config external_bar all:0:$SPACEBAR_HEIGHT
 
-yabai -m rule --add app="^Alacritty$" manage=off sticky=on layer=above grid=4:4:1:1:2:2
+yabai -m rule --add app="^Alacritty$" manage=off sticky=on layer=above
 yabai -m rule --add app="^Calculator$" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^System Information$" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^System Preferences$" manage=off grid=5:5:2:1:2:2
+yabai -m rule --add app="^Simulator$" manage=off
 
 echo "yabai configuration loaded.."

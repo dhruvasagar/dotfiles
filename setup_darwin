@@ -43,6 +43,7 @@ brew tap homebrew/cask
 brew tap homebrew/cask-versions
 
 brew install --cask kap
+brew install --cask pika
 brew install --cask ngrok
 brew install --cask skype
 brew install --cask slack
