@@ -60,7 +60,7 @@ return require('packer').startup(function()
   use 'AndrewRadev/splitjoin.vim'
   use 'simnalamburt/vim-mundo'
   use 'machakann/vim-sandwich'
-  use '9mm/vim-closer'
+  use 'rstacruz/vim-closer'
 
   use 'pangloss/vim-javascript'
   use 'MaxMEllon/vim-jsx-pretty'
