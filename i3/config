@@ -43,8 +43,6 @@ bindsym $mod+Shift+q kill
 # start program launcher
 bindsym $mod+d exec --no-startup-id "rofi -combi-modi window,drun,ssh,dmenu -show combi -modi combi"
 bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
-# launch categorized menu
-bindsym $mod+z exec --no-startup-id morc_menu
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
@@ -289,6 +287,9 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id dropbox
 exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1080 --pos 0x540 --output DP-2 --primary --mode 3840x2160 --pos 1920x0
 exec --no-startup-id feh --bg-scale ~/Downloads/wp2003064.png
+
+exec --no-startup-id i3-msg 'workspace 1; exec slack'
+exec --no-startup-id i3-msg 'workspace 2; exec firefox'
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
