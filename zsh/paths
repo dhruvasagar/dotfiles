@@ -15,7 +15,6 @@ if [[ "$platform" == "darwin" ]]; then
 fi
 
 [ -d "$HOME/.ghcup" ] && PATH=$HOME/.ghcup/bin:$PATH
-[ -d "$HOME/.cargo" ] && PATH=$HOME/.cargo/bin:$PATH
 
 PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH

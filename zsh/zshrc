@@ -32,13 +32,6 @@ if [ -d "$HOME/cassandra" ]; then
   export PATH=$CASSANDRA_HOME/bin:$PATH
 fi
 
-# go lang
-if [ $+commands[go] ]; then
-  export GOBIN=$HOME/src/go/bin
-  export GOPATH=$HOME/src/go
-  export PATH=$GOBIN:/usr/local/go/bin:$PATH
-fi
-
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
   export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -73,6 +66,20 @@ if [ -d "$HOME/.asdf" ]; then
   bashcompinit
   . "$HOME/.asdf/asdf.sh"
   . "$HOME/.asdf/completions/asdf.bash"
+fi
+
+# go lang
+if [ $+commands[go] ]; then
+  export GOBIN=$HOME/src/go/bin
+  export GOPATH=$HOME/src/go
+  export PATH=$GOBIN:/usr/local/go/bin:$PATH
+fi
+
+# rust lang
+if [ $+commands[cargo] ]; then
+  export CARGO_PATH=$HOME/.cargo
+  export CARGO_INSTALL_ROOT=$CARGO_PATH
+  export PATH=$CARGO_PATH/bin:$PATH
 fi
 
 if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then

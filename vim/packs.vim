@@ -43,7 +43,6 @@ call packup#add('git@github.com:AndrewRadev/sideways.vim.git')
 call packup#add('git@github.com:AndrewRadev/splitjoin.vim.git')
 call packup#add('git@github.com:simnalamburt/vim-mundo.git')
 call packup#add('git@github.com:machakann/vim-sandwich.git')
-call packup#add('git@github.com:rstacruz/vim-closer.git')
 " Language Packs {{{3
 " Javascript {{{4
 " call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
