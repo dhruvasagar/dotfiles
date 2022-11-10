@@ -43,6 +43,7 @@ call packup#add('git@github.com:AndrewRadev/sideways.vim.git')
 call packup#add('git@github.com:AndrewRadev/splitjoin.vim.git')
 call packup#add('git@github.com:simnalamburt/vim-mundo.git')
 call packup#add('git@github.com:machakann/vim-sandwich.git')
+call packup#add('git@github.com:dstein64/vim-startuptime.git')
 " Language Packs {{{3
 " Javascript {{{4
 " call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
@@ -99,6 +100,7 @@ call packup#add('git@github.com:mattn/calendar-vim.git')
 call packup#add('git@github.com:ledger/vim-ledger.git')
 call packup#add('git@github.com:puremourning/vimspector.git')
 call packup#add('git@github.com:Yggdroot/indentLine.git')
+call packup#add('git@github.com:epilande/vim-react-snippets.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
 "
