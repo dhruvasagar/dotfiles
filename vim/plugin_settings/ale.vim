@@ -10,4 +10,6 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers = {
       \ 'haskell': ['hindent'],
       \ 'rust': ['rustfmt'],
+      \ 'typescript': ['prettier'],
+      \ 'typescriptreact': ['prettier'],
       \}

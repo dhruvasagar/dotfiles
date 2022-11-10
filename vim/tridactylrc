@@ -8,3 +8,4 @@ set putfrom selection
 autocmd DocStart github.com mode ignore
 autocmd DocStart nitrotype.com mode ignore
 autocmd DocStart mail.google.com mode ignore
+autocmd DocStart cstimer.net mode ignore

@@ -67,7 +67,7 @@ lcflow () {
 }
 
 calc () {
-  echo "$1" | bc -l
+  echo "$@" | bc -l
 }
 
 rmd () {

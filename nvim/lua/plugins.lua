@@ -34,11 +34,6 @@ return require('packer').startup(function()
     'folke/lua-dev.nvim',
     config = function()
       local luadev = require('lua-dev').setup{}
-      local lspconfig = require('lspconfig')
-      -- lspconfig.sumneko_lua.setup(luadev)
-      -- lspconfig[%YOUR_LSP_SERVER%].setup {
-      --   capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-      -- }
     end,
     requires = {'neovim/nvim-lspconfig'}, -- {'hrsh7th/cmp-nvim-lsp'}},
   }
@@ -60,7 +55,6 @@ return require('packer').startup(function()
   use 'AndrewRadev/splitjoin.vim'
   use 'simnalamburt/vim-mundo'
   use 'machakann/vim-sandwich'
-  use 'rstacruz/vim-closer'
 
   use 'pangloss/vim-javascript'
   use 'MaxMEllon/vim-jsx-pretty'
@@ -75,16 +69,10 @@ return require('packer').startup(function()
   use 'digitaltoad/vim-jade'
   use 'elixir-lang/vim-elixir'
   use 'slim-template/vim-slim'
-  use { 'fatih/vim-go', run = ':GoInstallBinaries' }
+  -- use { 'fatih/vim-go', run = ':GoInstallBinaries' }
 
-  use 'racer-rust/vim-racer'
-  use {
-    'simrat39/rust-tools.nvim',
-    requires = {{'mfussenegger/nvim-dap'}, {'nvim-lua/plenary.nvim'}},
-    config = function()
-      require('rust-tools').setup({})
-    end
-  }
+  -- use 'simrat39/rust-tools.nvim'
+
   use {
     "rcarriga/nvim-dap-ui",
     requires = {"mfussenegger/nvim-dap"}
@@ -105,8 +93,6 @@ return require('packer').startup(function()
   use 'editorconfig/editorconfig-vim'
   use 'godlygeek/tabular'
   use 'vim-scripts/SyntaxRange'
-  -- use { 'junegunn/fzf', run = function() vim.fn['fzf#install'](0) end }
-  -- use 'junegunn/fzf.vim'
   use {
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/plenary.nvim' }}
@@ -117,7 +103,7 @@ return require('packer').startup(function()
       local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
       parser_configs.norg = {
         install_info = {
-          url = " https://github.com/nvim-neorg/tree-sitter-norg",
+          url = "https://github.com/nvim-neorg/tree-sitter-norg",
           files = { "src/parser.c", "src/scanner.cc" },
           branch = "main"
         },
@@ -138,52 +124,103 @@ return require('packer').startup(function()
     run = ':TSUpdate'
   }
 
-  use { 'neoclide/coc.nvim', branch = 'release' }
-  use 'neovim/nvim-lspconfig'
   use {
-    'kabouzeid/nvim-lspinstall',
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+    },
     config = function()
-      local function setup_servers()
-        require'lspinstall'.setup()
-        local servers = require'lspinstall'.installed_servers()
-        for _, server in pairs(servers) do
-          require'lspconfig'[server].setup{}
-        end
-      end
+      require('mason.settings').set({
+        log_level = vim.log.levels.DEBUG
+      })
 
-      setup_servers()
-
-      -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-      require'lspinstall'.post_install_hook = function ()
-        setup_servers() -- reload installed servers
-        -- vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-      end
+      local lsp = require('lsp-zero')
+      lsp.preset('lsp-only')
+      lsp.setup()
     end
   }
+
   -- use {
-  --   'nvim-lua/completion-nvim',
-  --   config = function()
-  --     vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
-  --   end
+  --   'ms-jpq/coq_nvim',
+  --   branch = 'coq'
   -- }
-  -- use {
-  --   'hrsh7th/nvim-cmp',
-  --   config = function()
-  --     local cmp = require('cmp')
-  --     cmp.setup {
-  --       snippet = {
-  --         expand = function(args)
-  --           vim.fn["UltiSnips#Anon"](args.body)
-  --         end,
-  --       },
-  --       sources = {
-  --         { name = 'nvim_lsp' },
-  --         { name = 'ultisnips' },
-  --         { name = 'buffer' },
-  --       },
-  --     }
-  --   end
-  -- }
+
+  use {
+    'hrsh7th/nvim-cmp',
+    config = function()
+      local cmp = require('cmp')
+      local cmp_select_opts = {behavior = cmp.SelectBehavior.Select}
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body)
+          end,
+        },
+        sources = {
+          { name = 'omni' },
+          { name = 'path' },
+          { name = 'buffer', keyword_length = 3 },
+          { name = 'nvim_lsp', keyword_length = 3 },
+          { name = 'ultisnips', keyword_length = 3 },
+          { name = 'nvim_lsp_signature_help', keyword_length = 3 }
+        },
+        mapping = {
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+
+          ['<C-f>'] = cmp.mapping.scroll_docs(5),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+
+          ['<C-e>'] = cmp.mapping.abort(),
+
+          ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select_opts),
+          ['<C-n>'] = cmp.mapping.select_next_item(cmp_select_opts),
+
+           -- when menu is visible, navigate to next item
+           -- when line is empty, insert a tab character
+           -- else, activate completion
+          ['<Tab>'] = cmp.mapping(function(fallback)
+            local col = vim.fn.col('.') - 1
+
+            if cmp.visible() then
+              cmp.select_next_item(cmp_select_opts)
+            elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+              fallback()
+            else
+              cmp.complete()
+            end
+          end, {'i', 's'}),
+
+          -- when menu is visible, navigate to previous item on list
+          -- else, revert to default behavior
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item(cmp_select_opts)
+            else
+              fallback()
+            end
+          end, {'i', 's'}),
+        }
+      }
+      -- Set configuration for specific filetype.
+      cmp.setup.filetype('gitcommit', {
+        sources = cmp.config.sources({
+          { name = 'git' }, -- You can specify the `cmp_git` source if you were installed it.
+        })
+      })
+    end,
+    requires = {
+      'hrsh7th/cmp-omni',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'petertriho/cmp-git',
+      'dmitmel/cmp-digraphs',
+      'hrsh7th/cmp-nvim-lsp',
+      'quangnguyen30192/cmp-nvim-ultisnips',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+    }
+  }
 
   use {
     'ellisonleao/glow.nvim',
@@ -200,9 +237,10 @@ return require('packer').startup(function()
   -- }
   use 'norcalli/nvim-colorizer.lua'
   use 'guns/xterm-color-table.vim'
+  use { 'Rigellute/rigel' }
   use 'vimwiki/vimwiki'
   use 'ledger/vim-ledger'
-  use 'puremourning/vimspector'
+  -- use 'puremourning/vimspector'
   -- use 'Yggdroot/indentLine'
   use 'towolf/vim-helm'
   use 'Lenovsky/nuake'
@@ -216,8 +254,13 @@ return require('packer').startup(function()
   }
   use {
     'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'kyazdani42/nvim-web-devicons',
+    },
     config = function()
-      require('octo').setup()
+      require"octo".setup()
     end
   }
   -- use {
@@ -227,35 +270,9 @@ return require('packer').startup(function()
   --     -- vim.cmd('colorscheme material')
   --   end
   -- }
-  use 'kyazdani42/nvim-web-devicons'
   use 'mustache/vim-mustache-handlebars'
 
-  use {
-    'nvim-neorg/neorg',
-    config = function()
-      require('neorg').setup {
-        load = {
-          ["core.defaults"] = {},
-          ["core.keybinds"] = {
-            config = {
-              default_keybinds = true,
-              neorg_leader = "<Leader>o"
-            }
-          },
-          ["core.norg.concealer"] = {},
-          ["core.integrations.telescope"] = {},
-          ["core.norg.dirman"] = {
-            config = {
-              workspaces = {
-                my_workspace = "~/Dropbox/Documents/neorg"
-              }
-            }
-          },
-        },
-      }
-    end,
-    requires = {{'nvim-lua/plenary.nvim'}, {'nvim-neorg/neorg-telescope'}},
-  }
+  use 'dstein64/vim-startuptime'
 
   use '~/dotfiles/vim/pack/packup/start/vim-less'
   use '~/dotfiles/vim/pack/packup/start/vim-marp'
