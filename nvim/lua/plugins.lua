@@ -200,11 +200,11 @@ return require("packer").startup(function()
           end,
         },
         sources = {
+          { name = "ultisnips" },
           { name = "path" },
           { name = "omni" },
           { name = "buffer", keyword_length = 3 },
           { name = "nvim_lsp", keyword_length = 3 },
-          { name = "ultisnips", keyword_length = 3 },
           { name = "nvim_lsp_signature_help", keyword_length = 3 },
         },
         mapping = {
@@ -292,7 +292,7 @@ return require("packer").startup(function()
   use("norcalli/nvim-colorizer.lua")
   use("guns/xterm-color-table.vim")
   use({ "Rigellute/rigel" })
-  use("vimwiki/vimwiki")
+  -- use("vimwiki/vimwiki")
   use("ledger/vim-ledger")
   -- use 'puremourning/vimspector'
   -- use 'Yggdroot/indentLine'

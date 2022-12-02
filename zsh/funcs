@@ -74,14 +74,6 @@ rmd () {
   pandoc $1 | lynx -stdin
 }
 
-relink () {
-  src="$1"
-  dst="$2"
-
-  rm -rf "$dst"
-
-  dir=$(dirname "$dst")
-  [[ ! -d "$dir" ]] && mkdir -p "$dir"
-
-  ln -s "$src" "$dst"
+stream() {
+  streamlink --player mpv --player-args '--ontop' $1 best
 }
