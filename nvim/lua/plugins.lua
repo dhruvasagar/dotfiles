@@ -288,10 +288,8 @@ return require("packer").startup(function()
     },
   })
 
-  use({
-    "ellisonleao/glow.nvim",
-    run = "GlowInstall",
-  })
+  use("ellisonleao/glow.nvim")
+
   use("SidOfc/mkdx")
   use({
     "kkoomen/vim-doge",
