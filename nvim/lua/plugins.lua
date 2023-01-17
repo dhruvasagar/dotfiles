@@ -140,6 +140,22 @@ return require("packer").startup(function()
   })
 
   use({
+    'glepnir/lspsaga.nvim',
+    config = function()
+      require('lspsaga').setup({
+        lightbulb = {
+          enable = false
+        },
+        symbol_in_winbar = {
+          enable = false,
+          show_file = false,
+          color_mode = true,
+        }
+      })
+    end
+  })
+
+  use({
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
       local nls = require("null-ls")
@@ -159,6 +175,7 @@ return require("packer").startup(function()
           fmt.eslint_d,
           fmt.rustfmt,
           fmt.stylua,
+          fmt.goimports,
           fmt.shfmt.with({
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),
@@ -205,7 +222,7 @@ return require("packer").startup(function()
           { name = "omni" },
           { name = "buffer", keyword_length = 3 },
           { name = "nvim_lsp", keyword_length = 3 },
-          { name = "nvim_lsp_signature_help", keyword_length = 3 },
+          { name = "nvim_lsp_signature_help" },
         },
         mapping = {
           ["<CR>"] = cmp.mapping.confirm({ select = true }),

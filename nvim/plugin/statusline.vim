@@ -61,33 +61,11 @@ augroup StatusLine
   autocmd WinEnter,CursorHold * call <SID>StatusLineClearVars()
 augroup END
 
-function! StatusLineALE() abort
-  if !exists(':ALE*')
-    return ''
-  endif
-  let l:s = []
-  let ale = ale#statusline#Count(bufnr('%'))
-  if ale['error'] > 0
-    call add(l:s, 'E: ' . ale['error'])
-  endif
-  if ale['warning'] > 0
-    call add(l:s, 'W: ' . ale['warning'])
-  endif
-  if ale['total'] > 0
-    call add(l:s, 'T: ' . ale['total'])
-  endif
-  if !empty(l:s)
-    return '[ALE '.join(l:s, ',').']'
-  endif
-  return ''
-endfunction
-
 set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
 set statusline+=%(\ %{fugitive#Head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
 set statusline+=%(%r%m\ %)
 
-set statusline+=%2*%(%{StatusLineALE()}\ %)%*
 set statusline+=%1*%{StatusLineFileName()}\ %*
 
 set statusline+=%4*%(%{dotoo#clock#summary()}\ %)%*

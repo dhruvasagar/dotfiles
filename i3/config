@@ -285,7 +285,7 @@ exec --no-startup-id pa-applet
 exec --no-startup-id xautolock -detectsleep -time 60 -locker lock -notify 30 -notifier "notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'"
 exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer 1200 "systemctl suspend" -
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id dropbox
+exec --no-startup-id ~/.dropbox-dist/dropboxd
 exec --no-startup-id xrandr --output HDMI-0 --mode 1920x1080 --pos 0x540 --output DP-4 --primary --mode 3840x2160 --pos 1920x0
 exec --no-startup-id feh --bg-scale ~/Downloads/wp2003064.png
 
