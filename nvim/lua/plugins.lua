@@ -96,6 +96,17 @@ return require("packer").startup(function()
   use({
     "nvim-telescope/telescope.nvim",
     requires = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            i = {
+              ["<Esc>"] = require("telescope.actions").close,
+            },
+          },
+        },
+      })
+    end,
   })
   use({
     "nvim-treesitter/nvim-treesitter",
