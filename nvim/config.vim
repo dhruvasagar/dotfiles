@@ -131,7 +131,8 @@ set mouse=a                   " Enables mouse within terminals
 
 set foldopen=hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldenable
-set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=1
 
 if has('balloon_eval') && has('unix')
