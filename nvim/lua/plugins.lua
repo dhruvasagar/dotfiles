@@ -77,7 +77,7 @@ require("packer").startup(function(use)
 	use("SirVer/ultisnips")
 	use("honza/vim-snippets")
 	use("benmills/vimux")
-	use("janko-m/vim-test")
+	use("vim-test/vim-test")
 	-- use 'dense-analysis/ale'
 	use("diepm/vim-rest-console")
 	use("powerman/vim-plugin-AnsiEsc")
@@ -390,7 +390,15 @@ require("packer").startup(function(use)
 	use({ "Rigellute/rigel" })
 	use("ledger/vim-ledger")
 	use("towolf/vim-helm")
-	use("Lenovsky/nuake")
+  use({
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("toggleterm").setup({
+        direction = "float",
+        open_mapping = [[<c-\>]],
+      })
+    end,
+  })
 	use({
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
