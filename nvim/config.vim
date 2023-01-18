@@ -171,6 +171,9 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
 " let g:solarized_termcolors=256
 " color solarized
 " color railscasts

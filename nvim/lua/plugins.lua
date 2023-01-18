@@ -390,15 +390,15 @@ require("packer").startup(function(use)
 	use({ "Rigellute/rigel" })
 	use("ledger/vim-ledger")
 	use("towolf/vim-helm")
-  use({
-    "akinsho/toggleterm.nvim",
-    config = function()
-      require("toggleterm").setup({
-        direction = "float",
-        open_mapping = [[<c-\>]],
-      })
-    end,
-  })
+	use({
+		"akinsho/toggleterm.nvim",
+		config = function()
+			require("toggleterm").setup({
+				direction = "float",
+				open_mapping = [[<c-\>]],
+			})
+		end,
+	})
 	use({
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
@@ -430,6 +430,7 @@ require("packer").startup(function(use)
 		config = function()
 			vim.cmd("colorscheme nightfox")
 			-- vim.cmd("colorscheme duskfox")
+			-- vim.cmd("colorscheme carbonfox")
 		end,
 	})
 
