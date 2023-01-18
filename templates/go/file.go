@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+	"time"
 )
 
 func readInput() []string {
@@ -16,35 +16,23 @@ func readInput() []string {
 	return lines
 }
 
-func logCase(num int, out string) {
-	fmt.Printf("Case #%d: %s\n", num, out)
+func part1(_lines []string) int {
+	return 0
 }
 
-type Case struct {
-}
-
-func (c Case) String() string {
-	return ""
-}
-
-type Input struct {
-	t     int
-	cases []Case
-}
-
-func parseInput(lines []string) Input {
-	r := Input{}
-	r.t, _ = strconv.Atoi(lines[0])
-	return r
-}
-
-func (c Case) solve() string {
-	return fmt.Sprintf("%s", c)
+func part2(_lines []string) int {
+	return 0
 }
 
 func main() {
-	in := parseInput(readInput())
-	for i, c := range in.cases {
-		logCase(i+1, c.solve())
-	}
+	s := time.Now()
+	lines := readInput()
+	s1 := time.Now()
+	fmt.Println(part1(lines))
+	e1 := time.Since(s1)
+	s2 := time.Now()
+	fmt.Println(part2(lines))
+	e2 := time.Since(s2)
+	e := time.Since(s)
+	fmt.Printf("Time for part1: %s, part2: %s, total: %s\n", e1, e2, e)
 }
