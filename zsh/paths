@@ -14,11 +14,16 @@ if [[ "$platform" == "darwin" ]]; then
   MANPATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
-[ -d "$HOME/.ghcup" ] && PATH=$HOME/.ghcup/bin:$PATH
+if [ -d "$HOME/.ghcup" ]; then
+  source $HOME/.ghcup/env
+  PATH=$HOME/.ghcup/bin:$PATH
+fi
 
 PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
+
+[ -d "$HOME/.local/bin" ] && PATH=$HOME/.local/bin:$PATH
 
 export PATH
 export MANPATH

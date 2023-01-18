@@ -64,6 +64,7 @@ return require("packer").startup(function()
   use({ "guns/vim-clojure-static", opt = true })
 
   use("neovimhaskell/haskell-vim")
+
   use("kana/vim-vspec")
   use("avdgaag/vim-phoenix")
   use("digitaltoad/vim-jade")
@@ -158,7 +159,9 @@ return require("packer").startup(function()
           fmt.prettierd,
           fmt.eslint_d,
           fmt.rustfmt,
+          fmt.fourmolu,
           fmt.stylua,
+          fmt.goimports,
           fmt.shfmt.with({
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),

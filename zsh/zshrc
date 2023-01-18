@@ -86,8 +86,6 @@ if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
   source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
 fi
 
-[ -f "/home/h4x0rdud3/.ghcup/env" ] && source "/home/h4x0rdud3/.ghcup/env" # ghcup-env
-
 # Setup history
 . ~/dotfiles/zsh/hist
 
