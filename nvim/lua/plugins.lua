@@ -82,8 +82,7 @@ return require("packer").startup(function()
   use("SirVer/ultisnips")
   use("honza/vim-snippets")
   use("benmills/vimux")
-  use("janko-m/vim-test")
-  -- use 'dense-analysis/ale'
+  use("vim-test/vim-test")
   use("diepm/vim-rest-console")
   use("powerman/vim-plugin-AnsiEsc")
   use({
@@ -140,19 +139,19 @@ return require("packer").startup(function()
   })
 
   use({
-    'glepnir/lspsaga.nvim',
+    "glepnir/lspsaga.nvim",
     config = function()
-      require('lspsaga').setup({
+      require("lspsaga").setup({
         lightbulb = {
-          enable = false
+          enable = false,
         },
         symbol_in_winbar = {
           enable = false,
           show_file = false,
           color_mode = true,
-        }
+        },
       })
-    end
+    end,
   })
 
   use({
@@ -312,7 +311,15 @@ return require("packer").startup(function()
   -- use 'puremourning/vimspector'
   -- use 'Yggdroot/indentLine'
   use("towolf/vim-helm")
-  use("Lenovsky/nuake")
+  use({
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("toggleterm").setup({
+        direction = "float",
+        open_mapping = [[<c-\>]],
+      })
+    end,
+  })
   use({
     "lukas-reineke/indent-blankline.nvim",
     config = function()
@@ -329,7 +336,7 @@ return require("packer").startup(function()
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
     },
     config = function()
       require("octo").setup()
