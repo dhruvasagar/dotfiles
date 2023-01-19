@@ -217,6 +217,7 @@ return require("packer").startup(function(use)
 
 	use({
 		"glepnir/lspsaga.nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("lspsaga").setup({
 				lightbulb = {
