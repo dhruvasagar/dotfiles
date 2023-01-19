@@ -60,7 +60,12 @@ nnoremap <silent> go :Goyo<CR>
 cnoremap <C-P> <UP>
 
 nnoremap <C-P> <cmd>Telescope find_files<CR>
-nnoremap <C-s> <cmd>Telescope live_grep<cr>
+nnoremap <Leader>sf <cmd>Telescope oldfiles<CR>
+nnoremap <Leader>sb <cmd>Telescope buffers<CR>
+nnoremap <Leader>sh <cmd>Telescope help_tags<CR>
+nnoremap <Leader>sw <cmd>Telescope grep_string<CR>
+nnoremap <Leader>sg <cmd>Telescope live_grep<CR>
+nnoremap <Leader>sd <cmd>Telescope diagnostics<CR>
 
 nnoremap c- :.!toilet -w 200 -f small<CR>
 nnoremap c+ :.!toilet -w 200 -f standard<CR>

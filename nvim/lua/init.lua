@@ -1,1 +1,1 @@
-require('plugins')
+require("ds")
