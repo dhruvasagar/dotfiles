@@ -60,7 +60,7 @@ nnoremap <silent> go :Goyo<CR>
 cnoremap <C-P> <UP>
 
 nnoremap <C-P> <cmd>Telescope find_files<CR>
-nnoremap <Leader>sf <cmd>Telescope oldfiles<CR>
+nnoremap <Leader>sf <cmd>Telescope oldfiles only_cwd=true<CR>
 nnoremap <Leader>sb <cmd>Telescope buffers<CR>
 nnoremap <Leader>sh <cmd>Telescope help_tags<CR>
 nnoremap <Leader>sw <cmd>Telescope grep_string<CR>

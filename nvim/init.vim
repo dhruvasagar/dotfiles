@@ -17,5 +17,7 @@ for files in config_list
   endfor
 endfor
 
+packadd termdebug
+
 " Set at the end to work around 'exrc'
 set secure

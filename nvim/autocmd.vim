@@ -5,11 +5,10 @@ augroup vimrcEx "{{{1
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
-augroup Plugins "{{{1
+augroup Packer "{{{1
   au!
 
-  autocmd BufWritePost plugs.vim source % | filetype plugin indent on
-  " autocmd BufWritePost neo_bundles.vim source % | filetype plugin indent on
+  autocmd BufWritePost packer.lua source % | LspRestart | PackerCompile
 augroup END
 
 augroup EditJump "{{{1
@@ -61,10 +60,4 @@ augroup CronTab "{{{1
   au!
 
   autocmd BufWritePost ~/dotfiles/crontab !updatecron
-augroup END
-
-augroup Packer
-  au!
-
-  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 augroup END

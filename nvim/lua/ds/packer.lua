@@ -17,30 +17,24 @@ return require("packer").startup(function(use)
 	use("tpope/vim-abolish")
 	use("tpope/vim-endwise")
 	use("tpope/vim-rhubarb")
-	use({
-		"tpope/vim-dispatch",
-		opt = true,
-		cmd = { "Dispatch", "Make", "Focus", "Start" },
-	})
+	use({ "tpope/vim-dispatch", opt = true, cmd = { "Dispatch", "Make", "Focus", "Start" } })
 	use("tpope/vim-fugitive")
 	use("tpope/vim-sensible")
 	use({ "tpope/vim-fireplace", opt = true })
 	use({ "tpope/vim-leiningen", opt = true })
 	use("tpope/vim-obsession")
-	-- use("tpope/vim-commentary")
+	use("tpope/vim-commentary")
 	use("tpope/vim-scriptease")
-
-	use("andymass/vim-matchup")
 	use("tpope/vim-unimpaired")
 	use("tpope/vim-speeddating")
 	use("tpope/vim-characterize")
 	use({ "tpope/vim-sexp-mappings-for-regular-people", opt = true })
-
 	use("tpope/vim-rails")
 	use("tpope/vim-eunuch")
 	use("tpope/vim-bundler")
 	use("tpope/vim-cucumber")
 
+	use("andymass/vim-matchup")
 	use("wellle/targets.vim")
 	use("tommcdo/vim-exchange")
 	use("AndrewRadev/switch.vim")
@@ -48,55 +42,44 @@ return require("packer").startup(function(use)
 	use("AndrewRadev/splitjoin.vim")
 	use("simnalamburt/vim-mundo")
 	use("machakann/vim-sandwich")
-
 	use("pangloss/vim-javascript")
 	use("MaxMEllon/vim-jsx-pretty")
 	use("burnettk/vim-angular")
-
 	use({ "guns/vim-sexp", opt = true })
 	use({ "guns/vim-clojure-static", opt = true })
-
-	use("neovimhaskell/haskell-vim")
-
 	use("kana/vim-vspec")
 	use("avdgaag/vim-phoenix")
 	use("digitaltoad/vim-jade")
 	use("elixir-lang/vim-elixir")
 	use("slim-template/vim-slim")
-	-- use { 'fatih/vim-go', run = ':GoInstallBinaries' }
-
-	-- use 'simrat39/rust-tools.nvim'
-
-	use({
-		"rcarriga/nvim-dap-ui",
-		requires = { "mfussenegger/nvim-dap" },
-	})
+	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("leafgarland/typescript-vim")
 	use("purescript-contrib/purescript-vim")
 	use("SirVer/ultisnips")
 	use("honza/vim-snippets")
 	use("benmills/vimux")
 	use("vim-test/vim-test")
-	-- use 'dense-analysis/ale'
 	use("diepm/vim-rest-console")
 	use("powerman/vim-plugin-AnsiEsc")
-	use({
-		"mattn/gist-vim",
-		requires = { { "mattn/webapi-vim" } },
-	})
+	use({ "mattn/gist-vim", requires = { { "mattn/webapi-vim" } } })
 	use("editorconfig/editorconfig-vim")
 	use("godlygeek/tabular")
 	use("vim-scripts/SyntaxRange")
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+	use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
 	use({
 		"nvim-telescope/telescope-fzf-native.nvim",
+		requires = { "nvim-telescope/telescope.nvim" },
 		run = "make",
 		cond = vim.fn.executable("make") == 1,
 		config = function()
-			pcall(require("telescope").load_extension, "fzf")
+			require("telescope").load_extension("fzf")
+		end,
+	})
+	use({
+		"nvim-telescope/telescope-github.nvim",
+		requires = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("telescope").load_extension("gh")
 		end,
 	})
 	use({
@@ -174,20 +157,62 @@ return require("packer").startup(function(use)
 						},
 					},
 				},
+				playground = {
+					enable = true,
+					keybindings = {
+						toggle_query_editor = "o",
+						toggle_hl_groups = "i",
+						toggle_injected_languages = "t",
+						toggle_anonymous_nodes = "a",
+						toggle_language_display = "I",
+						focus_language = "f",
+						unfocus_language = "F",
+						update = "R",
+						goto_node = "<cr>",
+						show_help = "?",
+					},
+				},
 			})
 		end,
 	})
-	use({ -- Additional text objects via treesitter
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		after = "nvim-treesitter",
-	})
-
+	use("nvim-treesitter/playground")
+	use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
+	-- use({
+	-- "numToStr/Comment.nvim",
+	-- 	config = function()
+	-- 		require("Comment").setup()
+	-- 	end,
+	-- })
+	use("ellisonleao/glow.nvim")
+	use("SidOfc/mkdx")
+	use({ "kkoomen/vim-doge", run = ":call doge#install()" })
+	use("junegunn/goyo.vim")
+	use("vim-scripts/DrawIt")
+	use("junegunn/vim-emoji")
+	use("norcalli/nvim-colorizer.lua")
+	use("guns/xterm-color-table.vim")
+	use("ledger/vim-ledger")
 	use({
-		"numToStr/Comment.nvim",
+		"akinsho/toggleterm.nvim",
 		config = function()
-			require("Comment").setup()
+			require("toggleterm").setup({
+				direction = "float",
+				open_mapping = [[<c-\>]],
+			})
 		end,
 	})
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("indent_blankline").setup({
+				buftype_exclude = { "terminal" },
+				space_char_blankline = " ",
+				show_current_context = true,
+				-- show_current_context_start = true,
+			})
+		end,
+	})
+	use("dstein64/vim-startuptime")
 
 	-- LSP plugins
 	use({
@@ -196,25 +221,19 @@ return require("packer").startup(function(use)
 			require("neodev").setup()
 		end,
 	})
-
 	use({
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
 		end,
 	})
-
-	use("williamboman/mason-lspconfig.nvim")
-
+	use({ "williamboman/mason-lspconfig.nvim", requires = { "neovim/nvim-lspconfig" } })
 	use({
 		"j-hui/fidget.nvim",
 		config = function()
 			require("fidget").setup()
 		end,
 	})
-
-	use("neovim/nvim-lspconfig")
-
 	use({
 		"glepnir/lspsaga.nvim",
 		requires = { "kyazdani42/nvim-web-devicons" },
@@ -231,7 +250,6 @@ return require("packer").startup(function(use)
 			})
 		end,
 	})
-
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
@@ -281,9 +299,20 @@ return require("packer").startup(function(use)
 			})
 		end,
 	})
-
 	use({
 		"hrsh7th/nvim-cmp",
+		requires = {
+			"hrsh7th/cmp-omni",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-buffer",
+			"petertriho/cmp-git",
+			"dmitmel/cmp-digraphs",
+			"hrsh7th/cmp-nvim-lsp",
+			"quangnguyen30192/cmp-nvim-ultisnips",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"Saecki/crates.nvim",
+			"David-Kunz/cmp-npm",
+		},
 		config = function()
 			local cmp = require("cmp")
 			local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
@@ -352,20 +381,7 @@ return require("packer").startup(function(use)
 				}),
 			})
 		end,
-		requires = {
-			"hrsh7th/cmp-omni",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-buffer",
-			"petertriho/cmp-git",
-			"dmitmel/cmp-digraphs",
-			"hrsh7th/cmp-nvim-lsp",
-			"quangnguyen30192/cmp-nvim-ultisnips",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"Saecki/crates.nvim",
-			"David-Kunz/cmp-npm",
-		},
 	})
-
 	use({
 		"rmagatti/goto-preview",
 		config = function()
@@ -375,63 +391,12 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	use("ellisonleao/glow.nvim")
-
-	use("SidOfc/mkdx")
-	use({
-		"kkoomen/vim-doge",
-		run = function()
-			vim.fn["doge#install"](0)
-		end,
-	})
-	use("junegunn/goyo.vim")
-	use("vim-scripts/DrawIt")
-	use("junegunn/vim-emoji")
-	use("norcalli/nvim-colorizer.lua")
-	use("guns/xterm-color-table.vim")
-	use({ "Rigellute/rigel" })
-	use("ledger/vim-ledger")
-	use("towolf/vim-helm")
-	use({
-		"akinsho/toggleterm.nvim",
-		config = function()
-			require("toggleterm").setup({
-				direction = "float",
-				open_mapping = [[<c-\>]],
-			})
-		end,
-	})
-	use({
-		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			require("indent_blankline").setup({
-				buftype_exclude = { "terminal" },
-				space_char_blankline = " ",
-				show_current_context = true,
-				-- show_current_context_start = true,
-			})
-		end,
-	})
-	-- use({
-	-- 	"pwntester/octo.nvim",
-	-- 	requires = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 		"kyazdani42/nvim-web-devicons",
-	-- 	},
-	-- 	config = function()
-	-- 		require("octo").setup()
-	-- 	end,
-	-- })
-	use("mustache/vim-mustache-handlebars")
-
-	use("dstein64/vim-startuptime")
-
+	-- Colorschemes
 	use({
 		"EdenEast/nightfox.nvim",
 		config = function()
-			vim.cmd("colorscheme nightfox")
-			-- vim.cmd("colorscheme duskfox")
+			-- vim.cmd("colorscheme nightfox")
+			vim.cmd("colorscheme duskfox")
 			-- vim.cmd("colorscheme carbonfox")
 		end,
 	})
