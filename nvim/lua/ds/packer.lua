@@ -23,7 +23,7 @@ return require("packer").startup(function(use)
 	use({ "tpope/vim-fireplace", opt = true })
 	use({ "tpope/vim-leiningen", opt = true })
 	use("tpope/vim-obsession")
-	use("tpope/vim-commentary")
+	-- use("tpope/vim-commentary")
 	use("tpope/vim-scriptease")
 	use("tpope/vim-unimpaired")
 	use("tpope/vim-speeddating")
@@ -202,12 +202,12 @@ return require("packer").startup(function(use)
 	})
 	use("nvim-treesitter/playground")
 	use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
-	-- use({
-	-- "numToStr/Comment.nvim",
-	-- 	config = function()
-	-- 		require("Comment").setup()
-	-- 	end,
-	-- })
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
 	use({
 		"ellisonleao/glow.nvim",
 		config = function()
@@ -459,7 +459,7 @@ return require("packer").startup(function(use)
 					DiffDelete = { fg = "#000000", bg = "#5f0000" },
 				},
 			})
-			vim.cmd("colorscheme ayu")
+			-- vim.cmd("colorscheme ayu")
 		end,
 	})
 
@@ -475,7 +475,7 @@ return require("packer").startup(function(use)
 	use({
 		"~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
 		config = function()
-			-- vim.cmd("colorscheme railscasts")
+			vim.cmd("colorscheme railscasts")
 		end,
 	})
 	use("~/dotfiles/vim/pack/packup/start/vim-github-review")
