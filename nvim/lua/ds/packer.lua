@@ -329,8 +329,6 @@ return require("packer").startup(function(use)
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-								-- vim.lsp.buf.formatting_sync()
 								vim.lsp.buf.format({ bufnr = bufnr })
 							end,
 						})
@@ -435,9 +433,19 @@ return require("packer").startup(function(use)
 	use({
 		"EdenEast/nightfox.nvim",
 		config = function()
-			-- vim.cmd("colorscheme nightfox")
+			vim.cmd("colorscheme nightfox")
 			-- vim.cmd("colorscheme duskfox")
 			-- vim.cmd("colorscheme carbonfox")
+			require("nightfox").setup({
+				groups = {
+					all = {
+						DiffAdd = { fg = "#e4e4e4", bg = "#005f00" },
+						DiffText = { fg = "#ffffff", bg = "#ff0000" },
+						DiffChange = { fg = "#ffffff", bg = "#870087" },
+						DiffDelete = { fg = "#000000", bg = "#5f0000" },
+					},
+				},
+			})
 		end,
 	})
 	use({
@@ -467,7 +475,7 @@ return require("packer").startup(function(use)
 	use({
 		"~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
 		config = function()
-			vim.cmd("colorscheme railscasts")
+			-- vim.cmd("colorscheme railscasts")
 		end,
 	})
 	use("~/dotfiles/vim/pack/packup/start/vim-github-review")
