@@ -23,7 +23,7 @@ return require("packer").startup(function(use)
 	use({ "tpope/vim-fireplace", opt = true })
 	use({ "tpope/vim-leiningen", opt = true })
 	use("tpope/vim-obsession")
-	-- use("tpope/vim-commentary")
+	use("tpope/vim-commentary")
 	use("tpope/vim-scriptease")
 	use("tpope/vim-unimpaired")
 	use("tpope/vim-speeddating")
@@ -202,12 +202,12 @@ return require("packer").startup(function(use)
 	})
 	use("nvim-treesitter/playground")
 	use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
-	})
+	-- use({
+	-- 	"numToStr/Comment.nvim",
+	-- 	config = function()
+	-- 		require("Comment").setup()
+	-- 	end,
+	-- })
 	use({
 		"ellisonleao/glow.nvim",
 		config = function()
