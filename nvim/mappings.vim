@@ -70,3 +70,5 @@ nnoremap <Leader>sd <cmd>Telescope diagnostics<CR>
 nnoremap c- :.!toilet -w 200 -f small<CR>
 nnoremap c+ :.!toilet -w 200 -f standard<CR>
 nnoremap cb :.!toilet -w 200 -f term -F border<CR>
+
+nnoremap zS <cmd>TSHighlightCapturesUnderCursor<CR>

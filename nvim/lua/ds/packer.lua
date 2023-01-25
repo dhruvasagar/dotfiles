@@ -243,6 +243,8 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("dstein64/vim-startuptime")
+
+	-- LSP Plugins
 	use({
 		"E-ricus/lsp_codelens_extensions.nvim",
 		requires = {
@@ -434,8 +436,22 @@ return require("packer").startup(function(use)
 		"EdenEast/nightfox.nvim",
 		config = function()
 			-- vim.cmd("colorscheme nightfox")
-			vim.cmd("colorscheme duskfox")
+			-- vim.cmd("colorscheme duskfox")
 			-- vim.cmd("colorscheme carbonfox")
+		end,
+	})
+	use({
+		"Shatur/neovim-ayu",
+		config = function()
+			require("ayu").setup({
+				overrides = {
+					DiffAdd = { fg = "#e4e4e4", bg = "#005f00" },
+					DiffText = { fg = "#ffffff", bg = "#ff0000" },
+					DiffChange = { fg = "#ffffff", bg = "#870087" },
+					DiffDelete = { fg = "#000000", bg = "#5f0000" },
+				},
+			})
+			-- vim.cmd("colorscheme ayu")
 		end,
 	})
 
@@ -451,7 +467,7 @@ return require("packer").startup(function(use)
 	use({
 		"~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
 		config = function()
-			-- vim.cmd("colorscheme railscasts")
+			vim.cmd("colorscheme railscasts")
 		end,
 	})
 	use("~/dotfiles/vim/pack/packup/start/vim-github-review")
