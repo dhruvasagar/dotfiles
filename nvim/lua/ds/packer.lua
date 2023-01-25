@@ -433,9 +433,6 @@ return require("packer").startup(function(use)
 	use({
 		"EdenEast/nightfox.nvim",
 		config = function()
-			vim.cmd("colorscheme nightfox")
-			-- vim.cmd("colorscheme duskfox")
-			-- vim.cmd("colorscheme carbonfox")
 			require("nightfox").setup({
 				groups = {
 					all = {
@@ -446,6 +443,9 @@ return require("packer").startup(function(use)
 					},
 				},
 			})
+			-- vim.cmd("colorscheme nightfox")
+			-- vim.cmd("colorscheme duskfox")
+			-- vim.cmd("colorscheme carbonfox")
 		end,
 	})
 	use({
@@ -459,7 +459,7 @@ return require("packer").startup(function(use)
 					DiffDelete = { fg = "#000000", bg = "#5f0000" },
 				},
 			})
-			-- vim.cmd("colorscheme ayu")
+			vim.cmd("colorscheme ayu")
 		end,
 	})
 
