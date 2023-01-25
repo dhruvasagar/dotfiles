@@ -52,37 +52,32 @@ return require("packer").startup(function(use)
 	use("digitaltoad/vim-jade")
 	use("elixir-lang/vim-elixir")
 	use("slim-template/vim-slim")
+
+	-- DAP
+	use("mfussenegger/nvim-dap")
 	use({
 		"rcarriga/nvim-dap-ui",
 		requires = { "mfussenegger/nvim-dap" },
 		config = function()
-			local dap = require("dap")
-			dap.adapters.codelldb = {
-				type = "server",
-				port = "${port}",
-				executable = {
-					command = "/home/h4x0rdud3/.local/share/nvim/mason/packages/codelldb/extension/adapter/codelldb",
-					args = { "--port", "${port}" },
-				},
-			}
-
-			dap.configurations.c = {
-				{
-					name = "Launch",
-					type = "codelldb",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					terminal = "integrated",
-					stopOnEntry = false,
-				},
-			}
-			dap.configurations.cpp = dap.configurations.c
-			dap.configurations.rust = dap.configurations.c
+			require("dapui").setup()
 		end,
 	})
+	use({
+		"theHamsta/nvim-dap-virtual-text",
+		requires = { "mfussenegger/nvim-dap" },
+	})
+	use({
+		"leoluz/nvim-dap-go",
+		requires = { "mfussenegger/nvim-dap" },
+		config = function()
+			require("dap-go").setup()
+		end,
+	})
+	use({
+		"jbyuki/one-small-step-for-vimkind",
+		requires = { "mfussenegger/nvim-dap" },
+	})
+
 	use("leafgarland/typescript-vim")
 	use("purescript-contrib/purescript-vim")
 	use("SirVer/ultisnips")
@@ -213,7 +208,12 @@ return require("packer").startup(function(use)
 	-- 		require("Comment").setup()
 	-- 	end,
 	-- })
-	use("ellisonleao/glow.nvim")
+	use({
+		"ellisonleao/glow.nvim",
+		config = function()
+			require("glow").setup()
+		end,
+	})
 	use("SidOfc/mkdx")
 	use({ "kkoomen/vim-doge", run = ":call doge#install()" })
 	use("junegunn/goyo.vim")
