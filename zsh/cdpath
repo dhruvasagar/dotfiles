@@ -12,6 +12,10 @@ if [ -d "$HOME/src" ]; then
   done
 fi
 
+CDPATH=$CDPATH:$HOME/.local/share/nvim/site/pack/packer/opt
+CDPATH=$CDPATH:$HOME/.local/share/nvim/site/pack/packer/start
+
 CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/packup/opt
 CDPATH=$CDPATH:$HOME/dotfiles/vim/pack/packup/start
+
 export CDPATH

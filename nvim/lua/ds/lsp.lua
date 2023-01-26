@@ -53,7 +53,6 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
-	eslint = {},
 	gopls = {},
 	gradle_ls = {},
 	grammarly = {},
@@ -102,7 +101,10 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 	border = border,
 })
 vim.diagnostic.config({
-	float = { border = border },
+	float = {
+		border = border,
+		source = "if_many",
+	},
 })
 require("lspconfig.ui.windows").default_options = {
 	border = border,

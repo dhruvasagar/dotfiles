@@ -44,7 +44,6 @@ return require("packer").startup(function(use)
 	use("machakann/vim-sandwich")
 	use("pangloss/vim-javascript")
 	use("MaxMEllon/vim-jsx-pretty")
-	use("burnettk/vim-angular")
 	use({ "guns/vim-sexp", opt = true })
 	use({ "guns/vim-clojure-static", opt = true })
 	use("kana/vim-vspec")
@@ -243,6 +242,10 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use("dstein64/vim-startuptime")
+	use({
+		"RRethy/vim-hexokinase",
+		run = "make hexokinase",
+	})
 
 	-- LSP Plugins
 	use({
@@ -307,7 +310,6 @@ return require("packer").startup(function(use)
 					-- 1. both needs to be enabled to so prettier can apply eslint fixes
 					-- 2. prettierd should come first to prevent occassional race condition
 					fmt.prettierd,
-					fmt.eslint_d,
 					fmt.rustfmt,
 					fmt.fourmolu,
 					fmt.stylua,
@@ -316,7 +318,6 @@ return require("packer").startup(function(use)
 						extra_args = { "-i", 4, "-ci", "-sr" },
 					}),
 					-- # DIAGNOSTICS #
-					dgn.eslint_d,
 					dgn.shellcheck,
 					dgn.luacheck.with({
 						extra_args = { "--globals", "vim", "--std", "luajit" },
