@@ -23,10 +23,7 @@ local on_attach = function(_, bufnr)
 	nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 	nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 	nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-	nmap("<leader>lr", function()
-		vim.lsp.codelens.refresh()
-		vim.lsp.codelens.run()
-	end, "[R]un [C]odelens")
+	nmap("<leader>lr", vim.lsp.codelens.run, "[R]un [C]odelens")
 
 	-- See `:help K` for why this keymap
 	nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -44,6 +41,13 @@ local on_attach = function(_, bufnr)
 	nmap("gl", vim.diagnostic.open_float, "[O]pen [D]iagnostics")
 	nmap("[d", vim.diagnostic.goto_prev, "[G]oto [P]revious Diagnostics")
 	nmap("[d", vim.diagnostic.goto_prev, "[G]oto [N]ext Diagnostics")
+
+	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "InsertLeave" }, {
+		group = vim.api.nvim_create_augroup("LspCodelens", {}),
+		callback = function()
+			vim.lsp.codelens.refresh()
+		end,
+	})
 end
 
 local servers = {
