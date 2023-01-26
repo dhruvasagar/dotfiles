@@ -274,7 +274,11 @@ return require("packer").startup(function(use)
 	use({
 		"j-hui/fidget.nvim",
 		config = function()
-			require("fidget").setup()
+			require("fidget").setup({
+				text = {
+					spinner = "moon",
+				},
+			})
 		end,
 	})
 	use({
@@ -446,7 +450,7 @@ return require("packer").startup(function(use)
 			})
 			-- vim.cmd("colorscheme nightfox")
 			-- vim.cmd("colorscheme duskfox")
-			vim.cmd("colorscheme carbonfox")
+			-- vim.cmd("colorscheme carbonfox")
 		end,
 	})
 	use({
@@ -476,7 +480,7 @@ return require("packer").startup(function(use)
 	use({
 		"~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
 		config = function()
-			-- vim.cmd("colorscheme railscasts")
+			vim.cmd("colorscheme railscasts")
 		end,
 	})
 	use("~/dotfiles/vim/pack/packup/start/vim-github-review")
