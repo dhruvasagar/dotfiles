@@ -218,7 +218,6 @@ return require("packer").startup(function(use)
 	use("junegunn/goyo.vim")
 	use("vim-scripts/DrawIt")
 	use("junegunn/vim-emoji")
-	use("norcalli/nvim-colorizer.lua")
 	use("guns/xterm-color-table.vim")
 	use("ledger/vim-ledger")
 	use({
@@ -246,8 +245,6 @@ return require("packer").startup(function(use)
 		"RRethy/vim-hexokinase",
 		run = "make hexokinase",
 	})
-
-	-- LSP Plugins
 	use({
 		"E-ricus/lsp_codelens_extensions.nvim",
 		requires = {
