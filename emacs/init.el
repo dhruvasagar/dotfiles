@@ -23,8 +23,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (markdown-mode mu4e-alert evil-collection railscasts-theme org-evil evil-visualstar evil-surround evil-rails evil-numbers evil-matchit evil-exchange evil-commentary))))
+   '(markdown-mode mu4e-alert evil-collection railscasts-theme org-evil evil-visualstar evil-surround evil-rails evil-numbers evil-matchit evil-exchange evil-commentary)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
