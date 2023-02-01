@@ -40,7 +40,7 @@ local on_attach = function(client, bufnr)
 	-- Diagnostics
 	nmap("gl", vim.diagnostic.open_float, "[O]pen [D]iagnostics")
 	nmap("[d", vim.diagnostic.goto_prev, "[G]oto [P]revious Diagnostics")
-	nmap("[d", vim.diagnostic.goto_prev, "[G]oto [N]ext Diagnostics")
+	nmap("]d", vim.diagnostic.goto_next, "[G]oto [N]ext Diagnostics")
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "InsertLeave" }, {
 		group = vim.api.nvim_create_augroup("LspCodelens", {}),
