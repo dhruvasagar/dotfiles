@@ -277,22 +277,6 @@ return require("packer").startup(function(use)
 		end,
 	})
 	use({
-		"glepnir/lspsaga.nvim",
-		requires = { "kyazdani42/nvim-web-devicons" },
-		config = function()
-			require("lspsaga").setup({
-				lightbulb = {
-					enable = false,
-				},
-				symbol_in_winbar = {
-					enable = false,
-					show_file = false,
-					color_mode = true,
-				},
-			})
-		end,
-	})
-	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
 			local nls = require("null-ls")
