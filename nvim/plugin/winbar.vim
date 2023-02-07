@@ -40,8 +40,7 @@ function! Winbar() abort
   let winbar = []
   call s:addNotEmpty(winbar, s:gitStatus())
   call s:addNotEmpty(winbar, s:diagnostics())
-  call s:addNotEmpty(winbar, s:context())
   return join(winbar, " | ")
 endfunction
 
-set winbar=%{%Winbar()%}
+" set winbar=%{%Winbar()%}
