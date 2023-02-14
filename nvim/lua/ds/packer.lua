@@ -427,6 +427,9 @@ return require("packer").startup(function(use)
 				end,
 				show_dirname = false,
 				show_modified = true,
+				modified = function()
+					return vim.fn["StatusLineGitFlag"]() ~= ""
+				end,
 			})
 		end,
 	})

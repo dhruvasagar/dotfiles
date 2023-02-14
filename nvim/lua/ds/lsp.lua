@@ -63,12 +63,12 @@ local servers = {
 	tsserver = {},
 	vimls = {},
 	yamlls = {},
-	sumneko_lua = {
+	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = false },
 			telemetry = { enable = false },
 			diagnostics = {
-				globals = { "vim" },
+				globals = { "vim", "require" },
 			},
 		},
 	},
