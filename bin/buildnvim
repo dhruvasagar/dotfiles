@@ -1,0 +1,6 @@
+#!/bin/sh
+
+make distclean
+make deps
+make CMAKE_BUILD_TYPE=Release
+sudo make install

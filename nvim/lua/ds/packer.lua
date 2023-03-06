@@ -241,6 +241,7 @@ return require("packer").startup(function(use)
 		"RRethy/vim-hexokinase",
 		run = "make hexokinase",
 	})
+	use("jbyuki/venn.nvim")
 
 	-- LSP Plugins
 	use({
@@ -422,6 +423,11 @@ return require("packer").startup(function(use)
 		after = "nvim-web-devicons", -- keep this if you're using NvChad
 		config = function()
 			require("barbecue").setup({
+				show_dirname = false,
+				show_modified = true,
+				modified = function()
+					return vim.fn["StatusLineGitFlag"]() ~= ""
+				end,
 				custom_section = function()
 					return vim.fn.Winbar()
 				end,
