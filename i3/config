@@ -153,7 +153,7 @@ set $ws7 7
 set $ws8 8
 
 workspace $ws1 output HDMI-0
-bindsym $mod+p move workspace to output right
+bindsym $mod+p move workspace to output left
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1

@@ -431,6 +431,11 @@ return require("packer").startup(function(use)
 				custom_section = function()
 					return vim.fn.Winbar()
 				end,
+				show_dirname = false,
+				show_modified = true,
+				modified = function()
+					return vim.fn["StatusLineGitFlag"]() ~= ""
+				end,
 			})
 		end,
 	})
