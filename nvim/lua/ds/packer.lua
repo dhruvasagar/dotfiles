@@ -51,6 +51,10 @@ return require("packer").startup(function(use)
 	use("digitaltoad/vim-jade")
 	use("elixir-lang/vim-elixir")
 	use("slim-template/vim-slim")
+	use({
+		"kristijanhusak/vim-dadbod-ui",
+		requires = { "tpope/vim-dadbod" },
+	})
 
 	-- DAP
 	use("mfussenegger/nvim-dap")
@@ -242,6 +246,13 @@ return require("packer").startup(function(use)
 		run = "make hexokinase",
 	})
 	use("jbyuki/venn.nvim")
+	use({
+		"projekt0n/circles.nvim",
+		requires = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("circles").setup()
+		end,
+	})
 
 	-- LSP Plugins
 	use({
