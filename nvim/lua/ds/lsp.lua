@@ -16,8 +16,8 @@ local on_attach = function(client, bufnr)
   end
 
   nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-  nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-  nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+  nmap("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
+  nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
   nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
@@ -57,9 +57,12 @@ require("neoconf").setup()
 require("mason").setup()
 
 local servers = {
+  angularls = {},
+  clojure_lsp = {},
+  dockerls = {},
+  eslint = {},
   gopls = {},
   gradle_ls = {},
-  grammarly = {},
   hls = {},
   jsonls = {},
   marksman = {},

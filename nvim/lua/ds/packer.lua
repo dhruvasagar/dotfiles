@@ -334,6 +334,17 @@ return require("packer").startup(function(use)
       })
     end,
   })
+  -- Plug 'mattn/libcallex-vim', { 'do': 'make -C autoload' }
+  -- Plug 'bytesnake/vim-graphical-preview', { 'do': 'cargo build --release' }
+
+  use({
+    'mattn/libcallex-vim',
+    run = 'make -C autoload'
+  })
+  use({
+    'bytesnake/vim-graphical-preview',
+    run = 'cargo build --release',
+  })
 
   -- LSP Plugins
   use({
