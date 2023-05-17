@@ -89,7 +89,17 @@ return require("packer").startup(function(use)
   use("editorconfig/editorconfig-vim")
   use("godlygeek/tabular")
   use("vim-scripts/SyntaxRange")
-  use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+  use({
+    "nvim-telescope/telescope.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          path_display = { "smart" },
+        },
+      })
+    end,
+  })
   use({
     "nvim-telescope/telescope-fzf-native.nvim",
     requires = { "nvim-telescope/telescope.nvim" },
