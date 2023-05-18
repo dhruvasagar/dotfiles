@@ -1,8 +1,8 @@
 hs.hotkey.bind({ "ctrl" }, "`", function()
-	local alacritty = hs.application.get("Alacritty")
-	if alacritty and alacritty:isFrontmost() then
-		alacritty:hide()
-	else
-		hs.application.launchOrFocus("/Applications/Alacritty.app")
-	end
+  local kitty = hs.application.get("Kitty")
+  if kitty and kitty:isFrontmost() then
+    kitty:hide()
+  else
+    hs.application.launchOrFocus("/Applications/kitty.app")
+  end
 end)

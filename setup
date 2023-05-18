@@ -1,15 +1,15 @@
 #!/bin/bash
 
-relink () {
-  src="$1"
-  dst="$2"
+relink() {
+    src="$1"
+    dst="$2"
 
-  rm -rf "$dst"
+    rm -rf "$dst"
 
-  dir=$(dirname "$dst")
-  [[ ! -d "$dir" ]] && mkdir -p "$dir"
+    dir=$(dirname "$dst")
+    [[ ! -d "$dir" ]] && mkdir -p "$dir"
 
-  ln -s "$src" "$dst"
+    ln -s "$src" "$dst"
 }
 
 XDG_CONFIG_HOME=$XDG_CONFIG_HOME:=$HOME/.config
@@ -26,6 +26,7 @@ relink ~/dotfiles/xprofile ~/.xprofile
 
 relink ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 relink ~/dotfiles/config/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
+relink ~/dotfiles/config/kitty.conf "${XDG_CONFIG_HOME}/kitty/kitty.conf"
 
 platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null
