@@ -27,6 +27,7 @@ relink ~/dotfiles/xprofile ~/.xprofile
 relink ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
 relink ~/dotfiles/config/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
 relink ~/dotfiles/config/kitty.conf "${XDG_CONFIG_HOME}/kitty/kitty.conf"
+relink ~/dotfiles/config/wezterm.lua ~/.wezterm.lua
 
 platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null
