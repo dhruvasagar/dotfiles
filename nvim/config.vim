@@ -154,9 +154,9 @@ set t_kB=[Z
 if $COLORTERM =~# '^\(truecolor\|24bit\)$'
   let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
   let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-  if &term =~# '^screen'
-    set ttymouse=xterm2
-  endif
+  " if &term =~# '^screen'
+  "   set ttymouse=xterm2
+  " endif
   " Enable _italics_ within vim
   " REF: https://rsapkf.netlify.app/blog/enabling-italics-vim-tmux
   set t_ZH=[3m
