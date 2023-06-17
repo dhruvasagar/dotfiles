@@ -1,7 +1,5 @@
 set termguicolors
 
-lua require 'init'
-
 let g:vim_home = expand('~/.config/nvim/')
 
 let config_list = [
@@ -18,6 +16,8 @@ for files in config_list
 endfor
 
 packadd termdebug
+
+lua require 'init'
 
 " Set at the end to work around 'exrc'
 set secure

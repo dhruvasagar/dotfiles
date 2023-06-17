@@ -76,6 +76,15 @@ return require("packer").startup(function(use)
     "jbyuki/one-small-step-for-vimkind",
     requires = { "mfussenegger/nvim-dap" },
   })
+  use({
+    "theHamsta/nvim-dap-virtual-text",
+    requires = {
+      'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'
+    },
+    config = function()
+      require("nvim-dap-virtual-text").setup()
+    end
+  })
 
   use("leafgarland/typescript-vim")
   use("purescript-contrib/purescript-vim")
@@ -135,6 +144,7 @@ return require("packer").startup(function(use)
           "vim",
           "lua",
           "python",
+          "comment",
         },
         highlight = { enable = true },
         indent = { enable = true, disable = { "python" } },
@@ -407,6 +417,7 @@ return require("packer").startup(function(use)
           -- 1. both needs to be enabled to so prettier can apply eslint fixes
           -- 2. prettierd should come first to prevent occassional race condition
           fmt.prettierd,
+          fmt.eslint_d,
           fmt.rustfmt,
           fmt.fourmolu,
           fmt.stylua,
