@@ -39,7 +39,19 @@ return require("packer").startup(function(use)
   use("tommcdo/vim-exchange")
   use("AndrewRadev/switch.vim")
   use("AndrewRadev/sideways.vim")
-  use("AndrewRadev/splitjoin.vim")
+  use({
+    "Wansmer/treesj",
+    requires = { "nvim-treesitter" },
+    config = function()
+      require("treesj").setup()
+    end,
+  })
+  use({
+    "dgagn/diagflow.nvim",
+    config = function()
+      require("diagflow").setup()
+    end,
+  })
   use("simnalamburt/vim-mundo")
   use("machakann/vim-sandwich")
   use("pangloss/vim-javascript")
@@ -54,6 +66,17 @@ return require("packer").startup(function(use)
   use({
     "kristijanhusak/vim-dadbod-ui",
     requires = { "tpope/vim-dadbod" },
+  })
+  use({
+    "luckasRanarison/nvim-devdocs",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("nvim-devdocs").setup()
+    end,
   })
 
   -- DAP
@@ -79,14 +102,22 @@ return require("packer").startup(function(use)
   use({
     "theHamsta/nvim-dap-virtual-text",
     requires = {
-      'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'
+      "mfussenegger/nvim-dap",
+      "nvim-treesitter/nvim-treesitter",
     },
     config = function()
       require("nvim-dap-virtual-text").setup()
-    end
+    end,
   })
 
   use("leafgarland/typescript-vim")
+  use({
+    "pmizio/typescript-tools.nvim",
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      require("typescript-tools").setup({})
+    end,
+  })
   use("purescript-contrib/purescript-vim")
   use("SirVer/ultisnips")
   use("honza/vim-snippets")
@@ -102,7 +133,7 @@ return require("packer").startup(function(use)
     "nvim-telescope/telescope.nvim",
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require('telescope').setup({
+      require("telescope").setup({
         defaults = {
           path_display = { "smart" },
         },
@@ -145,6 +176,9 @@ return require("packer").startup(function(use)
           "lua",
           "python",
           "comment",
+          "html",
+          "ruby",
+          "clojure",
         },
         highlight = { enable = true },
         indent = { enable = true, disable = { "python" } },
@@ -219,6 +253,13 @@ return require("packer").startup(function(use)
       })
     end,
   })
+  use({
+    "nvim-treesitter/nvim-treesitter-context",
+    requires = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesitter-context").setup()
+    end,
+  })
   use("nvim-treesitter/playground")
   use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
   -- use({
@@ -266,13 +307,6 @@ return require("packer").startup(function(use)
   })
   use("jbyuki/venn.nvim")
   use({
-    "projekt0n/circles.nvim",
-    requires = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("circles").setup()
-    end,
-  })
-  use({
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
     config = function()
@@ -302,7 +336,7 @@ return require("packer").startup(function(use)
         ui = {
           output_popup_text = "NeoAI",
           input_popup_text = "Prompt",
-          width = 30, -- As percentage eg. 30%
+          width = 30,               -- As percentage eg. 30%
           output_popup_height = 80, -- As percentage eg. 80%
         },
         model = "gpt-3.5-turbo",
@@ -357,12 +391,12 @@ return require("packer").startup(function(use)
   -- Plug 'bytesnake/vim-graphical-preview', { 'do': 'cargo build --release' }
 
   use({
-    'mattn/libcallex-vim',
-    run = 'make -C autoload'
+    "mattn/libcallex-vim",
+    run = "make -C autoload",
   })
   use({
-    'bytesnake/vim-graphical-preview',
-    run = 'cargo build --release',
+    "bytesnake/vim-graphical-preview",
+    run = "cargo build --release",
   })
 
   -- LSP Plugins
@@ -391,6 +425,7 @@ return require("packer").startup(function(use)
   use({ "williamboman/mason-lspconfig.nvim", requires = { "neovim/nvim-lspconfig" } })
   use({
     "j-hui/fidget.nvim",
+    tag = "legacy",
     config = function()
       require("fidget").setup({
         text = {
@@ -473,8 +508,8 @@ return require("packer").startup(function(use)
           { name = "ultisnips" },
           { name = "path" },
           { name = "omni" },
-          { name = "buffer", keyword_length = 3 },
-          { name = "nvim_lsp", keyword_length = 3 },
+          { name = "buffer",                 keyword_length = 3 },
+          { name = "nvim_lsp",               keyword_length = 3 },
           { name = "nvim_lsp_signature_help" },
         },
         mapping = {
@@ -537,30 +572,8 @@ return require("packer").startup(function(use)
     end,
   })
   use({
-    "utilyre/barbecue.nvim",
-    tag = "*",
-    requires = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    after = "nvim-web-devicons", -- keep this if you're using NvChad
-    config = function()
-      require("barbecue").setup({
-        show_dirname = false,
-        show_modified = true,
-        modified = function()
-          return vim.fn["StatusLineGitFlag"]() ~= ""
-        end,
-        custom_section = function()
-          return vim.fn.Winbar()
-        end,
-        show_dirname = false,
-        show_modified = true,
-        modified = function()
-          return vim.fn["StatusLineGitFlag"]() ~= ""
-        end,
-      })
-    end,
+    "m4xshen/hardtime.nvim",
+    requires = { 'MunifTanjim/nui.nvim', "nvim-lua/plenary.nvim" }
   })
 
   -- Colorschemes
@@ -596,6 +609,15 @@ return require("packer").startup(function(use)
       -- vim.cmd("colorscheme ayu")
     end,
   })
+  use({
+    "AlexvZyl/nordic.nvim",
+    config = function()
+      require("nordic").setup({
+        bright_border = true,
+      })
+      vim.cmd("colorscheme nordic")
+    end,
+  })
 
   use("~/dotfiles/vim/pack/packup/start/vim-less")
   use("~/dotfiles/vim/pack/packup/start/vim-marp")
@@ -609,7 +631,7 @@ return require("packer").startup(function(use)
   use({
     "~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
     config = function()
-      vim.cmd("colorscheme railscasts")
+      -- vim.cmd("colorscheme railscasts")
     end,
   })
   use("~/dotfiles/vim/pack/packup/start/vim-github-review")

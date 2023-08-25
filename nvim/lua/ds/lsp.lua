@@ -67,7 +67,6 @@ local servers = {
   jsonls = {},
   marksman = {},
   rust_analyzer = {},
-  tsserver = {},
   vimls = {},
   yamlls = {},
   lua_ls = {
@@ -108,6 +107,7 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
   border = border,
 })
 vim.diagnostic.config({
+  virtual_text = false,
   float = {
     border = border,
     source = "if_many",
