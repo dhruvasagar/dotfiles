@@ -39,7 +39,7 @@ nnoremap ' `
 " Test {{{1
 nnoremap <Leader>cl :TestLast<CR>
 nnoremap <Leader>cf :TestFile<CR>
-nnoremap <Leader>ca :TestSuite<CR>
+nnoremap <Leader>cs :TestSuite<CR>
 nnoremap <Leader>cc :TestNearest<CR>
 
 " Remap Esc in terminal for NeoVim
