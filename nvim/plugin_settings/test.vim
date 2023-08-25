@@ -9,3 +9,5 @@ let test#ruby#rspec#options = {
       \ 'file':    '--format doc',
       \ 'suite':   '--format progress'
       \}
+
+let test#enabled_runners = ['viml#testify']
