@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd ~/src/oss/neovim
+git pull origin master
+buildnvim

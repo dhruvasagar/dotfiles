@@ -22,14 +22,6 @@ function! s:gitStatus() abort
   return ""
 endfunction
 
-function! s:context() abort
-  let ctx = luaeval("require('lspsaga.symbolwinbar'):get_winbar()")
-  if !empty(ctx)
-    return "Context: " . ctx . "%*"
-  endif
-  return ""
-endfunction
-
 function! s:addNotEmpty(list, item) abort
   if !empty(a:item)
     call add(a:list, a:item)
@@ -42,5 +34,3 @@ function! Winbar() abort
   call s:addNotEmpty(winbar, s:diagnostics())
   return join(winbar, " | ")
 endfunction
-
-" set winbar=%{%Winbar()%}

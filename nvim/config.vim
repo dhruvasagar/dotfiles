@@ -155,9 +155,9 @@ set t_kB=[Z
 if $COLORTERM =~# '^\(truecolor\|24bit\)$'
   let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
   let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-  if &term =~# '^screen'
-    set ttymouse=xterm2
-  endif
+  " if &term =~# '^screen'
+  "   set ttymouse=xterm2
+  " endif
   " Enable _italics_ within vim
   " REF: https://rsapkf.netlify.app/blog/enabling-italics-vim-tmux
   set t_ZH=[3m
@@ -177,6 +177,10 @@ set guicursor =n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 
 let &t_Cs = "\e[4:3m"
 let &t_Ce = "\e[4:0m"
+
+if &term == 'xterm-kitty'
+    let &t_ut=''
+endif
 
 " let g:solarized_termcolors=256
 " color solarized

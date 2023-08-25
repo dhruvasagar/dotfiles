@@ -72,13 +72,3 @@ nnoremap c+ :.!toilet -w 200 -f standard<CR>
 nnoremap cb :.!toilet -w 200 -f term -F border<CR>
 
 nnoremap zS <cmd>TSHighlightCapturesUnderCursor<CR>
-
-nnoremap <silent> <F5> <cmd>lua require'dap'.continue()<CR>
-nnoremap <silent> <F10> <cmd>lua require'dap'.step_over()<CR>
-nnoremap <silent> <F11> <cmd>lua require'dap'.step_into()<CR>
-nnoremap <silent> <F12> <cmd>lua require'dap'.step_out()<CR>
-nnoremap <silent> <Leader>b <cmd>lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <Leader>B <cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <Leader>lp <cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <Leader>dr <cmd>lua require'dap'.repl.open()<CR>
-nnoremap <silent> <Leader>dl <cmd>lua require'dap'.run_last()<CR>
