@@ -34,8 +34,10 @@ floating_modifier $mod
 
 # start a terminal
 # bindsym $mod+Return exec terminal
-bindsym $mod+Return exec "alacritty"
-bindsym $mod+KP_Enter exec "alacritty"
+# bindsym $mod+Return exec "alacritty"
+# bindsym $mod+KP_Enter exec "alacritty"
+bindsym $mod+Return exec "wezterm"
+bindsym $mod+KP_Enter exec "wezterm"
 
 # kill focused window
 bindsym $mod+Shift+q kill

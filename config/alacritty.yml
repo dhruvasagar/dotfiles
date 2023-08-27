@@ -35,8 +35,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-     x: 10
-     y: 10
+    x: 10
+    y: 10
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -68,10 +68,10 @@ window:
 
   # Window class (Linux/BSD only):
   #class:
-    # Application instance name
-    #instance: Alacritty
-    # General application class
-    #general: Alacritty
+  # Application instance name
+  #instance: Alacritty
+  # General application class
+  #general: Alacritty
 
   # GTK theme variant (Linux/BSD only)
   #
@@ -79,13 +79,15 @@ window:
   # Set this to `None` to use the default theme variant.
   #gtk_theme_variant: None
 
-#scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
-  #history: 10000
+  # option_as_alt: true
 
-  # Scrolling distance multiplier.
-  #multiplier: 3
+#scrolling:
+# Maximum number of lines in the scrollback buffer.
+# Specifying '0' will disable scrolling.
+#history: 10000
+
+# Scrolling distance multiplier.
+#multiplier: 3
 
 # Font configuration
 font:
@@ -163,114 +165,114 @@ font:
 # GNOME Terminal Tango Dark
 colors:
   primary:
-    background: '0x121212'
-    foreground: '0xe4e4e4'
+    background: "0x121212"
+    foreground: "0xe4e4e4"
 
   normal:
-    black: '0x121212'
-    red: '0xcc0000'
-    green: '0x4e9a06'
-    yellow: '0xc4a000'
-    blue: '0x3465a4'
-    magenta: '0x75507b'
-    cyan: '0x06989a'
-    white: '0xd3d7cf'
+    black: "0x121212"
+    red: "0xcc0000"
+    green: "0x4e9a06"
+    yellow: "0xc4a000"
+    blue: "0x3465a4"
+    magenta: "0x75507b"
+    cyan: "0x06989a"
+    white: "0xd3d7cf"
 
   bright:
-    black: '0x555753'
-    red: '0xef2929'
-    green: '0x8ae234'
-    yellow: '0xfce94f'
-    blue: '0x729fcf'
-    magenta: '0xad7fa8'
-    cyan: '0x34e2e2'
-    white: '0xeeeeec'
+    black: "0x555753"
+    red: "0xef2929"
+    green: "0x8ae234"
+    yellow: "0xfce94f"
+    blue: "0x729fcf"
+    magenta: "0xad7fa8"
+    cyan: "0x34e2e2"
+    white: "0xeeeeec"
 
 # Colors (Tomorrow Night)
 #colors:
-  # Default colors
-  #primary:
-  #  background: '#1d1f21'
-  #  foreground: '#c5c8c6'
+# Default colors
+#primary:
+#  background: '#1d1f21'
+#  foreground: '#c5c8c6'
 
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
-    #dim_foreground: '#828482'
-    #bright_foreground: '#eaeaea'
+# Bright and dim foreground colors
+#
+# The dimmed foreground color is calculated automatically if it is not present.
+# If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
+# is `false`, the normal foreground color will be used.
+#dim_foreground: '#828482'
+#bright_foreground: '#eaeaea'
 
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are
-  # unset, the cursor color will be the inverse of the cell color.
-  #cursor:
-  #  text: '#000000'
-  #  cursor: '#ffffff'
+# Cursor colors
+#
+# Colors which should be used to draw the terminal cursor. If these are
+# unset, the cursor color will be the inverse of the cell color.
+#cursor:
+#  text: '#000000'
+#  cursor: '#ffffff'
 
-  # Vi mode cursor colors
-  #
-  # Colors for the cursor when the vi mode is active. If these are unset, the
-  # cursor color will be the inverse of the cell color.
-  #vi_mode_cursor:
-  #  text: '#000000'
-  #  cursor: '#ffffff'
+# Vi mode cursor colors
+#
+# Colors for the cursor when the vi mode is active. If these are unset, the
+# cursor color will be the inverse of the cell color.
+#vi_mode_cursor:
+#  text: '#000000'
+#  cursor: '#ffffff'
 
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '#eaeaea'
-  #  background: '#404040'
+# Selection colors
+#
+# Colors which should be used to draw the selection area. If selection
+# background is unset, selection color will be the inverse of the cell colors.
+# If only text is unset the cell text color will remain the same.
+#selection:
+#  text: '#eaeaea'
+#  background: '#404040'
 
-  # Normal colors
-  #normal:
-  #  black:   '#1d1f21'
-  #  red:     '#cc6666'
-  #  green:   '#b5bd68'
-  #  yellow:  '#f0c674'
-  #  blue:    '#81a2be'
-  #  magenta: '#b294bb'
-  #  cyan:    '#8abeb7'
-  #  white:   '#c5c8c6'
+# Normal colors
+#normal:
+#  black:   '#1d1f21'
+#  red:     '#cc6666'
+#  green:   '#b5bd68'
+#  yellow:  '#f0c674'
+#  blue:    '#81a2be'
+#  magenta: '#b294bb'
+#  cyan:    '#8abeb7'
+#  white:   '#c5c8c6'
 
-  # Bright colors
-  #bright:
-  #  black:   '#666666'
-  #  red:     '#d54e53'
-  #  green:   '#b9ca4a'
-  #  yellow:  '#e7c547'
-  #  blue:    '#7aa6da'
-  #  magenta: '#c397d8'
-  #  cyan:    '#70c0b1'
-  #  white:   '#eaeaea'
+# Bright colors
+#bright:
+#  black:   '#666666'
+#  red:     '#d54e53'
+#  green:   '#b9ca4a'
+#  yellow:  '#e7c547'
+#  blue:    '#7aa6da'
+#  magenta: '#c397d8'
+#  cyan:    '#70c0b1'
+#  white:   '#eaeaea'
 
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
-  #dim:
-  #  black:   '#131415'
-  #  red:     '#864343'
-  #  green:   '#777c44'
-  #  yellow:  '#9e824c'
-  #  blue:    '#556a7d'
-  #  magenta: '#75617b'
-  #  cyan:    '#5b7d78'
-  #  white:   '#828482'
+# Dim colors
+#
+# If the dim colors are not set, they will be calculated automatically based
+# on the `normal` colors.
+#dim:
+#  black:   '#131415'
+#  red:     '#864343'
+#  green:   '#777c44'
+#  yellow:  '#9e824c'
+#  blue:    '#556a7d'
+#  magenta: '#75617b'
+#  cyan:    '#5b7d78'
+#  white:   '#828482'
 
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '#ff00ff' }`
-  #
-  #indexed_colors: []
+# Indexed Colors
+#
+# The indexed colors include all colors from 16 to 256.
+# When these are not set, they're filled with sensible defaults.
+#
+# Example:
+#   `- { index: 16, color: '#ff00ff' }`
+#
+#indexed_colors: []
 
 # Visual Bell
 #
@@ -305,38 +307,38 @@ colors:
 #background_opacity: 1.0
 
 #selection:
-  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+#semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
-  # When set to `true`, selected text will be copied to the primary clipboard.
-  #save_to_clipboard: false
+# When set to `true`, selected text will be copied to the primary clipboard.
+#save_to_clipboard: false
 
 # Allow terminal applications to change Alacritty's window title.
 #dynamic_title: true
 
 #cursor:
-  # Cursor style
-  #
-  # Values for `style`:
-  #   - ▇ Block
-  #   - _ Underline
-  #   - | Beam
-  #style: Block
+# Cursor style
+#
+# Values for `style`:
+#   - ▇ Block
+#   - _ Underline
+#   - | Beam
+#style: Block
 
-  # Vi mode cursor style
-  #
-  # If the vi mode cursor style is `None` or not specified, it will fall back to
-  # the style of the active value of the normal cursor.
-  #
-  # See `cursor.style` for available options.
-  #vi_mode_style: None
+# Vi mode cursor style
+#
+# If the vi mode cursor style is `None` or not specified, it will fall back to
+# the style of the active value of the normal cursor.
+#
+# See `cursor.style` for available options.
+#vi_mode_style: None
 
-  # If this is `true`, the cursor will be rendered as a hollow box when the
-  # window is not focused.
-  #unfocused_hollow: true
+# If this is `true`, the cursor will be rendered as a hollow box when the
+# window is not focused.
+#unfocused_hollow: true
 
-  # Thickness of the cursor relative to the cell width as floating point number
-  # from `0.0` to `1.0`.
-  #thickness: 0.15
+# Thickness of the cursor relative to the cell width as floating point number
+# from `0.0` to `1.0`.
+#thickness: 0.15
 
 # Live config reload (changes require restart)
 #live_config_reload: true
@@ -372,7 +374,7 @@ colors:
 #winpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: true
+# alt_send_esc: true
 
 mouse:
   # Click settings
@@ -387,26 +389,26 @@ mouse:
   hide_when_typing: false
 
   #url:
-    # URL launcher
-    #
-    # This program is executed when clicking on a text which is recognized as a URL.
-    # The URL is always added to the command as the last parameter.
-    #
-    # When set to `launcher: None`, URL launching will be disabled completely.
-    #
-    # Default:
-    #   - (macOS) open
-    #   - (Linux/BSD) xdg-open
-    #   - (Windows) explorer
-    #launcher:
-    #  program: xdg-open
-    #  args: []
+  # URL launcher
+  #
+  # This program is executed when clicking on a text which is recognized as a URL.
+  # The URL is always added to the command as the last parameter.
+  #
+  # When set to `launcher: None`, URL launching will be disabled completely.
+  #
+  # Default:
+  #   - (macOS) open
+  #   - (Linux/BSD) xdg-open
+  #   - (Windows) explorer
+  #launcher:
+  #  program: xdg-open
+  #  args: []
 
-    # URL modifiers
-    #
-    # These are the modifiers that need to be held down for opening URLs when clicking
-    # on them. The available modifiers are documented in the key binding section.
-    #modifiers: None
+  # URL modifiers
+  #
+  # These are the modifiers that need to be held down for opening URLs when clicking
+  # on them. The available modifiers are documented in the key binding section.
+  #modifiers: None
 
 # Mouse bindings
 #
@@ -652,96 +654,95 @@ key_bindings:
   #- { key: N,      mods: Command,            action: SpawnNewInstance }
   #- { key: F,      mods: Command|Control,    action: ToggleFullscreen }
 
-  - { key: A,         mods: Alt,       chars: "\x1ba"                       }
-  - { key: B,         mods: Alt,       chars: "\x1bb"                       }
-  - { key: C,         mods: Alt,       chars: "\x1bc"                       }
-  - { key: D,         mods: Alt,       chars: "\x1bd"                       }
-  - { key: E,         mods: Alt,       chars: "\x1be"                       }
-  - { key: F,         mods: Alt,       chars: "\x1bf"                       }
-  - { key: G,         mods: Alt,       chars: "\x1bg"                       }
-  - { key: H,         mods: Alt,       chars: "\x1bh"                       }
-  - { key: I,         mods: Alt,       chars: "\x1bi"                       }
-  - { key: J,         mods: Alt,       chars: "\x1bj"                       }
-  - { key: K,         mods: Alt,       chars: "\x1bk"                       }
-  - { key: L,         mods: Alt,       chars: "\x1bl"                       }
-  - { key: M,         mods: Alt,       chars: "\x1bm"                       }
-  - { key: N,         mods: Alt,       chars: "\x1bn"                       }
-  - { key: O,         mods: Alt,       chars: "\x1bo"                       }
-  - { key: P,         mods: Alt,       chars: "\x1bp"                       }
-  - { key: Q,         mods: Alt,       chars: "\x1bq"                       }
-  - { key: R,         mods: Alt,       chars: "\x1br"                       }
-  - { key: S,         mods: Alt,       chars: "\x1bs"                       }
-  - { key: T,         mods: Alt,       chars: "\x1bt"                       }
-  - { key: U,         mods: Alt,       chars: "\x1bu"                       }
-  - { key: V,         mods: Alt,       chars: "\x1bv"                       }
-  - { key: W,         mods: Alt,       chars: "\x1bw"                       }
-  - { key: X,         mods: Alt,       chars: "\x1bx"                       }
-  - { key: Y,         mods: Alt,       chars: "\x1by"                       }
-  - { key: Z,         mods: Alt,       chars: "\x1bz"                       }
-  - { key: A,         mods: Alt|Shift, chars: "\x1bA"                       }
-  - { key: B,         mods: Alt|Shift, chars: "\x1bB"                       }
-  - { key: C,         mods: Alt|Shift, chars: "\x1bC"                       }
-  - { key: D,         mods: Alt|Shift, chars: "\x1bD"                       }
-  - { key: E,         mods: Alt|Shift, chars: "\x1bE"                       }
-  - { key: F,         mods: Alt|Shift, chars: "\x1bF"                       }
-  - { key: G,         mods: Alt|Shift, chars: "\x1bG"                       }
-  - { key: H,         mods: Alt|Shift, chars: "\x1bH"                       }
-  - { key: I,         mods: Alt|Shift, chars: "\x1bI"                       }
-  - { key: J,         mods: Alt|Shift, chars: "\x1bJ"                       }
-  - { key: K,         mods: Alt|Shift, chars: "\x1bK"                       }
-  - { key: L,         mods: Alt|Shift, chars: "\x1bL"                       }
-  - { key: M,         mods: Alt|Shift, chars: "\x1bM"                       }
-  - { key: N,         mods: Alt|Shift, chars: "\x1bN"                       }
-  - { key: O,         mods: Alt|Shift, chars: "\x1bO"                       }
-  - { key: P,         mods: Alt|Shift, chars: "\x1bP"                       }
-  - { key: Q,         mods: Alt|Shift, chars: "\x1bQ"                       }
-  - { key: R,         mods: Alt|Shift, chars: "\x1bR"                       }
-  - { key: S,         mods: Alt|Shift, chars: "\x1bS"                       }
-  - { key: T,         mods: Alt|Shift, chars: "\x1bT"                       }
-  - { key: U,         mods: Alt|Shift, chars: "\x1bU"                       }
-  - { key: V,         mods: Alt|Shift, chars: "\x1bV"                       }
-  - { key: W,         mods: Alt|Shift, chars: "\x1bW"                       }
-  - { key: X,         mods: Alt|Shift, chars: "\x1bX"                       }
-  - { key: Y,         mods: Alt|Shift, chars: "\x1bY"                       }
-  - { key: Z,         mods: Alt|Shift, chars: "\x1bZ"                       }
-  - { key: Key1,      mods: Alt,       chars: "\x1b1"                       }
-  - { key: Key2,      mods: Alt,       chars: "\x1b2"                       }
-  - { key: Key3,      mods: Alt,       chars: "\x1b3"                       }
-  - { key: Key4,      mods: Alt,       chars: "\x1b4"                       }
-  - { key: Key5,      mods: Alt,       chars: "\x1b5"                       }
-  - { key: Key6,      mods: Alt,       chars: "\x1b6"                       }
-  - { key: Key6,      mods: Control,   chars: "\x1e"                        }
-  - { key: Key7,      mods: Alt,       chars: "\x1b7"                       }
-  - { key: Key8,      mods: Alt,       chars: "\x1b8"                       }
-  - { key: Key9,      mods: Alt,       chars: "\x1b9"                       }
-  - { key: Key0,      mods: Alt,       chars: "\x1b0"                       }
-  - { key: Space,     mods: Control,   chars: "\x00"                        } # Ctrl + Space
-  - { key: Grave,     mods: Alt,       chars: "\x1b`"                       } # Alt + `
-  - { key: Grave,     mods: Alt|Shift, chars: "\x1b~"                       } # Alt + ~
-  - { key: Period,    mods: Alt,       chars: "\x1b."                       } # Alt + .
-  - { key: Key8,      mods: Alt|Shift, chars: "\x1b*"                       } # Alt + *
-  - { key: Key3,      mods: Alt|Shift, chars: "\x1b#"                       } # Alt + #
-  - { key: Period,    mods: Alt|Shift, chars: "\x1b>"                       } # Alt + >
-  - { key: Comma,     mods: Alt|Shift, chars: "\x1b<"                       } # Alt + <
-  - { key: Q,         mods: Control,   chars: "\x11"                        }
-
+  - { key: A, mods: Alt, chars: "\x1ba" }
+  - { key: B, mods: Alt, chars: "\x1bb" }
+  - { key: C, mods: Alt, chars: "\x1bc" }
+  - { key: D, mods: Alt, chars: "\x1bd" }
+  - { key: E, mods: Alt, chars: "\x1be" }
+  - { key: F, mods: Alt, chars: "\x1bf" }
+  - { key: G, mods: Alt, chars: "\x1bg" }
+  - { key: H, mods: Alt, chars: "\x1bh" }
+  - { key: I, mods: Alt, chars: "\x1bi" }
+  - { key: J, mods: Alt, chars: "\x1bj" }
+  - { key: K, mods: Alt, chars: "\x1bk" }
+  - { key: L, mods: Alt, chars: "\x1bl" }
+  - { key: M, mods: Alt, chars: "\x1bm" }
+  - { key: N, mods: Alt, chars: "\x1bn" }
+  - { key: O, mods: Alt, chars: "\x1bo" }
+  - { key: P, mods: Alt, chars: "\x1bp" }
+  - { key: Q, mods: Alt, chars: "\x1bq" }
+  - { key: R, mods: Alt, chars: "\x1br" }
+  - { key: S, mods: Alt, chars: "\x1bs" }
+  - { key: T, mods: Alt, chars: "\x1bt" }
+  - { key: U, mods: Alt, chars: "\x1bu" }
+  - { key: V, mods: Alt, chars: "\x1bv" }
+  - { key: W, mods: Alt, chars: "\x1bw" }
+  - { key: X, mods: Alt, chars: "\x1bx" }
+  - { key: Y, mods: Alt, chars: "\x1by" }
+  - { key: Z, mods: Alt, chars: "\x1bz" }
+  - { key: A, mods: Alt|Shift, chars: "\x1bA" }
+  - { key: B, mods: Alt|Shift, chars: "\x1bB" }
+  - { key: C, mods: Alt|Shift, chars: "\x1bC" }
+  - { key: D, mods: Alt|Shift, chars: "\x1bD" }
+  - { key: E, mods: Alt|Shift, chars: "\x1bE" }
+  - { key: F, mods: Alt|Shift, chars: "\x1bF" }
+  - { key: G, mods: Alt|Shift, chars: "\x1bG" }
+  - { key: H, mods: Alt|Shift, chars: "\x1bH" }
+  - { key: I, mods: Alt|Shift, chars: "\x1bI" }
+  - { key: J, mods: Alt|Shift, chars: "\x1bJ" }
+  - { key: K, mods: Alt|Shift, chars: "\x1bK" }
+  - { key: L, mods: Alt|Shift, chars: "\x1bL" }
+  - { key: M, mods: Alt|Shift, chars: "\x1bM" }
+  - { key: N, mods: Alt|Shift, chars: "\x1bN" }
+  - { key: O, mods: Alt|Shift, chars: "\x1bO" }
+  - { key: P, mods: Alt|Shift, chars: "\x1bP" }
+  - { key: Q, mods: Alt|Shift, chars: "\x1bQ" }
+  - { key: R, mods: Alt|Shift, chars: "\x1bR" }
+  - { key: S, mods: Alt|Shift, chars: "\x1bS" }
+  - { key: T, mods: Alt|Shift, chars: "\x1bT" }
+  - { key: U, mods: Alt|Shift, chars: "\x1bU" }
+  - { key: V, mods: Alt|Shift, chars: "\x1bV" }
+  - { key: W, mods: Alt|Shift, chars: "\x1bW" }
+  - { key: X, mods: Alt|Shift, chars: "\x1bX" }
+  - { key: Y, mods: Alt|Shift, chars: "\x1bY" }
+  - { key: Z, mods: Alt|Shift, chars: "\x1bZ" }
+  - { key: Key1, mods: Alt, chars: "\x1b1" }
+  - { key: Key2, mods: Alt, chars: "\x1b2" }
+  - { key: Key3, mods: Alt, chars: "\x1b3" }
+  - { key: Key4, mods: Alt, chars: "\x1b4" }
+  - { key: Key5, mods: Alt, chars: "\x1b5" }
+  - { key: Key6, mods: Alt, chars: "\x1b6" }
+  - { key: Key6, mods: Control, chars: "\x1e" }
+  - { key: Key7, mods: Alt, chars: "\x1b7" }
+  - { key: Key8, mods: Alt, chars: "\x1b8" }
+  - { key: Key9, mods: Alt, chars: "\x1b9" }
+  - { key: Key0, mods: Alt, chars: "\x1b0" }
+  - { key: Space, mods: Control, chars: "\x00" } # Ctrl + Space
+  - { key: Grave, mods: Alt, chars: "\x1b`" } # Alt + `
+  - { key: Grave, mods: Alt|Shift, chars: "\x1b~" } # Alt + ~
+  - { key: Period, mods: Alt, chars: "\x1b." } # Alt + .
+  - { key: Key8, mods: Alt|Shift, chars: "\x1b*" } # Alt + *
+  - { key: Key3, mods: Alt|Shift, chars: "\x1b#" } # Alt + #
+  - { key: Period, mods: Alt|Shift, chars: "\x1b>" } # Alt + >
+  - { key: Comma, mods: Alt|Shift, chars: "\x1b<" } # Alt + <
+  - { key: Q, mods: Control, chars: "\x11" }
 #debug:
-  # Display the time it takes to redraw each frame.
-  #render_timer: false
+# Display the time it takes to redraw each frame.
+#render_timer: false
 
-  # Keep the log file after quitting Alacritty.
-  #persistent_logging: false
+# Keep the log file after quitting Alacritty.
+#persistent_logging: false
 
-  # Log level
-  #
-  # Values for `log_level`:
-  #   - None
-  #   - Error
-  #   - Warn
-  #   - Info
-  #   - Debug
-  #   - Trace
-  #log_level: Warn
+# Log level
+#
+# Values for `log_level`:
+#   - None
+#   - Error
+#   - Warn
+#   - Info
+#   - Debug
+#   - Trace
+#log_level: Warn
 
-  # Print all received window events.
-  #print_events: false
+# Print all received window events.
+#print_events: false

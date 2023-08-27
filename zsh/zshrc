@@ -17,7 +17,8 @@ export TERMINAL='alacritty'
 export BROWSER='qutebrowser'
 
 # TERM with at least 256 colors (24 bit on supported terminals)
-export TERM=alacritty
+# export TERM=alacritty
+export TERM=wezterm
 
 export REVIEW_BASE=master
 
