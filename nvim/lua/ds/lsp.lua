@@ -66,9 +66,13 @@ local servers = {
   hls = {},
   jsonls = {},
   marksman = {},
-  rust_analyzer = {},
+  rust_analyzer = {
+    check = "clippy"
+  },
   vimls = {},
+  terraformls = {},
   yamlls = {},
+  pyright = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },

@@ -136,6 +136,7 @@ return require("packer").startup(function(use)
       require("telescope").setup({
         defaults = {
           path_display = { "smart" },
+          dynamic_preview_title = true,
         },
       })
     end,
@@ -179,6 +180,7 @@ return require("packer").startup(function(use)
           "html",
           "ruby",
           "clojure",
+          "bash"
         },
         highlight = { enable = true },
         indent = { enable = true, disable = { "python" } },
@@ -292,11 +294,17 @@ return require("packer").startup(function(use)
   use({
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      require("indent_blankline").setup({
-        buftype_exclude = { "terminal" },
-        space_char_blankline = " ",
-        show_current_context = true,
-        -- show_current_context_start = true,
+      require("ibl").setup({
+        exclude = {
+          buftypes = { "terminal" }
+        },
+        scope = {
+          enabled = true,
+          show_exact_scope = true
+        },
+        indent = {
+          char = '│',
+        }
       })
     end,
   })
@@ -456,6 +464,7 @@ return require("packer").startup(function(use)
           fmt.fourmolu,
           fmt.stylua,
           fmt.goimports,
+          fmt.terraform_fmt,
           fmt.shfmt.with({
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),
@@ -464,6 +473,7 @@ return require("packer").startup(function(use)
           dgn.luacheck.with({
             extra_args = { "--globals", "vim", "--std", "luajit" },
           }),
+          dgn.terraform_validate,
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then

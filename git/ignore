@@ -7,4 +7,5 @@ scratch.*
 .nvimrc
 .tool-versions
 .projections.json
+testify_results.txt
 config/projections.json

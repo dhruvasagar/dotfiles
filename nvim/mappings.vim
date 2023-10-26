@@ -72,3 +72,6 @@ nnoremap c+ :.!toilet -w 200 -f standard<CR>
 nnoremap cb :.!toilet -w 200 -f term -F border<CR>
 
 nnoremap zS <cmd>TSHighlightCapturesUnderCursor<CR>
+
+nnoremap <Leader>J :TSJJoin<CR>
+nnoremap <Leader>S :TSJSplit<CR>
