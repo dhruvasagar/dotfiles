@@ -1,3 +1,3 @@
-require("ds.packer")
+require("ds.lazy")
 require("ds.lsp")
 require("ds.dap")

@@ -52,8 +52,6 @@ local on_attach = function(client, bufnr)
   })
 end
 
-require("neoconf").setup()
-
 require("mason").setup()
 
 local servers = {
@@ -67,7 +65,7 @@ local servers = {
   jsonls = {},
   marksman = {},
   rust_analyzer = {
-    check = "clippy"
+    check = "clippy",
   },
   vimls = {},
   terraformls = {},

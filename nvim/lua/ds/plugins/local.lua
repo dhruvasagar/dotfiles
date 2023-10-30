@@ -1,0 +1,24 @@
+return {
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-less" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-marp" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-zoom" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-dotoo" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-pairify" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-testify" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-open-url" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-table-mode/" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-buffer-history" },
+  {
+    dir = "~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
+    lazy = true,
+    config = function()
+      -- vim.cmd("colorscheme railscasts")
+    end,
+  },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-github-review" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-comp" },
+  {
+    dir = "~/dotfiles/vim/pack/packup/start/vim-prosession",
+    dependencies = { "tpope/vim-obsession" },
+  },
+}
