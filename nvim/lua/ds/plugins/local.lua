@@ -18,7 +18,10 @@ return {
   { dir = "~/dotfiles/vim/pack/packup/start/vim-github-review" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-comp" },
   {
-    dir = "~/dotfiles/vim/pack/packup/start/vim-prosession",
-    dependencies = { "tpope/vim-obsession" },
+    dir = "~/dotfiles/vim/pack/packup/opt/vim-prosession",
+    dependencies = { "tpope/vim-obsession", "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("telescope").load_extension("prosession")
+    end,
   },
 }
