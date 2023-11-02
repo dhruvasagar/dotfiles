@@ -39,10 +39,9 @@ alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} --exclude-d
 
 alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vim -R -' -c pager.diff='vim -R -'"
 
-alias docker='nerdctl'
 alias d='docker'
 alias da='docker attach --detach-keys="ctrl-c"'
-alias dc='docker compose'
+alias dc='docker-compose'
 
 alias yt='youtube-dl --add-metadata -ic'   # Download video
 alias yta='youtube-dl --add-metadata -xic' # Download audio

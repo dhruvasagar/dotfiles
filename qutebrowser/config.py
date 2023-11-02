@@ -6,6 +6,7 @@ config.load_autoconfig()
 config.set('auto_save.session', True)
 # config.set('window.hide_decoration', True)
 config.set('fonts.web.size.default', 14)
+config.set('colors.webpage.darkmode.enabled', True)
 
 config.bind(',m', 'spawn mpv {url}')
 config.bind(',M', 'hint links spawn mpv {hint-url}')
