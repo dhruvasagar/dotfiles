@@ -2,17 +2,19 @@
 
 ## Outline
 
-* What is Tmux ?
-* Why use Tmux ?
-* Installing Tmux
-* Tmux Configuration
-* Tmux Sessions
-* Windows & Panes
-* Advanced Usage Patterns
-* Questions
+- What is Tmux ?
+- Why use Tmux ?
+- Installing Tmux
+- Tmux Configuration
+- Tmux Sessions
+- Windows & Panes
+- Advanced Usage Patterns
+- Questions
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # What is tmux ?
 
 Tmux is an open source terminal multiplexer that enables you to create
@@ -29,7 +31,9 @@ This can be used for remote pair programming on a server by connecting to the
 same session.
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Why use Tmux ?
 
 Being portable, it is available on any platform, for example raspberry pi
@@ -41,20 +45,22 @@ in a tmux session instead, it's much faster and convenient.
 In contrast to using terminals like iterm / terminator etc. which offer native
 GUI ways to do terminal splitting, tmux has a few advantages :
 
-* Tmux can be used on a remote server
-* Tmux is significantly more lightweight
-* Tmux can be used on any terminal and your experience is consistent,
+- Tmux can be used on a remote server
+- Tmux is significantly more lightweight
+- Tmux can be used on any terminal and your experience is consistent,
   eliminating dependency on external tools
-* Tmux TUI is significantly more succinct and IMO makes better use of real
+- Tmux TUI is significantly more succinct and IMO makes better use of real
   estate
-* Tmux windows & panes are optimized for keyboard navigation, so you don't
+- Tmux windows & panes are optimized for keyboard navigation, so you don't
   need to use mouse. Key bindings can also be changed as per your liking.
 
   NOTE : Tmux also has support for mouse within most modern terminals although
-         that is generally discouraged.
+  that is generally discouraged.
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Installing tmux
 
 `tmux` is available on most platforms through the available package managers.
@@ -66,11 +72,15 @@ $ brew install tmux
 ```
 
 On Ubuntu :
+
 ```sh
 $ apt install tmux
 ```
+
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Tmux Configuration
 
 `tmux` keeps configuration in a `~/.tmux.conf` file by default.
@@ -80,7 +90,9 @@ copy your configurations on the server / machine to reproduce the exact same
 environment as per your liking
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Tmux Sessions
 
 ## Creating a session
@@ -108,8 +120,11 @@ $ tmux attach -t tunecore
 ```sh
 $ tmux choose-session
 ```
+
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Windows & Panes
 
 Windows are similar to tabs, you can create a number of windows and they are
@@ -117,29 +132,33 @@ listed in the tmux statusline at the bottom
 
 You can navigate between windows in a number of ways :
 
-* `<Prefix> + <number>` takes you to the window with the specified number
-* `<Prefix> + n` takes you to the next window
-* `<Prefix> + p` takes you to the previous window
-* `<Prefix> + l` takes you to the last window (can be used to swap between two windows quickly)
+- `<Prefix> + <number>` takes you to the window with the specified number
+- `<Prefix> + n` takes you to the next window
+- `<Prefix> + p` takes you to the previous window
+- `<Prefix> + l` takes you to the last window (can be used to swap between two windows quickly)
 
 Panes are terminals in splits within the same window
 
 You can navigate between panes in a number of ways :
 
-* `<Prefix> + o` cycle between panes
-* `<Prefix> + <Arrow>` takes you to the pane in the direction of the arrow
+- `<Prefix> + o` cycle between panes
+- `<Prefix> + <Arrow>` takes you to the pane in the direction of the arrow
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Advanced Usage Patterns
 
-* Send text between panes
-* Zoom panes
-* Join / Send panes
-* Sticky windows / panes
+- Send text between panes
+- Zoom panes
+- Join / Send panes
+- Sticky windows / panes
 
                          © Dhruva Sagar - Tarka Labs
+
 ---
+
 # Questions
 
 ```
