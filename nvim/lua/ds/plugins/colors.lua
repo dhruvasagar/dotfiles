@@ -36,6 +36,10 @@ return {
     config = function()
       require("nordic").setup({
         bright_border = true,
+        cursorline = {
+          bold = true,
+          theme = "light",
+        },
       })
       vim.cmd("colorscheme nordic")
     end,

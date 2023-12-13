@@ -1,164 +1,229 @@
 return {
-	{
-		"E-ricus/lsp_codelens_extensions.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
-		config = function()
-			require("codelens_extensions").setup()
-		end,
-	},
-	"williamboman/mason.nvim",
-	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = { "williamboman/mason.nvim" },
-	},
-	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		config = function()
-			require("fidget").setup({
-				text = {
-					spinner = "moon",
-				},
-			})
-		end,
-	},
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		config = function()
-			local nls = require("null-ls")
-			local fmt = nls.builtins.formatting
-			local dgn = nls.builtins.diagnostics
-			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-			nls.setup({
-				sources = {
-					-- # FORMATTING #
-					fmt.trim_whitespace.with({
-						filetypes = { "text", "sh", "zsh", "toml", "make", "conf", "tmux" },
-					}),
-					-- NOTE:
-					-- 1. both needs to be enabled to so prettier can apply eslint fixes
-					-- 2. prettierd should come first to prevent occassional race condition
-					fmt.prettierd,
-					fmt.eslint_d,
-					fmt.rustfmt,
-					fmt.fourmolu,
-					fmt.stylua,
-					fmt.goimports,
-					fmt.terraform_fmt,
-					fmt.shfmt.with({
-						extra_args = { "-i", 4, "-ci", "-sr" },
-					}),
-					-- # DIAGNOSTICS #
-					dgn.shellcheck,
-					dgn.luacheck.with({
-						extra_args = { "--globals", "vim", "--std", "luajit" },
-					}),
-					dgn.terraform_validate,
-				},
-				on_attach = function(client, bufnr)
-					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = augroup,
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.format({ bufnr = bufnr })
-							end,
-						})
-					end
-				end,
-			})
-		end,
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-omni",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-buffer",
-			"petertriho/cmp-git",
-			"dmitmel/cmp-digraphs",
-			"hrsh7th/cmp-nvim-lsp",
-			"quangnguyen30192/cmp-nvim-ultisnips",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"Saecki/crates.nvim",
-			"David-Kunz/cmp-npm",
-		},
-		config = function()
-			local cmp = require("cmp")
-			local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
-			vim.opt.completeopt = "menu,menuone,noselect"
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						vim.fn["UltiSnips#Anon"](args.body)
-					end,
-				},
-				sources = {
-					{ name = "ultisnips" },
-					{ name = "path" },
-					{ name = "omni" },
-					{ name = "buffer", keyword_length = 3 },
-					{ name = "nvim_lsp", keyword_length = 3 },
-					{ name = "nvim_lsp_signature_help" },
-				},
-				mapping = {
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
+  {
+    "E-ricus/lsp_codelens_extensions.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
+    config = function()
+      require("codelens_extensions").setup()
+    end,
+  },
+  "williamboman/mason.nvim",
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+  },
+  {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    config = function()
+      require("fidget").setup({
+        text = {
+          spinner = "moon",
+        },
+      })
+    end,
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    config = function()
+      local nls = require("null-ls")
+      local fmt = nls.builtins.formatting
+      local dgn = nls.builtins.diagnostics
+      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+      nls.setup({
+        sources = {
+          -- # FORMATTING #
+          fmt.trim_whitespace.with({
+            filetypes = { "text", "sh", "zsh", "toml", "make", "conf", "tmux" },
+          }),
+          -- NOTE:
+          -- 1. both needs to be enabled to so prettier can apply eslint fixes
+          -- 2. prettierd should come first to prevent occassional race condition
+          fmt.prettierd,
+          fmt.eslint_d,
+          fmt.rustfmt,
+          fmt.zigfmt,
+          fmt.fourmolu,
+          fmt.stylua,
+          fmt.goimports,
+          fmt.terraform_fmt,
+          fmt.shfmt.with({
+            extra_args = { "-i", 4, "-ci", "-sr" },
+          }),
+          -- # DIAGNOSTICS #
+          dgn.shellcheck,
+          dgn.luacheck.with({
+            extra_args = { "--globals", "vim", "--std", "luajit" },
+          }),
+          dgn.terraform_validate,
+        },
+        on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format({ bufnr = bufnr })
+              end,
+            })
+          end
+        end,
+      })
+    end,
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-omni",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "petertriho/cmp-git",
+      "dmitmel/cmp-digraphs",
+      "hrsh7th/cmp-nvim-lsp",
+      "quangnguyen30192/cmp-nvim-ultisnips",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "Saecki/crates.nvim",
+      "David-Kunz/cmp-npm",
+      "onsails/lspkind.nvim",
+    },
+    config = function()
+      local cmp = require("cmp")
+      local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
+      vim.opt.completeopt = "menu,menuone,noselect"
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body)
+          end,
+        },
+        sources = {
+          { name = "ultisnips" },
+          { name = "codeium" },
+          { name = "path" },
+          { name = "omni" },
+          { name = "buffer",                 keyword_length = 3 },
+          { name = "nvim_lsp",               keyword_length = 3 },
+          { name = "nvim_lsp_signature_help" },
+        },
+        mapping = {
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
 
-					["<C-f>"] = cmp.mapping.scroll_docs(5),
-					["<C-u>"] = cmp.mapping.scroll_docs(-5),
+          ["<C-f>"] = cmp.mapping.scroll_docs(5),
+          ["<C-u>"] = cmp.mapping.scroll_docs(-5),
 
-					["<C-e>"] = cmp.mapping.abort(),
+          ["<C-e>"] = cmp.mapping.abort(),
 
-					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select_opts),
-					["<C-n>"] = cmp.mapping.select_next_item(cmp_select_opts),
+          ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select_opts),
+          ["<C-n>"] = cmp.mapping.select_next_item(cmp_select_opts),
 
-					-- when menu is visible, navigate to next item
-					-- when line is empty, insert a tab character
-					-- else, activate completion
-					["<Tab>"] = cmp.mapping(function(fallback)
-						local col = vim.fn.col(".") - 1
+          -- when menu is visible, navigate to next item
+          -- when line is empty, insert a tab character
+          -- else, activate completion
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            local col = vim.fn.col(".") - 1
 
-						if cmp.visible() then
-							cmp.select_next_item(cmp_select_opts)
-						elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-							fallback()
-						else
-							cmp.complete()
-						end
-					end, { "i", "s" }),
+            if cmp.visible() then
+              cmp.select_next_item(cmp_select_opts)
+            elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+              fallback()
+            else
+              cmp.complete()
+            end
+          end, { "i", "s" }),
 
-					-- when menu is visible, navigate to previous item on list
-					-- else, revert to default behavior
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item(cmp_select_opts)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				},
-				window = {
-					documentation = vim.tbl_deep_extend("force", cmp.config.window.bordered(), {
-						max_height = 15,
-						max_width = 60,
-					}),
-				},
-			})
-			-- Set configuration for specific filetype.
-			cmp.setup.filetype("gitcommit", {
-				sources = cmp.config.sources({
-					{ name = "git" }, -- You can specify the `cmp_git` source if you were installed it.
-				}),
-			})
-		end,
-	},
-	{
-		"rmagatti/goto-preview",
-		config = function()
-			require("goto-preview").setup({
-				default_mappings = true,
-			})
-		end,
-	},
+          -- when menu is visible, navigate to previous item on list
+          -- else, revert to default behavior
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item(cmp_select_opts)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        },
+        window = {
+          documentation = vim.tbl_deep_extend("force", cmp.config.window.bordered(), {
+            max_height = 15,
+            max_width = 60,
+          }),
+        },
+        formatting = {
+          format = require("lspkind").cmp_format({
+            mode = "symbol",
+            maxwidth = 50,
+            ellipsis_char = "...",
+            symbol_map = { Codeium = "" },
+          }),
+        },
+      })
+      -- Set configuration for specific filetype.
+      cmp.setup.filetype("gitcommit", {
+        sources = cmp.config.sources({
+          { name = "git" }, -- You can specify the `cmp_git` source if you were installed it.
+        }),
+      })
+    end,
+  },
+  {
+    "rmagatti/goto-preview",
+    config = function()
+      require("goto-preview").setup({
+        default_mappings = true,
+      })
+    end,
+  },
+  {
+    "onsails/lspkind.nvim",
+    config = function()
+      require("lspkind").init({
+        -- DEPRECATED (use mode instead): enables text annotations
+        --
+        -- default: true
+        -- with_text = true,
+
+        -- defines how annotations are shown
+        -- default: symbol
+        -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+        mode = "symbol_text",
+
+        -- default symbol map
+        -- can be either 'default' (requires nerd-fonts font) or
+        -- 'codicons' for codicon preset (requires vscode-codicons font)
+        --
+        -- default: 'default'
+        preset = "codicons",
+
+        -- override preset symbols
+        --
+        -- default: {}
+        symbol_map = {
+          Text = "󰉿",
+          Method = "󰆧",
+          Function = "󰊕",
+          Constructor = "",
+          Field = "󰜢",
+          Variable = "󰀫",
+          Class = "󰠱",
+          Interface = "",
+          Module = "",
+          Property = "󰜢",
+          Unit = "󰑭",
+          Value = "󰎠",
+          Enum = "",
+          Keyword = "󰌋",
+          Snippet = "",
+          Color = "󰏘",
+          File = "󰈙",
+          Reference = "󰈇",
+          Folder = "󰉋",
+          EnumMember = "",
+          Constant = "󰏿",
+          Struct = "󰙅",
+          Event = "",
+          Operator = "󰆕",
+          TypeParameter = "",
+        },
+      })
+    end,
+  },
 }

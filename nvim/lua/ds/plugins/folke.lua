@@ -7,7 +7,11 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = true,
+    config = function()
+      require("trouble").setup({
+        auto_preview = false,
+      })
+    end,
   },
   { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
   {
