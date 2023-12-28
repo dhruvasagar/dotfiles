@@ -9,4 +9,4 @@ function! s:vinegar()
   normal! gg
   call search('\<'.fname.'\>')
 endfunction
-nnoremap - :<C-U>call <SID>vinegar()<CR>
+" nnoremap - :<C-U>call <SID>vinegar()<CR>

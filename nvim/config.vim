@@ -88,6 +88,7 @@ set noerrorbells
 set lazyredraw
 set cursorline
 set updatetime=300
+set scrolloff=5
 
 set completeopt=menu
 " set omnifunc=v:lua.vim.lsp.omnifunc
