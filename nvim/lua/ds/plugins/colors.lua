@@ -34,11 +34,39 @@ return {
   {
     "AlexvZyl/nordic.nvim",
     config = function()
+      local palette = require("nordic.colors")
       require("nordic").setup({
         bright_border = true,
         cursorline = {
           bold = true,
           theme = "light",
+        },
+        telescope = {
+          style = "classic",
+        },
+        override = {
+          ["@markup.strong"] = {
+            fg = palette.red.base,
+          },
+          ["@markup.raw"] = {
+            fg = palette.blue0,
+          },
+          ["@markup.italic"] = {
+            bold = true,
+            italic = true,
+          },
+          ["@markup.heading.1"] = {
+            fg = palette.yellow.dim,
+            bold = true,
+          },
+          ["@markup.heading.2"] = {
+            fg = palette.green.dim,
+            bold = true,
+          },
+          ["@markup.heading.3"] = {
+            fg = palette.magenta.dim,
+            bold = true,
+          },
         },
       })
       vim.cmd("colorscheme nordic")
