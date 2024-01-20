@@ -62,23 +62,31 @@ introducing memory-related bugs.
 Rust is designed to make it **impossible** to access unintended memory.
 Therefore, the language has several features included in it, such as:
 
+- Mutability
+- Ownership
+- Borrowing
+- Bounds Checking
+- Lifetimes
+
+---
+
 ## Mutability
 
-by default, variables are not mutable and must be declared so.
-Furthermore, even mutable variables can only have a single reference at
-a time.
+by default, variables are not mutable and must be declared so. Furthermore,
+even mutable variables can only have a single reference at a time.
+
+---
 
 ## Ownership
 
-Set of rules that govern how a **Rust** program manages memory.
-All programs have to manage the way they use a computer’s memory while
-running. Some languages have garbage collection that regularly looks for
-no-longer-used memory as the program runs; in other languages, the programmer
-must explicitly allocate and free the memory. **Rust** uses a third approach:
-memory is managed through a system of ownership with a set of rules that the
-compiler checks. If any of the rules are violated, the program won’t compile.
-None of the features of ownership will slow down your program while it’s
-running.
+Set of rules that govern how a **Rust** program manages memory. All programs
+have to manage the way they use a computer’s memory while running. Some
+languages have garbage collection that regularly looks for no-longer-used
+memory as the program runs; in other languages, the programmer must explicitly
+allocate and free the memory. **Rust** uses a third approach: memory is
+managed through a system of ownership with a set of rules that the compiler
+checks. If any of the rules are violated, the program won’t compile. None of
+the features of ownership will slow down your program while it’s running.
 
 ### Ownership Rules
 
@@ -101,6 +109,8 @@ to pair exactly one **allocate** with exactly one **free**.
 Rust takes a different path: the memory is automatically returned once the
 variable that owns it goes out of scope.
 
+---
+
 ## Borrowing
 
 We call the action of creating a reference borrowing. As in real life, if
@@ -112,9 +122,9 @@ Just as variables are immutable by default, so are references. We’re not
 allowed to modify something we have a reference to.
 
 Even though borrowing errors may be frustrating at times, remember that it’s
-the **Rust** compiler pointing out a potential bug early (at compile time rather
-than at runtime) and showing you exactly where the problem is. Then you don’t
-have to track down why your data isn’t what you thought it was.
+the **Rust** compiler pointing out a potential bug early (at compile time
+rather than at runtime) and showing you exactly where the problem is. Then you
+don’t have to track down why your data isn’t what you thought it was.
 
 ### Mutable References
 
@@ -139,10 +149,14 @@ will never be dangling references: if you have a reference to some data, the
 compiler will ensure that the data will not go out of scope before the
 reference to the data does.
 
+---
+
 ## Bounds checking
 
-verifying that code accesses are within the boundaries of
-an array or assigned memory location.
+verifying that code accesses are within the boundaries of an array or assigned
+memory location.
+
+---
 
 ## Lifetimes
 
@@ -189,13 +203,13 @@ fn main() {
 # Zero Cost Abstractions
 
 Zero-cost abstractions is a concept where you can use higher-level languages
-without incurring additional runtime cost. Essentially, this means that **Rust**
-allows you to write code at a high level of abstraction without sacrificing
-performance.
+without incurring additional runtime cost. Essentially, this means that
+**Rust** allows you to write code at a high level of abstraction without
+sacrificing performance.
 
 Rust achieves zero-cost abstractions by compiling all code down to machine
-instructions, with no interpreter or garbage collector. This way, **Rust** ensures
-that any abstractions do not impose any additional runtime costs.
+instructions, with no interpreter or garbage collector. This way, **Rust**
+ensures that any abstractions do not impose any additional runtime costs.
 
 ```rust
 fn main() {
@@ -215,29 +229,37 @@ yourself.
 
 # Fearless Concurrency
 
-Handling concurrent programming safely and efficiently is another of **Rust**’s
-major goals. Concurrent programming, where different parts of a program
-execute independently, and parallel programming, where different parts of
-a program execute at the same time, are becoming increasingly important as
-more computers take advantage of their multiple processors. Historically,
-programming in these contexts has been difficult and error prone: **Rust** hopes
-to change that.
+Handling concurrent programming safely and efficiently is another of
+**Rust**’s major goals. Concurrent programming, where different parts of
+a program execute independently, and parallel programming, where different
+parts of a program execute at the same time, are becoming increasingly
+important as more computers take advantage of their multiple processors.
+Historically, programming in these contexts has been difficult and error
+prone: **Rust** hopes to change that.
 
-Initially, the **Rust** team thought that ensuring memory safety and preventing
-concurrency problems were two separate challenges to be solved with different
-methods. Over time, the team discovered that the ownership and type systems
-are a powerful set of tools to help manage memory safety and concurrency
-problems! By leveraging ownership and type checking, many concurrency errors
-are compile-time errors in **Rust** rather than runtime errors. Therefore, rather
-than making you spend lots of time trying to reproduce the exact circumstances
-under which a runtime concurrency bug occurs, incorrect code will refuse to
-compile and present an error explaining the problem. As a result, you can fix
-your code while you’re working on it rather than potentially after it has been
-shipped to production. We’ve nicknamed this aspect of **Rust** fearless
-concurrency. Fearless concurrency allows you to write code that is free of
-subtle bugs and is easy to refactor without introducing new bugs.
+Initially, the **Rust** team thought that ensuring memory safety and
+preventing concurrency problems were two separate challenges to be solved with
+different methods. Over time, the team discovered that the ownership and type
+systems are a powerful set of tools to help manage memory safety and
+concurrency problems! By leveraging ownership and type checking, many
+concurrency errors are compile-time errors in **Rust** rather than runtime
+errors. Therefore, rather than making you spend lots of time trying to
+reproduce the exact circumstances under which a runtime concurrency bug
+occurs, incorrect code will refuse to compile and present an error explaining
+the problem. As a result, you can fix your code while you’re working on it
+rather than potentially after it has been shipped to production. We’ve
+nicknamed this aspect of **Rust** fearless concurrency. Fearless concurrency
+allows you to write code that is free of subtle bugs and is easy to refactor
+without introducing new bugs.
 
 Source: [Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
+- Threads
+- Message Passing
+- Shared-State Concurrency
+- Extensible Concurrency with `Sync` & `Send` Traits
+
+---
 
 ## Threads
 
@@ -266,6 +288,8 @@ programming in a multithreaded context still takes careful thought and
 requires a code structure that is different from that in programs running in
 a single thread.
 
+---
+
 ## Message Passing
 
 One increasingly popular approach to ensuring safe concurrency is message
@@ -274,9 +298,9 @@ containing data. Here’s the idea in a slogan from the Go language
 documentation: “Do not communicate by sharing memory; instead, share memory by
 communicating.”
 
-To accomplish message-sending concurrency, **Rust**'s standard library provides an
-implementation of channels. A channel is a general programming concept by
-which data is sent from one thread to another.
+To accomplish message-sending concurrency, **Rust**'s standard library
+provides an implementation of channels. A channel is a general programming
+concept by which data is sent from one thread to another.
 
 A channel has two halves: a transmitter and a receiver. The transmitter half
 is the upstream location where you put rubber ducks into the river, and the
@@ -284,6 +308,8 @@ receiver half is where the rubber duck ends up downstream. One part of your
 code calls methods on the transmitter with the data you want to send, and
 another part checks the receiving end for arriving messages. A channel is said
 to be closed if either the transmitter or receiver half is dropped.
+
+---
 
 ## Shared-State Concurrency
 
@@ -298,16 +324,18 @@ message-passing enthusiasts caution not to use memory sharing?
 In a way, channels in any programming language are similar to single
 ownership, because once you transfer a value down a channel, you should no
 longer use that value. Shared memory concurrency is like multiple ownership:
-multiple threads can access the same memory location at the same time. **Rust**’s
-type system and ownership rules greatly assist in getting this management
-correct.
+multiple threads can access the same memory location at the same time.
+**Rust**’s type system and ownership rules greatly assist in getting this
+management correct.
 
-**Mutex** is an abbreviation for mutual exclusion, as in, a mutex allows only one
-thread to access some data at any given time. To access the data in a mutex,
-a thread must first signal that it wants access by asking to acquire the
-mutex’s lock. The lock is a data structure that is part of the mutex that
+**Mutex** is an abbreviation for mutual exclusion, as in, a mutex allows only
+one thread to access some data at any given time. To access the data in
+a mutex, a thread must first signal that it wants access by asking to acquire
+the mutex’s lock. The lock is a data structure that is part of the mutex that
 keeps track of who currently has exclusive access to the data. Therefore, the
 mutex is described as guarding the data it holds via the locking system.
+
+---
 
 ## Extensible Concurrency with Sync & Send Traits
 
@@ -327,14 +355,16 @@ However, two concurrency concepts are embedded in the language: the
 
 # Getting Started with **Rust**
 
-- Install **Rust** by following instructions at [Rust Lang](https://rust-lang.org)
+- Install **Rust** by following instructions at [Rust
+  Lang](https://rust-lang.org)
 - Get familiar with **cargo**
   - `cargo build`
   - `cargo build --release`
   - `cargo run`
   - `cargo add`
-- `rust-analyzer` is a modular compiler frontend for the **Rust** language. It is
-  a part of a larger rls-2.0 effort to create excellent IDE support for **Rust**.
+- `rust-analyzer` is a modular compiler frontend for the **Rust** language. It
+  is a part of a larger rls-2.0 effort to create excellent IDE support for
+  **Rust**.
 
 ---
 
