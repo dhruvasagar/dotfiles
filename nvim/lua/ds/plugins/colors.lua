@@ -45,6 +45,10 @@ return {
           style = "classic",
         },
         override = {
+          DiffAdd = { fg = "#e4e4e4", bg = "#005f00" },
+          DiffText = { fg = "#ffffff", bg = "#ff0000" },
+          DiffChange = { fg = "#ffffff", bg = "#870087" },
+          DiffDelete = { fg = "#000000", bg = "#5f0000" },
           ["@markup.strong"] = {
             fg = palette.red.base,
           },
