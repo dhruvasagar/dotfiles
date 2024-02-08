@@ -1,44 +1,50 @@
 #!/bin/bash
 
 sudo apt-get install jq \
-                     bat \
-                     fzf \
-                     zsh \
-                     htop \
-                     nmap \
-                     tmux \
-                     ngrok \
-                     awscli \
-                     docker \
-                     ledger \
-                     dropbox \
-                     ripgrep \
-                     weechat \
-                     caffeine \
-                     build-essential
+    bat \
+    fzf \
+    zsh \
+    htop \
+    nmap \
+    tmux \
+    ngrok \
+    awscli \
+    docker \
+    ledger \
+    dropbox \
+    ripgrep \
+    weechat \
+    caffeine \
+    build-essential
 
 if [ $+commands[snap] ]; then
-  sudo snap install ngrok
+    sudo snap install ngrok
 
-  snap install hub --classic
-  sudo snap install slack --classic
-  sudo snap install skype --classic
-  sudo snap install keybase --edge
+    snap install hub --classic
+    sudo snap install slack --classic
+    sudo snap install skype --classic
+    sudo snap install keybase --edge
 fi
 
 # Install dependencies for VIM
 sudo apt-get install libxt-dev \
-                     libx11-dev \
-                     libxpm-dev \
-                     python-dev \
-                     python3-dev \
-                     libncurses-dev
+    libx11-dev \
+    libxpm-dev \
+    python-dev \
+    python3-dev \
+    libncurses-dev
 
 # Install dependencies for TMUX
 sudo apt install -y automake \
-                    bison \
-                    pkg-config \
-                    libevent-dev \
-                    libncurses5-dev
+    bison \
+    pkg-config \
+    libevent-dev \
+    libncurses5-dev
 
-[[ ! $SHELL =~ "zsh" ]] && chsh -s `which zsh`
+# Install dependencies for `scrcpy`
+sudo apt install ffmpeg libsdl2-2.0-0 adb wget \
+    gcc git pkg-config meson ninja-build libsdl2-dev \
+    libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev \
+    libswresample-dev libusb-1.0-0 libusb-1.0-0-dev
+
+[[ ! $SHELL =~ "zsh" ]] && chsh -s $(which zsh)

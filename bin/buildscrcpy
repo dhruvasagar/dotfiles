@@ -1,0 +1,8 @@
+#!/bin/sh
+
+platform=$(uname | awk '{print tolower($0)}')
+
+if [ "$platform" = "linux" ]; then
+    cd ~/src/oss/scrcpy
+    ./install_release.sh
+fi
