@@ -41,9 +41,6 @@ return {
           bold = true,
           theme = "light",
         },
-        telescope = {
-          style = "classic",
-        },
         override = {
           DiffAdd = { fg = "#e4e4e4", bg = "#005f00" },
           DiffText = { fg = "#ffffff", bg = "#ff0000" },

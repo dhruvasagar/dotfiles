@@ -26,6 +26,7 @@ return {
           "ruby",
           "clojure",
           "bash",
+          "zig",
         },
         auto_install = true,
         highlight = { enable = true },

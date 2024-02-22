@@ -58,6 +58,7 @@ return {
       "rouge8/neotest-rust",
       "jfpedroza/neotest-elixir",
       "mrcjkb/neotest-haskell",
+      "lawrence-laz/neotest-zig",
     },
     config = function()
       require("neotest").setup({
@@ -69,6 +70,7 @@ return {
           require("neotest-rust"),
           require("neotest-elixir"),
           require("neotest-haskell"),
+          require("neotest-zig"),
         },
       })
     end,
@@ -141,5 +143,8 @@ return {
       require("oil").setup()
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
+  },
+  {
+    "phelipetls/vim-hugo",
   },
 }

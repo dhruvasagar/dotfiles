@@ -1,7 +1,7 @@
 #!/bin/sh
 
 usage() {
-  echo "$(basename "$0") [-h] [ -d dir] [-t type] [-c count]
+    echo "$(basename "$0") [-h] [ -d dir] [-t type] [-c count]
 	 -h			Show this help text
 	 -d dir			Directory to search in 			Default - '.'
 	 -t type		[f/d] for file / directory		Default - 'f'
@@ -13,12 +13,15 @@ _TYPE='f'
 _COUNT=10
 
 while getopts ":h:d:t:c:" opts; do
-  case "${opts}" in
-    d) _DIR=${OPTARG};;
-    t) _TYPE=${OPTARG};;
-    c) _COUNT=${OPTARG};;
-    h|*) usage; exit 1;;
-  esac
+    case "${opts}" in
+        d) _DIR=${OPTARG} ;;
+        t) _TYPE=${OPTARG} ;;
+        c) _COUNT=${OPTARG} ;;
+        h | *)
+            usage
+            exit 1
+            ;;
+    esac
 done
 
 find "$_DIR" -type "$_TYPE" -print0 | du -h --files0-from=- | sort -hr | head -"$_COUNT"

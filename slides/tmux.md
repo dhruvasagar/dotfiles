@@ -48,7 +48,7 @@ GUI ways to do terminal splitting, tmux has a few advantages :
 - Tmux can be used on a remote server
 - Tmux is significantly more lightweight
 - Tmux can be used on any terminal and your experience is consistent,
-  eliminating dependency on external tools
+  eliminating dependency on external (GUI) tools
 - Tmux TUI is significantly more succinct and IMO makes better use of real
   estate
 - Tmux windows & panes are optimized for keyboard navigation, so you don't
