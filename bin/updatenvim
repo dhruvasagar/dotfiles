@@ -2,4 +2,4 @@
 
 cd ~/src/oss/neovim
 git pull origin master
-buildnvim
+~/dotfiles/bin/buildnvim

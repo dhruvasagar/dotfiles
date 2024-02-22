@@ -3,4 +3,4 @@
 cd ~/src/oss/vim
 git pull origin master
 cd src
-buildvim
+~/dotfiles/bin/buildvim
