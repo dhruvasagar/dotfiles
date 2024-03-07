@@ -62,6 +62,7 @@ local servers = {
   gopls = {},
   gradle_ls = {},
   hls = {},
+  texlab = {},
   jsonls = {},
   marksman = {},
   rust_analyzer = {

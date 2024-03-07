@@ -31,17 +31,7 @@ return {
       nls.setup({
         sources = {
           -- # FORMATTING #
-          fmt.trim_whitespace.with({
-            filetypes = { "text", "sh", "zsh", "toml", "make", "conf", "tmux" },
-          }),
-          -- NOTE:
-          -- 1. both needs to be enabled to so prettier can apply eslint fixes
-          -- 2. prettierd should come first to prevent occassional race condition
           fmt.prettierd,
-          fmt.eslint_d,
-          fmt.rustfmt,
-          fmt.zigfmt,
-          fmt.fourmolu,
           fmt.stylua,
           fmt.goimports,
           fmt.terraform_fmt,
@@ -49,10 +39,6 @@ return {
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),
           -- # DIAGNOSTICS #
-          dgn.shellcheck,
-          dgn.luacheck.with({
-            extra_args = { "--globals", "vim", "--std", "luajit" },
-          }),
           dgn.terraform_validate,
         },
         on_attach = function(client, bufnr)
@@ -84,6 +70,7 @@ return {
       "Saecki/crates.nvim",
       "David-Kunz/cmp-npm",
       "onsails/lspkind.nvim",
+      "micangl/cmp-vimtex",
     },
     config = function()
       local cmp = require("cmp")
@@ -160,6 +147,11 @@ return {
         sources = cmp.config.sources({
           { name = "git" }, -- You can specify the `cmp_git` source if you were installed it.
         }),
+      })
+      cmp.setup.filetype("tex", {
+        sources = {
+          { name = "vimtex" },
+        },
       })
     end,
   },

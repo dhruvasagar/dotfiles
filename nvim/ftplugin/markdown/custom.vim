@@ -18,6 +18,7 @@ let g:markdown_fenced_languages = [
       \ 'vim',
       \ 'testify',
       \ 'lua',
+      \ 'clojure',
       \ ]
 
 nnoremap <buffer> <Leader>g :Glow<CR>
