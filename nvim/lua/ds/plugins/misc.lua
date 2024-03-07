@@ -183,4 +183,9 @@ return {
     "phelipetls/vim-hugo",
   },
   "lervag/vimtex",
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
 }

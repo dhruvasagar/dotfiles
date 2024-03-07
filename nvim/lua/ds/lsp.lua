@@ -57,6 +57,7 @@ require("mason").setup()
 local servers = {
   angularls = {},
   clojure_lsp = {},
+  tsserver = {},
   dockerls = {},
   eslint = {},
   gopls = {},

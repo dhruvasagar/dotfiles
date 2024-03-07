@@ -1,6 +1,8 @@
 let s:hard_ass = 1
 
 function! s:ToggleHardAss() abort
+  let s:hard_ass = !s:hard_ass
+
   if s:hard_ass
     map <Up> <Nop>
     map <Down> <Nop>
@@ -21,8 +23,6 @@ function! s:ToggleHardAss() abort
     iunmap <Down>
     iunmap <Left>
     iunmap <Right>
-
-    let s:hard_ass = 0
   endif
 endfunction
 
