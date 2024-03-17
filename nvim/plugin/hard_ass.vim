@@ -1,4 +1,4 @@
-let s:hard_ass = 1
+let s:hard_ass = 0
 
 function! s:ToggleHardAss() abort
   let s:hard_ass = !s:hard_ass

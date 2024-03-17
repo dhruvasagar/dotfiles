@@ -187,5 +187,13 @@ return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
+    enabled = false,
+  },
+  {
+    "otavioschwanck/arrow.nvim",
+    opts = {
+      show_icons = true,
+      leader_key = "<Leader>f", -- Recommended to be a single key
+    },
   },
 }

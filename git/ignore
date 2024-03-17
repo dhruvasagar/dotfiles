@@ -1,6 +1,9 @@
 tags
 !tags/
-todo.*
+todo.txt
+todo.dotoo
+todo.md
+notes.md
 scratch.*
 *.rest
 .vimrc

@@ -12,6 +12,7 @@ return {
           "haskell",
           "cpp",
           "c",
+          "c_sharp",
           "javascript",
           "rust",
           "typescript",
