@@ -24,6 +24,9 @@ local on_attach = function(client, bufnr)
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap("<leader>lr", vim.lsp.codelens.run, "[R]un [C]odelens")
+  nmap("<Leader>ih", function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  end, "[I]nlay [H]ints")
 
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -42,14 +45,18 @@ local on_attach = function(client, bufnr)
   nmap("[d", vim.diagnostic.goto_prev, "[G]oto [P]revious Diagnostics")
   nmap("]d", vim.diagnostic.goto_next, "[G]oto [N]ext Diagnostics")
 
-  vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "InsertLeave" }, {
-    group = vim.api.nvim_create_augroup("LspCodelens", {}),
-    callback = function()
-      if client.server_capabilities.codeLensProvider then
-        vim.lsp.codelens.refresh()
-      end
-    end,
-  })
+  -- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "InsertLeave" }, {
+  --   group = vim.api.nvim_create_augroup("LspCodelens", {}),
+  --   callback = function()
+  --     if client.server_capabilities.codeLensProvider and client.supports_method("textDocument/codeLens") then
+  --       pcall(vim.lsp.codelens.refresh, { bufnr = 0 })
+  --     end
+  --   end,
+  -- })
+
+  if client.server_capabilities.inlayHintProvider then
+    vim.lsp.inlay_hint.enable(true)
+  end
 end
 
 require("mason").setup()
@@ -77,6 +84,7 @@ local servers = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      hint = { enable = true },
       diagnostics = {
         globals = { "vim", "require" },
       },

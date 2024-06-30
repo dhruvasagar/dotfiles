@@ -1,0 +1,1358 @@
+(setq package-user-dir
+      (format "%s/elpa/%s/" user-emacs-directory emacs-major-version))
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "C-l") 'redraw-display))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :init
+  (evil-collection-init))
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-rails
+  :ensure t)
+
+(use-package evil-commentary
+  :ensure t
+  :config
+  (evil-commentary-mode))
+
+(use-package evil-matchit
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1))
+
+(use-package evil-exchange
+  :ensure t
+  :config
+  (evil-exchange-cx-install))
+
+(use-package evil-visualstar
+  :ensure t
+  :config
+  (global-evil-visualstar-mode t))
+
+(use-package org
+  :ensure t
+  :init
+    (setq org-agenda-files (quote ("~/Dropbox/Documents/dotoo-files"))))
+    (setq org-todo-keywords
+	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+    (setq org-todo-keyword-faces
+	(quote (("TODO" :foreground "red" :weight bold)
+		("NEXT" :foreground "blue" :weight bold)
+		("DONE" :foreground "forest green" :weight bold)
+		("WAITING" :foreground "orange" :weight bold)
+		("HOLD" :foreground "magenta" :weight bold)
+		("CANCELLED" :foreground "forest green" :weight bold)
+		("MEETING" :foreground "forest green" :weight bold)
+		("PHONE" :foreground "forest green" :weight bold))))
+    (setq org-use-fast-todo-selection t)
+    (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+    (setq org-todo-state-tags-triggers
+	  (quote (("CANCELLED" ("CANCELLED" . t))
+		  ("WAITING" ("WAITING" . t))
+		  ("HOLD" ("WAITING") ("HOLD" . t))
+		  (done ("WAITING") ("HOLD"))
+		  ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+		  ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+		  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+    (setq org-capture-templates
+	  (quote (("t" "todo" entry (file "~/git/org/refile.org")
+		   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+		  ("r" "respond" entry (file "~/git/org/refile.org")
+		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+		  ("n" "note" entry (file "~/git/org/refile.org")
+		   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+		  ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+		   "* %?\n%U\n" :clock-in t :clock-resume t)
+		  ("w" "org-protocol" entry (file "~/git/org/refile.org")
+		   "* TODO Review %c\n%U\n" :immediate-finish t)
+		  ("m" "Meeting" entry (file "~/git/org/refile.org")
+		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+		  ("p" "Phone call" entry (file "~/git/org/refile.org")
+		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+		  ("h" "Habit" entry (file "~/git/org/refile.org")
+		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+  :bind
+    (("C-c l" . org-store-link)
+     ("C-c a" . org-agenda)
+     ("C-c b" . org-iswitchb)
+     ("C-c c" . org-capture))
+  :config
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (defun bh/remove-empty-drawer-on-clock-out ()
+    (interactive)
+    (save-excursion
+      (beginning-of-line 0)
+      (org-remove-empty-drawer-at "LOGBOOK" (point))))
+  (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+(use-package org-bullets
+  :custom
+  (org-bullets-bullet-list '("⁖"))
+  ;;;; Alternatives
+  ;; (org-bullets-bullet-list '("①" "②" "③" "④" "⑤" "⑥" "⑦" "⑧" "⑨"))
+  ;; (org-bullets-bullet-list '("➀" "➁" "➂" "➃" "➄" "➅" "➆" "➇" "➈"))
+  ;; (org-bullets-bullet-list '("❶" "❷" "❸" "❹" "❺" "❻" "❼" "❽" "❾"))
+  ;; (org-bullets-bullet-list '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒"))
+  ;; (org-bullets-bullet-list '("⒈" "⒉" "⒊" "⒋" "⒌" "⒍" "⒎" "⒏" "⒐"))
+  :hook (org-mode . org-bullets-mode))
+
+(defun fk/org-sort-by-priority ()
+  "Sort entries in level=2 by priority."
+  (interactive)
+  (org-map-entries (lambda () (condition-case nil
+                                  (org-sort-entries nil ?p)
+                                (error nil)))
+                   "LEVEL=1")
+  (org-set-startup-visibility))
+
+(use-package org-roam
+  :custom
+  ;; (org-roam-directory (file-truename "~/org/roam/"))
+  (org-roam-directory "~/org/roam/")
+  :bind
+  ( :map org
+    ("o" . org-roam-node-find))
+  :config
+  (org-roam-db-autosync-mode))
+
+(use-package calendar
+  :commands calendar
+  :custom
+  (calendar-week-start-day 1)  ; start at Monday
+  :hook
+  ;; bigger calendar like OS calendars
+  (calendar-mode . (lambda () (text-scale-increase 8)))
+  (calendar-mode . delete-other-windows))
+
+(use-package nord-theme
+  :ensure t
+  :config
+  (load-theme 'nord t))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(use-package helpful
+  :custom
+  ;; Use helpful in `helm-apropos'
+  (helm-describe-function-function 'helpful-function)
+  (helm-describe-variable-function 'helpful-variable)
+  :bind
+  (([remap describe-function] . helpful-callable)
+   ([remap describe-variable] . helpful-variable)
+   ([remap describe-key] . helpful-key)
+   :map emacs-lisp-mode-map
+   ("C-c C-d" . helpful-at-point)))
+
+(use-package nerd-icons
+  :defer t)
+
+(use-package doom-modeline
+  :init
+  ;; show doom-modeline at the same time with dashboard
+  (add-hook 'emacs-startup-hook 'doom-modeline-mode -100)
+  :custom
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-vcs-max-length 40)
+  (doom-modeline-bar-width 1)
+  (doom-modeline-env-python-executable "python")
+  :hook
+  (dashboard-after-initialize . column-number-mode))
+
+(use-package anzu
+  :hook
+  (dashboard-after-initialize . global-anzu-mode))
+
+(use-package highlight-indent-guides
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top)
+  (highlight-indent-guides-auto-enabled nil)
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
+
+(use-package dashboard
+  :custom
+  ;; Do not show package count, it is meaningless because of lazy loading.
+  (dashboard-banner-logo-title "Welcome to Emacs!                          \n")
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-center-content t)
+  (dashboard-items '((agenda . 0)  ; I override the insert-agenda function
+;  (todo-items . 0)  ; Custom section
+                     (inbox-entries . 0)  ; Custom section
+                     (habit-tracker . 0)))  ; Custom section
+  :custom-face
+  (dashboard-heading ((t (:inherit font-lock-keyword-face :height 1.2))))
+  (dashboard-items-face ((t (:weight normal))))
+  (dashboard-banner-logo-title ((t (:family "AV Qest" :height 3.0 :weight bold :foreground "#8583C7"))))
+  :hook
+  (dashboard-mode . (lambda () (setq-local cursor-type nil)))
+  :config
+  (dashboard-setup-startup-hook)
+
+  ;; Run the hooks even if dashboard initialization is skipped
+  (when (> (length command-line-args) 1)
+    (add-hook 'emacs-startup-hook (lambda () (run-hooks 'dashboard-after-initialize-hook))))
+
+  (defun fk/home ()
+    "Switch to home (dashboard) buffer."
+    (interactive)
+    (if (get-buffer dashboard-buffer-name)
+        (switch-to-buffer dashboard-buffer-name)
+      (dashboard-refresh-buffer)))
+
+  (defun fk/dashboard-get-section (expression)
+    "Get expression output from Emacs daemon. Faster than reading it
+in normal way if required libraries are already loaded in
+daemon."
+    (let* ((output-buffer (generate-new-buffer "*dashboard-temp*"))
+           (exit-status (call-process "emacsclient" nil output-buffer nil
+                                      "--eval" expression)))
+      (if (zerop exit-status)
+          (let* ((output (with-current-buffer output-buffer
+                           (buffer-substring-no-properties (point-min) (point-max))))
+                 (clean-output (string-trim (string-replace "#<marker" "<marker" output)))
+                 (propertized-output (car (read-from-string clean-output))))
+            (kill-buffer output-buffer)
+            propertized-output)
+        "Emacs server (daemon) is not running, Section couldn't loaded.")))
+
+  ;; TODO: convert these string codes to normal code, investigate how emacs-async do that
+  (defun fk/dashboard-get-agenda ()
+    "Get a copy of the agenda buffer from Emacs daemon."
+    (fk/dashboard-get-section
+     "(progn
+        (setq org-agenda-span 2)
+        (org-agenda-list)
+        (read-only-mode -1)
+        (goto-char (point-min))
+        (kill-line)
+        (buffer-string))"))
+
+  (defun dashboard-insert-agenda (&rest _)
+    "Insert a copy of org-agenda buffer."
+    (dashboard-insert-heading "Agenda for today:")
+    (insert (fk/dashboard-get-agenda)))
+
+  (defun fk/dashboard-get-inbox-entries ()
+    ;; TODO: appearance is not consistent, seems like there is some sort of caching
+    "Get inbox entry list from Emacs daemon."
+    (fk/dashboard-get-section
+     "(let* ((file (expand-file-name \"inbox.org\" org-directory))
+             (file-buffer (find-file-noselect file))
+             (file-content (with-current-buffer file-buffer (buffer-string)))
+             (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
+             (bullet (propertize \"⁖\" 'face 'org-level-1)))
+        (with-current-buffer temp-buffer
+          (kill-buffer file-buffer)
+          (org-mode)
+          (insert file-content)
+          (delete-non-matching-lines \"^*\" (point-min) (point-max))
+          (string-replace \"*\" (format \"  %s\" bullet) (string-replace \"**\" (format \"   %s\" bullet) (buffer-string)))))"))
+
+  (defun fk/dashboard-get-todo-items ()
+    "Get high priority todo items from Emacs daemon."
+    (fk/dashboard-get-section
+     "(let* ((file (expand-file-name \"todos.org\" org-directory))
+             (file-buffer (find-file-noselect file))
+             (file-content (with-current-buffer file-buffer (buffer-string)))
+             (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
+             (bullet (propertize \"⁖\" 'face 'org-level-1)))
+        (with-current-buffer temp-buffer
+          (kill-buffer file-buffer)
+          (org-mode)
+          (insert file-content)
+          (delete-matching-lines (regexp-quote \"[#B]\") (point-min) (point-max))
+          (delete-matching-lines (regexp-quote \"[#C]\") (point-min) (point-max))
+          (delete-non-matching-lines \"^*\" (point-min) (point-max))
+          (string-replace \"*\" (format \"  %s\" bullet) (string-replace \"**\" (format \"   %s\" bullet) (buffer-string)))))"))
+
+  (defun fk/dashboard-get-habit-tracker ()
+    "Get habit tracker from Emacs daemon."
+    (fk/dashboard-get-section
+     "(let* ((file (expand-file-name \"20220427233506-habits.org\" \"~/org/roam/\"))
+             (file-buffer (find-file-noselect file))
+             (file-content (with-current-buffer file-buffer (buffer-string)))
+             (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
+             (bullet (propertize \"⁖\" 'face 'org-level-1)))
+        (with-current-buffer temp-buffer
+          (kill-buffer file-buffer)
+          (org-mode)
+          (insert file-content)
+          (goto-char (point-min))
+          (search-forward \"Current Month for Habit Tracker\")
+          (next-line 2)
+          (org-narrow-to-element)
+          (buffer-string)))"))
+
+  (add-to-list 'dashboard-item-generators  '(todo-items . fk/dashboard-insert-todo-items))
+  (add-to-list 'dashboard-item-generators  '(habit-tracker . fk/dashboard-insert-habit-tracker))
+
+  ;; Colorize org entries even if org.el or org-agenda.el hasn't loaded.
+  ;; Note: defining faces is enough, color values comes from propertized string
+  (defmacro fk/defface-nil (&rest faces)
+    "Macro for defining nil faces. Instead of:
+`(defface org-level-1 nil nil)'"
+    `(progn ,@(cl-loop for face in faces
+                       collect `(defface ,face nil nil))))
+  (fk/defface-nil
+   org-agenda-calendar-event
+   org-agenda-current-time
+   org-agenda-date
+   org-agenda-date-today
+   org-agenda-date-weekend
+   org-agenda-date-weekend
+   org-agenda-date-weekend-today
+   org-agenda-structure
+   org-checkbox-statistics-todo
+   org-habit-alert-face
+   org-habit-clear-future-face
+   org-habit-overdue-future-face
+   org-habit-ready-face
+   org-hide
+   org-imminent-deadline
+   org-level-1
+   org-level-2
+   org-link
+   org-scheduled
+   org-scheduled-today
+   org-super-agenda-header
+   org-tag
+   org-time-grid
+   org-upcoming-deadline
+   org-upcoming-distant-deadline
+   org-warning))
+
+(use-package tree-sitter
+  :commands fk/tree-sitter-hl-mode
+  :config
+  (defun fk/tree-sitter-hl-mode ()
+    "Require `tree-sitter-langs' + Activate `tree-sitter-hl-mode'."
+    (interactive)
+    (require 'tree-sitter-langs)
+    (call-interactively 'tree-sitter-hl-mode))
+
+  (with-eval-after-load 'expand-region
+    (defun tree-sitter-mark-bigger-node ()
+      (interactive)
+      (let* ((p (point))
+             (m (or (mark) p))
+             (beg (min p m))
+             (end (max p m))
+             (root (ts-root-node tree-sitter-tree))
+             (node (ts-get-descendant-for-position-range root beg end))
+             (node-beg (ts-node-start-position node))
+             (node-end (ts-node-end-position node)))
+        ;; Node fits the region exactly. Try its parent node instead.
+        (when (and (= beg node-beg) (= end node-end))
+          (when-let ((node (ts-get-parent node)))
+            (setq node-beg (ts-node-start-position node)
+                  node-end (ts-node-end-position node))))
+        (set-mark node-end)
+        (goto-char node-beg)))
+
+    (setq er/try-expand-list (append er/try-expand-list
+                                     '(tree-sitter-mark-bigger-node)))))
+
+(use-package tree-sitter-langs
+  :defer t
+  :config
+  ;; Custom patterns to make it look like in old versions:
+  ;; See: https://github.com/ubolonton/emacs-tree-sitter/issues/153
+  (tree-sitter-hl-add-patterns 'python
+    [(assignment left: (identifier) @variable)])
+
+  (tree-sitter-hl-add-patterns 'python
+    [(decorator (call (identifier) @function.special))]))
+
+(use-package goggles
+  :commands goggles-mode
+  :custom
+  (goggles-pulse-delay 0.1))
+
+(use-package hideshow
+  :defer nil
+  :custom
+  (hs-isearch-open t)
+  :bind
+  ( :map hs-minor-mode-map
+    ("TAB" . fk/hs-smart-tab)
+    ("<tab>" . fk/hs-smart-tab)
+    ("<backtab>" . hs-toggle-hiding))
+  :config
+  (defun fk/hs-smart-tab ()
+    "Pretend like `hs-toggle-hiding' if point is on a hiding block."
+    (interactive)
+    (if (save-excursion
+          (move-beginning-of-line 1)
+          (hs-looking-at-block-start-p))
+        (hs-show-block)
+      (indent-for-tab-command)))
+
+  (defun fk/hide-second-level-blocks ()
+    "Hide second level blocks (mostly class methods in python) in
+current buffer."
+    (interactive)
+    (hs-minor-mode)
+    (save-excursion
+      (goto-char (point-min))
+      (hs-hide-level 2))))
+
+(use-package helm
+  :custom
+  (helm-M-x-always-save-history t)
+  (helm-display-function 'pop-to-buffer)
+  (savehist-additional-variables '(extended-command-history))
+  (history-delete-duplicates t)
+  (helm-command-prefix-key nil)
+  ;; Just move the selected text to the top of kill-ring, do not insert the text
+  (helm-kill-ring-actions '(("Copy marked" . (lambda (_str) (kill-new _str)))
+                            ("Delete marked" . helm-kill-ring-action-delete)))
+  :custom-face
+  (helm-non-file-buffer ((t (:inherit font-lock-comment-face))))
+  (helm-ff-file-extension ((t (:inherit default))))
+  (helm-buffer-file ((t (:inherit default))))
+  :bind
+  (("M-x" . helm-M-x)
+   ("C-x C-f" . helm-find-files)
+   ("C-x C-b" . helm-buffers-list)
+   ("C-x b" . helm-buffers-list)
+   ("C-x C-r" . helm-recentf)
+   ("C-x C-i" . fk/helm-imenu)
+   ("C-x C-j" . fk/helm-imenu)
+   ("M-y" . fk/yank-pop-or-helm-show-kill-ring)
+   :map helm-map
+   ("TAB" . helm-execute-persistent-action)
+   ("<tab>" . helm-execute-persistent-action)
+   ("C-z" . helm-select-action)
+   ("C-w" . backward-kill-word)  ; Fix C-w
+   :map files
+   ("f" . helm-find-files)
+   ("r" . helm-recentf)
+   ("b" . helm-bookmarks)
+   :map buffers
+   ("b" . helm-buffers-list)
+   :map help-map
+   ("a" . helm-apropos))
+  :hook
+  (dashboard-after-initialize . helm-mode)
+  (helm-mode . savehist-mode)
+  :config
+  (with-eval-after-load 'helm-buffers
+    (dolist (regexp '("\\*epc con" "\\*helm" "\\*EGLOT" "\\*straight" "\\*Flymake"
+                      "\\*eldoc" "\\*Compile-Log" "\\*xref" "\\*company"
+                      "\\*aw-posframe" "\\*Warnings" "\\*Backtrace" "\\*helpful"
+                      "\\*Messages" "\\*dashboard"))
+      (add-to-list 'helm-boring-buffer-regexp-list regexp))
+    (bind-keys
+     :map helm-buffer-map
+     ("M-d" . helm-buffer-run-kill-buffers)
+     ("C-M-d" . helm-buffer-run-kill-persistent)))
+
+  ;; "Waiting for process to die...done" fix.
+  ;; Source: https://github.com/bbatsov/helm-projectile/issues/136#issuecomment-688444955
+  (defun fk/helm--collect-matches (orig-fun src-list &rest args)
+    (let ((matches
+           (cl-loop for src in src-list
+                    collect (helm-compute-matches src))))
+      (unless (eq matches t) matches)))
+
+  (advice-add 'helm--collect-matches :around 'fk/helm--collect-matches)
+
+  (require 'helm-imenu)  ; Fixes buggy helm-imenu at first usage
+
+  (defun fk/helm-imenu ()
+    "helm-imenu without initializion (preselect)."
+    (interactive)
+    (unless helm-source-imenu
+      (setq helm-source-imenu
+            (helm-make-source "Imenu" 'helm-imenu-source
+              :fuzzy-match helm-imenu-fuzzy-match)))
+    (let* ((imenu-auto-rescan t)
+           (helm-highlight-matches-around-point-max-lines 'never))
+      (helm :sources 'helm-source-imenu
+            :default ""
+            :preselect ""
+            :buffer "*helm imenu*")))
+
+  ;; (add-hook 'imenu-after-jump-hook (lambda ()
+  ;;                                    (when (derived-mode-p 'outline-mode)
+  ;;                                      (show-subtree))))
+
+  (defun fk/yank-pop-or-helm-show-kill-ring ()
+    "If called after a yank, call `yank-pop'. Otherwise, call
+`helm-show-kill-ring'."
+    (interactive)
+    (if (eq last-command 'yank)
+        (if (eq major-mode 'vterm-mode)
+            (vterm-yank-pop)
+          (yank-pop))
+      (helm-show-kill-ring))))
+
+;(use-package yasnippet
+;  ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
+;  ;; jump to next field, even when company window is active. If there
+;  ;; is need to complete company's selection, use `C-s'
+;  ;; (`company-complete-selection').
+;  :custom
+;  (yas-indent-line nil)
+;  (yas-inhibit-overlay-modification-protection t)
+;  :custom-face
+;  (yas-field-highlight-face ((t (:inherit region))))
+;  :bind*
+;  (("C-j" . yas-expand)
+;   :map yas-minor-mode-map
+;   ("TAB" . nil)
+;   ("<tab>" . nil)
+;   :map yas-keymap
+;   ("TAB" . (lambda () (interactive) (company-abort) (yas-next-field)))
+;   ("<tab>" . (lambda () (interactive) (company-abort) (yas-next-field))))
+;  :hook
+;  (dashboard-after-initialize . yas-global-mode)
+;  (snippet-mode . (lambda () (setq-local require-final-newline nil))))
+
+(use-package hydra
+  :defer t
+  :init
+  (setq hydra-hint-display-type 'posframe))
+
+;(use-package mwim
+;  :bind
+;  ("C-a" . mwim-beginning-of-code-or-line)
+;  ("C-e" . mwim-end-of-line-or-code)
+;  ;; NOTE: Functions below are built-in but I think they fit in this context
+;  ("M-a" . fk/backward-sexp)
+;  ("M-e" . fk/forward-sexp)
+;  :config
+;  (defun fk/forward-sexp (&optional N)
+;    "Call `forward-sexp', fallback `forward-char' on error."
+;    (interactive)
+;    (condition-case nil
+;        (forward-sexp N)
+;      (error (forward-char N))))
+;
+;  (defun fk/backward-sexp ()
+;    "`fk/forward-sexp' with negative argument."
+;    (interactive)
+;    (fk/forward-sexp -1)))
+
+(use-package projectile
+  :custom
+  (projectile-auto-discover nil)
+  (projectile-project-search-path (directory-files "~/src" t "[^.]"))
+  ;; Open magit when switching project
+  (projectile-switch-project-action
+   (lambda ()
+     (let ((magit-display-buffer-function
+            'magit-display-buffer-same-window-except-diff-v1))
+       (magit))))
+  ;; Ignore emacs project (source codes)
+  (projectile-ignored-projects '("~/emacs/"))
+  ;; Do not include straight repos (emacs packages) and emacs directory itself
+  ;; to project list
+  (projectile-ignored-project-function
+   (lambda (project-root)
+     (or (string-prefix-p (expand-file-name user-emacs-directory) project-root)
+         (string-prefix-p "/usr/lib/node_modules/" project-root))))
+  (projectile-kill-buffers-filter 'kill-only-files)
+  :bind*
+  ("C-M-t" . fk/projectile-vterm)
+  :hook
+  (dashboard-after-initialize . projectile-mode)
+  :config
+  (defun fk/projectile-vterm ()
+    "Open `vterm' in project root directory."
+    (interactive)
+    (let* ((default-directory (or (projectile-project-root) default-directory))
+           (project-name (projectile-project-name default-directory))
+           (buffer-name (format "vterm @%s" project-name))
+           (buffer (get-buffer buffer-name)))
+      (if (or (not buffer) (eq buffer (current-buffer)))
+          (vterm buffer-name)
+        (switch-to-buffer buffer)))))
+
+(use-package helm-projectile
+  :custom
+  (helm-projectile-sources-list '(helm-source-projectile-buffers-list
+                                  helm-source-projectile-recentf-list
+                                  helm-source-projectile-files-list
+                                  helm-source-projectile-projects))
+  :bind
+  ("C-x f" . helm-projectile)
+  :hook
+  (projectile-mode . helm-projectile-on)
+  :config
+  (defun fk/projectile-recentf-files-first-five (original-function)
+    "Return a list of five recently visited files in a project."
+    (let ((files (funcall original-function)))
+      (if (> (length files) 5)
+          (seq-subseq files 0 5)
+        files)))
+  (advice-add 'projectile-recentf-files :around 'fk/projectile-recentf-files-first-five))
+
+(use-package helm-rg
+  :init
+  ;; Load this macro even if helm-rg is not loaded yet
+  (defmacro fk/helm-rg-define-search-command (name keymap kbd &optional glob query)
+    "Define search commands and keybindings with predefined glob and query. Usage:
+(fk/helm-rg-define-search-command
+ \"my-search\" global-map \"C-M-s\" \"*.el\" \"foo\")"
+    `(progn
+       (defun ,(intern (concat "fk/" name)) ()
+         (interactive)
+         (require 'helm-rg)
+         (fk/helm-rg-dwim-with-glob (or ,glob "") ,query))
+       (define-key ,keymap (kbd ,kbd) ',(intern (concat "fk/" name)))))
+
+  (defmacro fk/helm-rg-define-search-commands (&rest args)
+    "Define multiple search command at once. Usage:
+(fk/helm-rg-define-search-commands
+ (\"my-search\" global-map \"C-M-s\" \"*.el\" \"foo\")
+ (\"my-other-search\" global-map \"C-M-S\" \"*.el\" \"bar\"))"
+    `(progn ,@(cl-loop for expr in args
+                       collect `(fk/helm-rg-define-search-command ,@expr))))
+  :custom
+  (helm-rg-default-extra-args '("--max-columns" "400"
+                                "-g" "!{*.min.css,*.min.js,*.svg,*.po}"
+                                "-g" "!migrations/"))
+  :custom-face
+  (helm-rg-file-match-face ((t (:foreground nil :inherit font-lock-type-face :weight bold :underline nil :slant italic))))
+  (helm-rg-line-number-match-face ((t (:foreground nil :underline nil :inherit line-number))))
+  :bind
+  (("C-M-s" . fk/helm-rg-dwim)
+   :map helm-rg-map
+   ("C-c C-e" . fk/helm-rg-switch-helm-ag)
+   ("C-c C-d" . fk/helm-rg-switch-deadgrep))
+  :config
+  (defun fk/helm-rg-dwim (&optional query)
+    "Smarter version of helm-rg.
+- Search in project if in a project else search in default (current) directory.
+- Start search with selected text if region is active or empty string.
+- Escape special characters when searching with selected text."
+    (interactive)
+    (let ((helm-rg-default-directory (or (projectile-project-root) default-directory))
+          (query (or (fk/get-selected-text) query)))
+      (cl-letf (((symbol-function 'helm-rg--get-thing-at-pt) (lambda () query)))
+        (call-interactively 'helm-rg))))
+
+  (defun fk/helm-rg-dwim-with-glob (glob &optional query)
+    (interactive)
+    (let ((helm-rg-default-glob-string glob))
+      (fk/helm-rg-dwim query)))
+
+
+  ;;;; Input normalization
+
+  (defvar fk/helm-rg-fuzzy-max-words 6)  ; rg returns "Arguments list too long" after this point
+
+  (defun fk/helm-input-to-ripgrep-regexp (func input)
+    "Make `helm-rg' input ripgrep compatible. Escape special
+characters and disable fuzzy matching if input has more than
+`fk/helm-rg-fuzzy-max-words' words."
+    (let* ((processed-input (fk/convert-string-to-rg-compatible input))
+           (word-count (with-temp-buffer
+                         (insert processed-input)
+                         (count-words (point-min) (point-max)))))
+      (if (> word-count fk/helm-rg-fuzzy-max-words)
+          (string-replace " " ".*" processed-input)  ; simpler fuzzy
+        (apply func (list processed-input)))))
+
+  (advice-add 'helm-rg--helm-pattern-to-ripgrep-regexp :around 'fk/helm-input-to-ripgrep-regexp)
+
+
+  ;;;; Appearance
+
+  ;; Use a simpler header in the helm buffer.
+  (fset 'helm-rg--header-name
+        (lambda (_)
+          (format "Search at %s\nArgs: %s" helm-rg--current-dir (string-join helm-rg--extra-args " "))))
+
+  ;; Create bigger window for helm-rg
+  (advice-add 'helm-rg :around
+              (lambda (orig-func &rest args)
+                (let ((helm-posframe-min-height (round (* (frame-height) 0.66)))
+                      (helm-candidate-number-limit 99999))  ; show all matching lines. TODO open a PR and make this default.
+                  (apply orig-func args))))
+
+
+  ;;;; Switch to another frontend functions
+
+  (defun fk/helm-rg-switch-helm-ag ()
+    "Switch to `helm-ag' to use its edit feature."
+    (interactive)
+    (helm-rg--run-after-exit
+     (require 'helm-ag)
+     (fk/helm-ag-dwim helm-pattern))
+    (minibuffer-keyboard-quit))
+
+  (defun fk/helm-rg-switch-deadgrep ()
+    "Switch to `deadgrep' to use its seperated buffer and `before
+n line' / `after n line' features."
+    (interactive)
+    (helm-rg--run-after-exit
+     (require 'deadgrep)
+     (deadgrep helm-pattern))
+    (minibuffer-keyboard-quit)))
+
+(use-package undo-tree
+  :custom
+  (undo-tree-visualizer-diff t)
+  (undo-tree-enable-undo-in-region t)
+  :bind
+  (("C-u" . undo-tree-undo)
+   ("C-S-u" . undo-tree-redo))
+  :hook
+  (dashboard-after-initialize . global-undo-tree-mode))
+
+(use-package whitespace-cleanup-mode
+  :custom
+  (show-trailing-whitespace t)  ; not from whitespace-cleanup-mode.el
+  :hook
+  (dashboard-after-initialize . global-whitespace-cleanup-mode)
+  (after-change-major-mode . (lambda ()
+                              (unless (buffer-file-name)
+                                (setq-local show-trailing-whitespace nil)))))
+
+(use-package expand-region
+  :custom
+  (expand-region-fast-keys-enabled nil)
+  (expand-region-subword-enabled t)
+  :bind*
+  ("C-t" . er/expand-region))
+
+(use-package flyspell-popup
+  :after flyspell
+  :custom
+  (flyspell-popup-correct-delay 1)
+  :config
+  (flyspell-popup-auto-correct-mode))
+
+(use-package flycheck
+  :custom
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  (flycheck-disabled-checkers '(python-pycompile python-mypy python-pylint python-pyright))
+  :bind
+  ( :map errors
+    ("n" . flycheck-next-error)
+    ("p" . flycheck-previous-error)
+    ("l" . flycheck-list-errors)
+    ("v" . flycheck-verify-setup))
+)
+
+(use-package eglot
+  :commands eglot
+  :init
+  (setq eglot-stay-out-of '(flymake))
+  :custom
+  (eglot-ignored-server-capabilites '(:documentHighlightProvider))
+  (eglot-autoshutdown t)
+  :hook
+  ;; (eglot-managed-mode . eldoc-box-hover-mode)
+  (eglot-managed-mode . fk/company-enable-snippets)
+  :config
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  (with-eval-after-load 'eglot
+    (load-library "project")))
+
+(use-package eldoc-box
+  :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
+  :custom
+  (eldoc-box-clear-with-C-g t))
+
+(use-package lsp-mode
+  :commands lsp
+  :custom
+  (lsp-auto-guess-root nil)
+  (lsp-auto-select-workspace t)
+  (lsp-keymap-prefix "M-m l")
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-keep-workspace-alive nil)
+  (lsp-auto-execute-action nil)
+  (lsp-before-save-edits nil)
+  (lsp-eldoc-enable-hover nil)
+  (lsp-diagnostic-package :none)
+  (lsp-completion-provider :none)
+  (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
+  (lsp-enable-links nil)
+  (lsp-headerline-breadcrumb-enable nil)
+  ;; Maybe set in future:
+  ;;(lsp-enable-on-type-formatting nil)
+  :custom-face
+  (lsp-face-highlight-read ((t (:underline t :background nil :foreground nil))))
+  (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
+  (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :custom
+  (lsp-ui-doc-show-with-cursor nil)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-sideline-delay 0.5)
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-peek-fontify 'always)
+  :custom-face
+  (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1)))))
+  :bind
+  ( :map lsp-ui-mode-map
+    ([remap xref-find-references] . lsp-ui-peek-find-references)
+    ("C-M-l" . lsp-ui-peek-find-definitions)
+    ("C-c C-d" . lsp-ui-doc-show))
+  :config
+  ;;;; LSP UI posframe ;;;;
+  (defun lsp-ui-peek--peek-display (src1 src2)
+    (-let* ((win-width (frame-width))
+            (lsp-ui-peek-list-width (/ (frame-width) 2))
+            (string (-some--> (-zip-fill "" src1 src2)
+                      (--map (lsp-ui-peek--adjust win-width it) it)
+                      (-map-indexed 'lsp-ui-peek--make-line it)
+                      (-concat it (lsp-ui-peek--make-footer))))
+            )
+      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
+      (posframe-show lsp-ui-peek--buffer
+                     :string (mapconcat 'identity string "")
+                     :min-width (frame-width)
+                     :poshandler 'posframe-poshandler-frame-center)))
+
+  (defun lsp-ui-peek--peek-destroy ()
+    (when (bufferp lsp-ui-peek--buffer)
+      (posframe-delete lsp-ui-peek--buffer))
+    (setq lsp-ui-peek--buffer nil
+          lsp-ui-peek--last-xref nil)
+    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
+
+  (advice-add 'lsp-ui-peek--peek-new :override 'lsp-ui-peek--peek-display)
+  (advice-add 'lsp-ui-peek--peek-hide :override 'lsp-ui-peek--peek-destroy)
+  ;;;; LSP UI posframe ;;;;
+  )
+
+
+(use-package symbol-overlay
+  :commands (symbol-overlay-mode symbol-overlay-put fk/highlight-occurrences)
+  :bind
+  ( :map symbol-overlay-mode-map
+    ("C-c C-n" . symbol-overlay-jump-next)
+    ("C-c C-p" . symbol-overlay-jump-prev))
+  :hook
+  (emacs-lisp-mode . symbol-overlay-mode)
+  (python-mode . symbol-overlay-mode)
+  :config
+  (defun fk/highlight-occurrences ()
+    "Put highlight to the occurrences of the symbol at point or the
+string in the region. Uses `hi-lock' to highlight,
+`symbol-overlay' to generate a random face. To remove highlights,
+use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
+    ;; TODO: `hl-line' breaks background color
+    (interactive)
+    (let ((str (fk/get-selected-text))
+          (face (nth (random (length symbol-overlay-faces)) symbol-overlay-faces)))
+      (if str
+          (highlight-regexp (regexp-quote str) face)
+        (hi-lock-face-symbol-at-point))))
+
+  (defalias 'fk/highlight-remove (lambda () (interactive) (hi-lock-unface-buffer t)))
+  (defalias 'fk/highlight-remove-one-by-one 'hi-lock-unface-buffer))
+
+(use-package rainbow-mode
+  :hook (prog-mode . rainbow-mode))
+
+(use-package python
+  :custom
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "-i --simple-prompt")
+  (python-indent-guess-indent-offset-verbose nil)
+  :bind
+  ( :map python-mode-map
+    ("C-c r" . python-indent-shift-right)
+    ("C-c l" . python-indent-shift-left))
+  :hook
+  ;; With pyls:
+  ;; pip install python-language-server flake8 pyls-black(optional) pyls-isort(optional)
+  ;; With pyright
+  ;; sudo npm install -g pyright && pip install flake8 black(optional) django-stubs(optional)
+  ;; NOTE: these hooks runs in reverse order
+  (python-mode . (lambda () (setq-local company-prescient-sort-length-enable nil)))
+  (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
+                              (flycheck-mode))))
+  ;; (python-mode . lsp-deferred)
+  ;;(python-mode . (lambda () (fk/add-local-hook 'before-save-hook 'eglot-format-buffer)))
+  (python-mode . eglot-ensure)
+  ;; importmagic runs ~100mb ipython process per python file, and it does not
+  ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
+  ;; (python-mode . importmagic-mode)
+  (python-mode . fk/activate-pyvenv)
+  (python-mode . (lambda ()
+                   (when (and (buffer-file-name)
+                              (string=
+                               (car (last (f-split (f-parent (buffer-file-name)))))
+                               "tests"))
+                     (fk/hide-second-level-blocks))))
+  (python-mode . fk/tree-sitter-hl-mode)
+  (python-mode . (lambda () (setq-local fill-column 88)))
+  :config
+  (defvar python-walrus-operator-regexp ":=")
+
+  ;; Make walrus operator ":=" more visible
+  (font-lock-add-keywords
+   'python-mode
+   `((,python-walrus-operator-regexp 0 'escape-glyph t))
+   'set))
+
+(use-package pyvenv
+  :after projectile
+  :config
+  ;; I show this in `fk/minibuffer-modeline-update' manually.
+  (setq pyvenv-mode-line-indicator nil)
+
+  (defun fk/get-venv-name ()
+    "Get venv name of current python project."
+    (when-let* ((root-dir (projectile-project-root))
+                (venv-file (concat root-dir ".venv"))
+                (venv-exists (file-exists-p venv-file))
+                (venv-name (with-temp-buffer
+                             (insert-file-contents venv-file)
+                             (nth 0 (split-string (buffer-string))))))
+      venv-name))
+
+  (defun fk/activate-pyvenv ()
+    "Activate python environment according to the `project-root/.venv' file."
+    (interactive)
+    (when-let ((venv-name (fk/get-venv-name)))
+      (pyvenv-mode)
+      (pyvenv-workon venv-name)))
+
+  (defun fk/open-venv-dir ()
+    "Open the directory of installed libraries in `dired'."
+    (interactive)
+    (when-let* ((venv-name (fk/get-venv-name))
+                (venv-dir (expand-file-name venv-name "~/.virtualenvs")))
+      (dired (car (directory-files-recursively venv-dir "site-packages" t)))))
+
+  ;; python-mode hook is not enough when more than one project's files are open.
+  ;; It just re-activate pyvenv when a new file is opened, it should re-activate
+  ;; on buffer or perspective switching too. NOTE: restarting lsp server is
+  ;; heavy, so it should be done manually if needed.
+  (add-hook 'window-configuration-change-hook 'fk/activate-pyvenv))
+
+(use-package lsp-pyright
+  :after lsp-mode
+  :custom
+  ;; (lsp-pyright-auto-import-completions nil)
+  (lsp-pyright-typechecking-mode "off")
+  :config
+  (fk/async-process
+   "npm outdated -g | grep pyright | wc -l" nil
+   (lambda (process output)
+     (pcase output
+       ("0\n" (message "Pyright is up to date."))
+       ("1\n" (message "A pyright update is available."))))))
+
+(use-package web-mode
+  :custom
+  (css-indent-offset 2)
+  (web-mode-markup-indent-offset 2)
+  (web-mode-enable-auto-indentation nil)
+  (web-mode-enable-auto-pairing nil)
+  (web-mode-engines-alist '(("django" . "\\.html\\'")))
+  :custom-face
+  (web-mode-block-string-face ((t (:inherit font-lock-string-face))))
+  (web-mode-html-attr-value-face ((t (:inherit font-lock-string-face :foreground nil))))
+  (web-mode-current-element-highlight-face ((t (:inherit highlight))))
+  :mode ;; Copied from spacemacs
+  (("\\.phtml\\'"      . web-mode)
+   ("\\.tpl\\.php\\'"  . web-mode)
+   ("\\.twig\\'"       . web-mode)
+   ("\\.xml\\'"        . web-mode)
+   ("\\.html\\'"       . web-mode)
+   ("\\.htm\\'"        . web-mode)
+   ("\\.[gj]sp\\'"     . web-mode)
+   ("\\.as[cp]x?\\'"   . web-mode)
+   ("\\.eex\\'"        . web-mode)
+   ("\\.erb\\'"        . web-mode)
+   ("\\.mustache\\'"   . web-mode)
+   ("\\.handlebars\\'" . web-mode)
+   ("\\.hbs\\'"        . web-mode)
+   ("\\.eco\\'"        . web-mode)
+   ("\\.ejs\\'"        . web-mode)
+   ("\\.svelte\\'"     . web-mode)
+   ("\\.djhtml\\'"     . web-mode)
+   ("\\.mjml\\'"       . web-mode))
+  :hook
+  (web-mode . web-mode-toggle-current-element-highlight))
+
+(use-package emmet-mode
+  :custom
+  (emmet-move-cursor-between-quotes t)
+  :custom-face
+  (emmet-preview-input ((t (:inherit lazy-highlight))))
+  :bind
+  ( :map emmet-mode-keymap
+    ([remap yas-expand] . emmet-expand-line)
+    ("M-n"  . emmet-next-edit-point)
+    ("M-p"  . emmet-prev-edit-point)
+    ("C-c p" . emmet-preview-mode))
+  :hook
+  ;;(rjsx-mode . (lambda () (setq emmet-expand-jsx-className? t)))
+  (web-mode . emmet-mode)
+  (css-mode . emmet-mode))
+
+(use-package helm-emmet
+  :after helm emmet)
+
+(use-package json-mode
+  :mode ("\\.json\\'" . json-mode))
+(use-package json-navigator
+  :commands json-navigator-navigate-region)
+
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :custom
+  (js-indent-level 2)
+  :hook
+  (js2-mode . flycheck-mode)
+  ;;(js2-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
+  (js2-mode . lsp-deferred))
+
+(use-package go-mode
+  ;; install go & go-tools, for arch based linux:
+  ;; sudo pacman -S go go-tools
+  :mode "\\.go\\'"
+  :custom
+  (gofmt-command "goimports")
+  :hook
+  (go-mode . flycheck-mode)
+  (go-mode . lsp-deferred)
+  (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
+  (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
+
+(use-package cc-mode
+  :bind
+  ( :map c-mode-base-map
+    ("C-c C-c" . fk/c-run))
+  :hook
+  (c-mode . lsp-deferred)
+  (c++-mode . lsp-deferred))
+
+(use-package clang-format
+  :commands clang-format-buffer clang-format-region
+  :hook
+  (c-mode . (lambda () (fk/add-local-hook 'before-save-hook 'clang-format-buffer)))
+  (c++-mode . (lambda () (fk/add-local-hook 'before-save-hook 'clang-format-buffer))))
+
+(use-package lua-mode
+  :mode "\\.lua\\'")
+
+(use-package magit
+  :commands magit
+  :custom
+  (magit-section-initial-visibility-alist '((stashes . show)
+                                            (unpushed . show)
+                                            (pullreqs . show)
+                                            (issues . show)))
+  (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+  :bind*
+  ( :map version-control
+    ("v" . magit-status)
+    ("s" . magit-status)
+    :map magit-mode-map
+    ("o" . (lambda () (interactive)
+             (call-interactively 'magit-diff-visit-file-other-window)
+             (recenter-top-bottom)))
+    ("C-c C-f" . magit-find-file))
+  :hook
+  (git-commit-setup . git-commit-turn-on-flyspell)
+  (magit-mode . hack-dir-local-variables-non-file-buffer))
+
+(use-package magit-todos
+  :commands magit-todos-list
+  :custom
+  (magit-todos-exclude-globs '("*jquery*.js" "*min.js" "*min.css" "*.mjml"))
+  (magit-todos-max-items 40)  ; It's actually 20 but needed to set x2 for some reason
+  :bind*
+  ( :map version-control
+    ("T" . magit-todos-list))
+  :hook (magit-mode . magit-todos-mode))
+
+(use-package git-link
+  :commands git-link
+  :custom
+  (git-link-use-commit t)
+  :bind
+  ( :map version-control
+    ("l" . git-link)))
+
+(use-package git-timemachine
+  :commands git-timemachine
+  :bind
+  ( :map version-control
+    ("t" . git-timemachine))
+  :hook
+  (git-timemachine-mode . fk/tree-sitter-hl-mode))
+
+(use-package forge
+  :after magit
+  :config
+  (advice-add 'magit-pull-from-upstream :after
+              (lambda (&rest _) (call-interactively 'forge-pull)))
+  (advice-add 'magit-fetch-all :after
+              (lambda (&rest _) (call-interactively 'forge-pull)))
+
+  (defun fk/forge-create-pullreq--read-args ()
+    (let* ((source  (magit-completing-read
+                     "Source branch"
+                     (magit-list-remote-branch-names)
+                     ;; `magit-get-current-branch' as initial input
+                     nil t (concat "origin/" (magit-get-current-branch)) 'magit-revision-history
+                     (or (and-let* ((d (magit-branch-at-point)))
+                           (if (magit-remote-branch-p d)
+                               d
+                             (magit-get-push-branch d t)))
+                         (and-let* ((d (magit-get-current-branch)))
+                           (if (magit-remote-branch-p d)
+                               d
+                             (magit-get-push-branch d t))))))
+           (repo    (forge-get-repository t))
+           (remote  (oref repo remote))
+           (targets (delete source (magit-list-remote-branch-names remote)))
+           (target  (magit-completing-read
+                     ;; TODO: show history at first
+                     "Target branch" targets nil t nil 'magit-revision-history
+                     (let* ((d (cdr (magit-split-branch-name source)))
+                            (d (and (magit-branch-p d) d))
+                            (d (and d (magit-get-upstream-branch d)))
+                            (d (and d (if (magit-remote-branch-p d)
+                                          d
+                                        (magit-get-upstream-branch d))))
+                            (d (or d (concat remote "/"
+                                             (or (oref repo default-branch)
+                                                 "master")))))
+                       (car (member d targets))))))
+      (list source target)))
+
+  (defun fk/forge-prepare-topic (source target)
+    "Prepare topic for `forge-create-pullreq'."
+    (if-let* ((target-name (upcase (string-remove-prefix "origin/" target)))
+              (source-name (string-remove-prefix "origin/" source))
+              (match (string-match "^[a-z]+-[0-9]+" source-name))
+              (match-string (match-string-no-properties 0 source-name))
+              (issue-id (when match (upcase match-string)))
+              ;; Branch may not have issue-id
+              (issue-id-string (if issue-id (format "%s | " issue-id) ""))
+              (topic (string-remove-prefix (concat match-string "-") source-name))
+              (capitalized-topic (upcase-initials (string-replace "-" " " topic))))
+        (format "# %s | %s%s" target-name issue-id-string capitalized-topic)
+      (format "# %s | " target-name )))  ; TODO: Get the last commit or at least branch name
+
+  (defun fk/forge--prepare-post-buffer (filename &optional header source target)
+    (let ((file (magit-git-dir
+                 (convert-standard-filename
+                  (concat "magit/posts/" filename)))))
+      (make-directory (file-name-directory file) t)
+      (let ((prevbuf (current-buffer))
+            (resume (and (file-exists-p file)
+                         (> (file-attribute-size (file-attributes file)) 0)))
+            (buf (find-file-noselect file)))
+        (with-current-buffer buf
+          (forge-post-mode)
+          (when header
+            (magit-set-header-line-format header))
+          (setq forge--pre-post-buffer prevbuf)
+          (when resume
+            (forge--display-post-buffer buf)
+            (when (magit-read-char-case "A draft already exists.  " nil
+                    (?r "[r]esume editing existing draft")
+                    (?d "[d]iscard draft and start over" t))
+              (erase-buffer)
+              (setq resume nil)))
+          (when (and (not resume) (string-prefix-p "new" filename))
+            (let-alist (forge--topic-template
+                        (forge-get-repository t)
+                        (if source 'forge-pullreq 'forge-issue))
+              (cond
+               (.url
+                (browse-url .url)
+                (forge-post-cancel)
+                (setq buf nil)
+                (message "Using browser to visit %s instead of opening an issue"
+                         .url))
+               (.name
+                ;; A Github issue with yaml frontmatter.
+                (save-excursion (insert .text))
+                (unless (re-search-forward "^title: " nil t)
+                  (when (re-search-forward "^---" nil t 2)
+                    (beginning-of-line)
+                    (insert "title: \n")
+                    (backward-char))))
+               (t
+                ;; Custom part:
+                (insert (fk/forge-prepare-topic source target)))))))
+        buf)))
+
+  ;; I just added `magit-get-current-branch' as initial input
+  (advice-add 'forge-create-pullreq--read-args :override 'fk/forge-create-pullreq--read-args)
+  ;; I just added a custom dynamic topic template: `fk/forge-prepare-topic'
+  (advice-add 'forge--prepare-post-buffer :override 'fk/forge--prepare-post-buffer))
+
+;(use-package diff-hl
+;  :custom
+;  (diff-hl-global-modes '(not org-mode))
+;  (diff-hl-ask-before-revert-hunk nil)
+;  :custom-face
+;  (diff-hl-insert ((t (:background "#224022"))))
+;  (diff-hl-change ((t (:background "#492949" :foreground "mediumpurple1"))))
+;  (diff-hl-delete ((t (:background "#492929" :foreground "orangered2"))))
+;  :bind
+;  (("M-n" . diff-hl-next-hunk)
+;   ("M-p" . diff-hl-previous-hunk)
+;   :map version-control
+;   ("n" . diff-hl-next-hunk)
+;   ("p" . diff-hl-previous-hunk)
+;   ("r" . diff-hl-revert-hunk))
+;  :hook
+;  (dashboard-after-initialize . global-diff-hl-mode)
+;  (diff-hl-mode . diff-hl-flydiff-mode)
+;  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+;  (magit-post-refresh . diff-hl-magit-post-refresh))
+
+
+(use-package vc-msg
+  :commands vc-msg-show
+  :bind
+  ( :map version-control
+    ("b" . vc-msg-show)))
+
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode)
+  :custom
+  (restclient-log-request nil)
+  ;;:config
+  ;;(setcdr (assoc "application/json" restclient-content-type-modes) 'json-mode)
+)
+
+(use-package slack
+  :commands slack-start
+  :custom
+  (slack-buffer-function 'switch-to-buffer)
+  (slack-buffer-emojify t)
+  (slack-prefer-current-team t)
+  (slack-alert-icon (fk/expand-static-file-name "slack/icon.png"))
+  :custom-face
+  (slack-preview-face ((t (:inherit (fixed-pitch shadow org-block) :extend nil))))
+  :hook
+  (slack-message-buffer-mode . (lambda () (setq-local truncate-lines nil)))
+  (slack-message-buffer-mode . (lambda () (setq-local olivetti-body-width 80)))
+  :config
+  (slack-register-team
+   :name "hipo"
+   :default t
+   :token (auth-source-pick-first-password :host "slack")
+   :full-and-display-names t)
+
+  (defun fk/alert-with-sound (orig-func &rest args)
+    "Play sound with alert."
+    (apply orig-func args)
+    (when (eq (plist-get (cdr args) :category) 'slack)
+      (let* ((sound-file (fk/expand-static-file-name "slack/sound.mp3"))
+             (command (concat "ffplay -volume 20 -nodisp -nostats -hide_banner " sound-file)))
+        (when (file-exists-p sound-file)
+          (fk/async-process command)))))
+
+  (advice-add 'alert :around 'fk/alert-with-sound))
+
+(use-package emojify
+  :commands emojify-mode)
+
+(use-package alert
+  :commands alert
+  :custom
+  (alert-default-style 'libnotify))
+
+(use-package docker
+  :commands docker)
+
+(use-package markdown-mode
+  :mode "\\.md\\'"
+  :custom (markdown-header-scaling t)
+  :bind
+  ( :map markdown-mode-map
+    ("M-n" . markdown-next-visible-heading)
+    ("M-p" . markdown-previous-visible-heading)
+    ("C-M-j" . markdown-follow-thing-at-point))
+  :hook
+  (markdown-mode . emojify-mode))
+
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'")
+
+(use-package docker-compose-mode
+  :mode "docker-compose\\'")
+
+(use-package yaml-mode
+  :mode "\\.ya?ml\\'"
+  :hook
+  (yaml-mode . highlight-indent-guides-mode)
+  (yaml-mode . display-line-numbers-mode))
+
+(use-package pip-requirements
+  :mode (("\\.pip\\'" . pip-requirements-mode)
+         ("requirements[^z-a]*\\.txt\\'" . pip-requirements-mode)
+         ("requirements\\.in" . pip-requirements-mode))
+  :config
+  ;; Assign a non nil value to `pip-packages' to prevent fetching pip packages.
+  (setq pip-packages '("ipython")))
+
+(use-package git-modes
+  :mode (("/.gitignore\\'" . gitignore-mode)
+         ("/.dockerignore\\'" . gitignore-mode)))
+
+(use-package terraform-mode
+  :mode "\\.tf\\'"
+  :hook
+  (terraform-mode . (lambda ()
+                      (require 'eglot)
+                      (add-to-list 'eglot-server-programs '(terraform-mode . ("terraform-ls" "serve")))
+                      (eglot-ensure))))
+
+(use-package rubik
+  :commands rubik)
+
+(provide 'init-packages)

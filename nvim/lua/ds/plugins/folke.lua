@@ -7,16 +7,20 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("trouble").setup({
-        auto_preview = false,
-      })
-    end,
+    cmd = "Trouble",
+    opts = {
+      auto_preview = false,
+    },
   },
   { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
+  -- {
+  --   "folke/neodev.nvim",
+  --   lazy = true,
+  --   config = true,
+  -- },
   {
-    "folke/neodev.nvim",
-    lazy = true,
-    config = true,
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {},
   },
 }

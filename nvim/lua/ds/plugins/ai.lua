@@ -26,4 +26,8 @@ return {
     event = "InsertEnter",
     config = true,
   },
+  {
+    "sourcegraph/sg.nvim",
+    opts = {},
+  },
 }

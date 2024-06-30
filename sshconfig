@@ -1,4 +1,4 @@
-# vim: ft=sshconfig
+Include /Users/dhruva/.colima/ssh_config
 
 Include configs/*
 IdentityFile ~/.ssh/id_rsa
@@ -7,7 +7,7 @@ ServerAliveInterval 240
 Host bitbucket.org
 HostName bitbucket.org
 User git
-IdentityFile ~/.ssh/bitbucket
+IdentityFile ~/.ssh/bitbucket_tarkalabs
 IdentitiesOnly yes
 PreferredAuthentications publickey
 

@@ -28,6 +28,7 @@ return {
           "clojure",
           "bash",
           "zig",
+          "org",
         },
         auto_install = true,
         highlight = { enable = true },

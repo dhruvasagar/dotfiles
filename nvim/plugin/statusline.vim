@@ -61,9 +61,15 @@ augroup StatusLine
   autocmd WinEnter,CursorHold * call <SID>StatusLineClearVars()
 augroup END
 
+function! ArrowStatusline()
+  return v:lua.require('arrow.statusline').text_for_statusline_with_icons()
+endfunction
+
 set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
 set statusline+=%(\ %{fugitive#Head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
+" set statusline+=%(%{ArrowStatusline()}\ \|\ %)
+
 set statusline+=%(%r%m\ %)
 
 set statusline+=%1*%{StatusLineFileName()}\ %*

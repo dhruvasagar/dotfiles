@@ -15,6 +15,7 @@ for files in config_list
   endfor
 endfor
 
+packadd cfilter
 packadd termdebug
 
 lua require 'init'

@@ -2,6 +2,7 @@
 
 packadd cfilter
 packadd packup
+packadd comment
 
 call packup#init()
 
@@ -22,7 +23,6 @@ call packup#add('git@github.com:tpope/vim-sensible.git')
 call packup#add('git@github.com:tpope/vim-fireplace.git')
 call packup#add('git@github.com:tpope/vim-leiningen.git')
 call packup#add('git@github.com:tpope/vim-obsession.git')
-call packup#add('git@github.com:tpope/vim-commentary.git')
 call packup#add('git@github.com:tpope/vim-scriptease.git')
 call packup#add('git@github.com:tpope/vim-unimpaired.git')
 call packup#add('git@github.com:tpope/vim-speeddating.git')
@@ -103,6 +103,7 @@ call packup#add('git@github.com:Yggdroot/indentLine.git')
 call packup#add('git@github.com:epilande/vim-react-snippets.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
+call packup#add('git@github.com:nordtheme/vim.git')
 "
 " DevOps {{{3
 call packup#add('git@github.com:towolf/vim-helm.git')

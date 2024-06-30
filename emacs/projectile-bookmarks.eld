@@ -1,0 +1,1 @@
+("~/dotfiles/" "~/src/tarkalabs/knowledge-bot/" "~/dotfiles/vim/pack/packup/start/vim-dotoo/" "/:/Users/dhruva/dotfiles/vim/pack/packup/start/vim-dotoo/")

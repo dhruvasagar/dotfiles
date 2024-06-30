@@ -73,5 +73,4 @@ return {
       vim.cmd("colorscheme nordic")
     end,
   },
-  "pappasam/papercolor-theme-slim",
 }

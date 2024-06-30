@@ -16,7 +16,7 @@ return {
   "tpope/vim-sensible",
   { "tpope/vim-fireplace", lazy = true },
   { "tpope/vim-leiningen", lazy = true },
-  "tpope/vim-commentary",
+  -- "tpope/vim-commentary",
   "tpope/vim-scriptease",
   "tpope/vim-unimpaired",
   "tpope/vim-speeddating",

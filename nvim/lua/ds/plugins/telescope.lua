@@ -5,7 +5,7 @@ return {
     config = function()
       require("telescope").setup({
         defaults = {
-          path_dosplay = { "smart" },
+          path_display = { "filename_first" },
           dynamic_preview_title = true,
         },
       })

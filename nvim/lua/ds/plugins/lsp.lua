@@ -9,7 +9,7 @@ return {
   "williamboman/mason.nvim",
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
   },
   {
     "j-hui/fidget.nvim",
@@ -20,6 +20,25 @@ return {
         },
       })
     end,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "nvimtools/none-ls.nvim",
+    },
+    opt = {
+      ensure_installed = {
+        "prettierd",
+        "stylua",
+        "goimports",
+        "terraform_fmt",
+        "black",
+        "shfmt",
+        "terraform_validate",
+      },
+    },
   },
   {
     "nvimtools/none-ls.nvim",
@@ -35,6 +54,7 @@ return {
           fmt.stylua,
           fmt.goimports,
           fmt.terraform_fmt,
+          fmt.black,
           fmt.shfmt.with({
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),
@@ -65,7 +85,6 @@ return {
       "petertriho/cmp-git",
       "dmitmel/cmp-digraphs",
       "hrsh7th/cmp-nvim-lsp",
-      "quangnguyen30192/cmp-nvim-ultisnips",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "Saecki/crates.nvim",
       "David-Kunz/cmp-npm",
@@ -75,16 +94,18 @@ return {
     config = function()
       local cmp = require("cmp")
       local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
-      vim.opt.completeopt = "menu,menuone,noselect"
+      vim.opt.completeopt = "menu,menuone,noselect,fuzzy"
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body)
+            require("luasnip").lsp_expand(args.body)
           end,
         },
         sources = {
-          { name = "ultisnips" },
+          { name = "luasnip" },
+          { name = "orgmode" },
           { name = "codeium" },
+          { name = "cody" },
           { name = "path" },
           { name = "omni" },
           { name = "buffer",                 keyword_length = 3 },
