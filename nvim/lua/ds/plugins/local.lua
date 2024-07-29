@@ -10,7 +10,6 @@ return {
   { dir = "~/dotfiles/vim/pack/packup/start/vim-buffer-history" },
   {
     dir = "~/dotfiles/vim/pack/packup/start/vim-railscasts-theme",
-    lazy = true,
     config = function()
       -- vim.cmd("colorscheme railscasts")
     end,

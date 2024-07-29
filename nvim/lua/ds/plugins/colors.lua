@@ -46,6 +46,7 @@ return {
           DiffText = { fg = "#ffffff", bg = "#ff0000" },
           DiffChange = { fg = "#ffffff", bg = "#870087" },
           DiffDelete = { fg = "#000000", bg = "#5f0000" },
+          PmenuSel = { bg = "#434C5E" },
           ["@markup.strong"] = {
             fg = palette.red.base,
           },
@@ -70,7 +71,16 @@ return {
           },
         },
       })
-      vim.cmd("colorscheme nordic")
+      -- vim.cmd("colorscheme nordic")
+    end,
+  },
+  {
+    "ab-dx/ares.nvim",
+    name = "ares",
+    priority = 1000,
+    dependencies = { "rktjmp/lush.nvim" },
+    config = function()
+      vim.cmd("colorscheme ares")
     end,
   },
 }

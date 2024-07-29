@@ -23,10 +23,6 @@ nnoremap Q :echo "Use :q instead"<CR>
 " Dispatch {{{1
 nnoremap d<CR> :Dispatch<CR>
 
-" Gundo {{{1
-" nnoremap U :GundoToggle<CR>
-nnoremap U :MundoToggle<CR>
-
 " Tabular {{{1
 nnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'
 xnoremap <expr> z/ ':Tabular/'.nr2char(getchar()).'<CR>'

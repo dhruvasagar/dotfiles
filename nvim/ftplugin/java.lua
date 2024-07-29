@@ -1,0 +1,139 @@
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+-- local mason = require("mason-registry")
+-- local jdtls_path = mason.get_package("jdtls"):get_install_path()
+-- local java_debug_path = mason.get_package("java-debug-adapter"):get_install_path()
+-- local java_test_path = mason.get_package("java-test"):get_install_path()
+--
+-- local equinox_launcher_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+--
+-- local bundles = {
+--     vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"),
+-- }
+--
+-- vim.list_extend(bundles, vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar"), "\n"))
+--
+-- local system = "linux"
+-- if vim.fn.has("win32") then
+--     system = "win"
+-- elseif vim.fn.has("mac") then
+--     if require("jit").arch == "arm64" then
+--         system = "mac_arm"
+--     else
+--         system = "mac"
+--     end
+-- end
+-- local config_path = vim.fn.glob(jdtls_path .. "/config_" .. system)
+--
+-- local lombok_path = jdtls_path .. "/lombok.jar"
+--
+-- local jdtls = require("jdtls")
+--
+-- local config = {
+--     cmd = {
+--         "~/.asdf/shims/java",
+--
+--         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+--         "-Dosgi.bundles.defaultStartLevel=4",
+--         "-Declipse.product=org.eclipse.jdt.ls.core.product",
+--         "-Dlog.protocol=true",
+--         "-Dlog.level=ALL",
+--         "-Xmx1g",
+--         "--add-modules=ALL-SYSTEM",
+--         "--add-opens",
+--         "java.base/java.util=ALL-UNNAMED",
+--         "--add-opens",
+--         "java.base/java.lang=ALL-UNNAMED",
+--
+--         "-javaagent:" .. lombok_path,
+--
+--         "-jar",
+--         equinox_launcher_path,
+--
+--         "-configuration",
+--         config_path,
+--
+--         "-data",
+--         vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t"),
+--     },
+--
+--     flags = {
+--         debounce_text_changes = 150,
+--         allow_incremental_sync = true,
+--     },
+--
+--     on_init = function(client)
+--         if client.config.settings then
+--             client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+--         end
+--     end,
+--
+--     root_dir = vim.fs.root(0, { ".metadata", ".git", "pom.xml" }),
+--
+--     on_attach = require("ds.lsp").on_attach,
+--
+--     init_options = {
+--         bundles = bundles,
+--     },
+--     capabilities = require("cmp_nvim_lsp").default_capabilities(),
+--
+--     -- Here you can configure eclipse.jdt.ls specific settings
+--     -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+--     -- for a list of options
+--     settings = {
+--         java = {
+--             eclipse = {
+--                 downloadSources = true,
+--             },
+--             maven = {
+--                 downloadSources = true,
+--             },
+--             -- configuration = {
+--             --   runtimes = {
+--             --     {
+--             --       name = "JavaSE-1.8",
+--             --       path = vim.env.JAVA_HOME,
+--             --       default = true,
+--             --     },
+--             --   },
+--             -- },
+--             references = {
+--                 includeDecompiledSources = true,
+--             },
+--             signatureHelp = {
+--                 enabled = true,
+--                 description = {
+--                     enabled = true,
+--                 },
+--             },
+--             saveActions = {
+--                 organizeImports = true,
+--             },
+--             completion = {
+--                 maxResults = 20,
+--                 favoriteStaticMembers = {
+--                     "org.hamcrest.MatcherAssert.assertThat",
+--                     "org.hamcrest.Matchers.*",
+--                     "org.hamcrest.CoreMatchers.*",
+--                     "org.junit.jupiter.api.Assertions.*",
+--                     "java.util.Objects.requireNonNull",
+--                     "java.util.Objects.requireNonNullElse",
+--                     "org.mockito.Mockito.*",
+--                 },
+--             },
+--             sources = {
+--                 organizeImports = {
+--                     starThreshold = 9999,
+--                     staticStarThreshold = 9999,
+--                 },
+--             },
+--             codeGeneration = {
+--                 toString = {
+--                     template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+--                 },
+--             },
+--         },
+--     },
+-- }
+--
+-- jdtls.start_or_attach(config)

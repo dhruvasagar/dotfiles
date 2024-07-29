@@ -76,6 +76,9 @@
 # A REFERENCE ONLY, WHEN MAKING YOUR OWN CONFIGURATION..          #
 # ############################################################### #
 
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# sudo yabai --load-sa
+
 alt - return : /usr/local/bin/alacritty
 
 # focus window
@@ -173,6 +176,8 @@ alt + ctrl + cmd - 2 : yabai -m window --display 2; yabai -m display --focus 2
 # restart yabai
 alt + ctrl + shift - r : osascript 'display notification "Restarting Yabai" with title "Yabai"; \
                          brew services restart yabai'
+
+home : skhd -k "~"
 
 # make floating window fill screen
 # shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1

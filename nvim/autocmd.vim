@@ -36,7 +36,7 @@ augroup CursorLine "{{{1
   autocmd BufLeave,WinLeave * setl nocursorline
 augroup END
 
-let g:LargeFile = 70000
+let g:LargeFile = 200000
 function! LargeFile()
   set ft=
 endfunction

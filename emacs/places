@@ -1,16 +1,16 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/dhruva/Dropbox/Documents/dotoo-files/Getting Started with Orgzly.org" . 438)
- ("/Users/dhruva/Dropbox/Documents/dotoo-files/refile.org" . 219)
- ("/Users/dhruva/src/tarkalabs/knowledge-bot/"
-  (dired-filename . "/Users/dhruva/src/tarkalabs/knowledge-bot/docker-compose.yaml"))
- ("/Users/dhruva/dotfiles/emacs/ds/init-packages.el" . 676)
- ("/Users/dhruva/Downloads/Neovim-mark.svg" . 2231)
- ("/Users/dhruva/dotfiles/"
-  (dired-filename . "/Users/dhruva/dotfiles/emacs"))
+(("/Users/dhruva/Dropbox/Documents/dotoo-files/refile.org" . 219)
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/Getting Started with Orgzly.org" . 438)
+ ("/Users/dhruva/dotfiles/emacs/ds/init-packages.el" . 613)
  ("/Users/dhruva/dotfiles/emacs/"
   (dired-filename . "/Users/dhruva/dotfiles/emacs/ds"))
  ("/Users/dhruva/dotfiles/emacs/ds/"
   (dired-filename . "/Users/dhruva/dotfiles/emacs/ds/init-packages.el"))
+ ("/Users/dhruva/src/tarkalabs/knowledge-bot/"
+  (dired-filename . "/Users/dhruva/src/tarkalabs/knowledge-bot/docker-compose.yaml"))
+ ("/Users/dhruva/Downloads/Neovim-mark.svg" . 2231)
+ ("/Users/dhruva/dotfiles/"
+  (dired-filename . "/Users/dhruva/dotfiles/emacs"))
  ("/Users/dhruva/dotfiles/emacs/init.el" . 3699)
  ("/Users/dhruva/dotfiles/vim/pack/packup/start/vim-dotoo/"
   (dired-filename . "/Users/dhruva/dotfiles/vim/pack/packup/start/vim-dotoo/autoload"))

@@ -37,6 +37,8 @@ return {
         "black",
         "shfmt",
         "terraform_validate",
+        "google-java-format",
+        "checkstyle",
       },
     },
   },
@@ -55,11 +57,23 @@ return {
           fmt.goimports,
           fmt.terraform_fmt,
           fmt.black,
+          fmt.google_java_format.with({
+            extra_args = { "--aosp" },
+          }),
+          -- fmt.uncrustify.with({
+          --     extra_args = { "-c", "~/dotfiles/config/uncrustify.cfg" },
+          -- }),
           fmt.shfmt.with({
             extra_args = { "-i", 4, "-ci", "-sr" },
           }),
           -- # DIAGNOSTICS #
           dgn.terraform_validate,
+          dgn.checkstyle.with({
+            extra_args = {
+              "-c",
+              vim.fn.expand("~/dotfiles/config/google_checks.xml"),
+            },
+          }),
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
@@ -236,6 +250,20 @@ return {
           TypeParameter = "",
         },
       })
+    end,
+  },
+  {
+    "mfussenegger/nvim-jdtls",
+  },
+  {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" },
+    },
+    event = "LspAttach",
+    config = function()
+      require("tiny-code-action").setup()
     end,
   },
 }

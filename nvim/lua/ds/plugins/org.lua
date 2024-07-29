@@ -10,13 +10,15 @@ return {
       })
     end,
   },
-  "chipsenkbeil/org-roam.nvim",
-  dependencies = {
-    {
-      "nvim-orgmode/orgmode",
+  {
+    "chipsenkbeil/org-roam.nvim",
+    dependencies = {
+      {
+        "nvim-orgmode/orgmode",
+      },
     },
-  },
-  opts = {
-    directory = "~/Dropbox/Documents/dotoo-files/notes/",
+    opts = {
+      directory = "~/Dropbox/Documents/dotoo-files/notes/",
+    },
   },
 }
