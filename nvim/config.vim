@@ -16,7 +16,7 @@ set smartcase
 set hlsearch
 set splitbelow
 set splitright
-set switchbuf=useopen
+"set switchbuf=useopen
 
 set exrc
 

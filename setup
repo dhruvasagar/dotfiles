@@ -1,33 +1,23 @@
 #!/bin/bash
 
-relink() {
-    src="$1"
-    dst="$2"
-
-    rm -rf "$dst"
-
-    dir=$(dirname "$dst")
-    [[ ! -d "$dir" ]] && mkdir -p "$dir"
-
-    ln -s "$src" "$dst"
-}
-
 XDG_CONFIG_HOME=$XDG_CONFIG_HOME:=$HOME/.config
+
+rm -rf ~/.zshrc
+ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
+. ~/.zshrc
 
 relink ~/dotfiles/vim ~/.vim
 relink ~/dotfiles/emacs ~/.emacs.d
 relink ~/dotfiles/weechat ~/.weechat
-relink ~/dotfiles/zsh/zshrc ~/.zshrc
 relink ~/dotfiles/config/tmux.conf ~/.tmux.conf
 relink ~/dotfiles/qutebrowser ~/.qutebrowser
 relink ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 relink ~/dotfiles/sshconfig ~/.ssh/config
-relink ~/dotfiles/xprofile ~/.xprofile
 
-relink ~/dotfiles/vim "${XDG_CONFIG_HOME}/nvim"
-relink ~/dotfiles/config/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
-relink ~/dotfiles/config/kitty.conf "${XDG_CONFIG_HOME}/kitty/kitty.conf"
+relink ~/dotfiles/nvim "${XDG_CONFIG_HOME}/nvim"
 relink ~/dotfiles/config/wezterm.lua ~/.wezterm.lua
+relink ~/dotfiles/config/kitty.conf "${XDG_CONFIG_HOME}/kitty/kitty.conf"
+relink ~/dotfiles/config/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
 
 platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null
