@@ -104,6 +104,7 @@ return {
       "David-Kunz/cmp-npm",
       "onsails/lspkind.nvim",
       "micangl/cmp-vimtex",
+      "rcarriga/cmp-dap",
     },
     config = function()
       local cmp = require("cmp")
@@ -188,6 +189,11 @@ return {
           { name = "vimtex" },
         },
       })
+      cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+        sources = {
+          { name = "dap" },
+        },
+      })
     end,
   },
   {
@@ -253,9 +259,6 @@ return {
     end,
   },
   {
-    "mfussenegger/nvim-jdtls",
-  },
-  {
     "rachartier/tiny-code-action.nvim",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
@@ -266,4 +269,6 @@ return {
       require("tiny-code-action").setup()
     end,
   },
+  { "mfussenegger/nvim-jdtls", enabled = false },
+  { "nvim-java/nvim-java",     enabled = true },
 }
