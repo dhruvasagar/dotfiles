@@ -1,2 +1,2 @@
-set tabstop=4
-set shiftwidth=4
+setl tabstop=4
+setl shiftwidth=4
