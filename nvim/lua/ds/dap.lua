@@ -117,7 +117,7 @@ end, { desc = "dap.repl.open" })
 vim.keymap.set("n", "<Leader>dl", function()
   require("dap").run_last()
 end, { desc = "dap.run_last" })
-vim.keymap.set("n", "<Leader>dc", function()
+vim.keymap.set("n", "<Leader>dq", function()
   require("dapui").close()
 end, { desc = "dapui.close" })
 
