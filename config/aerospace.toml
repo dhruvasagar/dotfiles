@@ -6,12 +6,13 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = "move-mouse window-lazy-center"
 
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
-]
-
 [mode.main.binding]
 alt-enter = 'exec-and-forget open -n /Applications/WezTerm.app'
+alt-ctrl-b = '''exec-and-forget osascript <<EOF
+tell application "Firefox" to activate
+delay 0.5
+tell application "System Events" to keystroke "n" using command down
+EOF'''
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-q = 'close'
