@@ -58,10 +58,14 @@ brew install --cask caffeine
 brew install --cask alacritty
 # brew install --cask rectangle
 brew install --cask hammerspoon
+
 brew install --cask nikitabobko/tap/aerospace
+brew tap FelixKratz/formulae
+brew install sketchybar
 
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-sans # for Italics
+brew install --cask font-hack-nerd-font
 brew install --cask font-fira-code-nerd-font
 
 brew install --cask firefox
