@@ -1,7 +1,7 @@
 #!/bin/bash
 
 relink ~/dotfiles/config/xprofile ~/.xprofile
-relink ~/dotfiles/i3 "${XDG_CONFIG_HOME}/i3"
+relink ~/dotfiles/config/i3 "${XDG_CONFIG_HOME}/i3"
 
 base_os=$(cat /etc/os-release | grep -i id_like | sed 's/[^=]*=//')
 

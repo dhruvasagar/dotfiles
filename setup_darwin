@@ -1,9 +1,10 @@
 #!/bin/bash
 
-relink ~/dotfiles/config/skhdrc "${XDG_CONFIG_HOME}/skhd/skhdrc"
-relink ~/dotfiles/config/yabairc ~/.yabairc
+# relink ~/dotfiles/config/skhdrc "${XDG_CONFIG_HOME}/skhd/skhdrc"
+# relink ~/dotfiles/config/yabairc ~/.yabairc
 relink ~/dotfiles/hammerspoon ~/.hammerspoon
-relink ~/dotfiles/config/spacebarrc "${XDG_CONFIG_HOME}/spacebar/spacebarrc"
+relink ~/dotfiles/config/aerospace.toml ~/.aerospace.toml
+# relink ~/dotfiles/config/spacebarrc "${XDG_CONFIG_HOME}/spacebar/spacebarrc"
 
 brew install zsh
 [[ ! $SHELL =~ "zsh" ]] && chsh -s "$(command -v zsh)"
@@ -25,8 +26,8 @@ brew install ripgrep
 brew install weechat
 brew install reattach-to-user-namespace
 
-brew install koekeishiya/formulae/skhd
-brew install koekeishiya/formulae/yabai
+# brew install koekeishiya/formulae/skhd
+# brew install koekeishiya/formulae/yabai
 
 # gnu tools better than osx defaults
 brew install gawk
@@ -52,10 +53,12 @@ brew install --cask steam
 brew install --cask skitch
 brew install --cask dropbox
 brew install --cask keybase
+brew install --cask wezterm
 brew install --cask caffeine
 brew install --cask alacritty
-brew install --cask rectangle
+# brew install --cask rectangle
 brew install --cask hammerspoon
+brew install --cask nikitabobko/tap/aerospace
 
 brew tap homebrew/cask-fonts
 brew install --cask font-fira-sans # for Italics

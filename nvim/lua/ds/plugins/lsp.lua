@@ -57,9 +57,7 @@ return {
           fmt.goimports,
           fmt.terraform_fmt,
           fmt.black,
-          fmt.google_java_format.with({
-            extra_args = { "--aosp" },
-          }),
+          fmt.google_java_format.with({ extra_args = { "--aosp" } }),
           -- fmt.uncrustify.with({
           --     extra_args = { "-c", "~/dotfiles/config/uncrustify.cfg" },
           -- }),

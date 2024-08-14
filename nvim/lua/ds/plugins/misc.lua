@@ -102,7 +102,6 @@ return {
       "olimorris/neotest-rspec",
       "rouge8/neotest-rust",
       "jfpedroza/neotest-elixir",
-      "mrcjkb/neotest-haskell",
       "lawrence-laz/neotest-zig",
     },
     config = function()
@@ -114,7 +113,6 @@ return {
           require("neotest-rspec"),
           require("neotest-rust"),
           require("neotest-elixir"),
-          require("neotest-haskell"),
           require("neotest-zig"),
         },
       })
