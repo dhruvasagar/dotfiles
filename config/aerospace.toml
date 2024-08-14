@@ -7,7 +7,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = "move-mouse window-lazy-center"
 
 [mode.main.binding]
-alt-q = 'enable off'
+alt-q = 'close'
 alt-tab = 'workspace-back-and-forth'
 
 alt-h = 'focus left'
@@ -21,6 +21,7 @@ alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
 alt-f = 'fullscreen'
+alt-shift-f = 'close-all-windows-but-current'
 
 alt-shift-space = 'layout floating tiling'
 alt-comma = 'layout tiles horizontal vertical'
