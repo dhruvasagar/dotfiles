@@ -6,6 +6,7 @@ config.font = wezterm.font("FiraCode Nerd Font Mono")
 config.term = "wezterm"
 config.font_size = 15.0
 config.window_decorations = "RESIZE"
+config.enable_kitty_graphics = true
 config.window_close_confirmation = "NeverPrompt"
 config.enable_tab_bar = false
 config.enable_scroll_bar = false

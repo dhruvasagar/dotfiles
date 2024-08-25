@@ -1,6 +1,22 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
 (("/Users/dhruva/Dropbox/Documents/dotoo-files/refile.org" . 219)
- ("/Users/dhruva/Dropbox/Documents/dotoo-files/Getting Started with Orgzly.org" . 438)
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/Getting Started with Orgzly.org" . 22)
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents/dotoo-files/pages"))
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/pages/Michael Carducci.dotoo" . 109)
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/pages/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents/dotoo-files/pages/Neal Ford.dotoo"))
+ ("/Users/dhruva/Dropbox/Documents/dotoo-files/pages/Neal Ford.dotoo" . 188)
+ ("/Users/dhruva/"
+  (dired-filename . "/Users/dhruva/Dropbox"))
+ ("/Users/dhruva/Dropbox/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents"))
+ ("/Users/dhruva/Dropbox/Documents/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents/logseq"))
+ ("/Users/dhruva/Dropbox/Documents/logseq/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents/logseq/pages"))
+ ("/Users/dhruva/Dropbox/Documents/logseq/pages/"
+  (dired-filename . "/Users/dhruva/Dropbox/Documents/logseq/pages/Michael Carducci.md"))
  ("/Users/dhruva/dotfiles/emacs/ds/init-packages.el" . 613)
  ("/Users/dhruva/dotfiles/emacs/"
   (dired-filename . "/Users/dhruva/dotfiles/emacs/ds"))

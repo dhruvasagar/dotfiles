@@ -83,14 +83,55 @@ return {
   },
   "purescript-contrib/purescript-vim",
   {
-    "L3MON4D3/LuaSnip",
-    build = "make install_jsregexp",
+    "garymjr/nvim-snippets",
+    keys = {
+      {
+        "<Tab>",
+        function()
+          if vim.snippet.active({ direction = 1 }) then
+            vim.schedule(function()
+              vim.snippet.jump(1)
+            end)
+            return
+          end
+          return "<Tab>"
+        end,
+        expr = true,
+        silent = true,
+        mode = "i",
+      },
+      {
+        "<Tab>",
+        function()
+          vim.schedule(function()
+            vim.snippet.jump(1)
+          end)
+        end,
+        expr = true,
+        silent = true,
+        mode = "s",
+      },
+      {
+        "<S-Tab>",
+        function()
+          if vim.snippet.active({ direction = -1 }) then
+            vim.schedule(function()
+              vim.snippet.jump(-1)
+            end)
+            return
+          end
+          return "<S-Tab>"
+        end,
+        expr = true,
+        silent = true,
+        mode = { "i", "s" },
+      },
+    },
+    opts = {
+      friendly_snippets = true,
+    },
   },
-  {
-    "saadparwaiz1/cmp_luasnip",
-    dependencies = { "L3MON4D3/LuaSnip" },
-  },
-  "honza/vim-snippets",
+  { "rafamadriz/friendly-snippets" },
   "benmills/vimux",
   {
     "nvim-neotest/neotest",
@@ -120,7 +161,7 @@ return {
   },
   "diepm/vim-rest-console",
   "powerman/vim-plugin-AnsiEsc",
-  { "mattn/gist-vim",   dependencies = { "mattn/webapi-vim" } },
+  { "mattn/gist-vim",              dependencies = { "mattn/webapi-vim" } },
   "editorconfig/editorconfig-vim",
   "godlygeek/tabular",
   "vim-scripts/SyntaxRange",
@@ -129,7 +170,7 @@ return {
     config = true,
   },
   "SidOfc/mkdx",
-  { "kkoomen/vim-doge", build = ":call doge#install()" },
+  { "kkoomen/vim-doge",                   build = ":call doge#install()" },
   "junegunn/goyo.vim",
   "junegunn/vim-emoji",
   "guns/xterm-color-table.vim",
@@ -223,4 +264,5 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
+  "mityu/vim-applescript",
 }

@@ -6,6 +6,11 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = "move-mouse window-lazy-center"
 
+# Notify Sketchybar about workspace change
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 [mode.main.binding]
 alt-enter = 'exec-and-forget open -n /Applications/WezTerm.app'
 alt-ctrl-b = '''exec-and-forget osascript <<EOF
@@ -107,6 +112,10 @@ run = "move-node-to-workspace 4"
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
 run = "move-node-to-workspace 5"
+
+[[on-window-detected]]
+if.app-id = 'org.qutebrowser.qutebrowser'
+run = 'layout tiling'
 
 [gaps]
 inner.horizontal = 2

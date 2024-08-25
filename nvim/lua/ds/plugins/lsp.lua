@@ -103,6 +103,7 @@ return {
       "onsails/lspkind.nvim",
       "micangl/cmp-vimtex",
       "rcarriga/cmp-dap",
+      "garymjr/nvim-snippets",
     },
     config = function()
       local cmp = require("cmp")
@@ -111,11 +112,11 @@ return {
       cmp.setup({
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            vim.snippet.expand(args.body)
           end,
         },
         sources = {
-          { name = "luasnip" },
+          { name = "snippets" },
           { name = "orgmode" },
           { name = "codeium" },
           { name = "cody" },

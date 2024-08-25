@@ -35,9 +35,6 @@ brew install moreutils
 brew install gnu-indent
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-brew tap homebrew/cask
-brew tap homebrew/cask-versions
-
 brew install --cask kap
 brew install --cask pika
 brew install --cask ngrok
@@ -54,7 +51,6 @@ brew install --cask hammerspoon
 
 brew install --cask nikitabobko/tap/aerospace
 
-brew tap homebrew/cask-fonts
 brew install --cask font-fira-sans # for Italics
 brew install --cask font-hack-nerd-font
 brew install --cask font-fira-code-nerd-font
