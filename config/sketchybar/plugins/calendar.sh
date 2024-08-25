@@ -55,10 +55,54 @@ EVENTS="$(
           set timeRemaining to timeRemaining & (minutesRemaining as text) & "m"
 
           set eventTitle to (anEvent's title) as text
-          set end of eventDetailsList to (timeRemaining & " - " & eventTitle)
+          set eventDetails to timeRemaining & ";" & eventTitle
+
+          -- Safely get notes and location
+          set eventURL to my safeGet(anEvent, "url")
+          set eventNotes to my safeGet(anEvent, "notes")
+          set eventLocation to my safeGet(anEvent, "location")
+          set meetingURL to my findURLInText(eventURL & eventLocation & eventNotes)
+
+          if meetingURL is not "" then
+              set eventDetails to eventDetails & ";" & meetingURL
+          end if
+          set end of eventDetailsList to eventDetails
       end repeat
 
       return eventDetailsList
+
+      -- Helper to handle property access safely
+      on safeGet(anObject, aProperty)
+          try
+              if anObject's valueForKey:aProperty is missing value then return ""
+              return (anObject's valueForKey:aProperty) as text
+          on error
+              return ""
+          end try
+      end safeGet
+
+      -- Helper function to find the first URL in the given text
+      on findURLInText(theText)
+          try
+              if theText is "" then return "" -- Avoid processing empty strings
+
+              -- Create an NSDataDetector for URLs
+              set theDetector to current application's NSDataDetector's dataDetectorWithTypes:(current application's NSTextCheckingTypeLink) |error|:(missing value)
+              set theMatches to theDetector's matchesInString:theText options:0 range:{0, length of theText}
+
+              -- If there are matches, return the URL found in the first match
+              if theMatches's |count|() > 0 then
+                  set theMatch to theMatches's objectAtIndex:0 -- Get the first match
+                  set theURL to theMatch's URL()
+                  return theURL's absoluteString() as text
+              else
+                  return ""
+              end if
+          on error errMsg
+              display dialog "Error finding URL: " & errMsg
+              return ""
+          end try
+      end findURLInText
 EOF
 )"
 
@@ -71,12 +115,24 @@ fi
 
 COUNTER=0
 ARGS=(--set "$NAME" popup.drawing=toggle)
-IFS=','
-read -ra ETS <<< "$EVENTS"
+IFS=',' read -ra ETS <<< "$EVENTS"
+NEXT_EVENT=""
 for EVENT in "${ETS[@]}"; do
-    ARGS+=(--add item calendar.event.$COUNTER popup."$NAME" --set calendar.event.$COUNTER label="${EVENT## }" click_script="sketchybar --set $NAME popup.drawing=off")
+    IFS=';' read -ra EDTS <<< "${EVENT## }"
+    TIME_REMAINING="${EDTS[0]}"
+    EVENT_TITLE="${EDTS[1]}"
+    MEETING_URL="${EDTS[2]}"
+    LABEL="${TIME_REMAINING} - ${EVENT_TITLE}"
+    if [ -z "$NEXT_EVENT" ]; then
+        NEXT_EVENT="$LABEL"
+    fi
+    if [ -n "$MEETING_URL" ]; then
+        ARGS+=(--add item calendar.event.$COUNTER popup."$NAME" --set calendar.event.$COUNTER label="$LABEL" click_script="open -n '$MEETING_URL'; sketchybar --set $NAME popup.drawing=off")
+    else
+        ARGS+=(--add item calendar.event.$COUNTER popup."$NAME" --set calendar.event.$COUNTER label="$LABEL" click_script="sketchybar --set $NAME popup.drawing=off")
+    fi
     COUNTER=$(($COUNTER + 1))
 done
 
 sketchybar -m "${ARGS[@]}"
-sketchybar --set "$NAME" label="${EVENTS%%,*}"
+sketchybar --set "$NAME" label="$NEXT_EVENT"
