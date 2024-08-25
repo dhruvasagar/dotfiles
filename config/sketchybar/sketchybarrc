@@ -79,7 +79,7 @@ sketchybar --add item clock right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
            --add item calendar right \
-           --set calendar update_freq=120 \
+           --set calendar update_freq=900 \
                           icon= \
                           click_script="sketchybar -m --set \$NAME popup.drawing=toggle" \
                           popup.background.border_width=2 \
