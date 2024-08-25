@@ -2,64 +2,63 @@
 
 EVENTS="$(
     osascript << EOF
-  use AppleScript version "2.4"
-  use scripting additions
-  use framework "Foundation"
-  use framework "EventKit"
+      use AppleScript version "2.4"
+      use scripting additions
+      use framework "Foundation"
+      use framework "EventKit"
 
-  -- set listOfCalNames to {"Home - Jase"} -- list of one or more calendar names
-  -- set listOfCaTypes to {0} -- list of one or more calendar types: : Local = 0, CalDAV/iCloud = 1, Exchange = 2, Subscription = 3, Birthday = 4
-  -- create start date and end date for occurances
-  set nowDate to current application's NSDate's |date|()
-  set todaysDate to current application's NSCalendar's currentCalendar()'s dateBySettingHour:9 minute:0 |second|:0 ofDate:nowDate options:0
-  set tomorrowsDate to todaysDate's dateByAddingTimeInterval:1 * days
+      -- create start date and end date for occurrences
+      set nowDate to current application's NSDate's |date|()
+      set todaysDate to current application's NSCalendar's currentCalendar()'s dateBySettingHour:9 minute:0 |second|:0 ofDate:nowDate options:0
+      set tomorrowsDate to todaysDate's dateByAddingTimeInterval:1 * days
 
-  -- create event store and get the OK to access Calendars
-  set theEKEventStore to current application's EKEventStore's alloc()'s init()
-  theEKEventStore's requestAccessToEntityType:0 completion:(missing value)
+      -- create event store and get the OK to access Calendars
+      set theEKEventStore to current application's EKEventStore's alloc()'s init()
+      theEKEventStore's requestAccessToEntityType:0 completion:(missing value)
 
-  -- check if app has access; this will still occur the first time you OK authorization
-  set authorizationStatus to current application's EKEventStore's authorizationStatusForEntityType:0 -- work around enum bug
-  if authorizationStatus is not 3 then
-    display dialog "Access must be given in System Preferences" & linefeed & "-> Security & Privacy first." buttons {"OK"} default button 1
-    tell application "System Preferences"
-      activate
-      tell pane id "com.apple.preference.security" to reveal anchor "Privacy"
-    end tell
-    error number -128
-  end if
+      -- check if app has access; this will still occur the first time you OK authorization
+      set authorizationStatus to current application's EKEventStore's authorizationStatusForEntityType:0 -- work around enum bug
+      if authorizationStatus is not 3 then
+          display dialog "Access must be given in System Preferences" & linefeed & "-> Security & Privacy first." buttons {"OK"} default button 1
+          tell application "System Preferences"
+              activate
+              tell pane id "com.apple.preference.security" to reveal anchor "Privacy"
+          end tell
+          error number -128
+      end if
 
-  -- get calendars that can store events
-  set theCalendars to theEKEventStore's calendarsForEntityType:0
-  -- filter out the one you want
-  -- set theNSPredicate to current application's NSPredicate's predicateWithFormat_("title IN %@ AND type IN %@", listOfCalNames, listOfCaTypes)
-  set calsToSearch to theCalendars -- 's filteredArrayUsingPredicate:theNSPredicate
-  if count of calsToSearch < 1 then error "No such calendar(s)."
+      -- get calendars that can store events
+      set theCalendars to theEKEventStore's calendarsForEntityType:0
 
-  -- find matching events
-  set thePred to theEKEventStore's predicateForEventsWithStartDate:todaysDate endDate:tomorrowsDate calendars:calsToSearch
-  set theEvents to (theEKEventStore's eventsMatchingPredicate:thePred)
-  -- sort by date
-  set theEvents to theEvents's sortedArrayUsingSelector:"compareStartDateWithEvent:"
-  -- return title property, called summary in AS, for them all
-  -- return (theEvents's valueForKey:"title") as list
+      -- find matching events
+      set thePred to theEKEventStore's predicateForEventsWithStartDate:todaysDate endDate:tomorrowsDate calendars:theCalendars
+      set theEvents to (theEKEventStore's eventsMatchingPredicate:thePred)
 
-  -- chatgpt
-  set eventDetailsList to {}
+      -- sort by date
+      set theEvents to theEvents's sortedArrayUsingSelector:"compareStartDateWithEvent:"
 
-  -- Create a date formatter to extract just the time
-  set timeFormatter to current application's NSDateFormatter's alloc()'s init()
-  timeFormatter's setDateFormat:"HH:mm"
+      -- Initialize an empty list to hold the event details
+      set eventDetailsList to {}
 
-  -- Iterate through the events and extract both time and title
-  repeat with anEvent in theEvents
-    set eventStartTime to (timeFormatter's stringFromDate:(anEvent's startDate)) as text
-    set eventTitle to anEvent's title as text
-    set end of eventDetailsList to (eventStartTime & " - " & eventTitle)
-  end repeat
+      -- Iterate through the events and calculate time remaining
+      repeat with anEvent in theEvents
+          set eventStartDate to anEvent's startDate
+          set timeInterval to eventStartDate's timeIntervalSinceDate:nowDate
+          set hoursRemaining to (timeInterval div 3600)
+          set minutesRemaining to (timeInterval mod 3600) div 60
 
-  -- Return the list of event details
-  return eventDetailsList
+          -- Format remaining time as "Xh Ym"
+          set timeRemaining to ""
+          if hoursRemaining > 0 then
+              set timeRemaining to (hoursRemaining as text) & "h "
+          end if
+          set timeRemaining to timeRemaining & (minutesRemaining as text) & "m"
+
+          set eventTitle to (anEvent's title) as text
+          set end of eventDetailsList to (timeRemaining & " - " & eventTitle)
+      end repeat
+
+      return eventDetailsList
 EOF
 )"
 
