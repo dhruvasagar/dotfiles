@@ -62,7 +62,7 @@ EVENTS="$(
             if hoursRemaining > 0 then
                 set timeRemaining to (hoursRemaining as text) & "h "
             end if
-            set timeRemaining to timeRemaining & (minutesRemaining as text) & "m"
+            set timeRemaining to "In " & timeRemaining & (minutesRemaining as text) & "m"
 
             set eventTitle to (anEvent's title) as text
             set eventDetails to timeRemaining & ";" & eventTitle
