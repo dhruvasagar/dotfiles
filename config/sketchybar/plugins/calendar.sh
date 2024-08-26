@@ -9,8 +9,17 @@ EVENTS="$(
 
       -- create start date and end date for occurrences
       set nowDate to current application's NSDate's |date|()
-      set todaysDate to current application's NSCalendar's currentCalendar()'s dateBySettingHour:9 minute:0 |second|:0 ofDate:nowDate options:0
+      set todaysDate to current application's NSCalendar's currentCalendar()'s dateBySettingHour:0 minute:0 |second|:0 ofDate:nowDate options:0
       set tomorrowsDate to todaysDate's dateByAddingTimeInterval:1 * days
+
+      -- Initialize an NSDateFormatter to format the date
+      set dateFormatter to current application's NSDateFormatter's alloc()'s init()
+      dateFormatter's setDateFormat:"yyyy-MM-dd HH:mm:ss"
+
+      -- Convert the NSDate to a formatted string
+      set formattedDate to dateFormatter's stringFromDate:tomorrowsDate
+      set formattedDateStr to formattedDate as text
+      -- log "tomorrowsDate: " & formattedDateStr
 
       -- create event store and get the OK to access Calendars
       set theEKEventStore to current application's EKEventStore's alloc()'s init()
@@ -31,7 +40,7 @@ EVENTS="$(
       set theCalendars to theEKEventStore's calendarsForEntityType:0
 
       -- find matching events
-      set thePred to theEKEventStore's predicateForEventsWithStartDate:todaysDate endDate:tomorrowsDate calendars:theCalendars
+      set thePred to theEKEventStore's predicateForEventsWithStartDate:nowDate endDate:tomorrowsDate calendars:theCalendars
       set theEvents to (theEKEventStore's eventsMatchingPredicate:thePred)
 
       -- sort by date
@@ -61,6 +70,7 @@ EVENTS="$(
           set eventURL to my safeGet(anEvent, "url")
           set eventNotes to my safeGet(anEvent, "notes")
           set eventLocation to my safeGet(anEvent, "location")
+          -- log eventURL & eventLocation & eventNotes
           set meetingURL to my findURLInText(eventURL & eventLocation & eventNotes)
 
           if meetingURL is not "" then
@@ -105,6 +115,8 @@ EVENTS="$(
       end findURLInText
 EOF
 )"
+
+echo "$EVENTS"
 
 sketchybar --remove calendar.event.*
 
