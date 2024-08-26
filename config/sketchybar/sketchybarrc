@@ -91,11 +91,12 @@ sketchybar --add item clock right \
            --set calendar update_freq=900 \
                           icon= \
                           click_script="sketchybar -m --set \$NAME popup.drawing=toggle" \
+                          popup.height=30 \
                           popup.background.border_width=2 \
                           popup.background.corner_radius=3 \
                           popup.background.corner_radius=5 \
                           popup.background.drawing=on \
-                          popup.background.height=40 \
+                          popup.background.height=30 \
                           popup.background.width=500 \
                           popup.blur_radius=1 \
                           script="$PLUGIN_DIR/calendar.sh"
