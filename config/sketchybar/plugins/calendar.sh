@@ -56,27 +56,29 @@ EVENTS="$(
           set hoursRemaining to (timeInterval div 3600)
           set minutesRemaining to (timeInterval mod 3600) div 60
 
-          -- Format remaining time as "Xh Ym"
-          set timeRemaining to ""
-          if hoursRemaining > 0 then
-              set timeRemaining to (hoursRemaining as text) & "h "
+          if minutesRemaining > 0 then
+            -- Format remaining time as "Xh Ym"
+            set timeRemaining to ""
+            if hoursRemaining > 0 then
+                set timeRemaining to (hoursRemaining as text) & "h "
+            end if
+            set timeRemaining to timeRemaining & (minutesRemaining as text) & "m"
+
+            set eventTitle to (anEvent's title) as text
+            set eventDetails to timeRemaining & ";" & eventTitle
+
+            -- Safely get notes and location
+            set eventURL to my safeGet(anEvent, "url")
+            set eventNotes to my safeGet(anEvent, "notes")
+            set eventLocation to my safeGet(anEvent, "location")
+            -- log eventURL & eventLocation & eventNotes
+            set meetingURL to my findURLInText(eventURL & eventLocation & eventNotes)
+
+            if meetingURL is not "" then
+                set eventDetails to eventDetails & ";" & meetingURL
+            end if
+            set end of eventDetailsList to eventDetails
           end if
-          set timeRemaining to timeRemaining & (minutesRemaining as text) & "m"
-
-          set eventTitle to (anEvent's title) as text
-          set eventDetails to timeRemaining & ";" & eventTitle
-
-          -- Safely get notes and location
-          set eventURL to my safeGet(anEvent, "url")
-          set eventNotes to my safeGet(anEvent, "notes")
-          set eventLocation to my safeGet(anEvent, "location")
-          -- log eventURL & eventLocation & eventNotes
-          set meetingURL to my findURLInText(eventURL & eventLocation & eventNotes)
-
-          if meetingURL is not "" then
-              set eventDetails to eventDetails & ";" & meetingURL
-          end if
-          set end of eventDetailsList to eventDetails
       end repeat
 
       return eventDetailsList
