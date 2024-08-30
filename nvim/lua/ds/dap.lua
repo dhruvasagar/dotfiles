@@ -90,6 +90,9 @@ dap.listeners.after.event_exited["dapui_config"] = function()
   dapui.close()
 end
 
+vim.keymap.set("n", "<Leader>do", function()
+  require("dapui").open()
+end, { desc = "dapui.open" })
 vim.keymap.set("n", "<Leader>dc", function()
   require("dap").continue()
 end, { desc = "dap.continue" })
@@ -138,3 +141,5 @@ vim.keymap.set("n", "<Leader>dsc", function()
   local widgets = require("dap.ui.widgets")
   widgets.centered_float(widgets.scopes)
 end, { desc = "dap.ui.widgets.scopes" })
+
+vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })

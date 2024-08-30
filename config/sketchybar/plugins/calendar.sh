@@ -71,6 +71,7 @@ EVENTS="$(
             set eventURL to my safeGet(anEvent, "url")
             set eventNotes to my safeGet(anEvent, "notes")
             set eventLocation to my safeGet(anEvent, "location")
+
             -- log eventURL & eventLocation & eventNotes
             set meetingURL to my findURLInText(eventURL & eventLocation & eventNotes)
 
@@ -81,7 +82,7 @@ EVENTS="$(
           end if
       end repeat
 
-      return eventDetailsList
+      return joinList(eventDetailsList, "__")
 
       -- Helper to handle property access safely
       on safeGet(anObject, aProperty)
@@ -115,6 +116,14 @@ EVENTS="$(
               return ""
           end try
       end findURLInText
+
+      -- Helper function to join a list of strings into a single string by given delimiter
+      on joinList(theList, delimiter)
+          set {TID, text item delimiters} to {text item delimiters, delimiter}
+          set joinedString to theList as text
+          set text item delimiters to TID
+          return joinedString
+      end joinList
 EOF
 )"
 
@@ -129,9 +138,11 @@ fi
 
 COUNTER=0
 ARGS=(--set "$NAME" popup.drawing=toggle)
-IFS=',' read -ra ETS <<< "$EVENTS"
+IFS="__" read -ra ETS <<< "$EVENTS"
 NEXT_EVENT=""
 for EVENT in "${ETS[@]}"; do
+    [ -z "$EVENT" ] && continue
+    echo $EVENT
     IFS=';' read -ra EDTS <<< "${EVENT## }"
     TIME_REMAINING="${EDTS[0]}"
     EVENT_TITLE="${EDTS[1]}"

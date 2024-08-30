@@ -57,4 +57,8 @@ return {
       -- your configuration overrides
     },
   },
+  {
+    "robitx/gp.nvim",
+    opts = {},
+  },
 }
