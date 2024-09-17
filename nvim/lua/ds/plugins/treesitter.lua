@@ -5,14 +5,25 @@ return {
       pcall(require("nvim-treesitter.install").update({ with_sync = true }))
     end,
     config = function()
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      parser_config.d2 = {
+        install_info = {
+          url = "https://git.pleshevski.ru/pleshevskiy/tree-sitter-d2",
+          revision = "main",
+          files = { "src/parser.c", "src/scanner.c" },
+        },
+        filetype = "d2",
+      }
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
           "markdown",
+          "markdown_inline",
           "haskell",
           "cpp",
           "c",
           "c_sharp",
           "javascript",
+          "java",
           "rust",
           "typescript",
           "go",
@@ -28,6 +39,7 @@ return {
           "bash",
           "zig",
           "org",
+          "http",
         },
         auto_install = true,
         highlight = { enable = true },

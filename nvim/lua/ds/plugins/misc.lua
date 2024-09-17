@@ -213,11 +213,6 @@ return {
     build = "cargo build --release",
   },
   {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    opts = {},
-  },
-  {
     "stevearc/oil.nvim",
     config = function()
       require("oil").setup({
@@ -263,6 +258,5 @@ return {
     end,
   },
   "mityu/vim-applescript",
-  "rickhowe/spotdiff.vim",
-  "rickhowe/diffchar.vim",
+  "aklt/plantuml-syntax",
 }

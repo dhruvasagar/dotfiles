@@ -13,13 +13,13 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    config = function()
-      require("fidget").setup({
-        text = {
-          spinner = "moon",
+    opts = {
+      progress = {
+        display = {
+          progress_icon = { "moon" },
         },
-      })
-    end,
+      },
+    },
   },
   {
     "jay-babu/mason-null-ls.nvim",
@@ -108,7 +108,7 @@ return {
     config = function()
       local cmp = require("cmp")
       local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
-      vim.opt.completeopt = "menu,menuone,noselect,fuzzy"
+      vim.opt.completeopt = "menu,menuone,noselect"
       cmp.setup({
         snippet = {
           expand = function(args)

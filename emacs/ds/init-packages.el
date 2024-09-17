@@ -4,6 +4,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -16,6 +17,9 @@
   :ensure t
   :init
   (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-tree)
+  (setq evil-split-window-below t)
+  (setq evil-vsplit-window-right t)
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
@@ -58,7 +62,10 @@
 (use-package org
   :ensure t
   :config
-    (setq org-agenda-files (quote ("~/Dropbox/Documents/dotoo-files")))
+    (setq org-return-follows-link t)
+    (setq org-directory "~/Dropbox/Documents/org-files")
+    (setq org-default-notes-file "~/Dropbox/Documents/org-files/refile.org")
+    (setq org-agenda-files (quote ("~/Dropbox/Documents/org-files")))
     (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
 		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
@@ -82,21 +89,21 @@
 		  ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
     (setq org-capture-templates
-	  (quote (("t" "todo" entry (file "~/git/org/refile.org")
+	  (quote (("t" "todo" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-		  ("r" "respond" entry (file "~/git/org/refile.org")
+		  ("r" "respond" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-		  ("n" "note" entry (file "~/git/org/refile.org")
+		  ("n" "note" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-		  ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+		  ("j" "Journal" entry (file+datetree "~/Dropbox/Documents/org-files/diary.org")
 		   "* %?\n%U\n" :clock-in t :clock-resume t)
-		  ("w" "org-protocol" entry (file "~/git/org/refile.org")
+		  ("w" "org-protocol" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* TODO Review %c\n%U\n" :immediate-finish t)
-		  ("m" "Meeting" entry (file "~/git/org/refile.org")
+		  ("m" "Meeting" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-		  ("p" "Phone call" entry (file "~/git/org/refile.org")
+		  ("p" "Phone call" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-		  ("h" "Habit" entry (file "~/git/org/refile.org")
+		  ("h" "Habit" entry (file "~/Dropbox/Documents/org-files/refile.org")
 		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 					; Targets include this file and any file contributing to the agenda - up to 9 levels deep
     (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -113,7 +120,6 @@
 
 					; Use IDO for both buffer and file completion and ido-everywhere to t
     (setq org-completion-use-ido t)
-    (setq ido-everywhere t)
     (setq ido-max-directory-size 100000)
     (ido-mode (quote both))
 					; Use the current window when visiting files and buffers with ido
@@ -345,8 +351,8 @@ as the default task."
 
     ;; Enable display of the time grid so we can see the marker for the current time
     (setq org-agenda-time-grid (quote ((daily today remove-match)
-                                       #("----------------" 0 16 (org-heading t))
-                                       (0900 1100 1300 1500 1700))))
+				       (0900 1100 1300 1500 1700)                                   
+				       "......" "----------------")))
 
     ;; Display tags farther right
     (setq org-agenda-tags-column -102)
@@ -464,7 +470,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
                               org-vm
                               org-wl
                               org-w3m)))
-
 					; position the habit graph on the agenda to the right of the default
     (setq org-habit-graph-column 50)
 
@@ -484,6 +489,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
   :after org
   :hook (org-mode . (lambda () evil-org-mode))
   :config
+  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
@@ -508,13 +514,18 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (org-set-startup-visibility))
 
 (use-package org-roam
+  :ensure t
   :custom
-  ;; (org-roam-directory (file-truename "~/org/roam/"))
-  (org-roam-directory "~/org/roam/")
-  :bind
-  ( :map org
-    ("o" . org-roam-node-find))
+  (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org
+	 ("o" . org-roam-node-find)
+	 ("C-M-i" . completion-at-point))
   :config
+  (org-roam-setup)
   (org-roam-db-autosync-mode))
 
 (use-package calendar
@@ -540,7 +551,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
   :custom
   ;; Use helpful in `helm-apropos'
   (helm-describe-function-function 'helpful-function)
-  (helm-describe-variable-function 'helpful-variable)
+  (Helm-describe-variable-function 'helpful-variable)
   :bind
   (([remap describe-function] . helpful-callable)
    ([remap describe-variable] . helpful-variable)
@@ -548,20 +559,27 @@ Late deadlines first, then scheduled, then non-late deadlines"
    :map emacs-lisp-mode-map
    ("C-c C-d" . helpful-at-point)))
 
-(use-package nerd-icons
-  :defer t)
-
 (use-package doom-modeline
-  :init
-  ;; show doom-modeline at the same time with dashboard
-  (add-hook 'emacs-startup-hook 'doom-modeline-mode -100)
-  :custom
-  (doom-modeline-buffer-encoding nil)
-  (doom-modeline-vcs-max-length 40)
+  :hook (after-init . doom-modeline-mode)
+  :custom    
+  (doom-modeline-height 25)
   (doom-modeline-bar-width 1)
-  (doom-modeline-env-python-executable "python")
-  :hook
-  (dashboard-after-initialize . column-number-mode))
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon t)
+  (doom-modeline-major-mode-color-icon t)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-buffer-state-icon t)
+  (doom-modeline-buffer-modification-icon t)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-enable-word-count nil)
+  (doom-modeline-buffer-encoding t)
+  (doom-modeline-indent-info nil)
+  (doom-modeline-checker-simple-format t)
+  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-env-version t)
+  (doom-modeline-irc-stylize 'identity)
+  (doom-modeline-github-timer nil)
+  (doom-modeline-gnus-timer nil))
 
 (use-package anzu
   :hook
@@ -572,6 +590,9 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'top)
   (highlight-indent-guides-auto-enabled nil)
+  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
+  (set-face-background 'highlight-indent-guides-even-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
   :hook
   (prog-mode . highlight-indent-guides-mode))
 
@@ -585,159 +606,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (setq dashboard-set-heading-icon t)
   :config
   (dashboard-setup-startup-hook))
-
-;; (use-package dashboard
-;;   :custom
-;;   ;; Do not show package count, it is meaningless because of lazy loading.
-;;   (dashboard-banner-logo-title "Welcome to Emacs!                          \n")
-;;   (dashboard-set-heading-icons t)
-;;   (dashboard-set-file-icons t)
-;;   (dashboard-center-content t)
-;;   (dashboard-items '((agenda . 0)  ; I override the insert-agenda function
-;; ;  (todo-items . 0)  ; Custom section
-;;                      (inbox-entries . 0)  ; Custom section
-;;                      (habit-tracker . 0)))  ; Custom section
-;;   :custom-face
-;;   (dashboard-heading ((t (:inherit font-lock-keyword-face :height 1.2))))
-;;   (dashboard-items-face ((t (:weight normal))))
-;;   (dashboard-banner-logo-title ((t (:family "AV Qest" :height 3.0 :weight bold :foreground "#8583C7"))))
-;;   :hook
-;;   (dashboard-mode . (lambda () (setq-local cursor-type nil)))
-;;   :config
-;;   (dashboard-setup-startup-hook)
-
-;;   ;; Run the hooks even if dashboard initialization is skipped
-;;   (when (> (length command-line-args) 1)
-;;     (add-hook 'emacs-startup-hook (lambda () (run-hooks 'dashboard-after-initialize-hook))))
-
-;;   (defun fk/home ()
-;;     "Switch to home (dashboard) buffer."
-;;     (interactive)
-;;     (if (get-buffer dashboard-buffer-name)
-;;         (switch-to-buffer dashboard-buffer-name)
-;;       (dashboard-refresh-buffer)))
-
-;;   (defun fk/dashboard-get-section (expression)
-;;     "Get expression output from Emacs daemon. Faster than reading it
-;; in normal way if required libraries are already loaded in
-;; daemon."
-;;     (let* ((output-buffer (generate-new-buffer "*dashboard-temp*"))
-;;            (exit-status (call-process "emacsclient" nil output-buffer nil
-;;                                       "--eval" expression)))
-;;       (if (zerop exit-status)
-;;           (let* ((output (with-current-buffer output-buffer
-;;                            (buffer-substring-no-properties (point-min) (point-max))))
-;;                  (clean-output (string-trim (string-replace "#<marker" "<marker" output)))
-;;                  (propertized-output (car (read-from-string clean-output))))
-;;             (kill-buffer output-buffer)
-;;             propertized-output)
-;;         "Emacs server (daemon) is not running, Section couldn't loaded.")))
-
-;;   ;; TODO: convert these string codes to normal code, investigate how emacs-async do that
-;;   (defun fk/dashboard-get-agenda ()
-;;     "Get a copy of the agenda buffer from Emacs daemon."
-;;     (fk/dashboard-get-section
-;;      "(progn
-;;         (setq org-agenda-span 2)
-;;         (org-agenda-list)
-;;         (read-only-mode -1)
-;;         (goto-char (point-min))
-;;         (kill-line)
-;;         (buffer-string))"))
-
-;;   (defun dashboard-insert-agenda (&rest _)
-;;     "Insert a copy of org-agenda buffer."
-;;     (dashboard-insert-heading "Agenda for today:")
-;;     (insert (fk/dashboard-get-agenda)))
-
-;;   (defun fk/dashboard-get-inbox-entries ()
-;;     ;; TODO: appearance is not consistent, seems like there is some sort of caching
-;;     "Get inbox entry list from Emacs daemon."
-;;     (fk/dashboard-get-section
-;;      "(let* ((file (expand-file-name \"inbox.org\" org-directory))
-;;              (file-buffer (find-file-noselect file))
-;;              (file-content (with-current-buffer file-buffer (buffer-string)))
-;;              (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
-;;              (bullet (propertize \"⁖\" 'face 'org-level-1)))
-;;         (with-current-buffer temp-buffer
-;;           (kill-buffer file-buffer)
-;;           (org-mode)
-;;           (insert file-content)
-;;           (delete-non-matching-lines \"^*\" (point-min) (point-max))
-;;           (string-replace \"*\" (format \"  %s\" bullet) (string-replace \"**\" (format \"   %s\" bullet) (buffer-string)))))"))
-
-;;   (defun fk/dashboard-get-todo-items ()
-;;     "Get high priority todo items from Emacs daemon."
-;;     (fk/dashboard-get-section
-;;      "(let* ((file (expand-file-name \"todos.org\" org-directory))
-;;              (file-buffer (find-file-noselect file))
-;;              (file-content (with-current-buffer file-buffer (buffer-string)))
-;;              (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
-;;              (bullet (propertize \"⁖\" 'face 'org-level-1)))
-;;         (with-current-buffer temp-buffer
-;;           (kill-buffer file-buffer)
-;;           (org-mode)
-;;           (insert file-content)
-;;           (delete-matching-lines (regexp-quote \"[#B]\") (point-min) (point-max))
-;;           (delete-matching-lines (regexp-quote \"[#C]\") (point-min) (point-max))
-;;           (delete-non-matching-lines \"^*\" (point-min) (point-max))
-;;           (string-replace \"*\" (format \"  %s\" bullet) (string-replace \"**\" (format \"   %s\" bullet) (buffer-string)))))"))
-
-;;   (defun fk/dashboard-get-habit-tracker ()
-;;     "Get habit tracker from Emacs daemon."
-;;     (fk/dashboard-get-section
-;;      "(let* ((file (expand-file-name \"20220427233506-habits.org\" \"~/org/roam/\"))
-;;              (file-buffer (find-file-noselect file))
-;;              (file-content (with-current-buffer file-buffer (buffer-string)))
-;;              (temp-buffer (generate-new-buffer \"*dashboard-temp*\"))
-;;              (bullet (propertize \"⁖\" 'face 'org-level-1)))
-;;         (with-current-buffer temp-buffer
-;;           (kill-buffer file-buffer)
-;;           (org-mode)
-;;           (insert file-content)
-;;           (goto-char (point-min))
-;;           (search-forward \"Current Month for Habit Tracker\")
-;;           (next-line 2)
-;;           (org-narrow-to-element)
-;;           (buffer-string)))"))
-
-;;   (add-to-list 'dashboard-item-generators  '(todo-items . fk/dashboard-insert-todo-items))
-;;   (add-to-list 'dashboard-item-generators  '(habit-tracker . fk/dashboard-insert-habit-tracker))
-
-;;   ;; Colorize org entries even if org.el or org-agenda.el hasn't loaded.
-;;   ;; Note: defining faces is enough, color values comes from propertized string
-;;   (defmacro fk/defface-nil (&rest faces)
-;;     "Macro for defining nil faces. Instead of:
-;; `(defface org-level-1 nil nil)'"
-;;     `(progn ,@(cl-loop for face in faces
-;;                        collect `(defface ,face nil nil))))
-;;   (fk/defface-nil
-;;    org-agenda-calendar-event
-;;    org-agenda-current-time
-;;    org-agenda-date
-;;    org-agenda-date-today
-;;    org-agenda-date-weekend
-;;    org-agenda-date-weekend
-;;    org-agenda-date-weekend-today
-;;    org-agenda-structure
-;;    org-checkbox-statistics-todo
-;;    org-habit-alert-face
-;;    org-habit-clear-future-face
-;;    org-habit-overdue-future-face
-;;    org-habit-ready-face
-;;    org-hide
-;;    org-imminent-deadline
-;;    org-level-1
-;;    org-level-2
-;;    org-link
-;;    org-scheduled
-;;    org-scheduled-today
-;;    org-super-agenda-header
-;;    org-tag
-;;    org-time-grid
-;;    org-upcoming-deadline
-;;    org-upcoming-distant-deadline
-;;    org-warning))
 
 (use-package tree-sitter
   :commands fk/tree-sitter-hl-mode
@@ -815,8 +683,10 @@ current buffer."
       (hs-hide-level 2))))
 
 (use-package helm
+  :config (helm-mode)
   :custom
   (helm-M-x-always-save-history t)
+  (helm-M-x-reverse-history t)
   (helm-display-function 'pop-to-buffer)
   (savehist-additional-variables '(extended-command-history))
   (history-delete-duplicates t)
@@ -931,6 +801,9 @@ current buffer."
   :defer t
   :init
   (setq hydra-hint-display-type 'posframe))
+
+(use-package company
+  :ensure t)
 
 (use-package mwim
  :bind
@@ -1114,9 +987,9 @@ n line' / `after n line' features."
   :custom
   (undo-tree-visualizer-diff t)
   (undo-tree-enable-undo-in-region t)
-  :bind
-  (("C-u" . undo-tree-undo)
-   ("C-S-u" . undo-tree-redo))
+  ;; :bind
+  ;; (("C-u" . undo-tree-undo)
+  ;;  ("C-S-u" . undo-tree-redo))
   :hook
   (dashboard-after-initialize . global-undo-tree-mode))
 
@@ -1174,76 +1047,6 @@ n line' / `after n line' features."
   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
   :custom
   (eldoc-box-clear-with-C-g t))
-
-(use-package lsp-mode
-  :commands lsp
-  :custom
-  (lsp-auto-guess-root nil)
-  (lsp-auto-select-workspace t)
-  (lsp-keymap-prefix "M-m l")
-  (lsp-modeline-diagnostics-enable nil)
-  (lsp-keep-workspace-alive nil)
-  (lsp-auto-execute-action nil)
-  (lsp-before-save-edits nil)
-  (lsp-eldoc-enable-hover nil)
-  (lsp-diagnostic-package :none)
-  (lsp-completion-provider :none)
-  (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
-  (lsp-enable-links nil)
-  (lsp-headerline-breadcrumb-enable nil)
-  ;; Maybe set in future:
-  ;;(lsp-enable-on-type-formatting nil)
-  :custom-face
-  (lsp-face-highlight-read ((t (:underline t :background nil :foreground nil))))
-  (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
-  (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
-  :hook
-  (lsp-mode . lsp-enable-which-key-integration))
-
-(use-package lsp-ui
-  :after lsp-mode
-  :custom
-  (lsp-ui-doc-show-with-cursor nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-sideline-delay 0.5)
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-peek-fontify 'always)
-  :custom-face
-  (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1)))))
-  :bind
-  ( :map lsp-ui-mode-map
-    ([remap xref-find-references] . lsp-ui-peek-find-references)
-    ("C-M-l" . lsp-ui-peek-find-definitions)
-    ("C-c C-d" . lsp-ui-doc-show))
-  :config
-  ;;;; LSP UI posframe ;;;;
-  (defun lsp-ui-peek--peek-display (src1 src2)
-    (-let* ((win-width (frame-width))
-            (lsp-ui-peek-list-width (/ (frame-width) 2))
-            (string (-some--> (-zip-fill "" src1 src2)
-                      (--map (lsp-ui-peek--adjust win-width it) it)
-                      (-map-indexed 'lsp-ui-peek--make-line it)
-                      (-concat it (lsp-ui-peek--make-footer))))
-            )
-      (setq lsp-ui-peek--buffer (get-buffer-create " *lsp-peek--buffer*"))
-      (posframe-show lsp-ui-peek--buffer
-                     :string (mapconcat 'identity string "")
-                     :min-width (frame-width)
-                     :poshandler 'posframe-poshandler-frame-center)))
-
-  (defun lsp-ui-peek--peek-destroy ()
-    (when (bufferp lsp-ui-peek--buffer)
-      (posframe-delete lsp-ui-peek--buffer))
-    (setq lsp-ui-peek--buffer nil
-          lsp-ui-peek--last-xref nil)
-    (set-window-start (get-buffer-window) lsp-ui-peek--win-start))
-
-  (advice-add 'lsp-ui-peek--peek-new :override 'lsp-ui-peek--peek-display)
-  (advice-add 'lsp-ui-peek--peek-hide :override 'lsp-ui-peek--peek-destroy)
-  ;;;; LSP UI posframe ;;;;
-  )
-
 
 (use-package symbol-overlay
   :commands (symbol-overlay-mode symbol-overlay-put fk/highlight-occurrences)
@@ -1351,19 +1154,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; on buffer or perspective switching too. NOTE: restarting lsp server is
   ;; heavy, so it should be done manually if needed.
   (add-hook 'window-configuration-change-hook 'fk/activate-pyvenv))
-
-(use-package lsp-pyright
-  :after lsp-mode
-  :custom
-  ;; (lsp-pyright-auto-import-completions nil)
-  (lsp-pyright-typechecking-mode "off")
-  :config
-  (fk/async-process
-   "npm outdated -g | grep pyright | wc -l" nil
-   (lambda (process output)
-     (pcase output
-       ("0\n" (message "Pyright is up to date."))
-       ("1\n" (message "A pyright update is available."))))))
 
 (use-package web-mode
   :custom
@@ -1733,5 +1523,24 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package rubik
   :commands rubik)
+
+(use-package gptel
+  :ensure t
+  :config
+  (setq gptel-default-mode 'org-mode)
+  :bind
+  ("C-c RET" . gptel-send))
+
+(use-package tree-sitter
+  :ensure t)
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
+(use-package nerd-icons
+  :ensure t
+  :custom
+  (nerd-icons-font-family "FireCode"))
 
 (provide 'init-packages)

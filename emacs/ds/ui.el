@@ -3,6 +3,7 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
 (global-hl-line-mode)
+(global-visual-line-mode t)
 
 ;; Do not show default modeline until doom-modeline is loaded
 (setq-default mode-line-format nil)
