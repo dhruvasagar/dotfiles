@@ -1,3 +1,9 @@
+(defun lsp-custom-bindings ()
+  (define-key evil-normal-state-map (kbd "K") 'lsp-describe-thing-at-point)
+  (define-key evil-normal-state-map (kbd "g d") 'lsp-find-definition)
+  (define-key evil-normal-state-map (kbd "g r") 'lsp-find-references)
+  (define-key evil-normal-state-map (kbd "g I") 'lsp-find-implementation))
+
 (use-package lsp-mode
   :ensure t
   :commands lsp
@@ -22,7 +28,7 @@
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  (lsp-mode . lsp-enable-which-key-integration))
+  (lsp-mode . (lambda () (lsp-enable-which-key-integration) (lsp-custom-bindings))))
 
 (use-package lsp-ui
   :ensure t

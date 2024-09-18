@@ -128,10 +128,13 @@ FILTER is function that runs after the process is finished, its args should be
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" default))
  '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
+ '(eglot-ignored-server-capabilities '(:documentHighlightProvider) nil nil "Customized with use-package eglot")
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(ledger-mode d2-mode gptel org-bullets tree-sitter dashboard anzu nerd-icons helpful vertico which-key evil-org swiper ivy helm evil-org-mode m4ue use-package railscasts-theme org-roam org-evil nord-theme markdown-mode highlight-indent-guides evil-visualstar evil-textobj-tree-sitter evil-tex evil-surround evil-search-highlight-persist evil-rails evil-numbers evil-mu4e evil-matchit evil-ledger evil-goggles evil-exchange evil-commentary evil-collection evil-args doom-modeline)))
+   '(exec-path-from-shell solarized-theme solarized-dark ledger-mode d2-mode gptel org-bullets tree-sitter dashboard anzu nerd-icons helpful vertico which-key evil-org swiper ivy helm evil-org-mode m4ue use-package railscasts-theme org-roam org-evil nord-theme markdown-mode highlight-indent-guides evil-visualstar evil-textobj-tree-sitter evil-tex evil-surround evil-search-highlight-persist evil-rails evil-numbers evil-mu4e evil-matchit evil-ledger evil-goggles evil-exchange evil-commentary evil-collection evil-args doom-modeline)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

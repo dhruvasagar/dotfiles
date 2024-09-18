@@ -13,6 +13,10 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
+
 (use-package evil
   :ensure t
   :init
@@ -939,26 +943,26 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; I just added a custom dynamic topic template: `fk/forge-prepare-topic'
   (advice-add 'forge--prepare-post-buffer :override 'fk/forge--prepare-post-buffer))
 
-;(use-package diff-hl
-;  :custom
-;  (diff-hl-global-modes '(not org-mode))
-;  (diff-hl-ask-before-revert-hunk nil)
-;  :custom-face
-;  (diff-hl-insert ((t (:background "#224022"))))
-;  (diff-hl-change ((t (:background "#492949" :foreground "mediumpurple1"))))
-;  (diff-hl-delete ((t (:background "#492929" :foreground "orangered2"))))
-;  :bind
-;  (("M-n" . diff-hl-next-hunk)
-;   ("M-p" . diff-hl-previous-hunk)
-;   :map version-control
-;   ("n" . diff-hl-next-hunk)
-;   ("p" . diff-hl-previous-hunk)
-;   ("r" . diff-hl-revert-hunk))
-;  :hook
-;  (dashboard-after-initialize . global-diff-hl-mode)
-;  (diff-hl-mode . diff-hl-flydiff-mode)
-;  (magit-pre-refresh . diff-hl-magit-pre-refresh)
-;  (magit-post-refresh . diff-hl-magit-post-refresh))
+;; (use-package diff-hl
+;;  :custom
+;;  (diff-hl-global-modes '(not org-mode))
+;;  (diff-hl-ask-before-revert-hunk nil)
+;;  :custom-face
+;;  (diff-hl-insert ((t (:background "#224022"))))
+;;  (diff-hl-change ((t (:background "#492949" :foreground "mediumpurple1"))))
+;;  (diff-hl-delete ((t (:background "#492929" :foreground "orangered2"))))
+;;  :bind
+;;  (("M-n" . diff-hl-next-hunk)
+;;   ("M-p" . diff-hl-previous-hunk)
+;;   :map version-control
+;;   ("n" . diff-hl-next-hunk)
+;;   ("p" . diff-hl-previous-hunk)
+;;   ("r" . diff-hl-revert-hunk))
+;;  :hook
+;;  (dashboard-after-initialize . global-diff-hl-mode)
+;;  (diff-hl-mode . diff-hl-flydiff-mode)
+;;  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+;;  (magit-post-refresh . diff-hl-magit-post-refresh))
 
 
 (use-package vc-msg
