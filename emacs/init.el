@@ -24,8 +24,11 @@
  :map fk/menu-map :prefix-map version-control :prefix "v"
  :map fk/menu-map :prefix-map windows         :prefix "w")
 
+(setq debug-on-error t)
+
 (require 'init-packages)
 (require 'init-lsp)
+(require 'init-org)
 (require 'ui)
 
 (setq-default
@@ -125,9 +128,10 @@ FILTER is function that runs after the process is finished, its args should be
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(gptel org-bullets tree-sitter dashboard anzu nerd-icons helpful vertico which-key evil-org swiper ivy helm evil-org-mode m4ue use-package railscasts-theme org-roam org-evil nord-theme markdown-mode highlight-indent-guides evil-visualstar evil-textobj-tree-sitter evil-tex evil-surround evil-search-highlight-persist evil-rails evil-numbers evil-mu4e evil-matchit evil-ledger evil-goggles evil-exchange evil-commentary evil-collection evil-args doom-modeline)))
+   '(ledger-mode d2-mode gptel org-bullets tree-sitter dashboard anzu nerd-icons helpful vertico which-key evil-org swiper ivy helm evil-org-mode m4ue use-package railscasts-theme org-roam org-evil nord-theme markdown-mode highlight-indent-guides evil-visualstar evil-textobj-tree-sitter evil-tex evil-surround evil-search-highlight-persist evil-rails evil-numbers evil-mu4e evil-matchit evil-ledger evil-goggles evil-exchange evil-commentary evil-collection evil-args doom-modeline)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

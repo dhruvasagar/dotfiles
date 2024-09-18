@@ -1,1 +1,17 @@
 elpa/
+*.~undo-tree~
+undo/
+.lsp-session*
+eclipse.jdt.ls/
+emojis/
+ido.last
+bookmarks
+transient/
+history
+org-clock-save.el
+org-roam.db
+places
+recentf
+projectile-bookmarks.eld
+.org-id-locations
+abbrev_defs

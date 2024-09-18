@@ -20,10 +20,19 @@
   (setq evil-undo-system 'undo-tree)
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
+  (setq evil-want-integration t)
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key evil-normal-state-map (kbd "C-l") 'redraw-display))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 (use-package evil-collection
   :ensure t
@@ -59,482 +68,11 @@
   :config
   (global-evil-visualstar-mode t))
 
-(use-package org
-  :ensure t
-  :config
-    (setq org-return-follows-link t)
-    (setq org-directory "~/Dropbox/Documents/org-files")
-    (setq org-default-notes-file "~/Dropbox/Documents/org-files/refile.org")
-    (setq org-agenda-files (quote ("~/Dropbox/Documents/org-files")))
-    (setq org-todo-keywords
-	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-    (setq org-todo-keyword-faces
-	(quote (("TODO" :foreground "red" :weight bold)
-		("NEXT" :foreground "blue" :weight bold)
-		("DONE" :foreground "forest green" :weight bold)
-		("WAITING" :foreground "orange" :weight bold)
-		("HOLD" :foreground "magenta" :weight bold)
-		("CANCELLED" :foreground "forest green" :weight bold)
-		("MEETING" :foreground "forest green" :weight bold)
-		("PHONE" :foreground "forest green" :weight bold))))
-    (setq org-use-fast-todo-selection t)
-    (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-    (setq org-todo-state-tags-triggers
-	  (quote (("CANCELLED" ("CANCELLED" . t))
-		  ("WAITING" ("WAITING" . t))
-		  ("HOLD" ("WAITING") ("HOLD" . t))
-		  (done ("WAITING") ("HOLD"))
-		  ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-		  ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-		  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-    (setq org-capture-templates
-	  (quote (("t" "todo" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-		  ("r" "respond" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-		  ("n" "note" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-		  ("j" "Journal" entry (file+datetree "~/Dropbox/Documents/org-files/diary.org")
-		   "* %?\n%U\n" :clock-in t :clock-resume t)
-		  ("w" "org-protocol" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* TODO Review %c\n%U\n" :immediate-finish t)
-		  ("m" "Meeting" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-		  ("p" "Phone call" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-		  ("h" "Habit" entry (file "~/Dropbox/Documents/org-files/refile.org")
-		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-					; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-    (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				     (org-agenda-files :maxlevel . 9))))
-
-					; Use full outline paths for refile targets - we file directly with IDO
-    (setq org-refile-use-outline-path t)
-
-					; Targets complete directly with IDO
-    (setq org-outline-path-complete-in-steps nil)
-
-					; Allow refile to create parent tasks with confirmation
-    (setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-					; Use IDO for both buffer and file completion and ido-everywhere to t
-    (setq org-completion-use-ido t)
-    (setq ido-max-directory-size 100000)
-    (ido-mode (quote both))
-					; Use the current window when visiting files and buffers with ido
-    (setq ido-default-file-method 'selected-window)
-    (setq ido-default-buffer-method 'selected-window)
-					; Use the current window for indirect buffer display
-    (setq org-indirect-buffer-display 'current-window)
-
-;;;; Refile settings
-					; Exclude DONE state tasks from refile targets
-    (defun bh/verify-refile-target ()
-      "Exclude todo keywords with a done state from refile targets"
-      (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-
-    (setq org-refile-target-verify-function 'bh/verify-refile-target)
-    ;; Do not dim blocked tasks
-    (setq org-agenda-dim-blocked-tasks nil)
-
-    ;; Compact the block agenda view
-    (setq org-agenda-compact-blocks t)
-
-    ;; Custom agenda command definitions
-    (setq org-agenda-custom-commands
-      (quote (("N" "Notes" tags "NOTE"
-	       ((org-agenda-overriding-header "Notes")
-		(org-tags-match-list-sublevels t)))
-	      ("h" "Habits" tags-todo "STYLE=\"habit\""
-	       ((org-agenda-overriding-header "Habits")
-		(org-agenda-sorting-strategy
-		 '(todo-state-down effort-up category-keep))))
-	      (" " "Agenda"
-	       ((agenda "" nil)
-		(tags "REFILE"
-		      ((org-agenda-overriding-header "Tasks to Refile")
-		       (org-tags-match-list-sublevels nil)))
-		(tags-todo "-CANCELLED/!"
-			   ((org-agenda-overriding-header "Stuck Projects")
-			    (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-			    (org-agenda-sorting-strategy
-			     '(category-keep))))
-		(tags-todo "-HOLD-CANCELLED/!"
-			   ((org-agenda-overriding-header "Projects")
-			    (org-agenda-skip-function 'bh/skip-non-projects)
-			    (org-tags-match-list-sublevels 'indented)
-			    (org-agenda-sorting-strategy
-			     '(category-keep))))
-		(tags-todo "-CANCELLED/!NEXT"
-			   ((org-agenda-overriding-header (concat "Project Next Tasks"
-								  (if bh/hide-scheduled-and-waiting-next-tasks
-								      ""
-								    " (including WAITING and SCHEDULED tasks)")))
-			    (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-			    (org-tags-match-list-sublevels t)
-			    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-sorting-strategy
-			     '(todo-state-down effort-up category-keep))))
-		(tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-			   ((org-agenda-overriding-header (concat "Project Subtasks"
-								  (if bh/hide-scheduled-and-waiting-next-tasks
-								      ""
-								    " (including WAITING and SCHEDULED tasks)")))
-			    (org-agenda-skip-function 'bh/skip-non-project-tasks)
-			    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-sorting-strategy
-			     '(category-keep))))
-		(tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-			   ((org-agenda-overriding-header (concat "Standalone Tasks"
-								  (if bh/hide-scheduled-and-waiting-next-tasks
-								      ""
-								    " (including WAITING and SCHEDULED tasks)")))
-			    (org-agenda-skip-function 'bh/skip-project-tasks)
-			    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-sorting-strategy
-			     '(category-keep))))
-		(tags-todo "-CANCELLED+WAITING|HOLD/!"
-			   ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
-								  (if bh/hide-scheduled-and-waiting-next-tasks
-								      ""
-								    " (including WAITING and SCHEDULED tasks)")))
-			    (org-agenda-skip-function 'bh/skip-non-tasks)
-			    (org-tags-match-list-sublevels nil)
-			    (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			    (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
-		(tags "-REFILE/"
-		      ((org-agenda-overriding-header "Tasks to Archive")
-		       (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-		       (org-tags-match-list-sublevels nil))))
-	       nil))))
-    ;; Resume clocking task when emacs is restarted
-    (org-clock-persistence-insinuate)
-    ;;
-    ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
-    (setq org-clock-history-length 23)
-    ;; Resume clocking task on clock-in if the clock is open
-    (setq org-clock-in-resume t)
-    ;; Change tasks to NEXT when clocking in
-    (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
-    ;; Separate drawers for clocking and logs
-    (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-    ;; Save clock data and state changes and notes in the LOGBOOK drawer
-    (setq org-clock-into-drawer t)
-    ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-    (setq org-clock-out-remove-zero-time-clocks t)
-    ;; Clock out when moving task to a done state
-    (setq org-clock-out-when-done t)
-    ;; Save the running clock and all clock history when exiting Emacs, load it on startup
-    (setq org-clock-persist t)
-    ;; Do not prompt to resume an active clock
-    (setq org-clock-persist-query-resume nil)
-    ;; Enable auto clock resolution for finding open clocks
-    (setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
-    ;; Include current clocking task in clock reports
-    (setq org-clock-report-include-clocking-task t)
-
-    (setq bh/keep-clock-running nil)
-
-    (defun bh/clock-in-to-next (kw)
-      "Switch a task from TODO to NEXT when clocking in.
-Skips capture tasks, projects, and subprojects.
-Switch projects and subprojects from NEXT back to TODO"
-      (when (not (and (boundp 'org-capture-mode) org-capture-mode))
-	(cond
-	 ((and (member (org-get-todo-state) (list "TODO"))
-               (bh/is-task-p))
-	  "NEXT")
-	 ((and (member (org-get-todo-state) (list "NEXT"))
-               (bh/is-project-p))
-	  "TODO"))))
-
-    (defun bh/find-project-task ()
-      "Move point to the parent (project) task if any"
-      (save-restriction
-	(widen)
-	(let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
-	  (while (org-up-heading-safe)
-            (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
-              (setq parent-task (point))))
-	  (goto-char parent-task)
-	  parent-task)))
-
-    (defun bh/punch-in (arg)
-      "Start continuous clocking and set the default task to the
-selected task.  If no task is selected set the Organization task
-as the default task."
-      (interactive "p")
-      (setq bh/keep-clock-running t)
-      (if (equal major-mode 'org-agenda-mode)
-	  ;;
-	  ;; We're in the agenda
-	  ;;
-	  (let* ((marker (org-get-at-bol 'org-hd-marker))
-		 (tags (org-with-point-at marker (org-get-tags-at))))
-            (if (and (eq arg 4) tags)
-		(org-agenda-clock-in '(16))
-              (bh/clock-in-organization-task-as-default)))
-	;;
-	;; We are not in the agenda
-	;;
-	(save-restriction
-	  (widen)
-					; Find the tags on the current task
-	  (if (and (equal major-mode 'org-mode) (not (org-before-first-heading-p)) (eq arg 4))
-              (org-clock-in '(16))
-            (bh/clock-in-organization-task-as-default)))))
-
-    (defun bh/punch-out ()
-      (interactive)
-      (setq bh/keep-clock-running nil)
-      (when (org-clock-is-active)
-	(org-clock-out))
-      (org-agenda-remove-restriction-lock))
-
-    (defun bh/clock-in-default-task ()
-      (save-excursion
-	(org-with-point-at org-clock-default-task
-	  (org-clock-in))))
-
-    (defun bh/clock-in-parent-task ()
-      "Move point to the parent (project) task if any and clock in"
-      (let ((parent-task))
-	(save-excursion
-	  (save-restriction
-            (widen)
-            (while (and (not parent-task) (org-up-heading-safe))
-              (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
-		(setq parent-task (point))))
-            (if parent-task
-		(org-with-point-at parent-task
-		  (org-clock-in))
-              (when bh/keep-clock-running
-		(bh/clock-in-default-task)))))))
-
-    (defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
-
-    (defun bh/clock-in-organization-task-as-default ()
-      (interactive)
-      (org-with-point-at (org-id-find bh/organization-task-id 'marker)
-	(org-clock-in '(16))))
-
-    (defun bh/clock-out-maybe ()
-      (when (and bh/keep-clock-running
-		 (not org-clock-clocking-in)
-		 (marker-buffer org-clock-default-task)
-		 (not org-clock-resolving-clocks-due-to-idleness))
-	(bh/clock-in-parent-task)))
-
-    (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-    ;; Show all future entries for repeating tasks
-    (setq org-agenda-repeating-timestamp-show-all t)
-
-    ;; Show all agenda dates - even if they are empty
-    (setq org-agenda-show-all-dates t)
-
-    ;; Sorting order for tasks on the agenda
-    (setq org-agenda-sorting-strategy
-	  (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
-		  (todo category-up effort-up)
-		  (tags category-up effort-up)
-		  (search category-up))))
-
-    ;; Start the weekly agenda on Monday
-    (setq org-agenda-start-on-weekday 1)
-
-    ;; Enable display of the time grid so we can see the marker for the current time
-    (setq org-agenda-time-grid (quote ((daily today remove-match)
-				       (0900 1100 1300 1500 1700)                                   
-				       "......" "----------------")))
-
-    ;; Display tags farther right
-    (setq org-agenda-tags-column -102)
-
-    ;;
-    ;; Agenda sorting functions
-    ;;
-    (setq org-agenda-cmp-user-defined 'bh/agenda-sort)
-
-    (defun bh/agenda-sort (a b)
-      "Sorting strategy for agenda items.
-Late deadlines first, then scheduled, then non-late deadlines"
-      (let (result num-a num-b)
-	(cond
-					; time specific items are already sorted first by org-agenda-sorting-strategy
-
-					; non-deadline and non-scheduled items next
-	 ((bh/agenda-sort-test 'bh/is-not-scheduled-or-deadline a b))
-
-					; deadlines for today next
-	 ((bh/agenda-sort-test 'bh/is-due-deadline a b))
-
-					; late deadlines next
-	 ((bh/agenda-sort-test-num 'bh/is-late-deadline '> a b))
-
-					; scheduled items for today next
-	 ((bh/agenda-sort-test 'bh/is-scheduled-today a b))
-
-					; late scheduled items next
-	 ((bh/agenda-sort-test-num 'bh/is-scheduled-late '> a b))
-
-					; pending deadlines last
-	 ((bh/agenda-sort-test-num 'bh/is-pending-deadline '< a b))
-
-					; finally default to unsorted
-	 (t (setq result nil)))
-	result))
-
-    (defmacro bh/agenda-sort-test (fn a b)
-      "Test for agenda sort"
-      `(cond
-					; if both match leave them unsorted
-	((and (apply ,fn (list ,a))
-              (apply ,fn (list ,b)))
-	 (setq result nil))
-					; if a matches put a first
-	((apply ,fn (list ,a))
-	 (setq result -1))
-					; otherwise if b matches put b first
-	((apply ,fn (list ,b))
-	 (setq result 1))
-					; if none match leave them unsorted
-	(t nil)))
-
-    (defmacro bh/agenda-sort-test-num (fn compfn a b)
-      `(cond
-	((apply ,fn (list ,a))
-	 (setq num-a (string-to-number (match-string 1 ,a)))
-	 (if (apply ,fn (list ,b))
-             (progn
-               (setq num-b (string-to-number (match-string 1 ,b)))
-               (setq result (if (apply ,compfn (list num-a num-b))
-				-1
-                              1)))
-	   (setq result -1)))
-	((apply ,fn (list ,b))
-	 (setq result 1))
-	(t nil)))
-
-    (defun bh/is-not-scheduled-or-deadline (date-str)
-      (and (not (bh/is-deadline date-str))
-	   (not (bh/is-scheduled date-str))))
-
-    (defun bh/is-due-deadline (date-str)
-      (string-match "Deadline:" date-str))
-
-    (defun bh/is-late-deadline (date-str)
-      (string-match "\\([0-9]*\\) d\. ago:" date-str))
-
-    (defun bh/is-pending-deadline (date-str)
-      (string-match "In \\([^-]*\\)d\.:" date-str))
-
-    (defun bh/is-deadline (date-str)
-      (or (bh/is-due-deadline date-str)
-	  (bh/is-late-deadline date-str)
-	  (bh/is-pending-deadline date-str)))
-
-    (defun bh/is-scheduled (date-str)
-      (or (bh/is-scheduled-today date-str)
-	  (bh/is-scheduled-late date-str)))
-
-    (defun bh/is-scheduled-today (date-str)
-      (string-match "Scheduled:" date-str))
-
-    (defun bh/is-scheduled-late (date-str)
-      (string-match "Sched\.\\(.*\\)x:" date-str))
-
-    (setq org-deadline-warning-days 30)
-
-					; Enable habit tracking (and a bunch of other modules)
-    (setq org-modules (quote (org-bbdb
-                              org-bibtex
-                              org-crypt
-                              org-gnus
-                              org-id
-                              org-info
-                              org-jsinfo
-                              org-habit
-                              org-inlinetask
-                              org-irc
-                              org-mew
-                              org-mhe
-                              org-protocol
-                              org-rmail
-                              org-vm
-                              org-wl
-                              org-w3m)))
-					; position the habit graph on the agenda to the right of the default
-    (setq org-habit-graph-column 50)
-
-    (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-    (defun bh/remove-empty-drawer-on-clock-out ()
-      (interactive)
-      (save-excursion
-	(beginning-of-line 0)
-	(org-remove-empty-drawer-at "LOGBOOK" (point))))
-    (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-  :bind
-    (("C-c a" . org-agenda)
-     ("C-c c" . org-capture)))
-
-(use-package evil-org
-  :ensure t
-  :after org
-  :hook (org-mode . (lambda () evil-org-mode))
-  :config
-  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-
-(use-package org-bullets
-  ;; :custom
-  ;; (org-bullets-bullet-list '("⁖"))
-  ;;;; Alternatives
-  ;; (org-bullets-bullet-list '("①" "②" "③" "④" "⑤" "⑥" "⑦" "⑧" "⑨"))
-  ;; (org-bullets-bullet-list '("➀" "➁" "➂" "➃" "➄" "➅" "➆" "➇" "➈"))
-  ;; (org-bullets-bullet-list '("❶" "❷" "❸" "❹" "❺" "❻" "❼" "❽" "❾"))
-  ;; (org-bullets-bullet-list '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒"))
-  ;; (org-bullets-bullet-list '("⒈" "⒉" "⒊" "⒋" "⒌" "⒍" "⒎" "⒏" "⒐"))
-  :hook (org-mode . org-bullets-mode))
-
-(defun fk/org-sort-by-priority ()
-  "Sort entries in level=2 by priority."
-  (interactive)
-  (org-map-entries (lambda () (condition-case nil
-                                  (org-sort-entries nil ?p)
-                                (error nil)))
-                   "LEVEL=1")
-  (org-set-startup-visibility))
-
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 :map org
-	 ("o" . org-roam-node-find)
-	 ("C-M-i" . completion-at-point))
-  :config
-  (org-roam-setup)
-  (org-roam-db-autosync-mode))
-
 (use-package calendar
   :commands calendar
   :custom
   (calendar-week-start-day 1)  ; start at Monday
   :hook
-  ;; bigger calendar like OS calendars
-  (calendar-mode . (lambda () (text-scale-increase 8)))
   (calendar-mode . delete-other-windows))
 
 (use-package nord-theme
@@ -975,8 +513,7 @@ characters and disable fuzzy matching if input has more than
     (minibuffer-keyboard-quit))
 
   (defun fk/helm-rg-switch-deadgrep ()
-    "Switch to `deadgrep' to use its seperated buffer and `before
-n line' / `after n line' features."
+    "Switch to `deadgrep' to use its seperated buffer and `before n line' / `after n line' features."
     (interactive)
     (helm-rg--run-after-exit
      (require 'deadgrep)
@@ -987,6 +524,7 @@ n line' / `after n line' features."
   :custom
   (undo-tree-visualizer-diff t)
   (undo-tree-enable-undo-in-region t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   ;; :bind
   ;; (("C-u" . undo-tree-undo)
   ;;  ("C-S-u" . undo-tree-redo))
@@ -1542,5 +1080,11 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :ensure t
   :custom
   (nerd-icons-font-family "FireCode"))
+
+(use-package d2-mode
+  :ensure t)
+
+(use-package ledger-mode
+  :ensure t)
 
 (provide 'init-packages)
