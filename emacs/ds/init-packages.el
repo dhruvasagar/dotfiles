@@ -102,6 +102,7 @@
    ("C-c C-d" . helpful-at-point)))
 
 (use-package doom-modeline
+  :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom    
   (doom-modeline-height 25)
@@ -117,7 +118,7 @@
   (doom-modeline-buffer-encoding t)
   (doom-modeline-indent-info nil)
   (doom-modeline-checker-simple-format t)
-  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-vcs-max-length 20)
   (doom-modeline-env-version t)
   (doom-modeline-irc-stylize 'identity)
   (doom-modeline-github-timer nil)
@@ -782,12 +783,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :hook
   (c-mode . lsp-deferred)
   (c++-mode . lsp-deferred))
-
-(use-package clang-format
-  :commands clang-format-buffer clang-format-region
-  :hook
-  (c-mode . (lambda () (fk/add-local-hook 'before-save-hook 'clang-format-buffer)))
-  (c++-mode . (lambda () (fk/add-local-hook 'before-save-hook 'clang-format-buffer))))
 
 (use-package lua-mode
   :mode "\\.lua\\'")
