@@ -771,7 +771,7 @@
              (setq org-confirm-babel-evaluate nil)
 
              ; Use fundamental mode when editing plantuml blocks with C-c '
-             (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+             (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 
              ; Erase all reminders and rebuilt reminders for today from the agenda
              (defun bh/org-agenda-to-appt ()

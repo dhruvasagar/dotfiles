@@ -1,10 +1,3 @@
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-; (package-initialize)
-
 (add-to-list 'load-path "~/.emacs.d/ds")
 
 ;; NOTE: I use F1 as C-h (paging & help).
@@ -31,6 +24,7 @@
 (require 'init-lsp)
 (require 'init-org)
 (require 'init-mu4e)
+(require 'init-erc)
 
 (setq-default
  ring-bell-function 'ignore                    ; prevent beep sound.
@@ -123,3 +117,17 @@ FILTER is function that runs after the process is finished, its args should be
   (when (region-active-p)
     (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
       (deactivate-mark) text)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(helm-minibuffer-history-key "M-p")
+ '(package-selected-packages
+   '(plantuml-mode lsp-rust rust-mode yasnippet whitespace-cleanup-mode which-key web-mode vc-msg undo-tree tree-sitter-langs terraform-mode symbol-overlay slack rubik restclient rainbow-mode pyvenv pip-requirements org-roam-ui org-bullets nord-theme mwim mu4e-alert magit-todos lua-mode lsp-ui lsp-pyright lsp-java ledger-mode json-navigator json-mode js2-mode highlight-indent-guides helpful helm-rg helm-projectile helm-lsp helm-emmet gptel goggles go-mode git-timemachine git-modes git-link forge flyspell-popup flycheck expand-region exec-path-from-shell evil-visualstar evil-surround evil-rails evil-org evil-matchit evil-exchange evil-commentary evil-collection eldoc-box doom-modeline dockerfile-mode docker-compose-mode docker dashboard d2-mode company anzu)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

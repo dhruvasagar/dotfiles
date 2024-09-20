@@ -28,7 +28,8 @@
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
-  (define-key evil-normal-state-map (kbd "C-l") 'redraw-display))
+  (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)
+  (define-key evil-insert-state-map (kbd "C-c C-u") 'evil-delete-back-to-indentation))
 
 (use-package evil-org
   :ensure t
@@ -1078,12 +1079,19 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package nerd-icons
   :ensure t
   :custom
-  (nerd-icons-font-family "FireCode"))
+  (nerd-icons-font-family "FiraCode Nerd Font Mono"))
 
 (use-package d2-mode
   :ensure t)
 
 (use-package ledger-mode
+  :ensure t)
+
+(use-package rust-mode
+  :ensure t
+  :hook (rust-mode . lsp))
+
+(use-package plantuml-mode
   :ensure t)
 
 (provide 'init-packages)

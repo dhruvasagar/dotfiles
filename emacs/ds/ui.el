@@ -4,7 +4,7 @@
 
 (global-hl-line-mode)
 (global-visual-line-mode t)
-(set-frame-font "FiraCode Nerd Font Mono 14" nil t)
+(set-frame-font "FiraCode Nerd Font Mono 15" nil t)
 
 ;; Do not show default modeline until doom-modeline is loaded
 (setq-default mode-line-format nil)
