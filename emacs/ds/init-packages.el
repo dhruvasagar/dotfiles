@@ -1,24 +1,8 @@
-(setq package-user-dir
-      (format "%s/elpa/%s/" user-emacs-directory emacs-major-version))
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(package-initialize)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
 
 (use-package evil
-  :ensure t
   :init
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-tree)
@@ -31,45 +15,30 @@
   (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)
   (define-key evil-insert-state-map (kbd "C-c C-u") 'evil-delete-back-to-indentation))
 
-(use-package evil-org
-  :ensure t
-  :after org
-  :hook (org-mode . (lambda () evil-org-mode))
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-
 (use-package evil-collection
-  :ensure t
   :after evil
   :init
   (evil-collection-init))
 
 (use-package evil-surround
-  :ensure t
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-rails
-  :ensure t)
+(use-package evil-rails)
 
 (use-package evil-commentary
-  :ensure t
   :config
   (evil-commentary-mode))
 
 (use-package evil-matchit
-  :ensure t
   :config
   (global-evil-matchit-mode 1))
 
 (use-package evil-exchange
-  :ensure t
   :config
   (evil-exchange-cx-install))
 
 (use-package evil-visualstar
-  :ensure t
   :config
   (global-evil-visualstar-mode t))
 
@@ -81,12 +50,10 @@
   (calendar-mode . delete-other-windows))
 
 (use-package nord-theme
-  :ensure t
   :config
   (load-theme 'nord t))
 
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
@@ -103,7 +70,6 @@
    ("C-c C-d" . helpful-at-point)))
 
 (use-package doom-modeline
-  :ensure t
   :hook (after-init . doom-modeline-mode)
   :custom    
   (doom-modeline-height 25)
@@ -141,7 +107,6 @@
   (prog-mode . highlight-indent-guides-mode))
 
 (use-package dashboard
-  :ensure t
   :init
   (setq dashboard-center-content t)
   (setq dashboard-startup-banner "~/Downloads/128px-Neovim-mark.svg.png")
@@ -269,7 +234,7 @@ current buffer."
   (helm-mode . savehist-mode)
   :config
   (with-eval-after-load 'helm-buffers
-    (dolist (regexp '("\\*epc con" "\\*helm" "\\*EGLOT" "\\*straight" "\\*Flymake"
+    (dolist (regexp '("\\*epc con" "\\*helm" "\\*straight" "\\*Flymake"
                       "\\*eldoc" "\\*Compile-Log" "\\*xref" "\\*company"
                       "\\*aw-posframe" "\\*Warnings" "\\*Backtrace" "\\*helpful"
                       "\\*Messages" "\\*dashboard"))
@@ -347,7 +312,17 @@ current buffer."
   (setq hydra-hint-display-type 'posframe))
 
 (use-package company
-  :ensure t)
+  :config
+  (global-company-mode t)
+  (setq-default
+   company-idle-delay 0.05
+   company-require-match nil
+   company-minimum-prefix-length 0
+   ;; get only preview
+   ;; company-frontends '(company-preview-frontend)
+   ;; also get a drop down
+   company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
+   ))
 
 (use-package mwim
  :bind
@@ -388,21 +363,8 @@ current buffer."
      (or (string-prefix-p (expand-file-name user-emacs-directory) project-root)
          (string-prefix-p "/usr/lib/node_modules/" project-root))))
   (projectile-kill-buffers-filter 'kill-only-files)
-  :bind*
-  ("C-M-t" . fk/projectile-vterm)
   :hook
-  (dashboard-after-initialize . projectile-mode)
-  :config
-  (defun fk/projectile-vterm ()
-    "Open `vterm' in project root directory."
-    (interactive)
-    (let* ((default-directory (or (projectile-project-root) default-directory))
-           (project-name (projectile-project-name default-directory))
-           (buffer-name (format "vterm @%s" project-name))
-           (buffer (get-buffer buffer-name)))
-      (if (or (not buffer) (eq buffer (current-buffer)))
-          (vterm buffer-name)
-        (switch-to-buffer buffer)))))
+  (dashboard-after-initialize . projectile-mode))
 
 (use-package helm-projectile
   :custom
@@ -572,20 +534,20 @@ characters and disable fuzzy matching if input has more than
     ("v" . flycheck-verify-setup))
 )
 
-(use-package eglot
-  :commands eglot
-  :init
-  (setq eglot-stay-out-of '(flymake))
-  :custom
-  (eglot-ignored-server-capabilites '(:documentHighlightProvider))
-  (eglot-autoshutdown t)
-  :hook
-  ;; (eglot-managed-mode . eldoc-box-hover-mode)
-  (eglot-managed-mode . fk/company-enable-snippets)
-  :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
-  (with-eval-after-load 'eglot
-    (load-library "project")))
+;; (use-package eglot
+;;   :commands eglot
+;;   :init
+;;   (setq eglot-stay-out-of '(flymake))
+;;   :custom
+;;   (eglot-ignored-server-capabilites '(:documentHighlightProvider))
+;;   (eglot-autoshutdown t)
+;;   :hook
+;;   ;; (eglot-managed-mode . eldoc-box-hover-mode)
+;;   (eglot-managed-mode . fk/company-enable-snippets)
+;;   :config
+;;   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+;;   (with-eval-after-load 'eglot
+;;     (load-library "project")))
 
 (use-package eldoc-box
   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
@@ -639,9 +601,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (python-mode . (lambda () (setq-local company-prescient-sort-length-enable nil)))
   (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
                               (flycheck-mode))))
-  ;; (python-mode . lsp-deferred)
-  ;;(python-mode . (lambda () (fk/add-local-hook 'before-save-hook 'eglot-format-buffer)))
-  (python-mode . eglot-ensure)
+  (python-mode . lsp)
   ;; importmagic runs ~100mb ipython process per python file, and it does not
   ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
   ;; (python-mode . importmagic-mode)
@@ -1054,20 +1014,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package terraform-mode
   :mode "\\.tf\\'"
   :hook
-  (terraform-mode . (lambda ()
-                      (require 'eglot)
-                      (add-to-list 'eglot-server-programs '(terraform-mode . ("terraform-ls" "serve")))
-                      (eglot-ensure))))
+  (terraform-mode . lsp))
 
 (use-package rubik
   :commands rubik)
-
-(use-package gptel
-  :ensure t
-  :config
-  (setq gptel-default-mode 'org-mode)
-  :bind
-  ("C-c RET" . gptel-send))
 
 (use-package tree-sitter
   :ensure t)

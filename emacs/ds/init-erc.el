@@ -1,11 +1,13 @@
-(global-set-key "\C-cef" (lambda () (interactive)
+(global-set-key (kbd "C-c e f") (lambda () (interactive)
 			   (erc-tls :server "irc.libera.chat" :port "6697"
 				:nick "dhruvasagar")))
+
+(global-set-key (kbd "C-c e a") 'erc-track-switch-buffer)
 
 ;; Join the #emacs and #erc channels whenever connecting to
 ;; Libera.Chat.
 (setq erc-autojoin-channels-alist
-      '(("Libera.Chat" "vim" "neovim" "#emacs" "#ruby" "#rust" "#golang")))
+      '(("Libera.Chat" "#vim" "#neovim" "#emacs" "#ruby" "#rust" "#golang")))
 
 ;; Interpret mIRC-style color commands in IRC chats
 (setq erc-interpret-mirc-color t)
@@ -18,5 +20,7 @@
 (setq erc-kill-queries-on-quit t)
 ;; Kill buffers for server messages after quitting the server
 (setq erc-kill-server-buffer-on-quit t)
+
+(add-hook 'erc-mode-hook (lambda () (local-set-key (kbd "C-<tab>") 'erc-track-switch-buffer)))
 
 (provide 'init-erc)

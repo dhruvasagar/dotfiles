@@ -18,13 +18,16 @@
  :map fk/menu-map :prefix-map windows         :prefix "w")
 
 ;; (setq debug-on-error t)
+;; (view-echo-area-messages)
 
+(require 'init-straight)
+(require 'init-org)
 (require 'init-packages)
 (require 'ui)
 (require 'init-lsp)
-(require 'init-org)
 (require 'init-mu4e)
 (require 'init-erc)
+(require 'init-ai)
 
 (setq-default
  ring-bell-function 'ignore                    ; prevent beep sound.
@@ -117,17 +120,3 @@ FILTER is function that runs after the process is finished, its args should be
   (when (region-active-p)
     (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
       (deactivate-mark) text)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-minibuffer-history-key "M-p")
- '(package-selected-packages
-   '(plantuml-mode lsp-rust rust-mode yasnippet whitespace-cleanup-mode which-key web-mode vc-msg undo-tree tree-sitter-langs terraform-mode symbol-overlay slack rubik restclient rainbow-mode pyvenv pip-requirements org-roam-ui org-bullets nord-theme mwim mu4e-alert magit-todos lua-mode lsp-ui lsp-pyright lsp-java ledger-mode json-navigator json-mode js2-mode highlight-indent-guides helpful helm-rg helm-projectile helm-lsp helm-emmet gptel goggles go-mode git-timemachine git-modes git-link forge flyspell-popup flycheck expand-region exec-path-from-shell evil-visualstar evil-surround evil-rails evil-org evil-matchit evil-exchange evil-commentary evil-collection eldoc-box doom-modeline dockerfile-mode docker-compose-mode docker dashboard d2-mode company anzu)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

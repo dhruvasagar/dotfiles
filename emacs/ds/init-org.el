@@ -1,5 +1,4 @@
 (use-package org
-             :ensure t
              :config
              (setq org-return-follows-link t)
              (setq org-directory "~/Dropbox/Documents/org-files")
@@ -943,7 +942,7 @@
                  (widen)))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
+                       #'(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
                        'append)
 
              (defun bh/restrict-to-file-or-follow (arg)
@@ -959,7 +958,7 @@
                  (beginning-of-buffer)))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
+                       #'(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
                        'append)
 
              (defun bh/narrow-to-org-subtree ()
@@ -979,7 +978,7 @@
                  (bh/narrow-to-org-subtree)))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
+                       #'(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
                        'append)
 
              (defun bh/narrow-up-one-org-level ()
@@ -1004,7 +1003,7 @@
                  (bh/narrow-up-one-org-level)))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
+                       #'(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
                        'append)
 
              (defun bh/narrow-to-org-project ()
@@ -1029,7 +1028,7 @@
                    (org-agenda-set-restriction-lock))))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
+                       #'(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
                        'append)
 
              (defvar bh/project-list nil)
@@ -1076,7 +1075,7 @@
                      (error "All projects viewed.")))))
 
              (add-hook 'org-agenda-mode-hook
-                       '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
+                       #'(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
                        'append)
              (setq org-use-speed-commands t)
              (setq org-speed-commands-user (quote (("0" . ignore)
@@ -1198,7 +1197,7 @@
              ;;    C-c ;
              ;;    C-c C-x C-q  cancelling the clock (we never want this)
              (add-hook 'org-mode-hook
-                       '(lambda ()
+                       #'(lambda ()
                           ;; Undefine C-c [ and C-c ] since this breaks my
                           ;; org-agenda files when directories are include It
                           ;; expands the files in the directories individually
@@ -1233,11 +1232,17 @@
               ("C-c a" . org-agenda)
               ("C-c c" . org-capture)))
 
+(use-package evil-org
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
 (use-package org-bullets
              :hook (org-mode . org-bullets-mode))
 
 (use-package org-roam
-             :ensure t
              :custom
              (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
              (org-roam-completion-everywhere t)
