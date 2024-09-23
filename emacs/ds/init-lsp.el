@@ -1,16 +1,16 @@
 ;;; init-lsp
 
 (defun lsp-custom-bindings ()
-  (define-key evil-normal-state-map (kbd "K") 'lsp-describe-thing-at-point)
-  (define-key evil-normal-state-map (kbd "g d") 'lsp-find-definition)
-  (define-key evil-normal-state-map (kbd "g r") 'lsp-find-references)
-  (define-key evil-normal-state-map (kbd "g I") 'lsp-find-implementation))
+  (local-set-key evil-normal-state-map (kbd "K") 'lsp-describe-thing-at-point)
+  (local-set-key evil-normal-state-map (kbd "g d") 'lsp-find-definition)
+  (local-set-key evil-normal-state-map (kbd "g r") 'lsp-find-references)
+  (local-set-key evil-normal-state-map (kbd "g I") 'lsp-find-implementation))
 
 (defun lsp-format-on-save ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
-(defun my-lsp-mode-cb ()
+(defun ds/lsp-mode-cb ()
   (lsp-enable-which-key-integration)
   (lsp-custom-bindings)
   (lsp-format-on-save))
@@ -40,7 +40,7 @@
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  (lsp-mode . my-lsp-mode-cb))
+  (lsp-mode . ds/lsp-mode-cb))
 
 (use-package lsp-ui
   :after lsp
@@ -96,8 +96,31 @@
 (use-package helm-lsp
   :after lsp-mode)
 
+(defun ds/dap-custom-bindings ()
+  (local-set-key (kbd "C-c d h") 'dap-hydra)
+  (local-set-key (kbd "C-c d n") 'dap-next)
+  (local-set-key (kbd "C-c d c") 'dap-continue)
+  (local-set-key (kbd "C-c d q") 'dap-disconnect)
+  (local-set-key (kbd "C-c d b a") 'dap-breakpoint-add)
+  (local-set-key (kbd "C-c d b t") 'dap-breakpoint-toggle)
+  (local-set-key (kbd "C-c d b d") 'dap-breakpoint-delete)
+  (local-set-key (kbd "C-c d b a") 'dap-breakpoint-add)
+  (local-set-key (kbd "C-c d b c") 'dap-breakpoint-condition)
+  (local-set-key (kbd "C-c d b D") 'dap-breakpoint-delete-all)
+  (local-set-key (kbd "C-c d e e") 'dap-eval)
+  (local-set-key (kbd "C-c d e a") 'dap-ui-expression-add)
+  (local-set-key (kbd "C-c d e r") 'dap-eval-region)
+  (local-set-key (kbd "C-c d e s") 'dap-eval-thing-at-point)
+  (local-set-key (kbd "C-c d s i") 'dap-step-in)
+  (local-set-key (kbd "C-c d s o") 'dap-step-out))
+
 (use-package dap-mode
   :after lsp-mode
-  :config (dap-auto-configure-mode))
+  :config (dap-auto-configure-mode)
+  :bind
+  (("C-c d d" . dap-debug)
+   ("C-c d l" . dap-debug-last)
+   ("C-c d r" . dap-debug-recent))
+  :hook (dap-mode . ds/dap-custom-bindings))
 
 (provide 'init-lsp)

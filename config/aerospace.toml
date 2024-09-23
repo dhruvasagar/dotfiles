@@ -121,6 +121,10 @@ run = 'layout tiling'
 if.app-id = 'com.openai.chat'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-id = 'org.gnu.Emacs'
+run = 'layout floating'
+
 [gaps]
 inner.horizontal = 2
 inner.vertical = 2

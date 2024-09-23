@@ -6,6 +6,10 @@
 (global-visual-line-mode t)
 (set-frame-font "FiraCode Nerd Font Mono 15" nil t)
 
+(setq default-frame-alist '((undecorated . t)))
+(add-to-list 'default-frame-alist '(drag-internal-border . 1))
+(add-to-list 'default-frame-alist '(internal-border-width . 5))
+
 ;; Do not show default modeline until doom-modeline is loaded
 (setq-default mode-line-format nil)
 

@@ -1271,5 +1271,24 @@
                    org-roam-ui-update-on-save t
                    org-roam-ui-open-on-start t))
 
+(use-package alert
+  :config
+  (if (eq system-type 'darwin)
+      (setq
+       ;; alert-default-style 'notifier
+       alert-default-style 'osx-notifier
+       ))
+  ;; (alert "This is an alert" :severity 'high)
+  ;; (alert "This is an alert" :title "My Alert" :category 'debug)
+  )
+
+(use-package org-alert
+  :after alert
+  :config
+  (setq org-alert-interval 300
+	org-alert-notify-cutoff 10
+	org-alert-notify-after-event-cutoff 10
+	org-alert-notification-title "Org Alert Reminder!")
+  (org-alert-enable))
 
 (provide 'init-org)

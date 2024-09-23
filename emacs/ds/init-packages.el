@@ -11,9 +11,14 @@
   (setq evil-want-integration t)
   :config
   (evil-mode 1)
-  (define-key evil-normal-state-map (kbd "-") 'dired-jump)
-  (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)
-  (define-key evil-insert-state-map (kbd "C-c C-u") 'evil-delete-back-to-indentation))
+  :bind
+  (:map evil-normal-state-map
+	("-" . dired-jump)
+	("C-l" . redraw-display)
+	("C-c C-u" . evil-delete-back-to-indentation)))
+  ;; (define-key evil-normal-state-map (kbd "-") 'dired-jump)
+  ;; (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)
+  ;; (define-key evil-insert-state-map (kbd "C-c C-u") 'evil-delete-back-to-indentation))
 
 (use-package evil-collection
   :after evil
@@ -82,11 +87,11 @@
   (doom-modeline-buffer-modification-icon t)
   (doom-modeline-minor-modes nil)
   (doom-modeline-enable-word-count nil)
-  (doom-modeline-buffer-encoding t)
+  (doom-modeline-buffer-encoding nil)
   (doom-modeline-indent-info nil)
   (doom-modeline-checker-simple-format t)
   (doom-modeline-vcs-max-length 20)
-  (doom-modeline-env-version t)
+  (doom-modeline-env-version nil)
   (doom-modeline-irc-stylize 'identity)
   (doom-modeline-github-timer nil)
   (doom-modeline-gnus-timer nil))
@@ -191,99 +196,6 @@ current buffer."
       (goto-char (point-min))
       (hs-hide-level 2))))
 
-(use-package helm
-  :config (helm-mode)
-  :custom
-  (helm-M-x-always-save-history t)
-  (helm-M-x-reverse-history t)
-  (helm-display-function 'pop-to-buffer)
-  (savehist-additional-variables '(extended-command-history))
-  (history-delete-duplicates t)
-  (helm-command-prefix-key nil)
-  ;; Just move the selected text to the top of kill-ring, do not insert the text
-  (helm-kill-ring-actions '(("Copy marked" . (lambda (_str) (kill-new _str)))
-                            ("Delete marked" . helm-kill-ring-action-delete)))
-  :custom-face
-  (helm-non-file-buffer ((t (:inherit font-lock-comment-face))))
-  (helm-ff-file-extension ((t (:inherit default))))
-  (helm-buffer-file ((t (:inherit default))))
-  :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-f" . helm-find-files)
-   ("C-x C-b" . helm-buffers-list)
-   ("C-x b" . helm-buffers-list)
-   ("C-x C-r" . helm-recentf)
-   ("C-x C-i" . fk/helm-imenu)
-   ("C-x C-j" . fk/helm-imenu)
-   ("M-y" . fk/yank-pop-or-helm-show-kill-ring)
-   :map helm-map
-   ("TAB" . helm-execute-persistent-action)
-   ("<tab>" . helm-execute-persistent-action)
-   ("C-z" . helm-select-action)
-   ("C-w" . backward-kill-word)  ; Fix C-w
-   :map files
-   ("f" . helm-find-files)
-   ("r" . helm-recentf)
-   ("b" . helm-bookmarks)
-   :map buffers
-   ("b" . helm-buffers-list)
-   :map help-map
-   ("a" . helm-apropos))
-  :hook
-  (dashboard-after-initialize . helm-mode)
-  (helm-mode . savehist-mode)
-  :config
-  (with-eval-after-load 'helm-buffers
-    (dolist (regexp '("\\*epc con" "\\*helm" "\\*straight" "\\*Flymake"
-                      "\\*eldoc" "\\*Compile-Log" "\\*xref" "\\*company"
-                      "\\*aw-posframe" "\\*Warnings" "\\*Backtrace" "\\*helpful"
-                      "\\*Messages" "\\*dashboard"))
-      (add-to-list 'helm-boring-buffer-regexp-list regexp))
-    (bind-keys
-     :map helm-buffer-map
-     ("M-d" . helm-buffer-run-kill-buffers)
-     ("C-M-d" . helm-buffer-run-kill-persistent)))
-
-  ;; "Waiting for process to die...done" fix.
-  ;; Source: https://github.com/bbatsov/helm-projectile/issues/136#issuecomment-688444955
-  (defun fk/helm--collect-matches (orig-fun src-list &rest args)
-    (let ((matches
-           (cl-loop for src in src-list
-                    collect (helm-compute-matches src))))
-      (unless (eq matches t) matches)))
-
-  (advice-add 'helm--collect-matches :around 'fk/helm--collect-matches)
-
-  (require 'helm-imenu)  ; Fixes buggy helm-imenu at first usage
-
-  (defun fk/helm-imenu ()
-    "helm-imenu without initializion (preselect)."
-    (interactive)
-    (unless helm-source-imenu
-      (setq helm-source-imenu
-            (helm-make-source "Imenu" 'helm-imenu-source
-              :fuzzy-match helm-imenu-fuzzy-match)))
-    (let* ((imenu-auto-rescan t)
-           (helm-highlight-matches-around-point-max-lines 'never))
-      (helm :sources 'helm-source-imenu
-            :default ""
-            :preselect ""
-            :buffer "*helm imenu*")))
-
-  ;; (add-hook 'imenu-after-jump-hook (lambda ()
-  ;;                                    (when (derived-mode-p 'outline-mode)
-  ;;                                      (show-subtree))))
-
-  (defun fk/yank-pop-or-helm-show-kill-ring ()
-    "If called after a yank, call `yank-pop'. Otherwise, call
-`helm-show-kill-ring'."
-    (interactive)
-    (if (eq last-command 'yank)
-        (if (eq major-mode 'vterm-mode)
-            (vterm-yank-pop)
-          (yank-pop))
-      (helm-show-kill-ring))))
-
 (use-package yasnippet
  ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
  ;; jump to next field, even when company window is active. If there
@@ -313,16 +225,7 @@ current buffer."
 
 (use-package company
   :config
-  (global-company-mode t)
-  (setq-default
-   company-idle-delay 0.05
-   company-require-match nil
-   company-minimum-prefix-length 0
-   ;; get only preview
-   ;; company-frontends '(company-preview-frontend)
-   ;; also get a drop down
-   company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-   ))
+  (global-company-mode t))
 
 (use-package mwim
  :bind
@@ -343,150 +246,6 @@ current buffer."
    "`fk/forward-sexp' with negative argument."
    (interactive)
    (fk/forward-sexp -1)))
-
-(use-package projectile
-  :custom
-  (projectile-auto-discover nil)
-  (projectile-project-search-path (directory-files "~/src" t "[^.]"))
-  ;; Open magit when switching project
-  (projectile-switch-project-action
-   (lambda ()
-     (let ((magit-display-buffer-function
-            'magit-display-buffer-same-window-except-diff-v1))
-       (magit))))
-  ;; Ignore emacs project (source codes)
-  (projectile-ignored-projects '("~/emacs/"))
-  ;; Do not include straight repos (emacs packages) and emacs directory itself
-  ;; to project list
-  (projectile-ignored-project-function
-   (lambda (project-root)
-     (or (string-prefix-p (expand-file-name user-emacs-directory) project-root)
-         (string-prefix-p "/usr/lib/node_modules/" project-root))))
-  (projectile-kill-buffers-filter 'kill-only-files)
-  :hook
-  (dashboard-after-initialize . projectile-mode))
-
-(use-package helm-projectile
-  :custom
-  (helm-projectile-sources-list '(helm-source-projectile-buffers-list
-                                  helm-source-projectile-recentf-list
-                                  helm-source-projectile-files-list
-                                  helm-source-projectile-projects))
-  :bind
-  ("C-x f" . helm-projectile)
-  :hook
-  (projectile-mode . helm-projectile-on)
-  :config
-  (defun fk/projectile-recentf-files-first-five (original-function)
-    "Return a list of five recently visited files in a project."
-    (let ((files (funcall original-function)))
-      (if (> (length files) 5)
-          (seq-subseq files 0 5)
-        files)))
-  (advice-add 'projectile-recentf-files :around 'fk/projectile-recentf-files-first-five))
-
-(use-package helm-rg
-  :init
-  ;; Load this macro even if helm-rg is not loaded yet
-  (defmacro fk/helm-rg-define-search-command (name keymap kbd &optional glob query)
-    "Define search commands and keybindings with predefined glob and query. Usage:
-(fk/helm-rg-define-search-command
- \"my-search\" global-map \"C-M-s\" \"*.el\" \"foo\")"
-    `(progn
-       (defun ,(intern (concat "fk/" name)) ()
-         (interactive)
-         (require 'helm-rg)
-         (fk/helm-rg-dwim-with-glob (or ,glob "") ,query))
-       (define-key ,keymap (kbd ,kbd) ',(intern (concat "fk/" name)))))
-
-  (defmacro fk/helm-rg-define-search-commands (&rest args)
-    "Define multiple search command at once. Usage:
-(fk/helm-rg-define-search-commands
- (\"my-search\" global-map \"C-M-s\" \"*.el\" \"foo\")
- (\"my-other-search\" global-map \"C-M-S\" \"*.el\" \"bar\"))"
-    `(progn ,@(cl-loop for expr in args
-                       collect `(fk/helm-rg-define-search-command ,@expr))))
-  :custom
-  (helm-rg-default-extra-args '("--max-columns" "400"
-                                "-g" "!{*.min.css,*.min.js,*.svg,*.po}"
-                                "-g" "!migrations/"))
-  :custom-face
-  (helm-rg-file-match-face ((t (:foreground nil :inherit font-lock-type-face :weight bold :underline nil :slant italic))))
-  (helm-rg-line-number-match-face ((t (:foreground nil :underline nil :inherit line-number))))
-  :bind
-  (("C-M-s" . fk/helm-rg-dwim)
-   :map helm-rg-map
-   ("C-c C-e" . fk/helm-rg-switch-helm-ag)
-   ("C-c C-d" . fk/helm-rg-switch-deadgrep))
-  :config
-  (defun fk/helm-rg-dwim (&optional query)
-    "Smarter version of helm-rg.
-- Search in project if in a project else search in default (current) directory.
-- Start search with selected text if region is active or empty string.
-- Escape special characters when searching with selected text."
-    (interactive)
-    (let ((helm-rg-default-directory (or (projectile-project-root) default-directory))
-          (query (or (fk/get-selected-text) query)))
-      (cl-letf (((symbol-function 'helm-rg--get-thing-at-pt) (lambda () query)))
-        (call-interactively 'helm-rg))))
-
-  (defun fk/helm-rg-dwim-with-glob (glob &optional query)
-    (interactive)
-    (let ((helm-rg-default-glob-string glob))
-      (fk/helm-rg-dwim query)))
-
-
-  ;;;; Input normalization
-
-  (defvar fk/helm-rg-fuzzy-max-words 6)  ; rg returns "Arguments list too long" after this point
-
-  (defun fk/helm-input-to-ripgrep-regexp (func input)
-    "Make `helm-rg' input ripgrep compatible. Escape special
-characters and disable fuzzy matching if input has more than
-`fk/helm-rg-fuzzy-max-words' words."
-    (let* ((processed-input (fk/convert-string-to-rg-compatible input))
-           (word-count (with-temp-buffer
-                         (insert processed-input)
-                         (count-words (point-min) (point-max)))))
-      (if (> word-count fk/helm-rg-fuzzy-max-words)
-          (string-replace " " ".*" processed-input)  ; simpler fuzzy
-        (apply func (list processed-input)))))
-
-  (advice-add 'helm-rg--helm-pattern-to-ripgrep-regexp :around 'fk/helm-input-to-ripgrep-regexp)
-
-
-  ;;;; Appearance
-
-  ;; Use a simpler header in the helm buffer.
-  (fset 'helm-rg--header-name
-        (lambda (_)
-          (format "Search at %s\nArgs: %s" helm-rg--current-dir (string-join helm-rg--extra-args " "))))
-
-  ;; Create bigger window for helm-rg
-  (advice-add 'helm-rg :around
-              (lambda (orig-func &rest args)
-                (let ((helm-posframe-min-height (round (* (frame-height) 0.66)))
-                      (helm-candidate-number-limit 99999))  ; show all matching lines. TODO open a PR and make this default.
-                  (apply orig-func args))))
-
-
-  ;;;; Switch to another frontend functions
-
-  (defun fk/helm-rg-switch-helm-ag ()
-    "Switch to `helm-ag' to use its edit feature."
-    (interactive)
-    (helm-rg--run-after-exit
-     (require 'helm-ag)
-     (fk/helm-ag-dwim helm-pattern))
-    (minibuffer-keyboard-quit))
-
-  (defun fk/helm-rg-switch-deadgrep ()
-    "Switch to `deadgrep' to use its seperated buffer and `before n line' / `after n line' features."
-    (interactive)
-    (helm-rg--run-after-exit
-     (require 'deadgrep)
-     (deadgrep helm-pattern))
-    (minibuffer-keyboard-quit)))
 
 (use-package undo-tree
   :custom
@@ -533,21 +292,6 @@ characters and disable fuzzy matching if input has more than
     ("l" . flycheck-list-errors)
     ("v" . flycheck-verify-setup))
 )
-
-;; (use-package eglot
-;;   :commands eglot
-;;   :init
-;;   (setq eglot-stay-out-of '(flymake))
-;;   :custom
-;;   (eglot-ignored-server-capabilites '(:documentHighlightProvider))
-;;   (eglot-autoshutdown t)
-;;   :hook
-;;   ;; (eglot-managed-mode . eldoc-box-hover-mode)
-;;   (eglot-managed-mode . fk/company-enable-snippets)
-;;   :config
-;;   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
-;;   (with-eval-after-load 'eglot
-;;     (load-library "project")))
 
 (use-package eldoc-box
   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
@@ -623,42 +367,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
    `((,python-walrus-operator-regexp 0 'escape-glyph t))
    'set))
 
-(use-package pyvenv
-  :after projectile
-  :config
-  ;; I show this in `fk/minibuffer-modeline-update' manually.
-  (setq pyvenv-mode-line-indicator nil)
-
-  (defun fk/get-venv-name ()
-    "Get venv name of current python project."
-    (when-let* ((root-dir (projectile-project-root))
-                (venv-file (concat root-dir ".venv"))
-                (venv-exists (file-exists-p venv-file))
-                (venv-name (with-temp-buffer
-                             (insert-file-contents venv-file)
-                             (nth 0 (split-string (buffer-string))))))
-      venv-name))
-
-  (defun fk/activate-pyvenv ()
-    "Activate python environment according to the `project-root/.venv' file."
-    (interactive)
-    (when-let ((venv-name (fk/get-venv-name)))
-      (pyvenv-mode)
-      (pyvenv-workon venv-name)))
-
-  (defun fk/open-venv-dir ()
-    "Open the directory of installed libraries in `dired'."
-    (interactive)
-    (when-let* ((venv-name (fk/get-venv-name))
-                (venv-dir (expand-file-name venv-name "~/.virtualenvs")))
-      (dired (car (directory-files-recursively venv-dir "site-packages" t)))))
-
-  ;; python-mode hook is not enough when more than one project's files are open.
-  ;; It just re-activate pyvenv when a new file is opened, it should re-activate
-  ;; on buffer or perspective switching too. NOTE: restarting lsp server is
-  ;; heavy, so it should be done manually if needed.
-  (add-hook 'window-configuration-change-hook 'fk/activate-pyvenv))
-
 (use-package web-mode
   :custom
   (css-indent-offset 2)
@@ -707,9 +415,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;;(rjsx-mode . (lambda () (setq emmet-expand-jsx-className? t)))
   (web-mode . emmet-mode)
   (css-mode . emmet-mode))
-
-(use-package helm-emmet
-  :after helm emmet)
 
 (use-package json-mode
   :mode ("\\.json\\'" . json-mode))
@@ -1043,5 +748,237 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package plantuml-mode
   :ensure t)
+
+;; Example configuration for Consult
+(use-package consult
+  ;; Replace bindings. Lazily loaded by `use-package'.
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in `search-map'
+         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  ;; Configure other variables and modes in the :config section,
+  ;; after lazily loading the package.
+  :config
+
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
+)
+
+(use-package consult-web
+	:straight (consult-web :type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
+        :after consult)
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the
+  ;; Eldoc strategy, if you want to see the documentation from
+  ;; multiple providers. Beware that using this can be a little
+  ;; jarring since the message shown in the minibuffer can be more
+  ;; than one line, causing the modeline to move up and down:
+
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package consult-gh
+  :straight (consult-gh :type git :host github :repo "armindarvish/consult-gh")
+  :after consult)
+
+;; Enable vertico
+(use-package vertico
+  :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package eat
+  :straight
+  (:type git
+	 :host codeberg
+	 :repo "akib/emacs-eat"
+	 :files ("*.el" ("term" "term/*.el") "*.texi"
+		 "*.ti" ("terminfo/e" "terminfo/e/*")
+		 ("terminfo/65" "terminfo/65/*")
+		 ("integration" "integration/*")
+		 (:exclude ".dir-locals.el" "*-tests.el"))))
+
+(require 'project)
+(setq project-switch-commands '((project-find-file "Find file" "f")
+				(project-find-dir "Find dir" "d")
+				(project-dired "Dired" "D")
+				(consult-ripgrep "ripgrep" "g")
+				(magit-project-status "Magit" "m")))
+(define-key project-prefix-map (kbd "e") 'eat-project)
 
 (provide 'init-packages)
