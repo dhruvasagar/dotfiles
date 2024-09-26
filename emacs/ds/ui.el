@@ -5,6 +5,7 @@
 (global-hl-line-mode)
 (global-visual-line-mode t)
 (set-frame-font "FiraCode Nerd Font Mono 15" nil t)
+(setq tab-bar-show 1)
 
 (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))

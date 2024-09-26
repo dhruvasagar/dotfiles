@@ -6,6 +6,7 @@
              (setq org-agenda-files (quote ("~/Dropbox/Documents/org-files")))
              (setq org-log-done (quote time))
              (setq org-log-into-drawer t)
+	     (setq org-display-remote-inline-images t)
              (setq org-log-state-notes-insert-after-drawers nil)
              (setq org-archive-mark-done nil)
              (setq org-archive-location "%s_archive::* Archived Tasks")
@@ -1243,18 +1244,30 @@
              :hook (org-mode . org-bullets-mode))
 
 (use-package org-roam
-             :custom
-             (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
-             (org-roam-completion-everywhere t)
-             :bind (("C-c n l" . org-roam-buffer-toggle)
-                    ("C-c n f" . org-roam-node-find)
-                    ("C-c n i" . org-roam-node-insert)
-                    :map org
-                    ("o" . org-roam-node-find)
-                    ("C-M-i" . completion-at-point))
-             :config
-             (org-roam-setup)
-             (org-roam-db-autosync-mode))
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
+  (org-roam-completion-everywhere t)
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (setq org-roam-dailies-capture-templates
+	'(("d" "default" entry "* %<%I:%M %p>: %?"
+	   :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i" . completion-at-point)
+	 :map org-roam-dailies-map
+	 ("Y" . org-roam-dailies-capture-yesterday)
+	 ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  :config
+  (org-roam-setup)
+  (require 'org-roam-dailies)
+  (org-roam-db-autosync-mode))
 
 (use-package websocket
              :after org-roam)
@@ -1290,5 +1303,7 @@
 	org-alert-notify-after-event-cutoff 10
 	org-alert-notification-title "Org Alert Reminder!")
   (org-alert-enable))
+
+(use-package ob-penrose :straight (:host github :repo "weavermarquez/ob-penrose" :files ("ob-penrose.el")))
 
 (provide 'init-org)

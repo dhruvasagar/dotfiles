@@ -15,6 +15,7 @@
   (:map evil-normal-state-map
 	("-" . dired-jump)
 	("C-l" . redraw-display)
+	("C-c C-g" . evil-show-file-info)
 	("C-c C-u" . evil-delete-back-to-indentation)))
   ;; (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   ;; (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)

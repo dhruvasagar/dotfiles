@@ -89,12 +89,9 @@
 
 (use-package lsp-java
   :init
-  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf current java")))
+  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
   :after lsp-mode
   :hook (java-mode . lsp))
-
-(use-package helm-lsp
-  :after lsp-mode)
 
 (defun ds/dap-custom-bindings ()
   (local-set-key (kbd "C-c d h") 'dap-hydra)
