@@ -1,8 +1,4 @@
 ;;; init-lsp
-(defun ds/corfu-lsp-setup ()
-  (setq-local completion-styles '(orderless)
-	      completion-category-defaults nil))
-
 (defun ds/lsp-ui-doc-glance ()
   (if (lsp-ui-doc--frame-visible-p) (lsp-ui-doc-focus-frame)
     (lsp-ui-doc-glance)))
@@ -21,7 +17,6 @@
 
 (defun ds/lsp-mode-cb ()
   (ds/lsp-ui-settings)
-  (ds/corfu-lsp-setup)
   (lsp-enable-which-key-integration)
   (lsp-custom-bindings))
   ;; (lsp-format-on-save))

@@ -193,10 +193,25 @@ current buffer."
 ;; Enable Corfu completion UI
 ;; See the Corfu README for more configuration tips.
 (use-package corfu
-  :init
-  (setq corfu-auto t)
-  (setq confu-quit-no-match 'separator)
-  (global-corfu-mode))
+  :config
+  (global-corfu-mode)
+  (corfu-popupinfo-mode 1)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  ;; (corfu-min-width 80)
+  (corfu-max-width corfu-min-width)
+  (corfu-count 14)
+  (corfu-scroll-margin 4)
+  (corfu-cycle nil)
+  (corfu-preselect-first t)
+  (corfu-quit-no-match 'separator)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-preview-current 'insert)
+  :bind
+  (:map corfu-popupinfo-map
+	("M-d" . corfu-popupinfo-documentation)
+	("M-l" . corfu-popupinfo-location)))
 
 (use-package corfu-terminal
   :after corfu
@@ -206,11 +221,12 @@ current buffer."
     (corfu-terminal-mode +1)))
 
 (use-package kind-icon
-  :ensure t
   :after corfu
-  ;:custom
-  ; (kind-icon-blend-background t)
-  ; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default)
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.8)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
@@ -242,7 +258,6 @@ current buffer."
   ;; (add-hook 'completion-at-point-functions #'cape-history)
   ;; ...
 )
-
 
 (use-package undo-tree
   :custom
