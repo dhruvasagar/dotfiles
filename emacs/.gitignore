@@ -21,3 +21,11 @@ eshell/
 straight/
 projects
 forge-database.sqlite
+.cache/
+chats/
+codeium/
+devdocs/
+multisession/
+url/
+.dap-breakpoints
+.emacs.desktop
