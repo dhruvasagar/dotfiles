@@ -2,52 +2,6 @@
   :config
   (exec-path-from-shell-initialize))
 
-(use-package evil
-  :init
-  (setq evil-want-keybinding nil)
-  (setq evil-undo-system 'undo-tree)
-  (setq evil-split-window-below t)
-  (setq evil-vsplit-window-right t)
-  (setq evil-want-integration t)
-  :config
-  (evil-mode 1)
-  :bind
-  (:map evil-normal-state-map
-	("-" . dired-jump)
-	("C-l" . redraw-display)
-	("C-c C-g" . evil-show-file-info)
-	("C-c C-u" . evil-delete-back-to-indentation)))
-  ;; (define-key evil-normal-state-map (kbd "-") 'dired-jump)
-  ;; (define-key evil-normal-state-map (kbd "C-l") 'redraw-display)
-  ;; (define-key evil-insert-state-map (kbd "C-c C-u") 'evil-delete-back-to-indentation))
-
-(use-package evil-collection
-  :after evil
-  :init
-  (evil-collection-init))
-
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-rails)
-
-(use-package evil-commentary
-  :config
-  (evil-commentary-mode))
-
-(use-package evil-matchit
-  :config
-  (global-evil-matchit-mode 1))
-
-(use-package evil-exchange
-  :config
-  (evil-exchange-cx-install))
-
-(use-package evil-visualstar
-  :config
-  (global-evil-visualstar-mode t))
-
 (use-package calendar
   :commands calendar
   :custom
@@ -106,9 +60,6 @@
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'top)
   (highlight-indent-guides-auto-enabled nil)
-  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
-  (set-face-background 'highlight-indent-guides-even-face "dimgray")
-  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
   :hook
   (prog-mode . highlight-indent-guides-mode))
 
@@ -226,7 +177,54 @@ current buffer."
 
 (use-package company
   :config
-  (global-company-mode t))
+  (global-company-mode t)
+  ;; Settings to get codium working
+  (setq-default
+   ;; company-idle-delay 0.05
+   company-require-match t
+   company-minimum-prefix-length 3
+
+   ;; get only preview
+   company-frontends '(company-preview-frontend)
+   ;; also get a drop down
+   ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
+   ))
+
+;; Enable Corfu completion UI
+;; See the Corfu README for more configuration tips.
+(use-package corfu
+  :init
+  (global-corfu-mode))
+
+;; Add extensions
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-abbrev)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dict)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  (add-hook 'completion-at-point-functions #'cape-emoji)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-line)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  (add-hook 'completion-at-point-functions #'cape-rfc1345)
+  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+)
+
 
 (use-package mwim
  :bind
@@ -252,6 +250,7 @@ current buffer."
   :custom
   (undo-tree-visualizer-diff t)
   (undo-tree-enable-undo-in-region t)
+  (undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   ;; :bind
   ;; (("C-u" . undo-tree-undo)
@@ -326,47 +325,18 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (defalias 'fk/highlight-remove-one-by-one 'hi-lock-unface-buffer))
 
 (use-package rainbow-mode
+  :custom-face
+  (rainbow-delimiters-depth-1-face ((t (:foreground "white"))))
+  (rainbow-delimiters-depth-2-face ((t (:foreground "cyan"))))
+  (rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
+  (rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
+  (rainbow-delimiters-depth-5-face ((t (:foreground "orange"))))
+  (rainbow-delimiters-depth-6-face ((t (:foreground "purple"))))
+  (rainbow-delimiters-depth-7-face ((t (:foreground "white"))))
+  (rainbow-delimiters-depth-8-face ((t (:foreground "cyan"))))
+  (rainbow-delimiters-depth-9-face ((t (:foreground "yellow"))))
+  (rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
   :hook (prog-mode . rainbow-mode))
-
-(use-package python
-  :custom
-  (python-shell-interpreter "ipython")
-  (python-shell-interpreter-args "-i --simple-prompt")
-  (python-indent-guess-indent-offset-verbose nil)
-  :bind
-  ( :map python-mode-map
-    ("C-c r" . python-indent-shift-right)
-    ("C-c l" . python-indent-shift-left))
-  :hook
-  ;; With pyls:
-  ;; pip install python-language-server flake8 pyls-black(optional) pyls-isort(optional)
-  ;; With pyright
-  ;; sudo npm install -g pyright && pip install flake8 black(optional) django-stubs(optional)
-  ;; NOTE: these hooks runs in reverse order
-  (python-mode . (lambda () (setq-local company-prescient-sort-length-enable nil)))
-  (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
-                              (flycheck-mode))))
-  (python-mode . lsp)
-  ;; importmagic runs ~100mb ipython process per python file, and it does not
-  ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
-  ;; (python-mode . importmagic-mode)
-  (python-mode . fk/activate-pyvenv)
-  (python-mode . (lambda ()
-                   (when (and (buffer-file-name)
-                              (string=
-                               (car (last (f-split (f-parent (buffer-file-name)))))
-                               "tests"))
-                     (fk/hide-second-level-blocks))))
-  (python-mode . fk/tree-sitter-hl-mode)
-  (python-mode . (lambda () (setq-local fill-column 88)))
-  :config
-  (defvar python-walrus-operator-regexp ":=")
-
-  ;; Make walrus operator ":=" more visible
-  (font-lock-add-keywords
-   'python-mode
-   `((,python-walrus-operator-regexp 0 'escape-glyph t))
-   'set))
 
 (use-package web-mode
   :custom
@@ -416,43 +386,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;;(rjsx-mode . (lambda () (setq emmet-expand-jsx-className? t)))
   (web-mode . emmet-mode)
   (css-mode . emmet-mode))
-
-(use-package json-mode
-  :mode ("\\.json\\'" . json-mode))
-(use-package json-navigator
-  :commands json-navigator-navigate-region)
-
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :custom
-  (js-indent-level 2)
-  :hook
-  (js2-mode . flycheck-mode)
-  ;;(js2-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
-  (js2-mode . lsp-deferred))
-
-(use-package go-mode
-  ;; install go & go-tools, for arch based linux:
-  ;; sudo pacman -S go go-tools
-  :mode "\\.go\\'"
-  :custom
-  (gofmt-command "goimports")
-  :hook
-  (go-mode . flycheck-mode)
-  (go-mode . lsp-deferred)
-  (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
-  (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
-
-(use-package cc-mode
-  :bind
-  ( :map c-mode-base-map
-    ("C-c C-c" . fk/c-run))
-  :hook
-  (c-mode . lsp-deferred)
-  (c++-mode . lsp-deferred))
-
-(use-package lua-mode
-  :mode "\\.lua\\'")
 
 (use-package magit
   :commands magit
@@ -605,27 +538,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; I just added a custom dynamic topic template: `fk/forge-prepare-topic'
   (advice-add 'forge--prepare-post-buffer :override 'fk/forge--prepare-post-buffer))
 
-;; (use-package diff-hl
-;;  :custom
-;;  (diff-hl-global-modes '(not org-mode))
-;;  (diff-hl-ask-before-revert-hunk nil)
-;;  :custom-face
-;;  (diff-hl-insert ((t (:background "#224022"))))
-;;  (diff-hl-change ((t (:background "#492949" :foreground "mediumpurple1"))))
-;;  (diff-hl-delete ((t (:background "#492929" :foreground "orangered2"))))
-;;  :bind
-;;  (("M-n" . diff-hl-next-hunk)
-;;   ("M-p" . diff-hl-previous-hunk)
-;;   :map version-control
-;;   ("n" . diff-hl-next-hunk)
-;;   ("p" . diff-hl-previous-hunk)
-;;   ("r" . diff-hl-revert-hunk))
-;;  :hook
-;;  (dashboard-after-initialize . global-diff-hl-mode)
-;;  (diff-hl-mode . diff-hl-flydiff-mode)
-;;  (magit-pre-refresh . diff-hl-magit-pre-refresh)
-;;  (magit-post-refresh . diff-hl-magit-post-refresh))
-
 
 (use-package vc-msg
   :commands vc-msg-show
@@ -679,49 +591,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :custom
   (alert-default-style 'libnotify))
 
-(use-package docker
-  :commands docker)
-
-(use-package markdown-mode
-  :mode "\\.md\\'"
-  :custom (markdown-header-scaling t)
-  :bind
-  ( :map markdown-mode-map
-    ("M-n" . markdown-next-visible-heading)
-    ("M-p" . markdown-previous-visible-heading)
-    ("C-M-j" . markdown-follow-thing-at-point))
-  :hook
-  (markdown-mode . emojify-mode))
-
-(use-package dockerfile-mode
-  :mode "Dockerfile\\'")
-
-(use-package docker-compose-mode
-  :mode "docker-compose\\'")
-
-(use-package yaml-mode
-  :mode "\\.ya?ml\\'"
-  :hook
-  (yaml-mode . highlight-indent-guides-mode)
-  (yaml-mode . display-line-numbers-mode))
-
-(use-package pip-requirements
-  :mode (("\\.pip\\'" . pip-requirements-mode)
-         ("requirements[^z-a]*\\.txt\\'" . pip-requirements-mode)
-         ("requirements\\.in" . pip-requirements-mode))
-  :config
-  ;; Assign a non nil value to `pip-packages' to prevent fetching pip packages.
-  (setq pip-packages '("ipython")))
-
-(use-package git-modes
-  :mode (("/.gitignore\\'" . gitignore-mode)
-         ("/.dockerignore\\'" . gitignore-mode)))
-
-(use-package terraform-mode
-  :mode "\\.tf\\'"
-  :hook
-  (terraform-mode . lsp))
-
 (use-package rubik
   :commands rubik)
 
@@ -736,19 +605,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :ensure t
   :custom
   (nerd-icons-font-family "FiraCode Nerd Font Mono"))
-
-(use-package d2-mode
-  :ensure t)
-
-(use-package ledger-mode
-  :ensure t)
-
-(use-package rust-mode
-  :ensure t
-  :hook (rust-mode . lsp))
-
-(use-package plantuml-mode
-  :ensure t)
 
 ;; Example configuration for Consult
 (use-package consult
@@ -857,8 +713,11 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 )
 
 (use-package consult-web
-	:straight (consult-web :type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
+	:straight (:type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
         :after consult)
+
+(use-package consult-flycheck
+  :after consult)
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -880,9 +739,9 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :ensure t
 
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  (("C-SPC" . embark-act)         ;; pick some comfortable binding
+   ("C-S-SPC" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings))    ;; alternative for `describe-bindings'
 
   :init
 
@@ -898,22 +757,24 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
-  :config
+  ;; :config
 
   ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+  ;; (add-to-list 'display-buffer-alist
+  ;;              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+  ;;                nil
+  ;;                (window-parameters (mode-line-format . none))))
+  )
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
   :ensure t ; only need to install it, embark loads it after consult if found
+  :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package consult-gh
-  :straight (consult-gh :type git :host github :repo "armindarvish/consult-gh")
+  :straight (:type git :host github :repo "armindarvish/consult-gh")
   :after consult)
 
 ;; Enable vertico
@@ -936,6 +797,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :custom
   ;; Support opening new minibuffers from inside existing minibuffers.
   (enable-recursive-minibuffers t)
+  (tab-always-indent 'complete)
+  (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not work in the current mode.  Vertico
   ;; commands are hidden in normal buffers. This setting is useful beyond
   ;; Vertico.
@@ -961,18 +824,33 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :ensure t
   :custom
   (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package eat
-  :straight
-  (:type git
-	 :host codeberg
-	 :repo "akib/emacs-eat"
-	 :files ("*.el" ("term" "term/*.el") "*.texi"
-		 "*.ti" ("terminfo/e" "terminfo/e/*")
-		 ("terminfo/65" "terminfo/65/*")
-		 ("integration" "integration/*")
-		 (:exclude ".dir-locals.el" "*-tests.el"))))
+(use-package vterm
+  :ensure t
+  :bind (:map project-prefix-map
+              ("t" . project-vterm))
+  :preface
+  (defun project-vterm ()
+    (interactive)
+    (defvar vterm-buffer-name)
+    (let* ((default-directory (project-root     (project-current t)))
+           (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+           (vterm-buffer (get-buffer vterm-buffer-name)))
+      (if (and vterm-buffer (not current-prefix-arg))
+          (pop-to-buffer vterm-buffer  (bound-and-true-p display-comint-buffer-action))
+        (vterm))))
+  :init
+  (add-to-list 'project-switch-commands     '(project-vterm "Vterm") t)
+  (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode))
+  :config
+  (setq vterm-copy-exclude-prompt t)
+  (setq vterm-max-scrollback 100000))
+
+(use-package devdocs 
+  :bind
+  ("C-h D" . devdocs-lookup))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
@@ -980,6 +858,5 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 				(project-dired "Dired" "D")
 				(consult-ripgrep "ripgrep" "g")
 				(magit-project-status "Magit" "m")))
-(define-key project-prefix-map (kbd "e") 'eat-project)
 
 (provide 'init-packages)

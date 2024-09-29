@@ -1,4 +1,4 @@
-(global-set-key (kbd "C-c e f") (lambda () (interactive)
+(global-set-key (kbd "C-c e s") (lambda () (interactive)
 			   (erc-tls :server "irc.libera.chat" :port "6697"
 				:nick "dhruvasagar")))
 

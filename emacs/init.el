@@ -19,12 +19,15 @@
 
 ;; (setq debug-on-error t)
 ;; (view-echo-area-messages)
+(setq evil-want-keybinding nil)
 
 (require 'init-straight)
 (require 'init-org)
+(require 'init-evil)
 (require 'init-packages)
 (require 'ui)
 (require 'init-lsp)
+(require 'init-langs)
 (require 'init-mu4e)
 (require 'init-erc)
 (require 'init-ai)

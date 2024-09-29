@@ -3,9 +3,12 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
 (global-hl-line-mode)
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (global-visual-line-mode t)
 (set-frame-font "FiraCode Nerd Font Mono 15" nil t)
 (setq tab-bar-show 1)
+(winner-mode 1)
+(tab-bar-history-mode 1)
 
 (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))

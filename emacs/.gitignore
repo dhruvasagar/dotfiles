@@ -20,3 +20,4 @@ eshell/
 .erc-auth
 straight/
 projects
+forge-database.sqlite
