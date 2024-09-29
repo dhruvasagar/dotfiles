@@ -175,26 +175,44 @@ current buffer."
   :init
   (setq hydra-hint-display-type 'posframe))
 
-(use-package company
-  :config
-  (global-company-mode t)
-  ;; Settings to get codium working
-  (setq-default
-   ;; company-idle-delay 0.05
-   company-require-match t
-   company-minimum-prefix-length 3
+;; (use-package company
+;;   :config
+;;   (global-company-mode t)
+;;   ;; Settings to get codium working
+;;   (setq-default
+;;    ;; company-idle-delay 0.05
+;;    ;; company-require-match t
+;;    ;; company-minimum-prefix-length 3
 
-   ;; get only preview
-   company-frontends '(company-preview-frontend)
-   ;; also get a drop down
-   ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-   ))
+;;    ;; get only preview
+;;    ;; company-frontends '(company-preview-frontend)
+;;    ;; also get a drop down
+;;    company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
+;;    ))
 
 ;; Enable Corfu completion UI
 ;; See the Corfu README for more configuration tips.
 (use-package corfu
   :init
+  (setq corfu-auto t)
+  (setq confu-quit-no-match 'separator)
   (global-corfu-mode))
+
+(use-package corfu-terminal
+  :after corfu
+  :straight (:type git :host codeberg :repo "akib/emacs-corfu-terminal")
+  :config
+  (unless (display-graphic-p)
+    (corfu-terminal-mode +1)))
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  ;:custom
+  ; (kind-icon-blend-background t)
+  ; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; Add extensions
 (use-package cape
@@ -206,45 +224,25 @@ current buffer."
   ;;        ("C-c p h" . cape-history)
   ;;        ("C-c p f" . cape-file)
   ;;        ...)
-  :init
+  ;; :init
   ;; Add to the global default value of `completion-at-point-functions' which is
   ;; used by `completion-at-point'.  The order of the functions matters, the
   ;; first function returning a result wins.  Note that the list of buffer-local
   ;; completion functions takes precedence over the global list.
-  (add-hook 'completion-at-point-functions #'cape-abbrev)
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-dict)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (add-hook 'completion-at-point-functions #'cape-emoji)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-line)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (add-hook 'completion-at-point-functions #'cape-rfc1345)
+  ;; (add-hook 'completion-at-point-functions #'cape-abbrev)
+  ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-hook 'completion-at-point-functions #'cape-file)
+  ;; (add-hook 'completion-at-point-functions #'cape-dict)
+  ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-hook 'completion-at-point-functions #'cape-emoji)
+  ;; (add-hook 'completion-at-point-functions #'cape-keyword)
+  ;; (add-hook 'completion-at-point-functions #'cape-line)
+  ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-hook 'completion-at-point-functions #'cape-rfc1345)
   ;; (add-hook 'completion-at-point-functions #'cape-history)
   ;; ...
 )
 
-
-(use-package mwim
- :bind
- ("C-a" . mwim-beginning-of-code-or-line)
- ("C-e" . mwim-end-of-line-or-code)
- ;; NOTE: Functions below are built-in but I think they fit in this context
- ("M-a" . fk/backward-sexp)
- ("M-e" . fk/forward-sexp)
- :config
- (defun fk/forward-sexp (&optional N)
-   "Call `forward-sexp', fallback `forward-char' on error."
-   (interactive)
-   (condition-case nil
-       (forward-sexp N)
-     (error (forward-char N))))
-
- (defun fk/backward-sexp ()
-   "`fk/forward-sexp' with negative argument."
-   (interactive)
-   (fk/forward-sexp -1)))
 
 (use-package undo-tree
   :custom
@@ -553,35 +551,35 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;;(setcdr (assoc "application/json" restclient-content-type-modes) 'json-mode)
 )
 
-(use-package slack
-  :commands slack-start
-  :custom
-  (slack-buffer-function 'switch-to-buffer)
-  (slack-buffer-emojify t)
-  (slack-prefer-current-team t)
-  (slack-alert-icon (fk/expand-static-file-name "slack/icon.png"))
-  :custom-face
-  (slack-preview-face ((t (:inherit (fixed-pitch shadow org-block) :extend nil))))
-  :hook
-  (slack-message-buffer-mode . (lambda () (setq-local truncate-lines nil)))
-  (slack-message-buffer-mode . (lambda () (setq-local olivetti-body-width 80)))
-  :config
-  (slack-register-team
-   :name "hipo"
-   :default t
-   :token (auth-source-pick-first-password :host "slack")
-   :full-and-display-names t)
+;; (use-package slack
+;;   :commands slack-start
+;;   :custom
+;;   (slack-buffer-function 'switch-to-buffer)
+;;   (slack-buffer-emojify t)
+;;   (slack-prefer-current-team t)
+;;   (slack-alert-icon (fk/expand-static-file-name "slack/icon.png"))
+;;   :custom-face
+;;   (slack-preview-face ((t (:inherit (fixed-pitch shadow org-block) :extend nil))))
+;;   :hook
+;;   (slack-message-buffer-mode . (lambda () (setq-local truncate-lines nil)))
+;;   (slack-message-buffer-mode . (lambda () (setq-local olivetti-body-width 80)))
+;;   :config
+;;   (slack-register-team
+;;    :name "hipo"
+;;    :default t
+;;    :token (auth-source-pick-first-password :host "slack")
+;;    :full-and-display-names t)
 
-  (defun fk/alert-with-sound (orig-func &rest args)
-    "Play sound with alert."
-    (apply orig-func args)
-    (when (eq (plist-get (cdr args) :category) 'slack)
-      (let* ((sound-file (fk/expand-static-file-name "slack/sound.mp3"))
-             (command (concat "ffplay -volume 20 -nodisp -nostats -hide_banner " sound-file)))
-        (when (file-exists-p sound-file)
-          (fk/async-process command)))))
+;;   (defun fk/alert-with-sound (orig-func &rest args)
+;;     "Play sound with alert."
+;;     (apply orig-func args)
+;;     (when (eq (plist-get (cdr args) :category) 'slack)
+;;       (let* ((sound-file (fk/expand-static-file-name "slack/sound.mp3"))
+;;              (command (concat "ffplay -volume 20 -nodisp -nostats -hide_banner " sound-file)))
+;;         (when (file-exists-p sound-file)
+;;           (fk/async-process command)))))
 
-  (advice-add 'alert :around 'fk/alert-with-sound))
+;;   (advice-add 'alert :around 'fk/alert-with-sound))
 
 (use-package emojify
   :commands emojify-mode)
@@ -594,12 +592,19 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package rubik
   :commands rubik)
 
-(use-package tree-sitter
-  :ensure t)
+;; (use-package tree-sitter
+;;   :ensure t)
 
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :after tree-sitter)
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package nerd-icons
   :ensure t
@@ -851,6 +856,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package devdocs 
   :bind
   ("C-h D" . devdocs-lookup))
+
+(use-package pdf-tools)
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
