@@ -17,6 +17,7 @@
   (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
 			      (flycheck-mode))))
   (python-mode . lsp)
+  (python-ts-mode . lsp)
   ;; importmagic runs ~100mb ipython process per python file, and it does not
   ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
   ;; (python-mode . importmagic-mode)
@@ -57,7 +58,8 @@
   :hook
   (js2-mode . flycheck-mode)
   ;;(js2-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
-  (js2-mode . lsp))
+  (js2-mode . lsp)
+  (js2-ts-mode . lsp))
 
 (use-package tide
   :ensure t
@@ -76,6 +78,7 @@
   :hook
   (go-mode . flycheck-mode)
   (go-mode . lsp)
+  (go-ts-mode . lsp)
   (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
   (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
 
@@ -85,7 +88,9 @@
     ("C-c C-c" . fk/c-run))
   :hook
   (c-mode . lsp)
-  (c++-mode . lsp))
+  (c-ts-mode . lsp)
+  (c++-mode . lsp)
+  (c++-ts-mode . lsp))
 
 (use-package lua-mode
   :mode "\\.lua\\'")
@@ -123,7 +128,8 @@
 (use-package terraform-mode
   :mode "\\.tf\\'"
   :hook
-  (terraform-mode . lsp))
+  (terraform-mode . lsp)
+  (terraform-ts-mode . lsp))
 
 (use-package d2-mode
   :ensure t)

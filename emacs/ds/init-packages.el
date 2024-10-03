@@ -9,9 +9,9 @@
   :hook
   (calendar-mode . delete-other-windows))
 
-(use-package nord-theme
+(use-package kaolin-themes
   :config
-  (load-theme 'nord t))
+  (load-theme 'kaolin-ocean t))
 
 (use-package which-key
   :config
@@ -31,7 +31,7 @@
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
-  :custom    
+  :custom
   (doom-modeline-height 25)
   (doom-modeline-bar-width 1)
   (doom-modeline-icon t)
@@ -258,18 +258,6 @@ current buffer."
   ;; (add-hook 'completion-at-point-functions #'cape-history)
   ;; ...
 )
-
-(use-package undo-tree
-  :custom
-  (undo-tree-visualizer-diff t)
-  (undo-tree-enable-undo-in-region t)
-  (undo-tree-auto-save-history t)
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-  ;; :bind
-  ;; (("C-u" . undo-tree-undo)
-  ;;  ("C-S-u" . undo-tree-redo))
-  :hook
-  (dashboard-after-initialize . global-undo-tree-mode))
 
 (use-package whitespace-cleanup-mode
   :custom

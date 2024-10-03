@@ -1,10 +1,7 @@
 ;;; init-lsp
-(defun ds/lsp-ui-doc-glance ()
-  (if (lsp-ui-doc--frame-visible-p) (lsp-ui-doc-focus-frame)
-    (lsp-ui-doc-glance)))
-
 (defun lsp-custom-bindings ()
-  (evil-local-set-key 'normal (kbd "K") 'ds/lsp-ui-doc-glance)
+  (evil-local-set-key 'normal (kbd "K") 'lsp-ui-doc-glance)
+  (evil-local-set-key 'normal (kbd "TAB") 'lsp-ui-doc-focus-frame)
   (evil-local-set-key 'normal (kbd "g r") 'lsp-find-references)
   (evil-local-set-key 'normal (kbd "g I") 'lsp-find-implementation))
 
@@ -13,7 +10,14 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (defun ds/lsp-ui-settings ()
-  (setq lsp-ui-doc-position 'at-point))
+  (setq lsp-ui-doc-position 'at-point
+	lsp-ui-sideline-show-hover t
+	lsp-ui-sideline-show-code-actions t
+	lsp-ui-doc-position 'at-point
+	lsp-ui-peek-fontify 'always
+	lsp-ui-doc-show-with-cursor nil
+	lsp-ui-doc-show-with-mouse nil
+	lsp-ui-peek-always-show t))
 
 (defun ds/lsp-mode-cb ()
   (ds/lsp-ui-settings)
@@ -49,15 +53,7 @@
 (use-package lsp-ui
   :after lsp
   :custom
-  (lsp-ui-doc-show-with-cursor nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (setq lsp-ui-sideline t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-sideline-show-code-actions t)
-  (lsp-ui-sideline-delay 0.5)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-peek-fontify 'always)
+  (lsp-ui-sideline t)
   :custom-face
   (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1)))))
   :bind
@@ -75,13 +71,16 @@
   :init
   (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
   :after lsp-mode
-  :hook (java-mode . lsp))
+  :hook
+  (java-mode . lsp)
+  (java-ts-mode . lsp))
 
 (defun ds/dap-custom-bindings ()
   (local-set-key (kbd "C-c d h") 'dap-hydra)
   (local-set-key (kbd "C-c d n") 'dap-next)
   (local-set-key (kbd "C-c d c") 'dap-continue)
   (local-set-key (kbd "C-c d q") 'dap-disconnect)
+  (local-set-key (kbd "C-c d r") 'dap-ui-repl)
   (local-set-key (kbd "C-c d b a") 'dap-breakpoint-add)
   (local-set-key (kbd "C-c d b t") 'dap-breakpoint-toggle)
   (local-set-key (kbd "C-c d b d") 'dap-breakpoint-delete)
