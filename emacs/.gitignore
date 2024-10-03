@@ -29,3 +29,5 @@ multisession/
 url/
 .dap-breakpoints
 .emacs.desktop
+tree-sitter/
+dap-ui-repl-java-history
