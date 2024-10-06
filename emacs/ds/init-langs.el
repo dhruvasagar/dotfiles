@@ -139,7 +139,9 @@
 
 (use-package rust-mode
   :ensure t
-  :hook (rust-mode . lsp))
+  :hook
+  (rust-mode . lsp)
+  (rust-ts-mode . lsp))
 
 (use-package plantuml-mode
   :ensure t)

@@ -115,10 +115,11 @@
   (tree-sitter-hl-add-patterns 'python
     [(decorator (call (identifier) @function.special))]))
 
-(use-package goggles
-  :commands goggles-mode
-  :custom
-  (goggles-pulse-delay 0.1))
+(use-package evil-textobj-tree-sitter
+  :straight (:type git
+		   :host github
+		   :repo "meain/evil-textobj-tree-sitter"
+		   :files (:defaults "queries" "treesit-queries")))
 
 (use-package hideshow
   :defer nil
@@ -170,94 +171,48 @@ current buffer."
  (dashboard-after-initialize . yas-global-mode)
  (snippet-mode . (lambda () (setq-local require-final-newline nil))))
 
-(use-package hydra
-  :defer t
-  :init
-  (setq hydra-hint-display-type 'posframe))
-
-;; (use-package company
-;;   :config
-;;   (global-company-mode t)
-;;   ;; Settings to get codium working
-;;   (setq-default
-;;    ;; company-idle-delay 0.05
-;;    ;; company-require-match t
-;;    ;; company-minimum-prefix-length 3
-
-;;    ;; get only preview
-;;    ;; company-frontends '(company-preview-frontend)
-;;    ;; also get a drop down
-;;    company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-;;    ))
-
-;; Enable Corfu completion UI
-;; See the Corfu README for more configuration tips.
-(use-package corfu
+(use-package company
   :config
-  (global-corfu-mode)
-  (corfu-popupinfo-mode 1)
-  :custom
-  (corfu-auto t)
-  (corfu-auto-prefix 2)
-  ;; (corfu-min-width 80)
-  (corfu-max-width corfu-min-width)
-  (corfu-count 14)
-  (corfu-scroll-margin 4)
-  (corfu-cycle nil)
-  (corfu-preselect-first t)
-  (corfu-quit-no-match 'separator)
-  (corfu-quit-at-boundary 'separator)
-  (corfu-preview-current 'insert)
-  :bind
-  (:map corfu-popupinfo-map
-	("M-d" . corfu-popupinfo-documentation)
-	("M-l" . corfu-popupinfo-location)))
+  (global-company-mode t)
+  ;; Settings to get codium working
+  (setq-default
+   ;; company-idle-delay 0.05
+   ;; company-require-match t
+   ;; company-minimum-prefix-length 3
 
-(use-package corfu-terminal
-  :after corfu
-  :straight (:type git :host codeberg :repo "akib/emacs-corfu-terminal")
-  :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
-
-(use-package kind-icon
-  :after corfu
-  :custom
-  (kind-icon-use-icons t)
-  (kind-icon-default-face 'corfu-default)
-  (kind-icon-blend-background nil)
-  (kind-icon-blend-frac 0.8)
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+   ;; get only preview
+   ;; company-frontends '(company-preview-frontend)
+   ;; also get a drop down
+   company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
+   ))
 
 ;; Add extensions
-(use-package cape
-  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
-  ;; Press C-c p ? to for help.
-  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
-  ;; Alternatively bind Cape commands individually.
-  ;; :bind (("C-c p d" . cape-dabbrev)
-  ;;        ("C-c p h" . cape-history)
-  ;;        ("C-c p f" . cape-file)
-  ;;        ...)
-  ;; :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.  The order of the functions matters, the
-  ;; first function returning a result wins.  Note that the list of buffer-local
-  ;; completion functions takes precedence over the global list.
-  ;; (add-hook 'completion-at-point-functions #'cape-abbrev)
-  ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  ;; (add-hook 'completion-at-point-functions #'cape-file)
-  ;; (add-hook 'completion-at-point-functions #'cape-dict)
-  ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-hook 'completion-at-point-functions #'cape-emoji)
-  ;; (add-hook 'completion-at-point-functions #'cape-keyword)
-  ;; (add-hook 'completion-at-point-functions #'cape-line)
-  ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-hook 'completion-at-point-functions #'cape-rfc1345)
-  ;; (add-hook 'completion-at-point-functions #'cape-history)
-  ;; ...
-)
+;; (use-package cape
+;;   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+;;   ;; Press C-c p ? to for help.
+;;   :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+;;   ;; Alternatively bind Cape commands individually.
+;;   ;; :bind (("C-c p d" . cape-dabbrev)
+;;   ;;        ("C-c p h" . cape-history)
+;;   ;;        ("C-c p f" . cape-file)
+;;   ;;        ...)
+;;   :init
+;;   ;; Add to the global default value of `completion-at-point-functions' which is
+;;   ;; used by `completion-at-point'.  The order of the functions matters, the
+;;   ;; first function returning a result wins.  Note that the list of buffer-local
+;;   ;; completion functions takes precedence over the global list.
+;;   ;; (add-hook 'completion-at-point-functions #'cape-abbrev)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-file)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-dict)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-emoji)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-keyword)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-line)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-rfc1345)
+;;   ;; (add-hook 'completion-at-point-functions #'cape-history)
+;;   ;; ...
+;; )
 
 (use-package whitespace-cleanup-mode
   :custom
@@ -595,16 +550,9 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package rubik
   :commands rubik)
 
-;; (use-package tree-sitter
-;;   :ensure t)
-
-;; (use-package tree-sitter-langs
-;;   :ensure t
-;;   :after tree-sitter)
-
 (use-package treesit-auto
   :custom
-  (treesit-auto-install 'prompt)
+  (treesit-auto-install t)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
@@ -765,7 +713,20 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
-  ;; :config
+  :config
+  ;; Add identifiers in LSP-mode as their own target type
+  (with-eval-after-load 'lsp-mode
+    (defun embark-target-lsp-identifier-at-point ()
+      (when lsp-mode
+        (when-let ((sym (embark-target-identifier-at-point)))
+          (cons 'lsp-identifier (cdr sym)))))
+    (add-to-list 'embark-target-finders 'embark-target-lsp-identifier-at-point)
+    (embark-define-keymap embark-lsp-identifier-actions
+      "Keymap for actions on LSP identifiers."
+      :parent embark-identifier-map
+      ("a" lsp-execute-code-action))
+    (add-to-list 'embark-keymap-alist '(lsp-identifier . embark-lsp-identifier-actions))
+    (add-to-list 'embark-target-injection-hooks '(lsp-execute-code-action embark--ignore-target)))
 
   ;; Hide the mode line of the Embark live/completions buffers
   ;; (add-to-list 'display-buffer-alist
@@ -831,7 +792,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(orderless basic))
+  (completion-styles '(basic partial-competion orderless))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
@@ -856,11 +817,29 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (setq vterm-copy-exclude-prompt t)
   (setq vterm-max-scrollback 100000))
 
-(use-package devdocs 
+(use-package devdocs
   :bind
   ("C-h D" . devdocs-lookup))
 
+(use-package auctex)
+
 (use-package pdf-tools)
+
+(use-package transient)
+
+(use-package aider
+  :after transient
+  :straight (:host github :repo "tninja/aider.el" :files ("aider.el"))
+  :config
+  (setq aider-args '("--model" "gpt-4o-mini"))
+  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c C-a") 'aider-transient-menu))
+
+(use-package define-word)
+
+(use-package ement
+  :straight (:type git :host github :repo "alphapapa/ement.el"))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

@@ -12,6 +12,9 @@
 ;; Interpret mIRC-style color commands in IRC chats
 (setq erc-interpret-mirc-color t)
 
+;; Ingore annoying (and unnecessary) Join, Part, Quit messages
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
 ;; The following are commented out by default, but users of other
 ;; non-Emacs IRC clients might find them useful.
 ;; Kill buffers for channels after /part
