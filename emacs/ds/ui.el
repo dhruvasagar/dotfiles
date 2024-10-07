@@ -45,4 +45,31 @@
   (split-window-right)
   (other-window 1))
 
+(add-to-list 'display-buffer-alist
+	     '("\\*sly-mrepl"
+	       (display-buffer-at-bottom)
+	       (window-height . 12)))
+(add-to-list 'display-buffer-alist
+	     '("\\*Calendar*"
+	       (display-buffer-at-bottom)))
+(add-to-list 'display-buffer-alist
+	     '("\\*shell:"
+	       (display-buffer-below-selected)
+	       (window-height . 12)))
+(add-to-list 'display-buffer-alist
+	     '("\\magit:"
+	       (display-buffer-same-window)))
+(add-to-list 'display-buffer-alist
+	     '("\\*Man"
+	       (display-buffer-same-window)))
+(add-to-list 'display-buffer-alist
+	     '("\\*Help"
+	       (display-buffer-same-window)))
+(add-to-list 'display-buffer-alist
+	     '("\\*helpful"
+	       (display-buffer-same-window)))
+(add-to-list 'display-buffer-alist
+	     '("\\*lsp-help"
+	       (display-buffer-same-window)))
+
 (provide 'ui)

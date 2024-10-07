@@ -1,3 +1,5 @@
+(use-package no-littering)
+
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
@@ -171,48 +173,73 @@ current buffer."
  (dashboard-after-initialize . yas-global-mode)
  (snippet-mode . (lambda () (setq-local require-final-newline nil))))
 
-(use-package company
-  :config
-  (global-company-mode t)
-  ;; Settings to get codium working
-  (setq-default
-   ;; company-idle-delay 0.05
-   ;; company-require-match t
-   ;; company-minimum-prefix-length 3
+;; Enable Corfu completion UI
+;; See the Corfu README for more configuration tips.
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode 1)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  ;; (corfu-min-width 80)
+  (corfu-max-width corfu-min-width)
+  (corfu-count 14)
+  (corfu-scroll-margin 4)
+  (corfu-cycle nil)
+  (corfu-preselect t)
+  (corfu-quit-no-match 'separator)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-preview-current 'insert)
+  :bind
+  (:map corfu-popupinfo-map
+	("M-d" . corfu-popupinfo-documentation)
+	("M-l" . corfu-popupinfo-location)))
 
-   ;; get only preview
-   ;; company-frontends '(company-preview-frontend)
-   ;; also get a drop down
-   company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-   ))
+(use-package corfu-terminal
+  :after corfu
+  :straight (:type git :host codeberg :repo "akib/emacs-corfu-terminal")
+  :config
+  (unless (display-graphic-p)
+    (corfu-terminal-mode +1)))
+
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default)
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.8)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; Add extensions
-;; (use-package cape
-;;   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
-;;   ;; Press C-c p ? to for help.
-;;   :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
-;;   ;; Alternatively bind Cape commands individually.
-;;   ;; :bind (("C-c p d" . cape-dabbrev)
-;;   ;;        ("C-c p h" . cape-history)
-;;   ;;        ("C-c p f" . cape-file)
-;;   ;;        ...)
-;;   :init
-;;   ;; Add to the global default value of `completion-at-point-functions' which is
-;;   ;; used by `completion-at-point'.  The order of the functions matters, the
-;;   ;; first function returning a result wins.  Note that the list of buffer-local
-;;   ;; completion functions takes precedence over the global list.
-;;   ;; (add-hook 'completion-at-point-functions #'cape-abbrev)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-file)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-dict)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-emoji)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-keyword)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-line)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-rfc1345)
-;;   ;; (add-hook 'completion-at-point-functions #'cape-history)
-;;   ;; ...
-;; )
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-abbrev)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dict)
+  ;; (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  (add-hook 'completion-at-point-functions #'cape-emoji)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-line)
+  (add-hook 'completion-at-point-functions #'cape-rfc1345)
+  (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+)
 
 (use-package whitespace-cleanup-mode
   :custom

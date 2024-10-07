@@ -1,7 +1,6 @@
 ;;; init-lsp
 (defun lsp-custom-bindings ()
-  (evil-local-set-key 'normal (kbd "K") 'lsp-ui-doc-glance)
-  (evil-local-set-key 'normal (kbd "TAB") 'lsp-ui-doc-focus-frame)
+  (evil-local-set-key 'normal (kbd "K") 'lsp-describe-thing-at-point)
   (evil-local-set-key 'normal (kbd "g r") 'lsp-find-references)
   (evil-local-set-key 'normal (kbd "g I") 'lsp-find-implementation))
 
@@ -10,12 +9,12 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (defun ds/lsp-ui-settings ()
-  (setq lsp-ui-doc-position 'at-point
-	lsp-ui-sideline-show-hover t
-	lsp-ui-peek-fontify 'always
-	lsp-ui-doc-show-with-cursor nil
-	lsp-ui-doc-show-with-mouse nil
-	lsp-ui-peek-always-show t))
+  (setq-local lsp-ui-doc-position 'at-point
+	      lsp-ui-sideline-show-hover t
+	      lsp-ui-peek-fontify 'always
+	      lsp-ui-doc-show-with-cursor nil
+	      lsp-ui-doc-show-with-mouse nil
+	      lsp-ui-peek-always-show t))
 
 (defun ds/lsp-mode-cb ()
   (ds/lsp-ui-settings)
@@ -39,14 +38,15 @@
   (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
   (lsp-enable-links t)
   (lsp-headerline-breadcrumb-enable nil)
-  (setq gc-cons-threshold (* 100 1024 1024))
-  (setq read-process-output-max (* 1024 1024))
+  (gc-cons-threshold (* 100 1024 1024))
+  (read-process-output-max (* 1024 1024))
   :custom-face
   (lsp-face-highlight-read ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  (lsp-mode . ds/lsp-mode-cb))
+  (lsp-mode . ds/lsp-mode-cb)
+  (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil))))
 
 (use-package lsp-ui
   :after lsp
