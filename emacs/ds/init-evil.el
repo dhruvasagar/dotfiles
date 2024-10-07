@@ -4,8 +4,7 @@
 	evil-split-window-below t
 	evil-vsplit-window-right t
 	evil-want-integration t
-	evil-want-fine-undo t
-	evil-want-minibuffer t)
+	evil-want-fine-undo t)
   :config
   (evil-mode 1)
   (evil-global-set-key 'normal "C" "c$")
