@@ -1,3 +1,10 @@
+(use-package lsp-java
+  :init
+  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
+  :after lsp-mode)
+
+(add-hook 'java-ts-mode-hook #'lsp)
+
 (use-package python
   :custom
   (python-shell-interpreter "ipython")
@@ -62,7 +69,6 @@
   (js2-ts-mode . lsp))
 
 (use-package tide
-  :ensure t
   :after (company flycheck)
   :hook ((typescript-ts-mode . tide-setup)
 	 (tsx-ts-mode . tide-setup)
@@ -131,25 +137,27 @@
   (terraform-mode . lsp)
   (terraform-ts-mode . lsp))
 
-(use-package d2-mode
-  :ensure t)
+(use-package d2-mode)
 
-(use-package ledger-mode
-  :ensure t)
+(use-package ledger-mode)
 
 (use-package rust-mode
-  :ensure t
   :hook
   (rust-mode . lsp)
   (rust-ts-mode . lsp))
 
-(use-package plantuml-mode
-  :ensure t)
+(use-package plantuml-mode)
 
-(use-package haskell-mode)
+(use-package haskell-mode
+  :hook
+  (haskell-mode . lsp)
+  (haskell-literate-mode . lsp)
+  (haskell-ts-mode . lsp))
+
 (use-package lsp-haskell
   :hook
   (haskell-mode . lsp)
+  (haskell-ts-mode . lsp)
   (haskell-literate-mode . lsp))
 
 (use-package kotlin-mode)

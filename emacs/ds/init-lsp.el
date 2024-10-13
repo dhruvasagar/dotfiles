@@ -1,4 +1,8 @@
 ;;; init-lsp
+;; (defun ds/lsp-describe-thing-at-point ()
+;;   (interactive)
+;;   (if (lsp-ui-doc--visible-p) (lsp-ui-doc-focus-frame) (lsp-ui-doc-glance)))
+
 (defun lsp-custom-bindings ()
   (evil-local-set-key 'normal (kbd "K") 'lsp-describe-thing-at-point)
   (evil-local-set-key 'normal (kbd "g r") 'lsp-find-references)
@@ -22,6 +26,9 @@
   (lsp-custom-bindings))
   ;; (lsp-format-on-save))
 
+;; (require 'eglot)
+;; (setq eglot-ignored-server-capabilities '(:hoverProvider))
+
 (use-package lsp-mode
   :commands lsp
   :custom
@@ -37,7 +44,8 @@
   (lsp-completion-provider :none)
   (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
   (lsp-enable-links t)
-  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-segments '(file symbols))
   (gc-cons-threshold (* 100 1024 1024))
   (read-process-output-max (* 1024 1024))
   :custom-face
@@ -50,28 +58,13 @@
 
 (use-package lsp-ui
   :after lsp
+  :config
+  (setq lsp-ui-doc-max-width 150
+	lsp-ui-doc-max-height 30)
   :custom
   (lsp-ui-sideline t)
   :custom-face
-  (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1)))))
-  :bind
-  ( :map lsp-ui-mode-map
-    ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-    ([remap xref-find-references] . lsp-ui-peek-find-references)
-    ("C-M-l" . lsp-ui-peek-find-definitions)
-    ("C-c C-d" . lsp-ui-doc-show))
-  :config
-  (lsp-ui-mode 1))
-
-(use-package lsp-pyright)
-
-(use-package lsp-java
-  :init
-  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
-  :after lsp-mode
-  :hook
-  (java-mode . lsp)
-  (java-ts-mode . lsp))
+  (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1))))))
 
 (defun ds/dap-custom-bindings ()
   (local-set-key (kbd "C-c d h") 'dap-hydra)
@@ -94,11 +87,58 @@
 
 (use-package dap-mode
   :after lsp-mode
-  :config (dap-auto-configure-mode)
+  :config
+  (dap-auto-configure-mode)
+  :custom
+  (dap-auto-configure-features '(locals breakpoints expressions repl controls tooltip))
   :bind
   (("C-c d d" . dap-debug)
    ("C-c d l" . dap-debug-last)
    ("C-c d r" . dap-debug-recent))
   :hook (dap-mode . ds/dap-custom-bindings))
+
+;; (use-package dape
+;;   :preface
+;;   ;; By default dape shares the same keybinding prefix as `gud'
+;;   ;; If you do not want to use any prefix, set it to nil.
+;;   (setq dape-key-prefix "\C-x\C-a")
+
+;;   :hook
+;;   ;; Save breakpoints on quit
+;;   (kill-emacs . dape-breakpoint-save)
+;;   ;; Load breakpoints on startup
+;;    (after-init . dape-breakpoint-load)
+
+;;   :config
+;;   ;; Turn on global bindings for setting breakpoints with mouse
+;;   (dape-breakpoint-global-mode)
+
+;;   ;; Info buffers to the right
+;;   (setq dape-buffer-window-arrangement 'right)
+
+;;   ;; Info buffers like gud (gdb-mi)
+;;   (setq dape-buffer-window-arrangement 'gud)
+;;   (setq dape-info-hide-mode-line nil)
+
+;;   ;; Pulse source line (performance hit)
+;;   (add-hook 'dape-display-source-hook 'pulse-momentary-highlight-one-line)
+
+;;   ;; Showing inlay hints
+;;   (setq dape-inlay-hints t)
+
+;;   ;; Save buffers on startup, useful for interpreted languages
+;;   (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
+
+;;   ;; Kill compile buffer on build success
+;;   ;; (add-hook 'dape-compile-hook 'kill-buffer)
+
+;;   ;; Projectile users
+;;   ;; (setq dape-cwd-fn 'projectile-project-root)
+;;   )
+
+;; Enable repeat mode for more ergonomic `dape' use
+;; (use-package repeat
+;;   :config
+;;   (repeat-mode))
 
 (provide 'init-lsp)

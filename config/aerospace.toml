@@ -95,7 +95,6 @@ l = 'resize width +50'
 enter = 'mode main'
 esc = 'mode main'
 
-
 # Application to workspace mapping
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'

@@ -39,7 +39,6 @@
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
-  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
   (doom-modeline-buffer-state-icon t)
   (doom-modeline-buffer-modification-icon t)
   (doom-modeline-minor-modes nil)
@@ -162,16 +161,19 @@ current buffer."
  :custom-face
  (yas-field-highlight-face ((t (:inherit region))))
  :bind*
- (("C-j" . yas-expand)
+ (:map evil-insert-state-map
+  ("C-c C-s" . yas-expand)
   :map yas-minor-mode-map
   ("TAB" . nil)
   ("<tab>" . nil)
   :map yas-keymap
-  ("TAB" . (lambda () (interactive) (company-abort) (yas-next-field)))
-  ("<tab>" . (lambda () (interactive) (company-abort) (yas-next-field))))
+  ("TAB" . (lambda () (interactive) (yas-next-field)))
+  ("<tab>" . (lambda () (interactive) (yas-next-field))))
  :hook
  (dashboard-after-initialize . yas-global-mode)
  (snippet-mode . (lambda () (setq-local require-final-newline nil))))
+
+(use-package yasnippet-snippets)
 
 ;; Enable Corfu completion UI
 ;; See the Corfu README for more configuration tips.
@@ -182,7 +184,7 @@ current buffer."
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
-  ;; (corfu-min-width 80)
+  (corfu-min-width 80)
   (corfu-max-width corfu-min-width)
   (corfu-count 14)
   (corfu-scroll-margin 4)
@@ -217,7 +219,9 @@ current buffer."
 (use-package cape
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
-  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+  :bind
+  ( :map evil-insert-state-map
+    ("C-c p" . cape-prefix-map))
   ;; Alternatively bind Cape commands individually.
   ;; :bind (("C-c p d" . cape-dabbrev)
   ;;        ("C-c p h" . cape-history)
@@ -237,9 +241,7 @@ current buffer."
   (add-hook 'completion-at-point-functions #'cape-keyword)
   (add-hook 'completion-at-point-functions #'cape-line)
   (add-hook 'completion-at-point-functions #'cape-rfc1345)
-  (add-hook 'completion-at-point-functions #'cape-history)
-  ;; ...
-)
+  (add-hook 'completion-at-point-functions #'cape-history))
 
 (use-package whitespace-cleanup-mode
   :custom
@@ -536,36 +538,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;;(setcdr (assoc "application/json" restclient-content-type-modes) 'json-mode)
 )
 
-;; (use-package slack
-;;   :commands slack-start
-;;   :custom
-;;   (slack-buffer-function 'switch-to-buffer)
-;;   (slack-buffer-emojify t)
-;;   (slack-prefer-current-team t)
-;;   (slack-alert-icon (fk/expand-static-file-name "slack/icon.png"))
-;;   :custom-face
-;;   (slack-preview-face ((t (:inherit (fixed-pitch shadow org-block) :extend nil))))
-;;   :hook
-;;   (slack-message-buffer-mode . (lambda () (setq-local truncate-lines nil)))
-;;   (slack-message-buffer-mode . (lambda () (setq-local olivetti-body-width 80)))
-;;   :config
-;;   (slack-register-team
-;;    :name "hipo"
-;;    :default t
-;;    :token (auth-source-pick-first-password :host "slack")
-;;    :full-and-display-names t)
-
-;;   (defun fk/alert-with-sound (orig-func &rest args)
-;;     "Play sound with alert."
-;;     (apply orig-func args)
-;;     (when (eq (plist-get (cdr args) :category) 'slack)
-;;       (let* ((sound-file (fk/expand-static-file-name "slack/sound.mp3"))
-;;              (command (concat "ffplay -volume 20 -nodisp -nostats -hide_banner " sound-file)))
-;;         (when (file-exists-p sound-file)
-;;           (fk/async-process command)))))
-
-;;   (advice-add 'alert :around 'fk/alert-with-sound))
-
 (use-package emojify
   :commands emojify-mode)
 
@@ -573,9 +545,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :commands alert
   :custom
   (alert-default-style 'libnotify))
-
-(use-package rubik
-  :commands rubik)
 
 (use-package treesit-auto
   :custom
@@ -718,56 +687,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; package.
   (marginalia-mode))
 
-(use-package embark
+(use-package wgrep
   :ensure t
-
-  :bind
-  (("C-SPC" . embark-act)         ;; pick some comfortable binding
-   ("C-S-SPC" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings))    ;; alternative for `describe-bindings'
-
-  :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-  :config
-  ;; Add identifiers in LSP-mode as their own target type
-  (with-eval-after-load 'lsp-mode
-    (defun embark-target-lsp-identifier-at-point ()
-      (when lsp-mode
-        (when-let ((sym (embark-target-identifier-at-point)))
-          (cons 'lsp-identifier (cdr sym)))))
-    (add-to-list 'embark-target-finders 'embark-target-lsp-identifier-at-point)
-    (embark-define-keymap embark-lsp-identifier-actions
-      "Keymap for actions on LSP identifiers."
-      :parent embark-identifier-map
-      ("a" lsp-execute-code-action))
-    (add-to-list 'embark-keymap-alist '(lsp-identifier . embark-lsp-identifier-actions))
-    (add-to-list 'embark-target-injection-hooks '(lsp-execute-code-action embark--ignore-target)))
-
-  ;; Hide the mode line of the Embark live/completions buffers
-  ;; (add-to-list 'display-buffer-alist
-  ;;              '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-  ;;                nil
-  ;;                (window-parameters (mode-line-format . none))))
-  )
-
-;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
-  :after (embark consult)
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+  :bind ( :map grep-mode-map
+          ("e" . wgrep-change-to-wgrep-mode)
+          ("C-x C-q" . wgrep-change-to-wgrep-mode)
+          ("C-c C-c" . wgrep-finish-edit)))
 
 (use-package consult-gh
   :straight (:type git :host github :repo "armindarvish/consult-gh")
@@ -819,7 +744,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(basic partial-competion orderless))
+  (completion-styles '(basic orderless partial-completion flex))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
@@ -844,6 +769,53 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (setq vterm-copy-exclude-prompt t)
   (setq vterm-max-scrollback 100000))
 
+(use-package multi-vterm
+  :hook
+  (vterm-mode-hook . (lambda ()
+		      (setq-local evil-insert-state-cursor 'box)
+		      (evil-insert-state)))
+  :config
+  (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+  (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+  (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+  (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+  (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+  (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+  (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+  (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume)
+  :bind
+  (:map vterm-mode-map
+	("RET" . vterm-send-return)))
+
+(require 'ansi-color)
+(defun endless/colorize-compilation ()
+  "Colorize from `compilation-filter-start' to `point'."
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+     compilation-filter-start (point))))
+
+(add-hook 'compilation-filter-hook
+          #'endless/colorize-compilation)
+;; (add-hook 'sh-mode-hook 'display-ansi-colors)
+;; (add-hook 'sh-mode-hook 'display-ansi-colors)
+
 (use-package devdocs
   :bind
   ("C-h D" . devdocs-lookup))
@@ -851,17 +823,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package auctex)
 
 (use-package pdf-tools)
-
-(use-package transient)
-
-(use-package aider
-  :after transient
-  :straight (:host github :repo "tninja/aider.el" :files ("aider.el"))
-  :config
-  (setq aider-args '("--model" "gpt-4o-mini"))
-  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
-  ;; Optional: Set a key binding for the transient menu
-  (global-set-key (kbd "C-c C-a") 'aider-transient-menu))
 
 (use-package define-word)
 

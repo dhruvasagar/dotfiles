@@ -25,6 +25,7 @@
 (require 'init-org)
 (require 'init-evil)
 (require 'init-packages)
+(require 'init-embark)
 (require 'ui)
 (require 'init-lsp)
 (require 'init-langs)

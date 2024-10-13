@@ -23,7 +23,7 @@ local on_attach = function(client, bufnr)
   nmap("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
   nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  -- nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+  nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
   nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
@@ -121,8 +121,8 @@ local servers = {
 
 --
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
@@ -131,7 +131,7 @@ mason_lspconfig.setup({
 mason_lspconfig.setup_handlers({
   function(server_name)
     require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
+      -- capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
     })

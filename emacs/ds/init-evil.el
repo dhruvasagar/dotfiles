@@ -15,7 +15,9 @@
 	("-" . dired-jump)
 	("C-l" . redraw-display)
 	("C-c C-g" . evil-show-file-info)
-	("C-c C-u" . evil-delete-back-to-indentation)))
+	("C-c C-u" . evil-delete-back-to-indentation))
+  :hook
+  (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return))))
 
 (use-package undo-tree
   :init

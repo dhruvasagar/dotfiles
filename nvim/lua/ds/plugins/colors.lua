@@ -41,7 +41,7 @@ return {
           bold = true,
           theme = "light",
         },
-        override = {
+        on_highlight = {
           DiffAdd = { fg = "#e4e4e4", bg = "#005f00" },
           DiffText = { fg = "#ffffff", bg = "#ff0000" },
           DiffChange = { fg = "#ffffff", bg = "#870087" },

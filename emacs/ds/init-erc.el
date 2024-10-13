@@ -4,6 +4,7 @@
 
 (global-set-key (kbd "C-c e a") 'erc-track-switch-buffer)
 
+(setopt erc-sasl-mechanism 'plain)
 ;; Join the #emacs and #erc channels whenever connecting to
 ;; Libera.Chat.
 (setq erc-autojoin-channels-alist
