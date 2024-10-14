@@ -174,4 +174,8 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
+(use-package zig-mode
+  :hook
+  (zig-mode . lsp))
+
 (provide 'init-langs)
