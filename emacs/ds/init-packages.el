@@ -56,13 +56,14 @@
   :hook
   (dashboard-after-initialize . global-anzu-mode))
 
-(use-package highlight-indent-guides
-  :custom
-  (highlight-indent-guides-method 'character)
-  (highlight-indent-guides-responsive 'top)
-  (highlight-indent-guides-auto-enabled nil)
-  :hook
-  (prog-mode . highlight-indent-guides-mode))
+;; (use-package highlight-indent-guides
+;;   :custom
+;;   (highlight-indent-guides-method 'character)
+;;   (highlight-indent-guides-delay 1)
+;;   (highlight-indent-guides-responsive nil)
+;;   (highlight-indent-guides-auto-enabled nil)
+;;   :hook
+;;   (prog-mode . highlight-indent-guides-mode))
 
 (use-package dashboard
   :init

@@ -23,8 +23,8 @@
   ;; embark-bindings)     ;; alternative for `describe-bindings'
   ( :map minibuffer-local-map
     ("C-c C-c" . embark-collect)
-    ("C-c C-e" . embark-export))
-  ( :map global-map
+    ("C-c C-e" . embark-export)
+    :map global-map
     ("C-," . ds/embark-act-no-quit)
     ("C-." . ds/embark-act-quit)
     ("C-h B" . embark-bindings)
@@ -34,11 +34,11 @@
     :map minibuffer-local-filename-completion-map
     ("C-," . ds/embark-act-no-quit)
     ("C-." . ds/embark-act-quit))
+
   :init
 
   ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command
-	embark-indicators '())
+  (setq prefix-help-command #'embark-prefix-help-command)
 
   ;; Show the Embark target at point via Eldoc. You may adjust the
   ;; Eldoc strategy, if you want to see the documentation from

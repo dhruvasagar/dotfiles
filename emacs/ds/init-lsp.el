@@ -44,7 +44,7 @@
   (lsp-completion-provider :none)
   (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
   (lsp-enable-links t)
-  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-enable nil)
   (lsp-headerline-breadcrumb-segments '(file symbols))
   (gc-cons-threshold (* 100 1024 1024))
   (read-process-output-max (* 1024 1024))

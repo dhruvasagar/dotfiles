@@ -1,4 +1,4 @@
-(add-hook 'window-setup-hook (lambda ()
+(add-hook 'emacs-setup-hook (lambda ()
 			       (inhibit-startup-screen t)
 			       (toggle-frame-maximized t)
 			       (tool-bar-mode -1)
@@ -14,6 +14,7 @@
 (setq tab-bar-show 1)
 (winner-mode 1)
 (tab-bar-history-mode 1)
+(which-function-mode 1)
 
 (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
