@@ -14,7 +14,58 @@
 (setq tab-bar-show 1)
 (winner-mode 1)
 (tab-bar-history-mode 1)
+
+
+(defun narrow-or-widen-dwim (p)
+  "Widen if buffer is narrowed, narrow-dwim otherwise.
+Dwim means: region, org-src-block, org-subtree, or
+defun, whichever applies first. Narrowing to
+org-src-block actually calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer
+is already narrowed."
+  (interactive "P")
+  (declare (interactive-only))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+	((region-active-p)
+	 (narrow-to-region (region-beginning)
+			   (region-end)))
+	((derived-mode-p 'org-mode)
+	 ;; `org-edit-src-code' is not a real narrowing
+	 ;; command. Remove this first conditional if
+	 ;; you don't want it.
+	 (cond ((ignore-errors (org-edit-src-code) t)
+		(delete-other-windows))
+	       ((ignore-errors (org-narrow-to-block) t))
+	       (t (org-narrow-to-subtree))))
+	((derived-mode-p 'latex-mode)
+	 (LaTeX-narrow-to-environment))
+	(t (narrow-to-defun))))
+(evil-global-set-key 'normal (kbd "C-x n t") 'narrow-or-widen-dwim)
+
+(add-hook 'LaTeX-mode-hook
+	  (lambda ()
+	    (define-key LaTeX-mode-map "\C-xn"
+	      nil)))
+
 (which-function-mode 1)
+(setq which-func-format
+      `(" "
+	(:propertize which-func-current local-map
+		     (keymap
+		      (mode-line keymap
+				 (mouse-3 . end-of-defun)
+				 (mouse-2 . narrow-to-defun)
+				 (mouse-1 . beginning-of-defun)))
+		     face which-func
+		     mouse-face mode-line-highlight
+		     help-echo "mouse-1: go to beginning\n\
+mouse-2: toggle rest visibility\n\
+mouse-3: go to end")
+	" "))
+;; Set the window-function-mode details in the headerline but the mouse doesn't work
+;; (setq-default header-line-format
+;;	      '((which-func-mode ("" which-func-format " "))))
 
 (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
@@ -170,6 +221,10 @@ use in `display-buffer-alist'."
 	 (display-buffer-no-window)
 	 (allow-no-window . t))
 	;; bottom side window
+	("\\*Org Agenda.*"
+	 (display-buffer-reuse-mode-window display-buffer-below-selected)
+	 (window-height . fit-window-to-buffer)
+	 (dedicated . t))
 	("\\*Org \\(Select\\|Note\\)\\*" ; the `org-capture' key selection and `org-add-log-note'
 	 (display-buffer-in-side-window)
 	 (dedicated . t)
