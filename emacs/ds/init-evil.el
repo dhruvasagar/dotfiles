@@ -17,7 +17,8 @@
 	("C-c C-g" . evil-show-file-info)
 	("C-c C-u" . evil-delete-back-to-indentation))
   :hook
-  (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return))))
+  (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return)))
+  (vterm-mode . turn-off-evil-mode))
 
 (use-package undo-tree
   :init
@@ -33,25 +34,36 @@
   (evil-collection-init))
 
 (use-package evil-surround
+  :after evil
   :config
   (global-evil-surround-mode 1))
 
 (use-package evil-rails)
 
 (use-package evil-commentary
+  :after evil
   :config
   (evil-commentary-mode))
 
 (use-package evil-matchit
+  :after evil
   :config
   (global-evil-matchit-mode 1))
 
 (use-package evil-exchange
+  :after evil
   :config
   (evil-exchange-cx-install))
 
 (use-package evil-visualstar
+  :after evil
   :config
   (global-evil-visualstar-mode t))
+
+(use-package evil-args
+  :after evil
+  :bind
+  (:map evil-inner-text-objects-map ("a" . evil-inner-arg))
+  (:map evil-outer-text-objects-map ("a" . evil-outer-arg)))
 
 (provide 'init-evil)

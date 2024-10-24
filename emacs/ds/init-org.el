@@ -1310,7 +1310,7 @@
 
 (defun efs/presentation-setup ()
   ;; Hide the mode line
-  (hide-mode-line-mode 1)
+  ;; (hide-mode-line-mode 1)
 
   ;; Display images inline
   (org-display-inline-images) ;; Can also use org-startup-with-inline-images
@@ -1326,7 +1326,7 @@
 
 (defun efs/presentation-end ()
   ;; Show the mode line again
-  (hide-mode-line-mode 0)
+  ;; (hide-mode-line-mode 0)
 
   ;; Turn off text scale mode (or use the next line if you didn't use text-scale-mode)
   ;; (text-scale-mode 0))

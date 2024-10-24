@@ -1,8 +1,25 @@
-(global-set-key (kbd "C-c e s") (lambda () (interactive)
-			   (erc-tls :server "irc.libera.chat" :port "6697"
-				:nick "dhruvasagar")))
+(define-prefix-command 'ds/erc-map)
+(define-key ctl-x-map "e" 'ds/erc-map)
 
-(global-set-key (kbd "C-c e a") 'erc-track-switch-buffer)
+(defun ds/erc-connect-libera ()
+  (interactive)
+  (erc-tls :server "irc.libera.chat" :port "6697"
+	   :nick "dhruvasagar"))
+(define-key ds/erc-map "s" 'ds/erc-connect-libera)
+(define-key ds/erc-map "a" 'erc-track-switch-buffer)
+
+(defun ds/erc-quit ()
+    "Kill ERC buffers and terminate any child processes."
+    (interactive)
+    (let ((kill-buffer-query-functions nil)
+	  (erc-buffers (erc-buffer-list)))
+      (if (not erc-buffers)
+	  (message "There are no ERC buffers to kill."))
+      (progn
+	(dolist (buffer erc-buffers)
+	  (kill-buffer buffer))
+	(message "Killed all ERC buffers."))))
+(define-key ds/erc-map "q" 'ds/erc-quit)
 
 (setopt erc-sasl-mechanism 'plain)
 ;; Join the #emacs and #erc channels whenever connecting to

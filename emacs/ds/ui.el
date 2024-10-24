@@ -1,20 +1,29 @@
-(add-hook 'emacs-setup-hook (lambda ()
-			       (inhibit-startup-screen t)
-			       (toggle-frame-maximized t)
-			       (tool-bar-mode -1)
-			       (scroll-bar-mode -1)
-			       (menu-bar-mode -1)
-			       ))
-
+(setq inhibit-startup-screen t)
+(toggle-frame-maximized)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
 (global-hl-line-mode)
+(set-frame-font "FiraCode Nerd Font Mono 15" nil t)
+
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (global-visual-line-mode t)
 (setq help-window-select t)
-(set-frame-font "FiraCode Nerd Font Mono 15" nil t)
 (setq tab-bar-show 1)
 (winner-mode 1)
 (tab-bar-history-mode 1)
 
+(electric-pair-mode t)
+(setq blink-matching-paren t
+      show-paren-highlight-openparen t
+      show-paren-when-point-inside-paren t
+      show-paren-when-point-in-periphery t
+      show-parent-context-when-offscreen t)
+(setq electric-pair-preserve-balance t
+      electric-pair-delete-adjacent-pairs t
+      electric-pair-open-newline-between-pairs t
+
+      electric-pair-skip-whitespace t)
 
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
@@ -221,10 +230,15 @@ use in `display-buffer-alist'."
 	 (display-buffer-no-window)
 	 (allow-no-window . t))
 	;; bottom side window
-	("\\*Org Agenda.*"
+	("\\*compilation\\*"
+	 (display-buffer-in-side-window)
+	 (dedicated . t)
+	 (side . right))
+	("\\*\\(Org\\|Org Agenda.*\\)"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected)
-	 (window-height . fit-window-to-buffer)
-	 (dedicated . t))
+	 (dedicated . t)
+	 (window-height . 0.5)
+	 (preserve-size . (t . t)))
 	("\\*Org \\(Select\\|Note\\)\\*" ; the `org-capture' key selection and `org-add-log-note'
 	 (display-buffer-in-side-window)
 	 (dedicated . t)

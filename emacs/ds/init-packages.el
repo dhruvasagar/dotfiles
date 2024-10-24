@@ -279,11 +279,14 @@ current buffer."
   :commands (symbol-overlay-mode symbol-overlay-put fk/highlight-occurrences)
   :bind
   ( :map symbol-overlay-mode-map
-    ("C-c C-n" . symbol-overlay-jump-next)
-    ("C-c C-p" . symbol-overlay-jump-prev))
+    ("C-c s f" . symbol-overlay-jump-first)
+    ("C-c s n" . symbol-overlay-jump-next)
+    ("C-c s p" . symbol-overlay-jump-prev)
+    ("C-c s l" . symbol-overlay-jump-last))
   :hook
   (emacs-lisp-mode . symbol-overlay-mode)
   (python-mode . symbol-overlay-mode)
+  (java-mode . symbol-overlay-mode)
   :config
   (defun fk/highlight-occurrences ()
     "Put highlight to the occurrences of the symbol at point or the
@@ -657,8 +660,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 )
 
 (use-package consult-web
-	:straight (:type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
-        :after consult)
+  :straight (:type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
+  :after consult request elfeed
+  :custom
+  (consult-web-show-preview t)
+  (consult-web-preview-key "C-o")
+  (consult-web-highlight-matches t))
 
 (use-package consult-flycheck
   :after consult)
@@ -820,6 +827,34 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package ement
   :straight (:type git :host github :repo "alphapapa/ement.el"))
+
+(use-package emms)
+
+(use-package el-easydraw
+  :straight (:type git :host github :repo "misohena/el-easydraw" :files (:defaults "*.el")))
+  ;; :hook
+  ;; (org-mode . (lamdba () ((require 'edraw-org)
+  ;; 			  (edraw-org-setup-default)))))
+
+(use-package elfeed
+  :init
+  (setq elfeed-feeds
+	'(("http://www.thecrazyprogrammer.com/feed" programming)
+	  ("http://feeds.hanselman.com/ScottHanselman" programming)
+	  ("https://dev.to/feed" programming)
+	  ("https://hnrss.org/frontpage")
+	  ("https://hackernoon.com/feed")))
+  :general
+  (:states 'normal :keymaps 'elfeed-search-mode-map "gr" 'elfeed-update))
+
+(use-package ace-window
+  :bind
+  ("M-o" . ace-window))
+
+(use-package zoom-window
+  :config
+  (setq zoom-window-mode-line-color "DarkGreen")
+  :general (:states 'normal "C-w z" 'zoom-window-zoom))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

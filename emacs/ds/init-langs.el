@@ -102,7 +102,8 @@
   :mode "\\.lua\\'")
 
 (use-package markdown-mode
-  :mode "\\.md\\'"
+  :mode ("\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
   :custom (markdown-header-scaling t)
   :bind
   ( :map markdown-mode-map
@@ -111,6 +112,14 @@
     ("C-M-j" . markdown-follow-thing-at-point))
   :hook
   (markdown-mode . emojify-mode))
+
+(use-package edit-indirect
+  :after markdown-mode
+  :bind ("C-c '" . markdown-edit-code-block))
+
+(use-package poly-markdown
+  :hook
+  (markdown-mode . poly-gfm-mode))
 
 (use-package dockerfile-mode
   :mode "Dockerfile\\'")

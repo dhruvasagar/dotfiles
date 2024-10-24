@@ -22,6 +22,7 @@
 (setq evil-want-keybinding nil)
 
 (require 'init-straight)
+(require 'init-general)
 (require 'init-org)
 (require 'init-evil)
 (require 'init-packages)
@@ -131,7 +132,11 @@ FILTER is function that runs after the process is finished, its args should be
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("8b148cf8154d34917dfc794b5d0fe65f21e9155977a36a5985f89c09a9669aa0" "88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e" "4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882" "6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a" default))
- '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline"))
+ '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
+ '(safe-local-variable-values
+   '((eval setenv "JAVA_HOME"
+	   (string-trim-right
+	    (shell-command-to-string "/usr/libexec/java_home -v 8"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
