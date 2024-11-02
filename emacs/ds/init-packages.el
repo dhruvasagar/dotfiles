@@ -1,4 +1,59 @@
-(use-package no-littering)
+(use-package no-littering
+  :demand t
+  :config
+  (setq backup-directory-alist `(("." . "~/.emacs-saves")))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (setq backup-by-copying t))
+
+(use-package direnv
+  :config
+  (direnv-mode))
+
+(use-package esup)
+
+(use-package hl-todo
+  :defer 2
+  :config
+  (setq hl-todo-keyword-faces
+        '(("TODO"   . "#E5C07B")
+          ("FIXME"  . "#E06C75")
+          ("DEBUG"  . "#C678DD")
+          ("REFACTOR"  . "#C678DD")
+          ("GOTCHA" . "#FF4500")
+          ("NOTE"   . "#98C379")
+          ("QUESTION"   . "#98C379")
+          ("STUB"   . "#61AFEF")))
+  (global-hl-todo-mode 1))
+
+(use-package scroll-on-jump
+  :custom
+  (scroll-on-jump-smooth t)
+  (scroll-on-jump-duration 0.1337)
+  :config
+  (scroll-on-jump-advice-add beginning-of-buffer)
+  (scroll-on-jump-advice-add end-of-buffer)
+  (scroll-on-jump-advice-add flyspell-goto-next-error)
+  (when (featurep 'smartparens)
+    (define-key smartparens-mode-map
+      (kbd "C-M-f") (scroll-on-jump-interactive 'sp-forward-sexp))
+    (define-key smartparens-mode-map
+      (kbd "C-M-b") (scroll-on-jump-interactive 'sp-backward-sexp)))
+  ;; (scroll-on-jump-with-scroll-advice-add scroll-up-command)
+  (scroll-on-jump-with-scroll-advice-add View-scroll-half-page-backward)
+  (scroll-on-jump-with-scroll-advice-add View-scroll-half-page-backward)
+  (scroll-on-jump-with-scroll-advice-add evil-scroll-down)
+  (scroll-on-jump-with-scroll-advice-add evil-scroll-up)
+  ;; (scroll-on-jump-with-scroll-advice-add ccm-scroll-down)
+  ;; (scroll-on-jump-with-scroll-advice-add ccm-scroll-up)
+  (scroll-on-jump-with-scroll-advice-add isearch-update)
+  (scroll-on-jump-with-scroll-advice-add recenter-top-bottom))
+
+(use-package display-fill-column-indicator
+  :defer t
+  :ensure nil
+  :config
+  (setq display-fill-column-indicator-column 80))
 
 (use-package exec-path-from-shell
   :config
@@ -18,6 +73,18 @@
 (use-package which-key
   :config
   (which-key-mode))
+
+(use-package keycast
+  :hook (after-init . keycast-mode)
+  :config
+  (define-minor-mode keycast-mode
+	"Show current command and its key binding in the mode line (fix for use with doom-modeline)."
+	:global t
+	(if keycast-mode
+		(add-hook 'pre-command-hook 'keycast--update t)
+      (remove-hook 'pre-command-hook 'keycast--update)))
+
+  (add-to-list 'global-mode-string '("" keycast-mode-line)))
 
 (use-package helpful
   :custom
@@ -304,19 +371,22 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (defalias 'fk/highlight-remove (lambda () (interactive) (hi-lock-unface-buffer t)))
   (defalias 'fk/highlight-remove-one-by-one 'hi-lock-unface-buffer))
 
-(use-package rainbow-mode
-  :custom-face
-  (rainbow-delimiters-depth-1-face ((t (:foreground "white"))))
-  (rainbow-delimiters-depth-2-face ((t (:foreground "cyan"))))
-  (rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
-  (rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
-  (rainbow-delimiters-depth-5-face ((t (:foreground "orange"))))
-  (rainbow-delimiters-depth-6-face ((t (:foreground "purple"))))
-  (rainbow-delimiters-depth-7-face ((t (:foreground "white"))))
-  (rainbow-delimiters-depth-8-face ((t (:foreground "cyan"))))
-  (rainbow-delimiters-depth-9-face ((t (:foreground "yellow"))))
-  (rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
-  :hook (prog-mode . rainbow-mode))
+(use-package colorful-mode
+  :straight (:type git :host github :repo "DevelopmentCool2449/colorful-mode"))
+
+;; (use-package rainbow-mode
+;;   :custom-face
+;;   (rainbow-delimiters-depth-1-face ((t (:foreground "white"))))
+;;   (rainbow-delimiters-depth-2-face ((t (:foreground "cyan"))))
+;;   (rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
+;;   (rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
+;;   (rainbow-delimiters-depth-5-face ((t (:foreground "orange"))))
+;;   (rainbow-delimiters-depth-6-face ((t (:foreground "purple"))))
+;;   (rainbow-delimiters-depth-7-face ((t (:foreground "white"))))
+;;   (rainbow-delimiters-depth-8-face ((t (:foreground "cyan"))))
+;;   (rainbow-delimiters-depth-9-face ((t (:foreground "yellow"))))
+;;   (rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
+;;   :hook (prog-mode . rainbow-mode))
 
 (use-package web-mode
   :custom
@@ -548,10 +618,32 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package combobulate
+  :after treesit
+  :straight (:host github :repo "mickeynp/combobulate")
+  :preface
+  ;; You can customize Combobulate's key prefix here.
+  ;; Note that you may have to restart Emacs for this to take effect!
+  (setq combobulate-key-prefix "C-c o")
+  :hook
+  ((python-ts-mode . combobulate-mode)
+   (js-ts-mode . combobulate-mode)
+   (html-ts-mode . combobulate-mode)
+   (css-ts-mode . combobulate-mode)
+   (yaml-ts-mode . combobulate-mode)
+   (typescript-ts-mode . combobulate-mode)
+   (json-ts-mode . combobulate-mode)
+   (tsx-ts-mode . combobulate-mode)
+   (java-ts-mode . combobulate-mode)
+   (rust-ts-mode . combobulate-mode)))
+
 (use-package nerd-icons
-  :ensure t
   :custom
   (nerd-icons-font-family "FiraCode Nerd Font Mono"))
+
+(use-package nerd-icons-dired
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 ;; Example configuration for Consult
 (use-package consult
@@ -648,7 +740,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
    ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any))
+   :preview-key '(:debounce 0.4 any)
+   :initial (thing-at-point 'symbol))
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
@@ -687,7 +780,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (marginalia-mode))
 
 (use-package wgrep
-  :ensure t
   :bind ( :map grep-mode-map
           ("e" . wgrep-change-to-wgrep-mode)
           ("C-x C-q" . wgrep-change-to-wgrep-mode)
@@ -741,14 +833,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(basic orderless partial-completion flex))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package vterm
-  :ensure t
   :bind (:map project-prefix-map
               ("t" . project-vterm))
   :preface
@@ -765,8 +855,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (add-to-list 'project-switch-commands     '(project-vterm "Vterm") t)
   (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode))
   :config
-  (setq vterm-copy-exclude-prompt t)
-  (setq vterm-max-scrollback 100000))
+  (setq vterm-copy-exclude-prompt t
+        vterm-max-scrollback 5000))
 
 (use-package multi-vterm
   :hook
@@ -837,24 +927,34 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; 			  (edraw-org-setup-default)))))
 
 (use-package elfeed
-  :init
+  :config
   (setq elfeed-feeds
-	'(("http://www.thecrazyprogrammer.com/feed" programming)
-	  ("http://feeds.hanselman.com/ScottHanselman" programming)
-	  ("https://dev.to/feed" programming)
-	  ("https://hnrss.org/frontpage")
-	  ("https://hackernoon.com/feed")))
-  :general
-  (:states 'normal :keymaps 'elfeed-search-mode-map "gr" 'elfeed-update))
+	'(("https://dev.to/feed" programming)
+	  ("https://hnrss.org/frontpage" hackernews)
+	  ("https://hackaday.com/blog/feed/" hackday)
+	  ("https://opensource.com/feed" opensource)
+	  ("https://www.techrepublic.com/rss-feeds/topic/open-source" techrepublic opensource)
+	  ("https://blog.codinghorror.com/rss/" codinghorror)
+	  ("https://martinfowler.com/feed.atom" martin fowler)
+	  ("https://feeds.hanselman.com/ScottHanselman" scotthanselman)
+	  ("https://medium.com/netflix-techblog?source=rss" netflix)
+	  ("https://www.reddit.com/r/linux.rss" reddit linux)
+	  ("https://www.reddit.com/r/vim.rss" reddit vim)
+	  ("https://www.reddit.com/r/neovim.rss" reddit neovim)
+	  ("https://www.reddit.com/r/emacs.rss" reddit emacs))))
 
 (use-package ace-window
   :bind
-  ("M-o" . ace-window))
+  ("M-o" . ace-window)
+  ("M-C-o" . ace-delete-window))
 
 (use-package zoom-window
   :config
   (setq zoom-window-mode-line-color "DarkGreen")
   :general (:states 'normal "C-w z" 'zoom-window-zoom))
+
+(use-package emacs-gif-screencast
+  :straight (:type git :host gitlab :repo "ambrevar/emacs-gif-screencast" :files (:defaults "gif-screencast.el")))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

@@ -1,29 +1,69 @@
-(setq inhibit-startup-screen t)
 (toggle-frame-maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (global-hl-line-mode)
+(pixel-scroll-mode)
 (set-frame-font "FiraCode Nerd Font Mono 15" nil t)
-
+(progn
+  (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
+  (add-to-list 'default-frame-alist '(alpha . (100 . 100))))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+(set-default 'truncate-lines t)
 (global-visual-line-mode t)
 (setq help-window-select t)
 (setq tab-bar-show 1)
 (winner-mode 1)
 (tab-bar-history-mode 1)
 
-(electric-pair-mode t)
+(setq window-divider-default-places t
+      window-divider-default-bottom-width 1
+      window-divider-default-right-width 0)
+(window-divider-mode +1)
+
+(defconst jetbrains-ligature-mode--ligatures
+  '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
+    "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
+    "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
+    "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
+    "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
+    "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
+    "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
+    "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
+    ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
+    "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
+    "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
+    "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
+    "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
+    "&="))
+
+(sort jetbrains-ligature-mode--ligatures (lambda (x y) (> (length x) (length y))))
+
+(dolist (pat jetbrains-ligature-mode--ligatures)
+  (set-char-table-range composition-function-table
+			(aref pat 0)
+			(nconc (char-table-range composition-function-table (aref pat 0))
+			       (list (vector (regexp-quote pat)
+					     0
+					     'compose-gstring-for-graphic)))))
+
+(setq compilation-scroll-output t
+      compilation-always-kill t)
+
 (setq blink-matching-paren t
       show-paren-highlight-openparen t
       show-paren-when-point-inside-paren t
       show-paren-when-point-in-periphery t
-      show-parent-context-when-offscreen t)
+      show-paren-context-when-offscreen t)
+(show-paren-mode 1)
 (setq electric-pair-preserve-balance t
       electric-pair-delete-adjacent-pairs t
       electric-pair-open-newline-between-pairs t
-
       electric-pair-skip-whitespace t)
+(electric-pair-mode t)
 
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
@@ -75,7 +115,6 @@ mouse-3: go to end")
 ;; Set the window-function-mode details in the headerline but the mouse doesn't work
 ;; (setq-default header-line-format
 ;;	      '((which-func-mode ("" which-func-format " "))))
-
 (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
 (add-to-list 'default-frame-alist '(internal-border-width . 5))
@@ -89,9 +128,9 @@ mouse-3: go to end")
 
 (set-face-attribute 'default nil :height 150)
 
-(setq completion-ignore-case t)
-(setq read-buffer-completion-ignore-case t)
-(setq read-file-name-completion-ignore-case t)
+(setq completion-ignore-case t
+      read-buffer-completion-ignore-case t
+      read-file-name-completion-ignore-case t)
 
 (defun fk/split-window-below-and-switch ()
   "Split the window below, then switch to the new window."
@@ -104,22 +143,6 @@ mouse-3: go to end")
   (interactive)
   (split-window-right)
   (other-window 1))
-
-;; (add-to-list 'display-buffer-alist
-;;	     '("\\*sly-mrepl"
-;;	       (display-buffer-at-bottom)
-;;	       (window-height . 12)))
-;; (add-to-list 'display-buffer-alist
-;;	     '("\\*Calendar*"
-;;	       (display-buffer-at-bottom)))
-;; (add-to-list 'display-buffer-alist
-;;	     '("\\*shell:"
-;;	       (display-buffer-below-selected)
-;;	       (window-height . 12)))
-;; (add-to-list 'display-buffer-alist
-;;	     '("\\*vterm*\\*"
-;;	       (display-buffer-below-selected)
-;;	       (window-height . 12)))
 
 (defun ds/common-window-bounds ()
   "Return start and end points in the window as a cons cell."
@@ -229,7 +252,6 @@ use in `display-buffer-alist'."
 	("\\`\\*\\(Warnings\\|Compile-Log\\|Org Links\\)\\*\\'"
 	 (display-buffer-no-window)
 	 (allow-no-window . t))
-	;; bottom side window
 	("\\*compilation\\*"
 	 (display-buffer-in-side-window)
 	 (dedicated . t)
@@ -306,6 +328,9 @@ use in `display-buffer-alist'."
 	;; `display-buffer-alist'.  It works for new frames and for
 	;; `display-buffer-below-selected', but otherwise is
 	;; unpredictable.  See `Man-notify-method'.
+	("\\*grep\\*"
+	 (display-buffer-no-window)
+	 (allow-no-window . t))
 	((or . ((derived-mode . Man-mode)
 		(derived-mode . woman-mode)
 		"\\*\\(Man\\|woman\\).*"))

@@ -786,6 +786,7 @@
              (bh/org-agenda-to-appt)
 
              ; Activate appointments so we get notifications
+	     (setq appt-message-warning-time 15)
              (appt-activate t)
 
              ; If we leave Emacs running overnight - reset the appointments one minute after midnight
@@ -1157,20 +1158,6 @@
              (setq org-clone-delete-id t)
              (setq org-cycle-include-plain-lists t)
              (setq org-src-fontify-natively t)
-             (setq org-structure-template-alist
-                   (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-                           ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
-                           ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
-                           ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
-                           ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n</center>")
-                           ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
-                           ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
-                           ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
-                           ("H" "#+html: " "<literal style=\"html\">?</literal>")
-                           ("a" "#+begin_ascii\n?\n#+end_ascii")
-                           ("A" "#+ascii: ")
-                           ("i" "#+index: ?" "#+index: ?")
-                           ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
 
              (defun bh/mark-next-parent-tasks-todo ()
                "Visit each parent task and change NEXT states to TODO"
@@ -1240,8 +1227,8 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(use-package org-bullets
-             :hook (org-mode . org-bullets-mode))
+;; (use-package org-bullets
+;;              :hook (org-mode . org-bullets-mode))
 
 (use-package org-roam
   :init
@@ -1344,5 +1331,32 @@
   (org-tree-slide-header t)
   (org-tree-slide-breadcrumbs " > ")
   (org-image-actual-width nil))
+
+(use-package org-modern
+  :config
+  (global-org-modern-mode)
+  (setq org-modern-todo-faces
+	(quote (("TODO" :foreground "red" :weight bold)
+		("NEXT" :foreground "blue" :weight bold)
+		("DONE" :foreground "forest green" :weight bold)
+		("WAITING" :foreground "orange" :weight bold)
+		("HOLD" :foreground "magenta" :weight bold)
+		("CANCELLED" :foreground "forest green" :weight bold)
+		("MEETING" :foreground "forest green" :weight bold)
+		("PHONE" :foreground "forest green" :weight bold)))))
+
+(defun ds/convert-org-to-docx-with-pandoc ()
+  "Use Pandoc to convert .org to .docx.
+Comments:
+- The `-N' flag numbers the headers lines.
+- Use the `--from org' flag to have this function work on files
+  that are in Org syntax but do not have a .org extension"
+  (interactive)
+  (message "exporting .org to .docx")
+  (shell-command
+   (concat "pandoc -N --from org " (buffer-file-name)
+           " -o "
+           (file-name-sans-extension (buffer-file-name))
+           (format-time-string "-%Y-%m-%d-%H%M%S") ".docx")))
 
 (provide 'init-org)
