@@ -1,10 +1,3 @@
-(use-package lsp-java
-  :init
-  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
-  :after lsp-mode)
-
-(add-hook 'java-ts-mode-hook #'lsp)
-
 (use-package python
   :custom
   (python-shell-interpreter "ipython")
@@ -23,8 +16,6 @@
   (python-mode . (lambda () (setq-local company-prescient-sort-length-enable nil)))
   (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
 			      (flycheck-mode))))
-  (python-mode . lsp)
-  (python-ts-mode . lsp)
   ;; importmagic runs ~100mb ipython process per python file, and it does not
   ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
   ;; (python-mode . importmagic-mode)
@@ -45,6 +36,7 @@
    'python-mode
    `((,python-walrus-operator-regexp 0 'escape-glyph t))
    'set))
+
 (use-package pip-requirements
   :mode (("\\.pip\\'" . pip-requirements-mode)
 	 ("requirements[^z-a]*\\.txt\\'" . pip-requirements-mode)
@@ -63,10 +55,7 @@
   :custom
   (js-indent-level 2)
   :hook
-  (js2-mode . flycheck-mode)
-  ;;(js2-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
-  (js2-mode . lsp)
-  (js2-ts-mode . lsp))
+  (js2-mode . flycheck-mode))
 
 (use-package tide
   :after (company flycheck)
@@ -74,6 +63,8 @@
 	 (tsx-ts-mode . tide-setup)
 	 (typescript-ts-mode . tide-hl-identifier-mode)
 	 (before-save . tide-format-before-save)))
+
+(use-package ng2-mode)
 
 (use-package go-mode
   ;; install go & go-tools, for arch based linux:
@@ -83,20 +74,13 @@
   (gofmt-command "goimports")
   :hook
   (go-mode . flycheck-mode)
-  (go-mode . lsp)
-  (go-ts-mode . lsp)
   (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
   (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
 
 (use-package cc-mode
   :bind
   ( :map c-mode-base-map
-    ("C-c C-c" . fk/c-run))
-  :hook
-  (c-mode . lsp)
-  (c-ts-mode . lsp)
-  (c++-mode . lsp)
-  (c++-ts-mode . lsp))
+    ("C-c C-c" . fk/c-run)))
 
 (use-package lua-mode
   :mode "\\.lua\\'")
@@ -141,33 +125,17 @@
 	 ("/.dockerignore\\'" . gitignore-mode)))
 
 (use-package terraform-mode
-  :mode "\\.tf\\'"
-  :hook
-  (terraform-mode . lsp)
-  (terraform-ts-mode . lsp))
+  :mode "\\.tf\\'")
 
 (use-package d2-mode)
 
 (use-package ledger-mode)
 
-(use-package rust-mode
-  :hook
-  (rust-mode . lsp)
-  (rust-ts-mode . lsp))
+(use-package rust-mode)
 
 (use-package plantuml-mode)
 
-(use-package haskell-mode
-  :hook
-  (haskell-mode . lsp)
-  (haskell-literate-mode . lsp)
-  (haskell-ts-mode . lsp))
-
-(use-package lsp-haskell
-  :hook
-  (haskell-mode . lsp)
-  (haskell-ts-mode . lsp)
-  (haskell-literate-mode . lsp))
+(use-package haskell-mode)
 
 (use-package kotlin-mode)
 
@@ -183,8 +151,6 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
-(use-package zig-mode
-  :hook
-  (zig-mode . lsp))
+(use-package zig-mode)
 
 (provide 'init-langs)

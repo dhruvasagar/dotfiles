@@ -328,14 +328,12 @@ current buffer."
 (use-package flycheck
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled))
-  (flycheck-disabled-checkers '(python-pycompile python-mypy python-pylint python-pyright))
   :bind
   ( :map errors
     ("n" . flycheck-next-error)
     ("p" . flycheck-previous-error)
     ("l" . flycheck-list-errors)
-    ("v" . flycheck-verify-setup))
-)
+    ("v" . flycheck-verify-setup)))
 
 (use-package eldoc-box
   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
@@ -820,11 +818,11 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
     (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
+		  (replace-regexp-in-string
+		   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+		   crm-separator)
+		  (car args))
+	  (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
   ;; Do not allow the cursor in the minibuffer prompt
@@ -955,6 +953,62 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package emacs-gif-screencast
   :straight (:type git :host gitlab :repo "ambrevar/emacs-gif-screencast" :files (:defaults "gif-screencast.el")))
+
+(use-package easy-hugo
+  :init
+  (setq easy-hugo-basedir "~/src/dhruvasagar/website/"
+	easy-hugo-postdir "content/posts/"
+        easy-hugo-url "https://dhruvasagar.dev"
+        easy-hugo-sshdomain "blog"
+        easy-hugo-root "/home/dhruvasagar/website/"
+        easy-hugo-previewtime "300")
+  :config
+  (easy-hugo-enable-menu)
+  :bind
+  ("C-c M-h" . easy-hugo-menu))
+
+(use-package ledger-mode
+  :mode
+  (("\\.ledger\\'" . ledger-mode)
+   ("\\.dat\\'" . ledger-mode))
+  :interpreter "ledger"
+  :custom-face (ledger-font-payee-uncleared-face ((t (:inherit error :underline t))))
+  :bind (:map ledger-mode-map
+	      ("C-c r" . ledger-report)
+	      )
+  :init
+  (setenv "LEDGER_FILE" (expand-file-name (concat org-directory "/comptes.ledger")))
+  (setq ledger-mode-should-check-version nil
+	ledger-report-links-in-register nil
+	ledger-binary-path "ledger")
+
+  (setq ledger-use-iso-dates t)
+  (setq ledger-highlight-xact-under-point t)
+  (setq ledger-post-account-alignment-column 2)
+  (setq ledger-post-amount-alignment-column  52)
+  (setq ledger-post-auto-adjust-amounts t)
+  (setq ledger-reports
+        '(("bal" "%(binary) -y '%a %e %b %Y' -f %(ledger-file) cleared")
+          ("net worth" "ledger -f %(ledger-file) -V balance assets liabilities --real")
+          ("month budget" "ledger -y '%a %e %b %Y' -f %(ledger-file) --budget -M -p \"this month\" register Expenses Liabilities Assets:PEL Assets:LivretA")
+          ("month unbudgeted" "ledger -y '%a %e %b %Y' -f %(ledger-file) --unbudgeted -M -p \"this month\"  register Expenses Liabilities Income")
+          ("by Payee" "ledger -y '%a %e %b %Y' -f %(ledger-file) register -P")
+          ("uncleared" "ledger -y '%a %e %b %Y' -f %(ledger-file) register -U")
+          ("monthly expenses"
+           "%(binary) -f %(ledger-file) balance expenses --average --monthly")
+          ;; ("monthly expenses" "ledger -y '%b %Y' -f %(ledger-file) -MAn reg Expenses")
+          ("month expenses weekly" "ledger -y '%a %e %b %Y' -f %(ledger-file) -Wn reg Expenses -p \"this month\"")
+          ("month expenses daily" "ledger -y '%a %e %b %Y' -f %(ledger-file) -Dn reg Expenses -p \"this month\""))))
+
+(use-package age
+  :custom
+  (age-default-identity "~/.ssh/age/key.txt")
+  :config
+  (age-file-enable))
+
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

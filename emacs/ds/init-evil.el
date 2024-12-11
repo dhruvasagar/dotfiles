@@ -17,8 +17,7 @@
 	("C-c C-g" . evil-show-file-info)
 	("C-c C-u" . evil-delete-back-to-indentation))
   :hook
-  (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return)))
-  (vterm-mode . turn-off-evil-mode))
+  (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return))))
 
 (use-package undo-tree
   :init
@@ -65,5 +64,11 @@
   :bind
   (:map evil-inner-text-objects-map ("a" . evil-inner-arg))
   (:map evil-outer-text-objects-map ("a" . evil-outer-arg)))
+
+(use-package evil-numbers
+  :bind
+  (:map evil-normal-state-map
+	("C-c +" . evil-numbers/inc-at-pt)
+	("C-c -" . evil-numbers/dec-at-pt)))
 
 (provide 'init-evil)

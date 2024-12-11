@@ -4,6 +4,7 @@ return {
   { dir = "~/dotfiles/vim/pack/packup/start/vim-zoom" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-dotoo" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-pairify" },
+  { dir = "~/dotfiles/vim/pack/packup/start/vim-markify" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-testify" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-open-url" },
   { dir = "~/dotfiles/vim/pack/packup/start/vim-table-mode/" },

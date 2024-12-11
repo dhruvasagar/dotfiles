@@ -1,7 +1,7 @@
 ;;; init-lsp
-;; (defun ds/lsp-describe-thing-at-point ()
-;;   (interactive)
-;;   (if (lsp-ui-doc--visible-p) (lsp-ui-doc-focus-frame) (lsp-ui-doc-glance)))
+(defun ds/lsp-describe-thing-at-point ()
+  (interactive)
+  (if (lsp-ui-doc--visible-p) (lsp-ui-doc-focus-frame) (lsp-ui-doc-glance)))
 
 (defun lsp-custom-bindings ()
   (evil-local-set-key 'normal (kbd "K") 'lsp-describe-thing-at-point)
@@ -20,14 +20,13 @@
 	      lsp-ui-doc-show-with-mouse nil
 	      lsp-ui-peek-always-show t))
 
-(defun ds/lsp-mode-cb ()
+(defun ds/lsp-mode-setup ()
   (ds/lsp-ui-settings)
   (lsp-enable-which-key-integration)
   (lsp-custom-bindings))
-  ;; (lsp-format-on-save))
 
-;; (require 'eglot)
-;; (setq eglot-ignored-server-capabilities '(:hoverProvider))
+;; (defun eglot-custom-bindings ()
+;;   (evil-local-set-key 'normal (kbd "K") 'eldoc-box-eglot-help-at-point))
 
 (use-package lsp-mode
   :commands lsp
@@ -53,8 +52,29 @@
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  (lsp-mode . ds/lsp-mode-cb)
+  (ng2-mode . lsp)
+  (ng2-ts-mode . lsp)
+  (zig-mode . lsp)
+  (c-ts-mode . lsp)
+  (c++-ts-mode . lsp)
+  (lua-ts-mode . lsp)
+  (go-ts-mode . lsp)
+  (js2-ts-mode . lsp)
+  (java-ts-mode . lsp)
+  (rust-ts-mode . lsp)
+  (python-ts-mode . lsp)
+  (haskell-ts-mode . lsp)
+  (terraform-ts-mode . lsp)
+  (typescript-ts-mode . lsp)
+  (lsp-mode . ds/lsp-mode-setup)
   (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil))))
+
+(use-package lsp-java
+  :after lsp-mode
+  :init
+  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
+(use-package lsp-haskell
+  :after lsp-mode)
 
 (use-package lsp-ui
   :after lsp
@@ -90,12 +110,33 @@
   :config
   (dap-auto-configure-mode)
   :custom
-  (dap-auto-configure-features '(locals breakpoints expressions repl controls tooltip))
+  (dap-auto-configure-features '(locals breakpoints expressions))
   :bind
   (("C-c d d" . dap-debug)
    ("C-c d l" . dap-debug-last)
    ("C-c d r" . dap-debug-recent))
   :hook (dap-mode . ds/dap-custom-bindings))
+
+
+;; (defun ds/eglot-setup ()
+;;   (eglot-custom-bindings)
+;;   (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
+
+;; (require 'eglot)
+;; (add-hook 'eglot-mode-hook #'ds/eglot-setup)
+;; (add-hook 'java-ts-mode-hook #'eglot-ensure)
+;; (add-hook 'rust-ts-mode-hook #'eglot-ensure)
+;; (setq eglot-ignored-server-capabilities '(:hoverProvider))
+
+;; (add-hook
+;;  'eglot-managed-mode-hook
+;;  (lambda ()
+;;    ;; we want eglot to setup callbacks from eldoc, but we don't want eldoc
+;;    ;; running after every command. As a workaround, we disable it after we just
+;;    ;; enabled it. Now calling `M-x eldoc` will put the help we want in the eldoc
+;;    ;; buffer. Alternatively we could tell eglot to stay out of eldoc, and add
+;;    ;; the hooks manually, but that seems fragile to updates in eglot.
+;;    (eldoc-mode -1)))
 
 ;; (use-package dape
 ;;   :preface
@@ -140,5 +181,7 @@
 ;; (use-package repeat
 ;;   :config
 ;;   (repeat-mode))
+
+;; (use-package eldoc-box)
 
 (provide 'init-lsp)

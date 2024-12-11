@@ -281,7 +281,7 @@ use in `display-buffer-alist'."
 	 (window-height . fit-window-to-buffer)
 	 (window-parameters . ((no-other-window . t)
 			       (mode-line-format . none))))
-	("\\*\\(Man\\|Help\\|helpful\\|lsp-help\\).*"
+	("\\*\\(Man\\|Help\\|helpful\\|lsp-help\\|eldoc\\).*"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected))
 	("\\*\\(shell\\|vterm\\|eat\\)*"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected))
@@ -335,5 +335,11 @@ use in `display-buffer-alist'."
 		(derived-mode . woman-mode)
 		"\\*\\(Man\\|woman\\).*"))
 	 (display-buffer-same-window))))
+
+;; Better ediff experience
+(setq ediff-diff-options ""
+      ediff-custom-diff-options "-u"
+      ediff-window-setup-function 'ediff-setup-windows-plain
+      ediff-split-window-function 'split-window-vertically)
 
 (provide 'ui)
