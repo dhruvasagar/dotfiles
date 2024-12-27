@@ -26,4 +26,5 @@ return {
   "tpope/vim-eunuch",
   "tpope/vim-bundler",
   "tpope/vim-cucumber",
+  "tpope/vim-sleuth",
 }

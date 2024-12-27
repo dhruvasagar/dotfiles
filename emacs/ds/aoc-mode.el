@@ -38,7 +38,7 @@
 (defun aoc-download-input ()
   "Download the input for the day as extracted from the file name."
   (interactive)
-  (let* ((file-name (buffer-name))
+  (let* ((file-name (buffer-file-name))
 	 (day (if (string-match "\\(\\d+\\)" file-name)
 		  (string-to-number (match-string 1 file-name))
 		(error "File name must contain a day number.")))
@@ -53,7 +53,7 @@
       (message "Input downloaded for day %d." day))))
 
 (defun aoc-compile-command (input-file)
-  (let* ((file-name (buffer-name))
+  (let* ((file-name (buffer-file-name))
 	 (day (if (string-match "\\(\\d+\\)" file-name)
 		  (string-to-number (match-string 1 file-name))
 		(error "File name must contain a day number.")))

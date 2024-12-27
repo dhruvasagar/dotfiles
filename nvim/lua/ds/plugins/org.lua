@@ -4,6 +4,7 @@ return {
     event = "VeryLazy",
     ft = { "org" },
     opts = {
+      org_agenda_span = "day",
       org_agenda_files = "~/Dropbox/Documents/org-files/**/*",
       org_default_notes_file = "~/Dropbox/Documents/org-files/refile.org",
       org_todo_keywords = {

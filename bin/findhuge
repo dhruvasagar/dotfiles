@@ -24,5 +24,6 @@ while getopts ":h:d:t:c:" opts; do
     esac
 done
 
+command -v gdu >/dev/null 2>&1 && alias du=gdu
+
 find "$_DIR" -type "$_TYPE" -print0 | du -h --files0-from=- | sort -hr | head -"$_COUNT"
-# vim: ts=8

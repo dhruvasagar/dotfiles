@@ -153,4 +153,6 @@
 
 (use-package zig-mode)
 
+(use-package clojure-mode)
+
 (provide 'init-langs)
