@@ -2,6 +2,14 @@
   editor = vim
   excludesfile = ~/.gitignore
   ignorecase = false
+  pager = delta
+[interactive]
+  deltaFilter = delta --color-only
+[delta]
+  navigate = true
+  dark = true
+[merge]
+  conflictstyle = zdiff3
 [push]
   default = simple
 [user]

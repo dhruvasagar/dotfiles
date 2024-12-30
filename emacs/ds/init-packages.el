@@ -456,6 +456,9 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (git-commit-setup . git-commit-turn-on-flyspell)
   (magit-mode . hack-dir-local-variables-non-file-buffer))
 
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
 (use-package magit-todos
   :commands magit-todos-list
   :custom
@@ -1009,6 +1012,20 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
+
+(use-package prescient)
+(use-package corfu-prescient
+  :after (prescient corfu)
+  :config
+  (corfu-prescient-mode 1)
+  (prescient-persist-mode 1))
+(use-package vertico-prescient
+  :after (prescient vertico)
+  :config
+  (vertico-prescient-mode 1)
+  (prescient-persist-mode 1))
+
+(use-package quickrun)
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

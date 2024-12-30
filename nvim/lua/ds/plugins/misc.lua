@@ -1,5 +1,4 @@
 return {
-  "andymass/vim-matchup",
   "wellle/targets.vim",
   "tommcdo/vim-exchange",
   "AndrewRadev/switch.vim",
@@ -11,7 +10,9 @@ return {
   },
   {
     "dgagn/diagflow.nvim",
-    config = true,
+    opts = {
+      placement = "inline",
+    },
   },
   {
     "machakann/vim-sandwich",
@@ -299,6 +300,28 @@ return {
         tmux_show_only_in_active_window = false,                                        -- auto show/hide images in the correct Tmux window (needs visual-activity off)
         hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
       })
+    end,
+  },
+  {
+    "NeogitOrg/neogit",
+    enabled = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      -- "sindrets/diffview.nvim", -- optional - Diff integration
+
+      -- Only one of these is needed.
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    opts = {},
+    config = function()
+      vim.cmd("hi NeogitDiffAddHighlight guifg=#000")
+      vim.cmd("hi NeogitDiffDeletedHighlight guifg=#000")
+    end,
+  },
+  {
+    "andymass/vim-matchup",
+    setup = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
   },
 }

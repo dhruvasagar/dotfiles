@@ -17,7 +17,6 @@ brew install nmap
 brew install tmux
 brew install wget
 brew install awscli
-brew install neovim
 brew install ledger
 brew install ripgrep
 brew install weechat
@@ -31,6 +30,7 @@ brew install colima
 brew install gnu-sed
 brew install gnu-tar
 brew install coreutils
+brew install git-delta
 brew install moreutils
 brew install gnu-indent
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
@@ -40,13 +40,11 @@ brew install --cask pika
 brew install --cask ngrok
 brew install --cask skype
 brew install --cask slack
-brew install --cask steam
 brew install --cask skitch
 brew install --cask dropbox
 brew install --cask keybase
 brew install --cask wezterm
 brew install --cask caffeine
-brew install --cask alacritty
 brew install --cask hammerspoon
 
 brew install --cask nikitabobko/tap/aerospace

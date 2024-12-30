@@ -112,6 +112,9 @@ return {
             show_help = "?",
           },
         },
+        matchup = {
+          enable = true,
+        },
       })
     end,
   },
