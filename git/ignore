@@ -5,6 +5,7 @@ todo.dotoo
 todo.md
 notes.md
 scratch.*
+!scratch.vim
 *.rest
 .vimrc
 .zshrc

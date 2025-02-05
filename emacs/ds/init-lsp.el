@@ -14,7 +14,6 @@
 
 (defun ds/lsp-ui-settings ()
   (setq-local lsp-ui-doc-position 'at-point
-	      lsp-ui-sideline-show-hover t
 	      lsp-ui-peek-fontify 'always
 	      lsp-ui-doc-show-with-cursor nil
 	      lsp-ui-doc-show-with-mouse nil

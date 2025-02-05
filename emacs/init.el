@@ -1,5 +1,7 @@
 (add-to-list 'load-path "~/.emacs.d/ds")
 
+(defconst CACHE-DIR (expand-file-name "cache/" user-emacs-directory))
+
 ;; NOTE: I use F1 as C-h (paging & help).
 (bind-keys*
  :prefix-map fk/menu-map
@@ -22,6 +24,7 @@
 (setq use-package-verbose t)
 (setq evil-want-keybinding nil)
 
+(require 'util)
 (require 'init-straight)
 (require 'init-general)
 (require 'init-org)

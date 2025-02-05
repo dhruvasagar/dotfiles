@@ -5,6 +5,10 @@
   :bind
   ("C-c RET" . gptel-send))
 
+(use-package gptel-aibo
+  :after (gptel flycheck)
+  :straight (:type git :host github :repo "dolmens/gptel-aibo"))
+
 ;; we recommend using use-package to organize your init.el
 (use-package codeium
   ;; if you use straight

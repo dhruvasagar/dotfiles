@@ -1,6 +1,6 @@
-let g:dotoo#home=expand('~/Dropbox/Documents/dotoo-files')
-let g:dotoo#agenda#files=['~/Dropbox/Documents/dotoo-files/**/*.dotoo']
-let g:dotoo#capture#refile=expand('~/Dropbox/Documents/dotoo-files/refile.dotoo')
+let g:dotoo#home=expand('~/Dropbox/Documents/org-files')
+let g:dotoo#agenda#files=['~/Dropbox/Documents/org-files/**/*.org']
+let g:dotoo#capture#refile=expand('~/Dropbox/Documents/org-files/refile.org')
 let g:dotoo_begin_src_languages=[
       \ 'vim',
       \ 'json',

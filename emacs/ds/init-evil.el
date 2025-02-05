@@ -10,10 +10,14 @@
   (evil-global-set-key 'normal "C" "c$")
   (evil-global-set-key 'normal "Y" "y$")
   (evil-set-undo-system 'undo-tree)
+  (evil-select-search-module 'evil-search-module 'evil-search)
   :bind
   (:map evil-normal-state-map
 	("-" . dired-jump)
-	("C-l" . redraw-display)
+	("C-l" . (lambda ()
+		   (interactive)
+		   (redraw-display)
+		   (evil-ex-nohighlight)))
 	("C-c C-g" . evil-show-file-info)
 	("C-c C-u" . evil-delete-back-to-indentation))
   :hook

@@ -127,6 +127,15 @@
 (use-package terraform-mode
   :mode "\\.tf\\'")
 
+(use-package kubernetes
+  :commands (kubernetes-overview)
+  :config
+  (setq kubernetes-poll-frequency 3600
+	kubernetes-redraw-frequency 3600))
+
+(use-package kubernetes-evil
+  :after kubernetes)
+
 (use-package d2-mode)
 
 (use-package ledger-mode)

@@ -135,25 +135,38 @@ return {
   {
     "nvim-neotest/neotest",
     dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
       "vim-test/vim-test",
-      "nvim-neotest/neotest-go",
+      "fredrikaverpil/neotest-golang",
       "nvim-neotest/neotest-jest",
       "thenbe/neotest-playwright",
       "olimorris/neotest-rspec",
       "rouge8/neotest-rust",
       "jfpedroza/neotest-elixir",
       "lawrence-laz/neotest-zig",
+      "rcasia/neotest-java",
     },
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-go"),
+          require("neotest-golang")({
+            go_test_args = {
+              "-v",
+              "-race",
+              "-count=1",
+              "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+            },
+          }),
           require("neotest-jest"),
           require("neotest-playwright"),
           require("neotest-rspec"),
           require("neotest-rust"),
           require("neotest-elixir"),
           require("neotest-zig"),
+          require("neotest-java"),
         },
       })
     end,
@@ -185,6 +198,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
     config = function()
       require("ibl").setup({
         exclude = {
@@ -269,9 +283,11 @@ return {
   },
   {
     "3rd/image.nvim",
+    enabled = false,
     config = function()
       require("image").setup({
         backend = "kitty",
+        kitty_method = "normal",
         integrations = {
           markdown = {
             enabled = true,
@@ -323,5 +339,9 @@ return {
     setup = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
+  },
+  {
+    "wurli/visimatch.nvim",
+    opts = {},
   },
 }

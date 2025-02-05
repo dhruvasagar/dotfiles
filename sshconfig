@@ -21,6 +21,10 @@ HostName dhruvasagar.com
 User dhruvasagar
 RemoteForward 9022 localhost:22
 
+Host vicharak
+Hostname 192.168.1.150
+User vicharak
+
 Host blog-socks
 HostName dhruvasagar.com
 User dhruvasagar

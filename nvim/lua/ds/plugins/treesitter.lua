@@ -133,4 +133,10 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
+  {
+    "tronikelis/ts-autotag.nvim",
+    opts = {},
+    -- ft = {}, optionally you can load it only in jsx/html
+    event = "VeryLazy",
+  },
 }

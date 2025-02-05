@@ -6,6 +6,15 @@
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq backup-by-copying t))
 
+(use-package indent-bars
+  :hook (prog-mode . indent-bars-mode)
+  :init
+  (setq indent-bars-prefer-character t)
+  :custom
+  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-treesit-support t))
+
+
 (use-package direnv
   :config
   (direnv-mode))
@@ -182,32 +191,9 @@
 		   :files (:defaults "queries" "treesit-queries")))
 
 (use-package hideshow
-  :defer nil
-  :custom
-  (hs-isearch-open t)
-  :bind
-  ( :map hs-minor-mode-map
-    ("TAB" . fk/hs-smart-tab)
-    ("<tab>" . fk/hs-smart-tab)
-    ("<backtab>" . hs-toggle-hiding))
-  :config
-  (defun fk/hs-smart-tab ()
-    "Pretend like `hs-toggle-hiding' if point is on a hiding block."
-    (interactive)
-    (if (save-excursion
-          (move-beginning-of-line 1)
-          (hs-looking-at-block-start-p))
-        (hs-show-block)
-      (indent-for-tab-command)))
-
-  (defun fk/hide-second-level-blocks ()
-    "Hide second level blocks (mostly class methods in python) in
-current buffer."
-    (interactive)
-    (hs-minor-mode)
-    (save-excursion
-      (goto-char (point-min))
-      (hs-hide-level 2))))
+  :hook
+  (prog-mode . hs-minor-mode)
+  (text-mode . hs-minor-mode))
 
 (use-package yasnippet
  ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
@@ -438,10 +424,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package magit
   :commands magit
   :custom
-  (magit-section-initial-visibility-alist '((stashes . show)
-                                            (unpushed . show)
-                                            (pullreqs . show)
-                                            (issues . show)))
+  (magit-define-global-key-bindings 'recommended)
   (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
   :bind*
   ( :map version-control
@@ -764,6 +747,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package consult-flycheck
   :after consult)
 
+(use-package consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map vertico-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
@@ -1027,11 +1016,90 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package quickrun)
 
+(use-package persistent-scratch
+  :init
+  :defer 1
+  :bind ("<f6>" . persistent-scratch-quick-open)
+  :config
+  (eval-after-load '+popup
+    '(set-popup-rule! "\\^*scratch:" :vslot -4 :autosave t :size 0.35 :select t :quit nil :ttl nil :modeline t))
+  (setq persistent-scratch-save-file (concat CACHE-DIR ".persistent-scratch"))
+  ;; (persistent-scratch-restore)
+  ;; (persistent-scratch-setup-default)
+  (persistent-scratch-autosave-mode)
+  (defun persistent-scratch-buffer-identifier()
+    (string-match "^*scratch:" (buffer-name)))
+  (defun persistent-scratch-get-scratches()
+    (let ((scratch-buffers)
+          (save-data
+           (read
+            (with-temp-buffer
+              (let ((coding-system-for-read 'utf-8-unix))
+                (insert-file-contents persistent-scratch-save-file))
+              (buffer-string)))))
+      (dolist (saved-buffer save-data)
+        (push (substring (aref saved-buffer 0) (length "*scratch:")) scratch-buffers))
+      scratch-buffers))
+
+  (defun persistent-scratch-restore-this(&optional file)
+    (interactive)
+    (let ((current-buf (buffer-name (current-buffer)))
+          (save-data
+           (read
+            (with-temp-buffer
+              (let ((coding-system-for-read 'utf-8-unix))
+                (insert-file-contents (or file persistent-scratch-save-file)))
+              (buffer-string)))))
+      (dolist (saved-buffer save-data)
+        (when (string= current-buf (aref saved-buffer 0))
+          (with-current-buffer (get-buffer-create (aref saved-buffer 0))
+            (erase-buffer)
+            (insert (aref saved-buffer 1))
+            (funcall (or (aref saved-buffer 3) #'ignore))
+            (let ((point-and-mark (aref saved-buffer 2)))
+              (when point-and-mark
+                (goto-char (car point-and-mark))
+                (set-mark (cdr point-and-mark))))
+            (let ((narrowing (aref saved-buffer 4)))
+              (when narrowing
+                (narrow-to-region (car narrowing) (cdr narrowing))))
+            ;; Handle version 2 fields if present.
+            (when (>= (length saved-buffer) 6)
+              (unless (aref saved-buffer 5)
+                (deactivate-mark))))))))
+
+  (defun persistent-scratch-quick-open()
+    (interactive)
+    (let* ((scratch-buffers (persistent-scratch-get-scratches))
+          (chosen-scratch (concat "*scratch:"
+                                  (completing-read
+                                   "Choose a scratch: "
+                                   scratch-buffers nil nil nil nil
+                                   (random-alnum 4))))
+          (buffer-exists-p (get-buffer chosen-scratch)))
+      (pop-to-buffer chosen-scratch)
+      (unless buffer-exists-p
+        (persistent-scratch-restore-this))
+      (persistent-scratch-mode)))
+  (setq persistent-scratch-scratch-buffer-p-function 'persistent-scratch-buffer-identifier))
+
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
 				(project-find-dir "Find dir" "d")
 				(project-dired "Dired" "D")
 				(consult-ripgrep "ripgrep" "g")
 				(magit-project-status "Magit" "m")))
+
+(use-package project-x
+  :after project
+  :straight (:type git :host github :repo "karthink/project-x")
+  :config
+  (add-hook 'project-find-functions 'project-x-try-local 90)
+  (add-hook 'kill-emacs-hook 'project-x--window-state-write)
+  (setq project-x-save-interval 600     ;Save project state every 10 min
+	project-x-local-identifier '("package.json" "mix.es" "cargo.toml" ".project" ".git"))
+  (project-x-mode 1))
+
+(use-package rfc-mode)
 
 (provide 'init-packages)
