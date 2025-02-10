@@ -9,7 +9,15 @@
 (use-package indent-bars
   :hook (prog-mode . indent-bars-mode)
   :init
-  (setq indent-bars-prefer-character t)
+  (setq
+   indent-bars-color '(highlight :face-bg t :blend 0.2)
+   indent-bars-pattern "."
+   indent-bars-color-by-depth nil
+   indent-bars-highlight-current-depth '(:color "yellow" :blend 0.4 :width 0.2)
+   indent-bars-pad-frac 0.3
+   indent-bars-ts-highlight-current-depth '(no-inherit) ; equivalent to nil
+   indent-bars-ts-color-by-depth '(no-inherit)
+   indent-bars-ts-color '(inherit fringe :face-bg t :blend 0.2))
   :custom
   (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
   (indent-bars-treesit-support t))
@@ -60,7 +68,6 @@
 
 (use-package display-fill-column-indicator
   :defer t
-  :ensure nil
   :config
   (setq display-fill-column-indicator-column 80))
 
@@ -681,9 +688,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
          ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
          ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
          ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+         :map vertico-map
+         ("M-s" . consult-history))                ;; orig. next-matching-history-element
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
@@ -899,7 +905,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :bind
   ("C-h D" . devdocs-lookup))
 
-(use-package auctex)
+(use-package auctex
+  :hook
+  (LaTeX-mode . (lambda ()
+		  (interactive)
+		  (turn-on-prettify-symbols-mode)
+		  (turn-on-flyspell))))
 
 (use-package pdf-tools)
 

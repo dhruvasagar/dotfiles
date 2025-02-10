@@ -712,23 +712,23 @@
   (setq org-deadline-warning-days 30)
 
 					; Enable habit tracking (and a bunch of other modules)
-  (setq org-modules (quote (org-bbdb
-                            org-bibtex
+  (setq org-modules (quote (ol-bbdb
+                            ol-bibtex
                             org-crypt
-                            org-gnus
+                            ol-gnus
                             org-id
-                            org-info
-                            org-jsinfo
+                            ol-info
+                            ;;org-jsinfo
                             org-habit
                             org-inlinetask
-                            org-irc
-                            org-mew
-                            org-mhe
+                            ol-irc
+                            ;;ol-mew
+                            ol-mhe
                             org-protocol
-                            org-rmail
-                            org-vm
-                            org-wl
-                            org-w3m)))
+                            ol-rmail
+                            ;;ol-vm
+                            ;;org-wl
+                            ol-w3m)))
 					; position the habit graph on the agenda to the right of the default
   (setq org-habit-graph-column 50)
 
@@ -1360,5 +1360,29 @@ Comments:
   :config
   (setq jiralib-url "https://zenoptics.atlassian.net"
 	org-jira-working-dir "~/Dropbox/Documents/org-files/org-jira"))
+
+(use-package consult-org-roam
+   :after (org-roam consult)
+   :config
+   (consult-org-roam-mode 1)
+   :custom
+   ;; Use `ripgrep' for searching with `consult-org-roam-search'
+   (consult-org-roam-grep-func #'consult-ripgrep)
+   ;; Configure a custom narrow key for `consult-buffer'
+   (consult-org-roam-buffer-narrow-key ?r)
+   ;; Display org-roam buffers right after non-org-roam buffers
+   ;; in consult-buffer (and not down at the bottom)
+   (consult-org-roam-buffer-after-buffers t)
+   ;; :config
+   ;; ;; Eventually suppress previewing for certain functions
+   (consult-customize
+    consult-org-roam-forward-links
+    :preview-key "M-.")
+   :bind
+   ;; Define some convenient keybindings as an addition
+   ("C-c n b" . consult-org-roam-backlinks)
+   ("C-c n B" . consult-org-roam-backlinks-recursive)
+   ("C-c n l" . consult-org-roam-forward-links)
+   ("C-c n r" . consult-org-roam-search))
 
 (provide 'init-org)

@@ -14,14 +14,12 @@
     (abort-recursive-edit)))
 
 (use-package embark
-  :ensure t
-
   :bind
   ;;  (("C-SPC" . embark-act)          ;; pick some comfortable binding
   ;;   ("C-S-SPC" . embark-dwim)       ;; good alternative: M-.
   ;;   ("C-h B" .
   ;; embark-bindings)     ;; alternative for `describe-bindings'
-  ( :map minibuffer-local-map
+  ( :map vertico-map
     ("C-c C-c" . embark-collect)
     ("C-c C-e" . embark-export)
     :map global-map
