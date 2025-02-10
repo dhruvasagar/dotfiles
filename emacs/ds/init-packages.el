@@ -1094,6 +1094,20 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
       (persistent-scratch-mode)))
   (setq persistent-scratch-scratch-buffer-p-function 'persistent-scratch-buffer-identifier))
 
+(use-package popper
+  :bind (("C-\\"   . popper-toggle)
+         ("M-\\"   . popper-cycle)
+         ("C-M-\\" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))                ; For echo area hints
+
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
 				(project-find-dir "Find dir" "d")
