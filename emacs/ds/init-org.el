@@ -1188,6 +1188,8 @@
   (setq org-startup-folded t)
   (setq org-alphabetical-lists t)
 
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
   ;; flyspell mode for spell checking everywhere
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 

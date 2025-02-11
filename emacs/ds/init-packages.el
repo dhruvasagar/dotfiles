@@ -942,6 +942,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	  ("https://www.reddit.com/r/linux.rss" reddit linux)
 	  ("https://www.reddit.com/r/vim.rss" reddit vim)
 	  ("https://www.reddit.com/r/neovim.rss" reddit neovim)
+	  ("https://karthinks.com/software/index.xml" karthink emacs)
 	  ("https://www.reddit.com/r/emacs.rss" reddit emacs))))
 
 (use-package ace-window
@@ -1107,6 +1108,13 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))                ; For echo area hints
+
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+
+(use-package dirvish
+  :init
+  (dirvish-override-dired-mode))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
