@@ -10,6 +10,7 @@
   :hook (prog-mode . indent-bars-mode)
   :init
   (setq
+   indent-bars-prefer-character t
    indent-bars-color '(highlight :face-bg t :blend 0.2)
    indent-bars-pattern "."
    indent-bars-color-by-depth nil
@@ -1115,6 +1116,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package dirvish
   :init
   (dirvish-override-dired-mode))
+
+(use-package multi-line
+  :bind
+  (:map evil-normal-state-map
+	("gS" . multi-line)
+	("gJ" . multi-line-single-line)))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

@@ -718,16 +718,14 @@
                             ol-gnus
                             org-id
                             ol-info
-                            ;;org-jsinfo
                             org-habit
                             org-inlinetask
                             ol-irc
-                            ;;ol-mew
                             ol-mhe
                             org-protocol
                             ol-rmail
-                            ;;ol-vm
-                            ;;org-wl
+			    ox-latex
+			    ox-publish
                             ol-w3m)))
 					; position the habit graph on the agenda to the right of the default
   (setq org-habit-graph-column 50)
@@ -1255,10 +1253,18 @@
   (setq org-roam-dailies-capture-templates
 	'(("d" "default" entry "* %<%I:%M %p>: %?"
 	   :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+  (setq org-roam-capture-templates
+	'(("d" "default" plain "%?"
+	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+	   :unnarrowed t)
+	  ("b" "book notes" plain (file "~/Dropbox/Documents/org-files/roam/templates/BookNoteTemplate.org")
+	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+	 :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
 	 ("C-c n d" . org-roam-dailies-map)
+	 ("C-c n c" . org-roam-capture)
 	 :map org-mode-map
 	 ("C-M-i" . completion-at-point)
 	 :map org-roam-dailies-map
@@ -1353,8 +1359,18 @@ Comments:
            (format-time-string "-%Y-%m-%d-%H%M%S") ".docx")))
 
 (use-package org-yt
-  :straight (:type git :host github :repo "TobiasZawada/org-yt"))
-(use-package org-download)
+  :straight (:type git :host github :repo "TobiasZawada/org-yt")
+  :after org)
+(use-package org-download
+  :after org
+  :custom
+  (org-download-method 'directory)
+  (org-download-heading-lvl nil)
+  (org-download-timestamp "_%Y%m%d-%H%M%S")
+  (org-image-actual-width t)
+  (org-download-screenshot-method "screencapture -i %s")
+  :config
+  (customize-set-variable 'org-download-image-dir "images"))
 
 (use-package org-jira
   :straight (:type git :host github :repo "ahungry/org-jira")
@@ -1386,5 +1402,9 @@ Comments:
    ("C-c n B" . consult-org-roam-backlinks-recursive)
    ("C-c n l" . consult-org-roam-forward-links)
    ("C-c n r" . consult-org-roam-search))
+
+(use-package ox-hugo
+  :after ox)
+
 
 (provide 'init-org)

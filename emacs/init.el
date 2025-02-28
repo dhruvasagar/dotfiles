@@ -120,7 +120,8 @@ FILTER is function that runs after the process is finished, its args should be
 (setq mac-option-key-is-meta nil
       mac-command-key-is-meta t
       mac-command-modifier 'meta
-      mac-option-modifier 'none)
+      mac-option-modifier 'none
+      mac-pass-command-to-system nil)
 
 (setq-default
  truncate-lines t
