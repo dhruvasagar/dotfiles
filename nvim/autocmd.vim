@@ -61,3 +61,9 @@ augroup CronTab "{{{1
 
   autocmd BufWritePost ~/dotfiles/crontab !updatecron
 augroup END
+
+augroup Kitty
+  au!
+
+  autocmd BufWritePost ~/.config/kitty/kitty.conf :silent !kill -SIGUSR1 $(pgrep kitty)
+augroup END
