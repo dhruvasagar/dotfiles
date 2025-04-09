@@ -1118,6 +1118,64 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	("gS" . multi-line)
 	("gJ" . multi-line-single-line)))
 
+(use-package auto-side-windows
+  :straight (:type git :host github :repo "MArpogaus/auto-side-windows")
+  :custom
+  ;; Top side window configurations
+  (auto-side-windows-top-buffer-names
+   '("^\\*Backtrace\\*$" "^\\*Compile-Log\\*$" "^COMMIT_EDITMSG$"
+     "^\\*Org Src.*\\*" "^\\*Agenda Commands\\*$" "^\\*Org Agenda\\*$"
+     "^\\*Org-Babel Error Output\\*" "^\\*Quick Help\\*$"
+     "^\\*Multiple Choice Help\\*$" "^\\*TeX Help\\*$" "^\\*TeX errors\\*$"
+     "^\\*Warnings\\*$" "^\\*diff-hl\\*$"
+     "^\\*Process List\\*$"))
+  (auto-side-windows-top-buffer-modes
+   '(flymake-diagnostics-buffer-mode locate-mode occur-mode grep-mode
+                                     xref--xref-buffer-mode))
+
+  ;; Bottom side window configurations
+  (auto-side-windows-bottom-buffer-names '("^\\*.*eshell.*\\*$"
+   "^\\*.*shell.*\\*$" "^\\*.*term.*\\*$" "^\\*.*vterm.*\\*$"
+   "\\*.*lsp.*\\*$" "^\\*eldoc.*\\*$" "^\\*info\\*$" "^\\*Metahelp\\*$"))
+  (auto-side-windows-bottom-buffer-modes
+   '(eshell-mode shell-mode term-mode vterm-mode comint-mode
+   debugger-mode eldoc-mode help-mode helpful-mode shortdoc-mode))
+
+  ;; Right side window configurations
+  (auto-side-windows-right-buffer-names
+   '("^magit-diff:.*$" "^magit-process:.*$"))
+  (auto-side-windows-right-buffer-modes
+   '(Info-mode TeX-output-mode pdf-view-mode magit-log-mode
+   magit-diff-mode magit-process-mode))
+
+  ;; Example: Custom parameters for top windows (e.g., fit height to buffer)
+  ;; (auto-side-windows-top-alist '((window-height . fit-window-to-buffer)))
+  ;; (auto-side-windows-top-window-parameters '((mode-line-format . ...))) ;; Adjust mode-line
+
+  ;; Maximum number of side windows on the left, top, right and bottom
+  (window-sides-slots '(1 1 1 1)) ; Example: Allow one window per side
+
+  ;; Force left and right side windows to occupy full frame height
+  (window-sides-vertical t)
+
+  ;; Make changes to tab-/header- and mode-line-format persistent when toggleling windows visibility
+  (window-persistent-parameters
+   (append window-persistent-parameters
+           '((tab-line-format . t)
+             (header-line-format . t)
+             (mode-line-format . t))))
+  :bind ;; Example keybindings (adjust prefix as needed)
+  (:map global-map ; Or your preferred keymap prefix
+        ("C-c w t" . auto-side-windows-display-buffer-top)
+        ("C-c w b" . auto-side-windows-display-buffer-bottom)
+        ("C-c w l" . auto-side-windows-display-buffer-left)
+        ("C-c w r" . auto-side-windows-display-buffer-right)
+        ("C-c w T" . auto-side-windows-toggle-side-window)) ; Toggle current buffer in/out of side window
+  :hook
+  (after-init . auto-side-windows-mode)) ; Activate the mode
+
+(use-package rfc-mode)
+
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
 				(project-find-dir "Find dir" "d")
@@ -1134,7 +1192,5 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (setq project-x-save-interval 600     ;Save project state every 10 min
 	project-x-local-identifier '("package.json" "mix.es" "cargo.toml" ".project" ".git"))
   (project-x-mode 1))
-
-(use-package rfc-mode)
 
 (provide 'init-packages)
