@@ -2,14 +2,15 @@
   :config
   (setq org-return-follows-link t)
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-  (setq org-directory "~/Dropbox/Documents/org-files")
-  (setq org-default-notes-file "~/Dropbox/Documents/org-files/refile.org")
+  (setq org-directory "~/src/dhruvasagar/org-files")
+  (setq org-default-notes-file "~/src/dhruvasagar/org-files/refile.org")
   (setopt org-agenda-files
-	  (append '("~/Dropbox/Documents/org-files")
-		  (file-expand-wildcards "~/Dropbox/Documents/org-files/vim/*.org")
-		  (file-expand-wildcards "~/Dropbox/Documents/org-files/org-jira/*.org")))
+	  (append '("~/src/dhruvasagar/org-files")
+		  (file-expand-wildcards "~/src/dhruvasagar/org-files/vim/*.org")
+		  (file-expand-wildcards "~/src/dhruvasagar/org-files/org-jira/*.org")))
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
+  (setq org-src-window-setup 'plain)
   (setq org-display-remote-inline-images t)
   (setq org-log-state-notes-insert-after-drawers nil)
   (setq org-archive-mark-done nil)
@@ -37,21 +38,21 @@
 		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
   (setq org-capture-templates
-	(quote (("t" "todo" entry (file "~/Dropbox/Documents/org-files/refile.org")
+	(quote (("t" "todo" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-		("r" "respond" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("r" "respond" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-		("n" "note" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("n" "note" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-		("j" "Journal" entry (file+datetree "~/Dropbox/Documents/org-files/diary.org")
+		("j" "Journal" entry (file+datetree "~/src/dhruvasagar/org-files/diary.org")
 		 "* %?\n%U\n" :clock-in t :clock-resume t)
-		("w" "org-protocol" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("w" "org-protocol" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* TODO Review %c\n%U\n" :immediate-finish t)
-		("m" "Meeting" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("m" "Meeting" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* MEETING %? :MEETING:\n%U" :clock-in t :clock-resume t)
-		("p" "Phone call" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("p" "Phone call" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-		("h" "Habit" entry (file "~/Dropbox/Documents/org-files/refile.org")
+		("h" "Habit" entry (file "~/src/dhruvasagar/org-files/refile.org")
 		 "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n%a\n"))))
 					; Targets include this file and any file contributing to the agenda - up to 9 levels deep
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -96,6 +97,9 @@
                  ((org-agenda-overriding-header "Habits")
                   (org-agenda-sorting-strategy
                    '(todo-state-down effort-up category-keep))))
+		("r" "Refile" tags "refile"
+		 ((org-agenda-overriding-header "Task to Refile")
+		  (org-tags-match-list-sublevels t)))
                 (" " "Agenda"
                  ((agenda "" nil)
                   (tags "REFILE"
@@ -1246,7 +1250,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/Dropbox/Documents/org-files/roam/")
+  (org-roam-directory "~/src/dhruvasagar/org-files/roam/")
   (org-roam-completion-everywhere t)
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
@@ -1257,19 +1261,19 @@
 	'(("d" "default" plain "%?"
 	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
 	   :unnarrowed t)
-	  ("b" "book notes" plain (file "~/Dropbox/Documents/org-files/roam/templates/BookNoteTemplate.org")
+	  ("b" "book notes" plain (file "~/src/dhruvasagar/org-files/roam/templates/BookNoteTemplate.org")
 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
 	 :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n d" . org-roam-dailies-map)
+	 ;; ("C-c n d" . org-roam-dailies-map)
 	 ("C-c n c" . org-roam-capture)
 	 :map org-mode-map
-	 ("C-M-i" . completion-at-point)
-	 :map org-roam-dailies-map
-	 ("Y" . org-roam-dailies-capture-yesterday)
-	 ("T" . org-roam-dailies-capture-tomorrow))
+	 ("C-M-i" . completion-at-point))
+	 ;; :map org-roam-dailies-map
+	 ;; ("Y" . org-roam-dailies-capture-yesterday)
+	 ;; ("T" . org-roam-dailies-capture-tomorrow))
   :config
   (org-roam-setup)
   (require 'org-roam-dailies)
@@ -1377,7 +1381,7 @@ Comments:
   ;; :straight (:type git :host github :repo "djgoku/org-jira" :branch "feature/add-jira-issue-mentions")
   :config
   (setq jiralib-url "https://zenoptics.atlassian.net"
-	org-jira-working-dir "~/Dropbox/Documents/org-files/org-jira"))
+	org-jira-working-dir "~/src/dhruvasagar/org-files/org-jira"))
 
 (use-package consult-org-roam
    :after (org-roam consult)

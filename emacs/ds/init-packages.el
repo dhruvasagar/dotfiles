@@ -73,6 +73,8 @@
   (setq display-fill-column-indicator-column 80))
 
 (use-package exec-path-from-shell
+  :init
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "OPENAI_API_KEY" "ANTHROPIC_API_KEY"))
   :config
   (exec-path-from-shell-initialize))
 
@@ -200,8 +202,7 @@
 
 (use-package hideshow
   :hook
-  (prog-mode . hs-minor-mode)
-  (text-mode . hs-minor-mode))
+  (prog-mode . hs-minor-mode))
 
 (use-package yasnippet
  ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
@@ -434,6 +435,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :custom
   (magit-define-global-key-bindings 'recommended)
   (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+  (magit-commit-diff-inhibit-same-window t)
   :bind*
   ( :map version-control
     ("v" . magit-status)
@@ -471,10 +473,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package git-timemachine
   :commands git-timemachine
   :bind
-  ( :map version-control
-    ("t" . git-timemachine))
-  :hook
-  (git-timemachine-mode . fk/tree-sitter-hl-mode))
+  (:map version-control
+	("t" . git-timemachine)))
 
 (use-package forge
   :after magit
@@ -922,12 +922,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 
 (use-package emms)
 
-(use-package el-easydraw
-  :straight (:type git :host github :repo "misohena/el-easydraw" :files (:defaults "*.el")))
-  ;; :hook
-  ;; (org-mode . (lamdba () ((require 'edraw-org)
-  ;; 			  (edraw-org-setup-default)))))
-
 (use-package elfeed
   :config
   (setq elfeed-feeds
@@ -944,7 +938,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	  ("https://www.reddit.com/r/vim.rss" reddit vim)
 	  ("https://www.reddit.com/r/neovim.rss" reddit neovim)
 	  ("https://karthinks.com/software/index.xml" karthink emacs)
-	  ("https://www.reddit.com/r/emacs.rss" reddit emacs))))
+	  ("https://www.reddit.com/r/emacs.rss" reddit emacs)
+	  ("https://rss.arxiv.org/rss/cs" arxiv research))))
 
 (use-package ace-window
   :bind

@@ -9,7 +9,7 @@
   (evil-local-set-key 'normal (kbd "g I") 'lsp-find-implementation))
 
 (defun lsp-format-on-save ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  ;; (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (defun ds/lsp-ui-settings ()
@@ -22,10 +22,11 @@
 (defun ds/lsp-mode-setup ()
   (ds/lsp-ui-settings)
   (lsp-enable-which-key-integration)
-  (lsp-custom-bindings))
+  (lsp-custom-bindings)
+  (lsp-format-on-save))
 
-;; (defun eglot-custom-bindings ()
-;;   (evil-local-set-key 'normal (kbd "K") 'eldoc-box-eglot-help-at-point))
+(defun eglot-custom-bindings ()
+  (evil-local-set-key 'normal (kbd "K") 'eldoc-box-eglot-help-at-point))
 
 (use-package lsp-mode
   :commands lsp
@@ -37,6 +38,9 @@
   (lsp-keep-workspace-alive t)
   (lsp-auto-execute-action nil)
   (lsp-before-save-edits t)
+  (lsp-signature-function #'lsp-signature-posframe)
+  (lsp-semantic-tokens-enable t)
+  (lsp-inlay-hint-enable t)
   ;; (lsp-eldoc-enable-hover t)
   ;; (lsp-diagnostic-package :none)
   (lsp-completion-provider :none)
@@ -71,7 +75,9 @@
 (use-package lsp-java
   :after lsp-mode
   :init
-  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
+  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
+  :config
+  (setq lsp-java-vmargs '("-Xmx4G")))
 (use-package lsp-haskell
   :after lsp-mode)
 
@@ -116,10 +122,9 @@
    ("C-c d r" . dap-debug-recent))
   :hook (dap-mode . ds/dap-custom-bindings))
 
-
-;; (defun ds/eglot-setup ()
-;;   (eglot-custom-bindings)
-;;   (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
+(defun ds/eglot-setup ()
+  (eglot-custom-bindings)
+  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
 
 ;; (require 'eglot)
 ;; (add-hook 'eglot-mode-hook #'ds/eglot-setup)

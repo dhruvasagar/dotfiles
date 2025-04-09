@@ -7,7 +7,7 @@
 (menu-bar-mode -1)
 (global-hl-line-mode)
 (pixel-scroll-mode)
-(set-frame-font "FiraCode Nerd Font Mono 15" nil t)
+(set-frame-font "FiraCode Nerd Font Mono 14" nil t)
 (progn
   (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
   (add-to-list 'default-frame-alist '(alpha . (100 . 100))))

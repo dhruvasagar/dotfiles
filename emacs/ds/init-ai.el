@@ -71,4 +71,13 @@
   (setq codeium/document/text 'my-codeium/document/text)
   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
 
+(use-package aidermacs
+  :straight (:host github :repo "MatthewZMD/aidermacs" :files ("*.el"))
+  :config
+  (setq aidermacs-args '("--model" "openai/gpt-4o-mini"))
+  (global-set-key (kbd "C-c .") 'aidermacs-transient-menu))
+
+(use-package mcp
+  :straight (:host github :repo "lizqwerscott/mcp.el" :files ("*.el")))
+
 (provide 'init-ai)

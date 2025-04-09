@@ -133,19 +133,3 @@ FILTER is function that runs after the process is finished, its args should be
   (when (region-active-p)
     (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
       (deactivate-mark) text)))
-
-(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(doom-modeline-check-simple-format t nil nil "Customized with use-package doom-modeline")
- '(org-agenda-files
-   '("/Users/dhruva/Dropbox/Documents/org-files/10i.org" "/Users/dhruva/Dropbox/Documents/org-files/Getting Started with Orgzly.org" "/Users/dhruva/Dropbox/Documents/org-files/anniversaries.org" "/Users/dhruva/Dropbox/Documents/org-files/birthdays.org" "/Users/dhruva/Dropbox/Documents/org-files/clickapps.org" "/Users/dhruva/Dropbox/Documents/org-files/coderapper.org" "/Users/dhruva/Dropbox/Documents/org-files/diary.org" "/Users/dhruva/Dropbox/Documents/org-files/gaea.org" "/Users/dhruva/Dropbox/Documents/org-files/habits.org" "/Users/dhruva/Dropbox/Documents/org-files/kvp.org" "/Users/dhruva/Dropbox/Documents/org-files/railsfactory.org" "/Users/dhruva/Dropbox/Documents/org-files/refile.org" "/Users/dhruva/Dropbox/Documents/org-files/tarkalabs.org" "/Users/dhruva/Dropbox/Documents/org-files/todo.org" "/Users/dhruva/Dropbox/Documents/org-files/tunecore.org" "/Users/dhruva/Dropbox/Documents/org-files/zenoptics.org" "/Users/dhruva/Dropbox/Documents/org-files/vim/vim-dotoo.org" "/Users/dhruva/Dropbox/Documents/org-files/vim/vim-table-mode.org" "/Users/dhruva/Dropbox/Documents/org-files/vim/vim-testify.org" "/Users/dhruva/Dropbox/Documents/org-files/org-jira/ZO.org")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
