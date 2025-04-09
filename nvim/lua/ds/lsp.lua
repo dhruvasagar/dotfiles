@@ -147,6 +147,7 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 })
 vim.diagnostic.config({
   virtual_text = false,
+  virtual_lines = false,
   float = {
     border = border,
     source = "if_many",

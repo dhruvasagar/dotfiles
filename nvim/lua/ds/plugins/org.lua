@@ -5,8 +5,8 @@ return {
     ft = { "org" },
     opts = {
       org_agenda_span = "day",
-      org_agenda_files = "~/Dropbox/Documents/org-files/**/*",
-      org_default_notes_file = "~/Dropbox/Documents/org-files/refile.org",
+      org_agenda_files = "~/src/dhruvasagar/org-files/**/*",
+      org_default_notes_file = "~/src/dhruvasagar/org-files/refile.org",
       org_todo_keywords = {
         "TODO",
         "NEXT",
@@ -73,7 +73,7 @@ return {
     },
     config = function()
       require("org-roam").setup({
-        directory = "~/Dropbox/Documents/org-files/roam/",
+        directory = "~/src/dhruvasagar/org-files/roam/",
       })
     end,
   },
