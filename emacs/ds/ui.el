@@ -338,8 +338,9 @@ use in `display-buffer-alist'."
 
 ;; Better ediff experience
 (setq ediff-diff-options ""
-      ediff-custom-diff-options "-u"
+      ediff-make-buffers-readonly-at-startup nil
+      ediff-show-clashes-only t
       ediff-window-setup-function 'ediff-setup-windows-plain
-      ediff-split-window-function 'split-window-vertically)
+      ediff-split-window-function 'split-window-horizontally)
 
 (provide 'ui)
