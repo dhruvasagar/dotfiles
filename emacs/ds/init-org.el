@@ -11,6 +11,7 @@
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
   (setq org-src-window-setup 'plain)
+  (setq org-startup-with-inline-images t)
   (setq org-display-remote-inline-images t)
   (setq org-log-state-notes-insert-after-drawers nil)
   (setq org-archive-mark-done nil)

@@ -75,4 +75,7 @@
 	("C-c +" . evil-numbers/inc-at-pt)
 	("C-c -" . evil-numbers/dec-at-pt)))
 
+(use-package evil-anzu
+  :after anzu)
+
 (provide 'init-evil)

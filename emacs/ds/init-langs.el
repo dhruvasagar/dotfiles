@@ -7,27 +7,6 @@
   ( :map python-mode-map
     ("C-c r" . python-indent-shift-right)
     ("C-c l" . python-indent-shift-left))
-  :hook
-  ;; With pyls:
-  ;; pip install python-language-server flake8 pyls-black(optional) pyls-isort(optional)
-  ;; With pyright
-  ;; sudo npm install -g pyright && pip install flake8 black(optional) django-stubs(optional)
-  ;; NOTE: these hooks runs in reverse order
-  (python-mode . (lambda () (setq-local company-prescient-sort-length-enable nil)))
-  (python-mode . (lambda () (unless (and buffer-file-name (file-in-directory-p buffer-file-name "~/.virtualenvs/"))
-			      (flycheck-mode))))
-  ;; importmagic runs ~100mb ipython process per python file, and it does not
-  ;; always find imports, 60%-70% maybe. I stop using this, but still want to keep.
-  ;; (python-mode . importmagic-mode)
-  (python-mode . fk/activate-pyvenv)
-  (python-mode . (lambda ()
-		   (when (and (buffer-file-name)
-			      (string=
-			       (car (last (f-split (f-parent (buffer-file-name)))))
-			       "tests"))
-		     (fk/hide-second-level-blocks))))
-  (python-mode . fk/tree-sitter-hl-mode)
-  (python-mode . (lambda () (setq-local fill-column 88)))
   :config
   (defvar python-walrus-operator-regexp ":=")
 

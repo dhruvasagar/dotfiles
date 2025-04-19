@@ -1,13 +1,4 @@
-(use-package gptel
-  :config
-  (setq gptel-default-mode 'org-mode)
-  (setq gptel-model "gpt-4o-mini")
-  :bind
-  ("C-c RET" . gptel-send))
-
-(use-package gptel-aibo
-  :after (gptel flycheck)
-  :straight (:type git :host github :repo "dolmens/gptel-aibo"))
+(require 'init-gptel)
 
 ;; we recommend using use-package to organize your init.el
 (use-package codeium
