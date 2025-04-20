@@ -7,10 +7,11 @@
 	evil-want-fine-undo t)
   :config
   (evil-mode 1)
-  (evil-global-set-key 'normal "C" "c$")
-  (evil-global-set-key 'normal "Y" "y$")
   (evil-set-undo-system 'undo-tree)
   (evil-select-search-module 'evil-search-module 'evil-search)
+  :general
+  (:states 'normal "C" "c$")
+  (:states 'normal "Y" "y$")
   :bind
   (:map evil-normal-state-map
 	("-" . dired-jump)
@@ -40,8 +41,6 @@
   :after evil
   :config
   (global-evil-surround-mode 1))
-
-(use-package evil-rails)
 
 (use-package evil-commentary
   :after evil

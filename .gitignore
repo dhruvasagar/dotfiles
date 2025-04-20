@@ -1,3 +1,4 @@
 log/*
 .luarc.json
 .env
+.aider*

@@ -56,11 +56,6 @@
   (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
   (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
 
-(use-package cc-mode
-  :bind
-  ( :map c-mode-base-map
-    ("C-c C-c" . fk/c-run)))
-
 (use-package lua-mode
   :mode "\\.lua\\'")
 

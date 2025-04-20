@@ -951,9 +951,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (setq zoom-window-mode-line-color "DarkGreen")
   :general (:states 'normal "C-w z" 'zoom-window-zoom))
 
-(use-package emacs-gif-screencast
-  :straight (:type git :host gitlab :repo "ambrevar/emacs-gif-screencast" :files (:defaults "gif-screencast.el")))
-
 (use-package easy-hugo
   :init
   (setq easy-hugo-basedir "~/src/dhruvasagar/website/"

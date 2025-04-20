@@ -90,6 +90,7 @@ is already narrowed."
 	((derived-mode-p 'latex-mode)
 	 (LaTeX-narrow-to-environment))
 	(t (narrow-to-defun))))
+
 (evil-global-set-key 'normal (kbd "C-x n t") 'narrow-or-widen-dwim)
 
 (add-hook 'LaTeX-mode-hook
