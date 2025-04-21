@@ -29,6 +29,7 @@
 (require 'init-general)
 (require 'init-org)
 (require 'init-evil)
+(require 'init-consult)
 (require 'init-packages)
 (require 'init-embark)
 (require 'ui)
@@ -127,9 +128,3 @@ FILTER is function that runs after the process is finished, its args should be
  truncate-lines t
  frame-resize-pixelwise t             ; maximized emacs may not fit screen without this
  frame-title-format '("Emacs | %b"))  ; Emacs | buffer-name
-
-(defun fk/get-selected-text ()
-  "Return selected text if region is active, else nil."
-  (when (region-active-p)
-    (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
-      (deactivate-mark) text)))

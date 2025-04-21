@@ -357,6 +357,6 @@ by CONNECTION-NAME, evaluate the query, and return the result as a string."
 
 (use-package gptel-aibo
   :after (gptel flycheck)
-  :ensure (:host github :repo "dolmens/gptel-aibo"))
+  :straight (:host github :repo "dolmens/gptel-aibo"))
 
 (provide 'init-gptel)

@@ -3,7 +3,7 @@
   :config
   (setq backup-directory-alist `(("." . "~/.emacs-saves")))
   (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq backup-by-copying t))
 
 (use-package indent-bars
@@ -23,7 +23,6 @@
   (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
   (indent-bars-treesit-support t))
 
-
 (use-package direnv
   :config
   (direnv-mode))
@@ -31,8 +30,7 @@
 (use-package esup)
 
 (use-package hl-todo
-  :defer 2
-  :config
+  :init
   (setq hl-todo-keyword-faces
         '(("TODO"   . "#E5C07B")
           ("FIXME"  . "#E06C75")
@@ -42,6 +40,7 @@
           ("NOTE"   . "#98C379")
           ("QUESTION"   . "#98C379")
           ("STUB"   . "#61AFEF")))
+  :config
   (global-hl-todo-mode 1))
 
 (use-package scroll-on-jump
@@ -54,9 +53,9 @@
   (scroll-on-jump-advice-add flyspell-goto-next-error)
   (when (featurep 'smartparens)
     (define-key smartparens-mode-map
-      (kbd "C-M-f") (scroll-on-jump-interactive 'sp-forward-sexp))
+		(kbd "C-M-f") (scroll-on-jump-interactive 'sp-forward-sexp))
     (define-key smartparens-mode-map
-      (kbd "C-M-b") (scroll-on-jump-interactive 'sp-backward-sexp)))
+		(kbd "C-M-b") (scroll-on-jump-interactive 'sp-backward-sexp)))
   ;; (scroll-on-jump-with-scroll-advice-add scroll-up-command)
   (scroll-on-jump-with-scroll-advice-add View-scroll-half-page-backward)
   (scroll-on-jump-with-scroll-advice-add View-scroll-half-page-backward)
@@ -97,10 +96,10 @@
   :hook (after-init . keycast-mode)
   :config
   (define-minor-mode keycast-mode
-	"Show current command and its key binding in the mode line (fix for use with doom-modeline)."
-	:global t
-	(if keycast-mode
-		(add-hook 'pre-command-hook 'keycast--update t)
+    "Show current command and its key binding in the mode line (fix for use with doom-modeline)."
+    :global t
+    (if keycast-mode
+	(add-hook 'pre-command-hook 'keycast--update t)
       (remove-hook 'pre-command-hook 'keycast--update)))
 
   (add-to-list 'global-mode-string '("" keycast-mode-line)))
@@ -205,27 +204,27 @@
   (prog-mode . hs-minor-mode))
 
 (use-package yasnippet
- ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
- ;; jump to next field, even when company window is active. If there
- ;; is need to complete company's selection, use `C-s'
- ;; (`company-complete-selection').
- :custom
- (yas-indent-line nil)
- (yas-inhibit-overlay-modification-protection t)
- :custom-face
- (yas-field-highlight-face ((t (:inherit region))))
- :bind*
- (:map evil-insert-state-map
-  ("C-c C-s" . yas-expand)
-  :map yas-minor-mode-map
-  ("TAB" . nil)
-  ("<tab>" . nil)
-  :map yas-keymap
-  ("TAB" . (lambda () (interactive) (yas-next-field)))
-  ("<tab>" . (lambda () (interactive) (yas-next-field))))
- :hook
- (dashboard-after-initialize . yas-global-mode)
- (snippet-mode . (lambda () (setq-local require-final-newline nil))))
+  ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
+  ;; jump to next field, even when company window is active. If there
+  ;; is need to complete company's selection, use `C-s'
+  ;; (`company-complete-selection').
+  :custom
+  (yas-indent-line nil)
+  (yas-inhibit-overlay-modification-protection t)
+  :custom-face
+  (yas-field-highlight-face ((t (:inherit region))))
+  :bind*
+  (:map evil-insert-state-map
+	("C-c C-s" . yas-expand)
+	:map yas-minor-mode-map
+	("TAB" . nil)
+	("<tab>" . nil)
+	:map yas-keymap
+	("TAB" . (lambda () (interactive) (yas-next-field)))
+	("<tab>" . (lambda () (interactive) (yas-next-field))))
+  :hook
+  (dashboard-after-initialize . yas-global-mode)
+  (snippet-mode . (lambda () (setq-local require-final-newline nil))))
 
 (use-package yasnippet-snippets)
 
@@ -303,8 +302,8 @@
   :hook
   (dashboard-after-initialize . global-whitespace-cleanup-mode)
   (after-change-major-mode . (lambda ()
-                              (unless (buffer-file-name)
-                                (setq-local show-trailing-whitespace nil)))))
+                               (unless (buffer-file-name)
+                                 (setq-local show-trailing-whitespace nil)))))
 
 (use-package expand-region
   :custom
@@ -348,6 +347,11 @@
   (python-mode . symbol-overlay-mode)
   (java-mode . symbol-overlay-mode)
   :config
+  (defun fk/get-selected-text ()
+    "Return selected text if region is active, else nil."
+    (when (region-active-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+	(deactivate-mark) text)))
   (defun fk/highlight-occurrences ()
     "Put highlight to the occurrences of the symbol at point or the
 string in the region. Uses `hi-lock' to highlight,
@@ -356,10 +360,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
     ;; TODO: `hl-line' breaks background color
     (interactive)
     (let ((str (fk/get-selected-text))
-          (face (nth (random (length symbol-overlay-faces)) symbol-overlay-faces)))
+	  (face (nth (random (length symbol-overlay-faces)) symbol-overlay-faces)))
       (if str
-          (highlight-regexp (regexp-quote str) face)
-        (hi-lock-face-symbol-at-point))))
+	  (highlight-regexp (regexp-quote str) face)
+	(hi-lock-face-symbol-at-point))))
 
   (defalias 'fk/highlight-remove (lambda () (interactive) (hi-lock-unface-buffer t)))
   (defalias 'fk/highlight-remove-one-by-one 'hi-lock-unface-buffer))
@@ -430,12 +434,14 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (web-mode . emmet-mode)
   (css-mode . emmet-mode))
 
+(use-package transient)
+
 (use-package magit
   :commands magit
-  :custom
-  (magit-define-global-key-bindings 'recommended)
-  (magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
-  (magit-commit-diff-inhibit-same-window t)
+  :init
+  (setq magit-define-global-key-bindings 'recommended
+	magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+	magit-commit-diff-inhibit-same-window t)
   :bind*
   ( :map version-control
     ("v" . magit-status)
@@ -593,7 +599,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (restclient-log-request nil)
   ;;:config
   ;;(setcdr (assoc "application/json" restclient-content-type-modes) 'json-mode)
-)
+  )
 
 (use-package emojify
   :commands emojify-mode)
@@ -637,136 +643,13 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :hook
   (dired-mode . nerd-icons-dired-mode))
 
-;; Example configuration for Consult
-(use-package consult
-  ;; Replace bindings. Lazily loaded by `use-package'.
-  :bind (;; C-c bindings in `mode-specific-map'
-         ("C-c M-x" . consult-mode-command)
-         ("C-c h" . consult-history)
-         ("C-c k" . consult-kmacro)
-         ("C-c m" . consult-man)
-         ("C-c i" . consult-info)
-         ([remap Info-search] . consult-info)
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-         ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-         ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings in `goto-map'
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
-         ("M-s c" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
-         ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map vertico-map
-         ("M-s" . consult-history))                ;; orig. next-matching-history-element
-
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
-
-  ;; The :init configuration is always executed (Not lazy)
-  :init
-
-  ;; Optionally configure the register formatting. This improves the register
-  ;; preview for `consult-register', `consult-register-load',
-  ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
-
-  ;; Optionally tweak the register preview window.
-  ;; This adds thin lines, sorting and hides the mode line of the window.
-  (advice-add #'register-preview :override #'consult-register-window)
-
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
-  :config
-
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
-  (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any)
-   :initial (thing-at-point 'symbol))
-
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
-
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-)
-
-(use-package consult-web
-  :straight (:type git :host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
-  :after consult request elfeed
-  :custom
-  (consult-web-show-preview t)
-  (consult-web-preview-key "C-o")
-  (consult-web-highlight-matches t))
-
-(use-package consult-flycheck
-  :after consult)
-
-(use-package consult-dir
-  :bind (("C-x C-d" . consult-dir)
-         :map vertico-map
-         ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)))
-
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+              ("M-A" . marginalia-cycle))
 
   ;; The :init section is always executed.
   :init
@@ -858,8 +741,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package multi-vterm
   :hook
   (vterm-mode-hook . (lambda ()
-		      (setq-local evil-insert-state-cursor 'box)
-		      (evil-insert-state)))
+		       (setq-local evil-insert-state-cursor 'box)
+		       (evil-insert-state)))
   :config
   (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
   (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
@@ -923,7 +806,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package emms)
 
 (use-package elfeed
-  :config
+  :init
   (setq elfeed-feeds
 	'(("https://dev.to/feed" programming)
 	  ("https://hnrss.org/frontpage" hackernews)
@@ -1007,6 +890,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :config
   (editorconfig-mode 1))
 
+(use-package p-search :straight (:host github :repo "zkry/p-search"))
+
+(use-package nov)
+
 (use-package prescient)
 (use-package corfu-prescient
   :after (prescient corfu)
@@ -1076,12 +963,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (defun persistent-scratch-quick-open()
     (interactive)
     (let* ((scratch-buffers (persistent-scratch-get-scratches))
-          (chosen-scratch (concat "*scratch:"
-                                  (completing-read
-                                   "Choose a scratch: "
-                                   scratch-buffers nil nil nil nil
-                                   (random-alnum 4))))
-          (buffer-exists-p (get-buffer chosen-scratch)))
+           (chosen-scratch (concat "*scratch:"
+                                   (completing-read
+                                    "Choose a scratch: "
+                                    scratch-buffers nil nil nil nil
+                                    (random-alnum 4))))
+           (buffer-exists-p (get-buffer chosen-scratch)))
       (pop-to-buffer chosen-scratch)
       (unless buffer-exists-p
         (persistent-scratch-restore-this))
@@ -1116,7 +1003,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	("gJ" . multi-line-single-line)))
 
 ;; (use-package auto-side-windows
-;;   :ensure (:type git :host github :repo "MArpogaus/auto-side-windows")
+;;   :straight (:type git :host github :repo "MArpogaus/auto-side-windows")
 ;;   :preface
 ;;   (defun my/get-header-line-icon-for-buffer (buffer)
 ;;     (with-current-buffer buffer
@@ -1232,7 +1119,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 				(project-find-dir "Find dir" "d")
 				(project-dired "Dired" "D")
 				(consult-ripgrep "ripgrep" "g")
-				(magit-project-status "Magit" "m")))
+				(magit-project-status "Magit" "m")
+				(consult-todo-project "Find TODO" "t")))
 
 (use-package project-x
   :after project
