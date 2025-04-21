@@ -5,11 +5,13 @@
   pager = delta
 [interactive]
   deltaFilter = delta --color-only
+[delta "interactive"]
+  keep-plus-minus-markers = false
 [delta]
   navigate = true
   dark = true
 [merge]
-  conflictstyle = zdiff3
+  conflictstyle = diff3
 [push]
   default = simple
 [user]
@@ -67,3 +69,13 @@
   reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 [init]
   defaultBranch = main
+
+[diff]
+	submodule = log
+	colorMoved = default
+
+[pager]
+        blame = delta
+	diff = delta
+	reflog = delta
+	show = delta
