@@ -16,6 +16,14 @@
    `((,python-walrus-operator-regexp 0 'escape-glyph t))
    'set))
 
+;; (use-package pet
+;;   :hook
+;;   (python-base-mode . pet-mode))
+
+(use-package python-pytest
+  :general
+  (:states 'normal :keymaps 'python-base-mode-map "C-c C-t C-d" 'python-pytest-dispatch))
+
 (use-package pip-requirements
   :mode (("\\.pip\\'" . pip-requirements-mode)
 	 ("requirements[^z-a]*\\.txt\\'" . pip-requirements-mode)
@@ -56,13 +64,18 @@
   (go-mode . (lambda () (require 'tree-sitter-langs) (tree-sitter-hl-mode)))
   (go-mode . (lambda () (fk/add-local-hook 'before-save-hook 'gofmt))))
 
+(use-package gotest)
+
 (use-package lua-mode
   :mode "\\.lua\\'")
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
-  :custom (markdown-header-scaling t)
+  :init
+  (setq markdown-command "multimarkdown")
+  :custom
+  (markdown-header-scaling t)
+  (markdown-fontify-code-blocks-natively t)
   :bind
   ( :map markdown-mode-map
     ("M-n" . markdown-next-visible-heading)
@@ -75,10 +88,6 @@
   :after markdown-mode
   :bind ("C-c '" . markdown-edit-code-block))
 
-(use-package poly-markdown
-  :hook
-  (markdown-mode . poly-gfm-mode))
-
 (use-package dockerfile-mode
   :mode "Dockerfile\\'")
 
@@ -88,7 +97,6 @@
 (use-package yaml-mode
   :mode "\\.ya?ml\\'"
   :hook
-  (yaml-mode . highlight-indent-guides-mode)
   (yaml-mode . display-line-numbers-mode))
 
 (use-package docker

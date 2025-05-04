@@ -312,13 +312,6 @@
   :bind*
   ("C-t" . er/expand-region))
 
-(use-package flyspell-popup
-  :after flyspell
-  :custom
-  (flyspell-popup-correct-delay 1)
-  :config
-  (flyspell-popup-auto-correct-mode))
-
 (use-package flycheck
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled))
@@ -329,10 +322,15 @@
     ("l" . flycheck-list-errors)
     ("v" . flycheck-verify-setup)))
 
-(use-package eldoc-box
-  :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
-  :custom
-  (eldoc-box-clear-with-C-g t))
+(use-package flycheck-posframe
+  :after flycheck
+  :config (flycheck-posframe-configure-pretty-defaults)
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
+;; (use-package eldoc-box
+;;   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
+;;   :custom
+;;   (eldoc-box-clear-with-C-g t))
 
 (use-package symbol-overlay
   :commands (symbol-overlay-mode symbol-overlay-put fk/highlight-occurrences)
@@ -586,20 +584,16 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; I just added a custom dynamic topic template: `fk/forge-prepare-topic'
   (advice-add 'forge--prepare-post-buffer :override 'fk/forge--prepare-post-buffer))
 
-
 (use-package vc-msg
   :commands vc-msg-show
   :bind
   ( :map version-control
     ("b" . vc-msg-show)))
 
-(use-package restclient
-  :mode ("\\.http\\'" . restclient-mode)
-  :custom
-  (restclient-log-request nil)
-  ;;:config
-  ;;(setcdr (assoc "application/json" restclient-content-type-modes) 'json-mode)
-  )
+(use-package verb
+  :after org
+  :general
+  (:states 'normal :keymaps 'org-mode-map "C-c C-r" verb-command-map))
 
 (use-package emojify
   :commands emojify-mode)
@@ -773,17 +767,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (:map vterm-mode-map
 	("RET" . vterm-send-return)))
 
-(require 'ansi-color)
-(defun endless/colorize-compilation ()
-  "Colorize from `compilation-filter-start' to `point'."
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region
-     compilation-filter-start (point))))
-
-(add-hook 'compilation-filter-hook
-          #'endless/colorize-compilation)
-;; (add-hook 'sh-mode-hook 'display-ansi-colors)
-;; (add-hook 'sh-mode-hook 'display-ansi-colors)
+(use-package ansi-colorful
+  :straight (:host github :repo "jcs-elpa/ansi-colorful")
+  :hook
+  (compilation-filter . ansi-colorful-mode)
+  (sh-mode . ansi-colorful-mode)
+  (logview-mode . ansi-colorful-mode))
 
 (use-package devdocs
   :bind
@@ -984,6 +973,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
         '("\\*Messages\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
+	  "\\*pytest*\\*"
           help-mode
           compilation-mode))
   (popper-mode +1)

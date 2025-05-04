@@ -17,16 +17,14 @@
 	      lsp-ui-peek-fontify 'always
 	      lsp-ui-doc-show-with-cursor nil
 	      lsp-ui-doc-show-with-mouse nil
-	      lsp-ui-peek-always-show t))
+	      lsp-ui-peek-always-show t
+	      lsp-ui-sideline-show-diagnostics nil))
 
 (defun ds/lsp-mode-setup ()
   (ds/lsp-ui-settings)
   (lsp-enable-which-key-integration)
   (lsp-custom-bindings)
   (lsp-format-on-save))
-
-(defun eglot-custom-bindings ()
-  (evil-local-set-key 'normal (kbd "K") 'eldoc-box-eglot-help-at-point))
 
 (use-package lsp-mode
   :commands lsp
@@ -44,7 +42,7 @@
   ;; (lsp-eldoc-enable-hover t)
   ;; (lsp-diagnostic-package :none)
   (lsp-completion-provider :none)
-  (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
+  (lsp-file-watch-threshold 1000)  ; pyright has more than 1000
   (lsp-enable-links t)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-headerline-breadcrumb-segments '(file symbols))
@@ -55,20 +53,20 @@
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  (ng2-mode . lsp)
-  (ng2-ts-mode . lsp)
-  (zig-mode . lsp)
-  (c-ts-mode . lsp)
-  (c++-ts-mode . lsp)
-  (lua-ts-mode . lsp)
-  (go-ts-mode . lsp)
-  (js2-ts-mode . lsp)
-  (java-ts-mode . lsp)
-  (rust-ts-mode . lsp)
-  (python-ts-mode . lsp)
-  (haskell-ts-mode . lsp)
-  (terraform-ts-mode . lsp)
-  (typescript-ts-mode . lsp)
+  ((ng2-mode
+   ng2-ts-mode
+   zig-mode
+   c-ts-mode
+   c++-ts-mode
+   lua-ts-mode
+   go-ts-mode
+   js2-ts-mode
+   java-ts-mode
+   rust-ts-mode
+   python-ts-mode
+   haskell-ts-mode
+   terraform-ts-mode
+   typescript-ts-mode) . lsp-deferred)
   (lsp-mode . ds/lsp-mode-setup)
   (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil))))
 
@@ -78,16 +76,22 @@
   (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java")))
   :config
   (setq lsp-java-vmargs '("-Xmx4G")))
+
 (use-package lsp-haskell
   :after lsp-mode)
+
+(use-package lsp-pyright
+  :custom
+  (lsp-pyright-langserver-command "basedpyright"))
+
+(use-package blacken
+  :hook (python-mode . blacken-mode))
 
 (use-package lsp-ui
   :after lsp
   :config
   (setq lsp-ui-doc-max-width 150
 	lsp-ui-doc-max-height 30)
-  :custom
-  (lsp-ui-sideline t)
   :custom-face
   (lsp-ui-peek-highlight ((t (:inherit nil :background nil :foreground nil :weight semi-bold :box (:line-width -1))))))
 
@@ -122,70 +126,6 @@
    ("C-c d r" . dap-debug-recent))
   :hook (dap-mode . ds/dap-custom-bindings))
 
-(defun ds/eglot-setup ()
-  (eglot-custom-bindings)
-  (setenv "JAVA_HOME" (string-trim-right (shell-command-to-string "asdf where java"))))
-
-;; (require 'eglot)
-;; (add-hook 'eglot-mode-hook #'ds/eglot-setup)
-;; (add-hook 'java-ts-mode-hook #'eglot-ensure)
-;; (add-hook 'rust-ts-mode-hook #'eglot-ensure)
-;; (setq eglot-ignored-server-capabilities '(:hoverProvider))
-
-;; (add-hook
-;;  'eglot-managed-mode-hook
-;;  (lambda ()
-;;    ;; we want eglot to setup callbacks from eldoc, but we don't want eldoc
-;;    ;; running after every command. As a workaround, we disable it after we just
-;;    ;; enabled it. Now calling `M-x eldoc` will put the help we want in the eldoc
-;;    ;; buffer. Alternatively we could tell eglot to stay out of eldoc, and add
-;;    ;; the hooks manually, but that seems fragile to updates in eglot.
-;;    (eldoc-mode -1)))
-
-;; (use-package dape
-;;   :preface
-;;   ;; By default dape shares the same keybinding prefix as `gud'
-;;   ;; If you do not want to use any prefix, set it to nil.
-;;   (setq dape-key-prefix "\C-x\C-a")
-
-;;   :hook
-;;   ;; Save breakpoints on quit
-;;   (kill-emacs . dape-breakpoint-save)
-;;   ;; Load breakpoints on startup
-;;    (after-init . dape-breakpoint-load)
-
-;;   :config
-;;   ;; Turn on global bindings for setting breakpoints with mouse
-;;   (dape-breakpoint-global-mode)
-
-;;   ;; Info buffers to the right
-;;   (setq dape-buffer-window-arrangement 'right)
-
-;;   ;; Info buffers like gud (gdb-mi)
-;;   (setq dape-buffer-window-arrangement 'gud)
-;;   (setq dape-info-hide-mode-line nil)
-
-;;   ;; Pulse source line (performance hit)
-;;   (add-hook 'dape-display-source-hook 'pulse-momentary-highlight-one-line)
-
-;;   ;; Showing inlay hints
-;;   (setq dape-inlay-hints t)
-
-;;   ;; Save buffers on startup, useful for interpreted languages
-;;   (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
-
-;;   ;; Kill compile buffer on build success
-;;   ;; (add-hook 'dape-compile-hook 'kill-buffer)
-
-;;   ;; Projectile users
-;;   ;; (setq dape-cwd-fn 'projectile-project-root)
-;;   )
-
-;; Enable repeat mode for more ergonomic `dape' use
-;; (use-package repeat
-;;   :config
-;;   (repeat-mode))
-
-;; (use-package eldoc-box)
+(use-package lsp-docker)
 
 (provide 'init-lsp)

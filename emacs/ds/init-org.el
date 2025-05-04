@@ -771,6 +771,7 @@
            (shell . t)
            (org . t)
            (plantuml . t)
+	   (verb . t)
            (latex . t))))
 
 					; Do not prompt to confirm evaluation

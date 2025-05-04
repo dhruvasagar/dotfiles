@@ -77,4 +77,10 @@
 (use-package evil-anzu
   :after anzu)
 
+(use-package evil-textobj-tree-sitter
+  :straight (evil-textobj-tree-sitter :type git
+		      :host github
+		      :repo "meain/evil-textobj-tree-sitter"
+		      :files (:defaults "queries" "treesit-queries")))
+
 (provide 'init-evil)
