@@ -627,7 +627,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
    (json-ts-mode . combobulate-mode)
    (tsx-ts-mode . combobulate-mode)
    (java-ts-mode . combobulate-mode)
-   (rust-ts-mode . combobulate-mode)))
+   (rust-mode . combobulate-mode)))
 
 (use-package nerd-icons
   :custom
@@ -1103,6 +1103,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 ;;   (after-init . auto-side-windows-mode)) ; Activate the mode
 
 (use-package rfc-mode)
+
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

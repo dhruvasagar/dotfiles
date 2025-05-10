@@ -1189,10 +1189,10 @@
   (add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
   (add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
 
-  (setq org-startup-folded t)
-  (setq org-alphabetical-lists t)
+  (setq org-startup-folded 'fold)
+  (setq org-list-allow-alphabetical t)
 
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill 'append)
 
   ;; flyspell mode for spell checking everywhere
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
@@ -1254,28 +1254,30 @@
   :custom
   (org-roam-directory "~/src/dhruvasagar/org-files/roam/")
   (org-roam-completion-everywhere t)
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (org-roam-capture-templates
+   '(("d" "default" plain "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+      :unnarrowed t)
+     ("b" "book notes" plain (file "~/src/dhruvasagar/org-files/roam/templates/book_note.org")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :book:")
+      :unnarrowed t)
+     ("p" "project" plain (file "~/src/dhruvasagar/org-files/roam/templates/project.org")
+      :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n+filetags: :project:")
+      :unnarrowed t)))
   (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (setq org-roam-dailies-capture-templates
-	'(("d" "default" entry "* %<%I:%M %p>: %?"
-	   :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
-  (setq org-roam-capture-templates
-	'(("d" "default" plain "%?"
-	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
-	   :unnarrowed t)
-	  ("b" "book notes" plain (file "~/src/dhruvasagar/org-files/roam/templates/BookNoteTemplate.org")
-	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-	 :unnarrowed t)))
+  (org-roam-dailies-capture-templates
+   '(("d" "default" entry "* %<%I:%M %p>: %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
-	 ;; ("C-c n d" . org-roam-dailies-map)
+	 ("C-c n d" . org-roam-dailies-map)
 	 ("C-c n c" . org-roam-capture)
 	 :map org-mode-map
-	 ("C-M-i" . completion-at-point))
-	 ;; :map org-roam-dailies-map
-	 ;; ("Y" . org-roam-dailies-capture-yesterday)
-	 ;; ("T" . org-roam-dailies-capture-tomorrow))
+	 ("C-M-i" . completion-at-point)
+	 :map org-roam-dailies-map
+	 ("Y" . org-roam-dailies-capture-yesterday)
+	 ("T" . org-roam-dailies-capture-tomorrow))
   :config
   (org-roam-setup)
   (require 'org-roam-dailies)
@@ -1337,18 +1339,26 @@
   (org-tree-slide-breadcrumbs " > ")
   (org-image-actual-width nil))
 
-;; (use-package org-modern
-;;   :config
-;;   (global-org-modern-mode)
-;;   (setq org-modern-todo-faces
-;; 	(quote (("TODO" :foreground "red" :weight bold)
-;; 		("NEXT" :foreground "blue" :weight bold)
-;; 		("DONE" :foreground "forest green" :weight bold)
-;; 		("WAITING" :foreground "orange" :weight bold)
-;; 		("HOLD" :foreground "magenta" :weight bold)
-;; 		("CANCELLED" :foreground "forest green" :weight bold)
-;; 		("MEETING" :foreground "forest green" :weight bold)
-;; 		("PHONE" :foreground "forest green" :weight bold)))))
+(use-package org-modern
+  :config
+  (setq org-modern-todo-faces
+	(quote (("TODO" :foreground "red" :weight bold)
+		("NEXT" :foreground "blue" :weight bold)
+		("DONE" :foreground "forest green" :weight bold)
+		("WAITING" :foreground "orange" :weight bold)
+		("HOLD" :foreground "magenta" :weight bold)
+		("CANCELLED" :foreground "forest green" :weight bold)
+		("MEETING" :foreground "forest green" :weight bold)
+		("PHONE" :foreground "forest green" :weight bold)))
+	org-modern-hide-stars nil
+	org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("⏵" . "⏷") ("▹" . "▿") ("▸" . "▾")))
+  :hook
+  (org-mode . org-modern-mode))
+
+(use-package org-modern-indent
+  :straight (:type git :host github :repo "jdtsmith/org-modern-indent")
+  :hook
+  (org-mode . org-modern-indent-mode))
 
 (defun ds/convert-org-to-docx-with-pandoc ()
   "Use Pandoc to convert .org to .docx.
@@ -1386,31 +1396,89 @@ Comments:
 	org-jira-working-dir "~/src/dhruvasagar/org-files/org-jira"))
 
 (use-package consult-org-roam
-   :after (org-roam consult)
-   :config
-   (consult-org-roam-mode 1)
-   :custom
-   ;; Use `ripgrep' for searching with `consult-org-roam-search'
-   (consult-org-roam-grep-func #'consult-ripgrep)
-   ;; Configure a custom narrow key for `consult-buffer'
-   (consult-org-roam-buffer-narrow-key ?r)
-   ;; Display org-roam buffers right after non-org-roam buffers
-   ;; in consult-buffer (and not down at the bottom)
-   (consult-org-roam-buffer-after-buffers t)
-   ;; :config
-   ;; ;; Eventually suppress previewing for certain functions
-   (consult-customize
-    consult-org-roam-forward-links
-    :preview-key "M-.")
-   :bind
-   ;; Define some convenient keybindings as an addition
-   ("C-c n b" . consult-org-roam-backlinks)
-   ("C-c n B" . consult-org-roam-backlinks-recursive)
-   ("C-c n l" . consult-org-roam-forward-links)
-   ("C-c n r" . consult-org-roam-search))
+  :after (org-roam consult)
+  :config
+  (consult-org-roam-mode 1)
+  :custom
+  ;; Use `ripgrep' for searching with `consult-org-roam-search'
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  ;; Configure a custom narrow key for `consult-buffer'
+  (consult-org-roam-buffer-narrow-key ?r)
+  ;; Display org-roam buffers right after non-org-roam buffers
+  ;; in consult-buffer (and not down at the bottom)
+  (consult-org-roam-buffer-after-buffers t)
+  ;; :config
+  ;; ;; Eventually suppress previewing for certain functions
+  (consult-customize
+   consult-org-roam-forward-links
+   :preview-key "M-.")
+  :bind
+  ;; Define some convenient keybindings as an addition
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n B" . consult-org-roam-backlinks-recursive)
+  ("C-c n l" . consult-org-roam-forward-links)
+  ("C-c n r" . consult-org-roam-search))
 
 (use-package ox-hugo
   :after ox)
 
+(use-package org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-agenda-skip-scheduled-if-done t
+	org-agenda-skip-deadline-if-done t
+	org-agenda-include-deadlines t
+	org-agenda-block-separator nil
+	org-agenda-compact-blocks t
+	org-agenda-start-day nil ;; i.e. today
+	org-agenda-span 1
+	org-agenda-start-on-weekday nil)
+  (setq org-agenda-custom-commands
+        '(("c" "Super view"
+           ((agenda "" ((org-agenda-overriding-header "")
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:log t)
+                            (:name "To refile"
+                                   :file-path "refile\\.org")
+                            (:name "Next to do"
+                                   :todo "NEXT"
+                                   :order 1)
+                            (:name "Important"
+                                   :priority "A"
+                                   :order 6)
+                            (:name "Today's tasks"
+                                   :file-path "journal/")
+                            (:name "Due Today"
+                                   :deadline today
+                                   :order 2)
+                            (:name "Scheduled Soon"
+                                   :scheduled future
+                                   :order 8)
+                            (:name "Overdue"
+                                   :deadline past
+                                   :order 7)
+                            (:name "Meetings"
+                                   :and (:todo "MEET" :scheduled future)
+                                   :order 10)
+                            (:discard (:not (:todo "TODO")))))))))))
+  :config
+  (org-super-agenda-mode))
+
+(use-package org-web-tools
+  :after org)
+
+(use-package org-similarity
+  :after org
+  :straight (:type git :host github :repo "brunoarine/org-similarity"))
+
+(use-package org-sticky-header
+  :after org
+  :hook (org-mode . org-sticky-header-mode))
 
 (provide 'init-org)

@@ -16,21 +16,9 @@
    `((,python-walrus-operator-regexp 0 'escape-glyph t))
    'set))
 
-;; (use-package pet
-;;   :hook
-;;   (python-base-mode . pet-mode))
-
 (use-package python-pytest
   :general
   (:states 'normal :keymaps 'python-base-mode-map "C-c C-t C-d" 'python-pytest-dispatch))
-
-(use-package pip-requirements
-  :mode (("\\.pip\\'" . pip-requirements-mode)
-	 ("requirements[^z-a]*\\.txt\\'" . pip-requirements-mode)
-	 ("requirements\\.in" . pip-requirements-mode))
-  :config
-  ;; Assign a non nil value to `pip-packages' to prevent fetching pip packages.
-  (setq pip-packages '("ipython")))
 
 (use-package json-mode
   :mode ("\\.json\\'" . json-mode))
@@ -71,18 +59,25 @@
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
-  :init
-  (setq markdown-command "multimarkdown")
   :custom
-  (markdown-header-scaling t)
+  ;; (markdown-header-scaling t)
+  (markdown-command "multimarkdown")
   (markdown-fontify-code-blocks-natively t)
   :bind
   ( :map markdown-mode-map
     ("M-n" . markdown-next-visible-heading)
     ("M-p" . markdown-previous-visible-heading)
     ("C-M-j" . markdown-follow-thing-at-point))
+  :custom-face
+  (markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
+  (markdown-header-face-1 ((t (:height 1.6  :foreground "#A3BE8C" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-2 ((t (:height 1.4  :foreground "#EBCB8B" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-3 ((t (:height 1.2  :foreground "#D08770" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-4 ((t (:height 1.15 :foreground "#BF616A" :weight bold :inherit markdown-header-face))))
+  (markdown-header-face-5 ((t (:height 1.1  :foreground "#b48ead" :weight bold :inherit markdown-header-face))))
+  (markdown-header-face-6 ((t (:height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face))))
   :hook
-  (markdown-mode . emojify-mode))
+  (markdown-mode . abbrev-mode))
 
 (use-package edit-indirect
   :after markdown-mode

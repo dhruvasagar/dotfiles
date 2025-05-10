@@ -17,6 +17,7 @@
 	      lsp-ui-peek-fontify 'always
 	      lsp-ui-doc-show-with-cursor nil
 	      lsp-ui-doc-show-with-mouse nil
+	      lsp-ui-doc-enable nil
 	      lsp-ui-peek-always-show t
 	      lsp-ui-sideline-show-diagnostics nil))
 
@@ -62,7 +63,7 @@
    go-ts-mode
    js2-ts-mode
    java-ts-mode
-   rust-ts-mode
+   rust-mode
    python-ts-mode
    haskell-ts-mode
    terraform-ts-mode
@@ -85,7 +86,7 @@
   (lsp-pyright-langserver-command "basedpyright"))
 
 (use-package blacken
-  :hook (python-mode . blacken-mode))
+  :hook (python-ts-mode . blacken-mode))
 
 (use-package lsp-ui
   :after lsp
@@ -119,7 +120,7 @@
   :config
   (dap-auto-configure-mode)
   :custom
-  (dap-auto-configure-features '(locals breakpoints expressions))
+  (dap-auto-configure-features '(locals breakpoints expressions tooltip))
   :bind
   (("C-c d d" . dap-debug)
    ("C-c d l" . dap-debug-last)
