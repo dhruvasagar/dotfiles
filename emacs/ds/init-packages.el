@@ -900,7 +900,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package persistent-scratch
   :init
   :defer 1
-  :bind ("<f6>" . persistent-scratch-quick-open)
+  :bind ("C-c n s" . persistent-scratch-quick-open)
   :config
   (eval-after-load '+popup
     '(set-popup-rule! "\\^*scratch:" :vslot -4 :autosave t :size 0.35 :select t :quit nil :ttl nil :modeline t))
@@ -1105,8 +1105,16 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package rfc-mode)
 
 (use-package diff-hl
+  :after magit
   :config
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh))
+
+(use-package gcmh-mode
+  :straight (:type git :host github :repo "emacsmirror/gcmh")
+  :config
+  (gcmh-mode 1))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
