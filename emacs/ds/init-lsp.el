@@ -28,6 +28,8 @@
   (lsp-format-on-save))
 
 (use-package lsp-mode
+  :init
+  (setq lsp-use-plists t)
   :commands lsp
   :custom
   (lsp-auto-guess-root t)
@@ -37,12 +39,14 @@
   (lsp-keep-workspace-alive t)
   (lsp-auto-execute-action nil)
   (lsp-before-save-edits t)
+  (lsp-signature-activate nil)
   (lsp-signature-function #'lsp-signature-posframe)
+  ;; (lsp-enable-symbol-highlighting nil)
   (lsp-semantic-tokens-enable t)
   (lsp-inlay-hint-enable t)
-  ;; (lsp-eldoc-enable-hover t)
+  (lsp-eldoc-enable-hover t)
   ;; (lsp-diagnostic-package :none)
-  (lsp-completion-provider :none)
+  ;; (lsp-completion-provider :none)
   (lsp-file-watch-threshold 1000)  ; pyright has more than 1000
   (lsp-enable-links t)
   (lsp-headerline-breadcrumb-enable t)
@@ -55,21 +59,22 @@
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
   ((ng2-mode
-   ng2-ts-mode
-   zig-mode
-   c-ts-mode
-   c++-ts-mode
-   lua-ts-mode
-   go-ts-mode
-   js2-ts-mode
-   java-ts-mode
-   rust-mode
-   python-ts-mode
-   haskell-ts-mode
-   terraform-ts-mode
-   typescript-ts-mode) . lsp-deferred)
+    ng2-ts-mode
+    zig-mode
+    c-ts-mode
+    c++-ts-mode
+    lua-ts-mode
+    go-ts-mode
+    js2-ts-mode
+    java-ts-mode
+    rust-mode
+    python-ts-mode
+    haskell-ts-mode
+    terraform-ts-mode
+    typescript-ts-mode) . lsp-deferred)
   (lsp-mode . ds/lsp-mode-setup)
-  (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil))))
+  ;; (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil)))
+  )
 
 (use-package lsp-java
   :after lsp-mode
@@ -85,8 +90,12 @@
   :custom
   (lsp-pyright-langserver-command "basedpyright"))
 
-(use-package blacken
-  :hook (python-ts-mode . blacken-mode))
+;; (use-package blacken
+;;   :hook (python-ts-mode . blacken-mode))
+
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
 
 (use-package lsp-ui
   :after lsp
@@ -119,6 +128,8 @@
   :after lsp-mode
   :config
   (dap-auto-configure-mode)
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
   :custom
   (dap-auto-configure-features '(locals breakpoints expressions tooltip))
   :bind

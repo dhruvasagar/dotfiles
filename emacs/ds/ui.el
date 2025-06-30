@@ -96,7 +96,7 @@ is already narrowed."
 (add-hook 'LaTeX-mode-hook
 	  (lambda ()
 	    (define-key LaTeX-mode-map "\C-xn"
-	      nil)))
+			nil)))
 
 (which-function-mode 1)
 (setq which-func-format
@@ -322,20 +322,20 @@ use in `display-buffer-alist'."
 	;; value of `ispell-choices-buffer'.
 	("\\*ispell-top-choices\\*.*"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected)
-	    (window-height . fit-window-to-buffer))
-	   ;; same window
+	 (window-height . fit-window-to-buffer))
+	;; same window
 
-	   ;; NOTE 2023-02-17: `man' does not fully obey the
-	   ;; `display-buffer-alist'.  It works for new frames and for
-	   ;; `display-buffer-below-selected', but otherwise is
-	   ;; unpredictable.  See `Man-notify-method'.
-	   ("\\*grep\\*"
-	    (display-buffer-no-window)
-	    (allow-no-window . t))
-	   ((or . ((derived-mode . Man-mode)
-		   (derived-mode . woman-mode)
-		   "\\*\\(Man\\|woman\\).*"))
-	    (display-buffer-same-window))))
+	;; NOTE 2023-02-17: `man' does not fully obey the
+	;; `display-buffer-alist'.  It works for new frames and for
+	;; `display-buffer-below-selected', but otherwise is
+	;; unpredictable.  See `Man-notify-method'.
+	("\\*grep\\*"
+	 (display-buffer-no-window)
+	 (allow-no-window . t))
+	((or . ((derived-mode . Man-mode)
+		(derived-mode . woman-mode)
+		"\\*\\(Man\\|woman\\).*"))
+	 (display-buffer-same-window))))
 
 ;; Better ediff experience
 (setq ediff-diff-options ""

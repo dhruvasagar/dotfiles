@@ -24,21 +24,7 @@
 (setq use-package-verbose t)
 (setq evil-want-keybinding nil)
 
-(require 'util)
-(require 'init-straight)
-(require 'init-general)
-(require 'init-org)
-(require 'init-evil)
-(require 'init-consult)
-(require 'init-packages)
-(require 'init-embark)
-(require 'ui)
-(require 'init-lsp)
-(require 'init-langs)
-(require 'init-mu4e)
-(require 'init-erc)
-(require 'init-ai)
-(require 'aoc-mode)
+(require 'ds)
 
 (add-hook 'prog-mode-hook 'aoc-mode-enable-if-in-aoc-dir)
 

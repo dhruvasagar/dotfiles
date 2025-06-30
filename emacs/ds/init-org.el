@@ -7,6 +7,7 @@
   (setopt org-agenda-files
 	  (append '("~/src/dhruvasagar/org-files")
 		  (file-expand-wildcards "~/src/dhruvasagar/org-files/vim/*.org")
+		  (file-expand-wildcards "~/src/dhruvasagar/org-files/roam/*.org")
 		  (file-expand-wildcards "~/src/dhruvasagar/org-files/org-jira/*.org")))
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
@@ -790,6 +791,8 @@
 					; Use fundamental mode when editing plantuml blocks with C-c '
   (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 
+  (appt-activate t)
+
   ;; start warning 60 minutes before the appointment
   (setq appt-message-warning-time 15)
   ;; warn me every 5 minutes
@@ -813,8 +816,6 @@
 	      :before
 	      (lambda (&rest args)
 		(org-agenda-to-appt t)))
-
-  (appt-activate t)
 
   ;; Enable abbrev-mode
   (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)) 'append)
@@ -1265,13 +1266,14 @@
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
       :unnarrowed t)
      ("b" "book note" plain (file "~/src/dhruvasagar/org-files/roam/templates/book_note.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :book:")
+      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
      ("p" "project" plain (file "~/src/dhruvasagar/org-files/roam/templates/project.org")
-      :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n+filetags: :project:")
+      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
      ("i" "isb note" plain (file "~/src/dhruvasagar/org-files/roam/templates/isb_note.org")
-      :if-new (file+head  "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n+filetags: :ISB:CTO:Program:"))))
+      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)))
   (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-dailies-capture-templates
    '(("d" "default" entry "* %<%I:%M %p>: %?"
@@ -1496,5 +1498,8 @@ Comments:
 (use-package org-sticky-header
   :after org
   :hook (org-mode . org-sticky-header-mode))
+
+(use-package org-drill
+  :after org)
 
 (provide 'init-org)

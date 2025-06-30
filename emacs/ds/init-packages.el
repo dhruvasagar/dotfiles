@@ -84,10 +84,6 @@
   :hook
   (calendar-mode . delete-other-windows))
 
-(use-package kaolin-themes
-  :config
-  (load-theme 'kaolin-ocean t))
-
 (use-package which-key
   :config
   (which-key-mode))
@@ -369,20 +365,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package colorful-mode
   :straight (:type git :host github :repo "DevelopmentCool2449/colorful-mode"))
 
-;; (use-package rainbow-mode
-;;   :custom-face
-;;   (rainbow-delimiters-depth-1-face ((t (:foreground "white"))))
-;;   (rainbow-delimiters-depth-2-face ((t (:foreground "cyan"))))
-;;   (rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
-;;   (rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
-;;   (rainbow-delimiters-depth-5-face ((t (:foreground "orange"))))
-;;   (rainbow-delimiters-depth-6-face ((t (:foreground "purple"))))
-;;   (rainbow-delimiters-depth-7-face ((t (:foreground "white"))))
-;;   (rainbow-delimiters-depth-8-face ((t (:foreground "cyan"))))
-;;   (rainbow-delimiters-depth-9-face ((t (:foreground "yellow"))))
-;;   (rainbow-delimiters-unmatched-face ((t (:foreground "red"))))
-;;   :hook (prog-mode . rainbow-mode))
-
 (use-package web-mode
   :custom
   (css-indent-offset 2)
@@ -395,7 +377,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (web-mode-html-attr-value-face ((t (:inherit font-lock-string-face :foreground nil))))
   (web-mode-current-element-highlight-face ((t (:inherit highlight))))
   :mode ;; Copied from spacemacs
-  (("\\.phtml\\'"      . web-mode)
+  (("\\.html\\'"       . web-mode)
+   ("\\.phtml\\'"      . web-mode)
    ("\\.tpl\\.php\\'"  . web-mode)
    ("\\.twig\\'"       . web-mode)
    ("\\.xml\\'"        . web-mode)

@@ -15,3 +15,6 @@ scratch.*
 testify_results.txt
 config/projections.json
 debug.el
+.aider*
+.dir-locals.el
+.lsp-docker.yml

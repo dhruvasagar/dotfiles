@@ -13,6 +13,7 @@ relink ~/dotfiles/config/tmux.conf ~/.tmux.conf
 relink ~/dotfiles/qutebrowser ~/.qutebrowser
 relink ~/dotfiles/vim/tridactylrc ~/.tridactylrc
 relink ~/dotfiles/sshconfig ~/.ssh/config
+relink ~/dotfiles/config/pdbrc.py "~/.pdbrc.py"
 
 relink ~/dotfiles/nvim "${XDG_CONFIG_HOME}/nvim"
 relink ~/dotfiles/config/wezterm.lua ~/.wezterm.lua
