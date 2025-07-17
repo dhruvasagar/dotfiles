@@ -415,7 +415,9 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (web-mode . emmet-mode)
   (css-mode . emmet-mode))
 
-(use-package transient)
+(use-package transient
+  :init
+  (setq transient-show-popup 2))
 
 (use-package magit
   :commands magit
@@ -974,116 +976,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (:map evil-normal-state-map
 	("gS" . multi-line)
 	("gJ" . multi-line-single-line)))
-
-;; (use-package auto-side-windows
-;;   :straight (:type git :host github :repo "MArpogaus/auto-side-windows")
-;;   :preface
-;;   (defun my/get-header-line-icon-for-buffer (buffer)
-;;     (with-current-buffer buffer
-;;       (unless (boundp 'header-line-icon)
-;; 	(setq-local header-line-icon
-;; 		    (cond
-;; 		     ((buffer-match-p "Warning" buffer) '("  !  " . warning))
-;; 		     ((buffer-match-p '(or "^\\*Backtrace\\*$" ".*[Ee]rror.*") buffer) '("  !  " . error))
-;; 		     ((buffer-match-p '(or "^COMMIT_EDITMSG$" "^\\*diff-hl\\*$") buffer) '("    " . success))
-;; 		     ((buffer-match-p "^\\*Org Src.*\\*" buffer) '("     " . mode-line-emphasis))
-;; 		     ((buffer-match-p "^\\*Org Agenda\\*$" buffer) '("    " . mode-line-emphasis))
-;; 		     (t '("  ?  " . mode-line-emphasis)))))
-;;       header-line-icon))
-;;   (defun my/install-top-side-window-face-remaps (buffer foreground background)
-;;     (with-current-buffer buffer
-;;       (unless (bound-and-true-p top-side-window-face-remaps-cookies)
-;; 	(setq-local top-side-window-face-remaps-cookies
-;; 		    (list
-;; 		     (face-remap-add-relative 'header-line
-;; 					      `(:box nil :underline nil :overline ,background))
-;; 		     (face-remap-add-relative 'fringe
-;; 					      `(:background ,background))
-;; 		     (face-remap-add-relative 'mode-line-active
-;; 					      `(:overline ,background :underline nil :height 0))
-;; 		     (face-remap-add-relative 'mode-line-inactive
-;; 					      `(:overline ,background :underline nil :height 0))
-;; 		     )))))
-;;   (defvar my/header-line-format-top
-;;     '(:eval
-;;       (let*
-;; 	  ((buffer (current-buffer))
-;; 	   (prefix-and-face (my/get-header-line-icon-for-buffer buffer))
-;; 	   (prefix (car prefix-and-face))
-;; 	   (background (face-foreground (cdr prefix-and-face)))
-;; 	   (foreground (face-background (cdr prefix-and-face) nil 'default))
-;; 	   (prefix-face `((t :inherit bold :background ,background :foreground ,foreground)))
-;; 	   (buffer-face `((t :inherit bold :foreground ,background))))
-;; 	(set-window-fringes nil 1 1 t)
-;; 	;; (set-window-margins nil 1 1)
-;; 	(my/install-top-side-window-face-remaps buffer foreground background)
-;; 	(list
-;; 	 (propertize prefix 'face prefix-face 'display '(space-width 0.7))
-;; 	 (propertize (format-mode-line " %b ") 'face buffer-face)
-;; 	 (propertize " " 'display `(space :align-to right))
-;; 	 (propertize " " 'face prefix-face 'display '(space-width 1))))))
-;;   :custom
-;;   ;; Top side window configurations
-;;   (auto-side-windows-top-buffer-names
-;;    '("^\\*Backtrace\\*$" "^\\*Compile-Log\\*$" "^COMMIT_EDITMSG$"
-;;      "^\\*Org Src.*\\*" "^\\*Agenda Commands\\*$" "^\\*Org Agenda\\*$"
-;;      "^\\*Org-Babel Error Output\\*" "^\\*Quick Help\\*$"
-;;      "^\\*Multiple Choice Help\\*$" "^\\*TeX Help\\*$" "^\\*TeX errors\\*$"
-;;      "^\\*Warnings\\*$" "^\\*diff-hl\\*$"
-;;      "^\\*Process List\\*$"))
-;;   (auto-side-windows-top-buffer-modes
-;;    '(flymake-diagnostics-buffer-mode locate-mode occur-mode grep-mode
-;; 				     xref--xref-buffer-mode))
-
-;;   ;; Bottom side window configurations
-;;   (auto-side-windows-bottom-buffer-names '("^\\*.*eshell.*\\*$"
-;; 					   "^\\*.*shell.*\\*$" "^\\*.*term.*\\*$" "^\\*.*vterm.*\\*$"
-;; 					   "\\*.*lsp.*\\*$" "^\\*eldoc.*\\*$" "^\\*info\\*$" "^\\*Metahelp\\*$"))
-;;   (auto-side-windows-bottom-buffer-modes
-;;    '(eshell-mode shell-mode term-mode vterm-mode comint-mode
-;; 		 debugger-mode eldoc-mode help-mode helpful-mode shortdoc-mode))
-
-;;   ;; Right side window configurations
-;;   (auto-side-windows-right-buffer-names
-;;    '("^magit-diff:.*$" "^magit-process:.*$"))
-;;   (auto-side-windows-right-buffer-modes
-;;    '(Info-mode TeX-output-mode pdf-view-mode magit-log-mode
-;; 	       magit-diff-mode magit-process-mode))
-
-;;   ;; Example: Custom parameters for top windows (e.g., fit height to buffer)
-;;   ;; (auto-side-windows-top-alist '((window-height . fit-window-to-buffer)))
-;;   ;; (auto-side-windows-top-window-parameters '((mode-line-format . ...))) ;; Adjust mode-line
-
-;;   ;; Maximum number of side windows on the left, top, right and bottom
-;;   (window-sides-slots '(1 1 1 1)) ; Example: Allow one window per side
-
-;;   ;; Force left and right side windows to occupy full frame height
-;;   (window-sides-vertical t)
-
-;;   (auto-side-windows-top-window-parameters `((mode-line-format . t)
-;;                                              (header-line-format . ,my/header-line-format-top)))
-;;   (auto-side-windows-before-display-hook '((lambda (buffer)
-;;                                              (with-current-buffer buffer
-;;                                                (when (bound-and-true-p top-side-window-face-remaps-cookies)
-;;                                                  (dolist (cookie top-side-window-face-remaps-cookies)
-;;                                                    (face-remap-remove-relative cookie))
-;;                                                  (kill-local-variable 'top-side-window-face-remaps-cookies))))))
-;;   (auto-side-windows-before-toggle-hook auto-side-windows-before-display-hook)
-;;   ;; Make changes to tab-/header- and mode-line-format persistent when toggleling windows visibility
-;;   (window-persistent-parameters
-;;    (append window-persistent-parameters
-;;            '((tab-line-format . t)
-;;              (header-line-format . t)
-;;              (mode-line-format . t))))
-;;   :bind ;; Example keybindings (adjust prefix as needed)
-;;   (:map global-map ; Or your preferred keymap prefix
-;;         ("C-c w t" . auto-side-windows-display-buffer-top)
-;;         ("C-c w b" . auto-side-windows-display-buffer-bottom)
-;;         ("C-c w l" . auto-side-windows-display-buffer-left)
-;;         ("C-c w r" . auto-side-windows-display-buffer-right)
-;;         ("C-c w T" . auto-side-windows-toggle-side-window)) ; Toggle current buffer in/out of side window
-;;   :hook
-;;   (after-init . auto-side-windows-mode)) ; Activate the mode
 
 (use-package rfc-mode)
 

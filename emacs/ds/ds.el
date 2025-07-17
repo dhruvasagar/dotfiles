@@ -15,5 +15,6 @@
 (require 'init-ai)
 (require 'aoc-mode)
 ;; (require 'eaf)
+(require 'send-to-buffer)
 
 (provide 'ds)

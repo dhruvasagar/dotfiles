@@ -79,8 +79,10 @@
 
 (use-package evil-textobj-tree-sitter
   :straight (evil-textobj-tree-sitter :type git
-		      :host github
-		      :repo "meain/evil-textobj-tree-sitter"
-		      :files (:defaults "queries" "treesit-queries")))
+				      :host github
+				      :repo "meain/evil-textobj-tree-sitter"
+				      :files (:defaults "queries" "treesit-queries")))
+
+(use-package evil-string-inflection)
 
 (provide 'init-evil)
