@@ -1,3 +1,2 @@
-@hourly ~/dotfiles/bin/reminders/agenda > ~/dotfiles/log/remind_agenda.log 2>&1
-@hourly ~/dotfiles/bin/reminders/water > ~/dotfiles/log/remind_water.log 2>&1
-
+0 9-18 * * * ~/dotfiles/bin/reminders/agenda > ~/dotfiles/log/remind_agenda.log 2>&1
+0 9-18 * * * ~/dotfiles/bin/reminders/water > ~/dotfiles/log/remind_water.log 2>&1
