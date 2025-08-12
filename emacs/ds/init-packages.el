@@ -451,6 +451,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
     ("T" . magit-todos-list))
   :hook (magit-mode . magit-todos-mode))
 
+;; Using straight.el
+(use-package magit-prime
+  :straight (:type git :host github :repo "Azkae/magit-prime")
+  :config
+  (add-hook 'magit-pre-refresh-hook 'magit-prime-refresh-cache))
+
 (use-package git-link
   :commands git-link
   :custom
@@ -990,6 +996,33 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :straight (:type git :host github :repo "emacsmirror/gcmh")
   :config
   (gcmh-mode 1))
+
+;; (use-package flyover
+;;   :straight (:type git :host github :repo "konrad1977/flyover")
+;;   :init
+;;   (setq flyover-use-theme-colors t)
+;;   :hook (flycheck-mode . flyover-mode))
+
+(use-package jira
+  :straight (:host github :repo "unmonoqueteclea/jira.el")
+  :config
+  (setq jira-base-url "https://aicrete.atlassian.net")
+  :bind
+  (:map jira-issues-mode-map
+	("C-c j" . jira-issues-menu)
+	("C-c ?" . jira-issues-actions-menu)
+	("C-c f" . jira-detail-find-issue-by-key)
+	("C-c c" . (lambda ()
+		     (interactive)
+		     (jira-actions-copy-issues-id-to-clipboard (jira-utils-marked-item))))
+	("C-c C" . jira-actions-change-issue-menu)
+	("C-c I" . (lambda ()
+		     (interactive)
+		     (jira-details-show-issue (jira-utils-marked-item))))
+	("C-c O" . (lambda ()
+		     (interactive)
+		     (jira-actions-open-issue (jira-utils-marked-item))))
+	("C-c W" . jira-actions-add-worklog-menu)))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")
