@@ -1,5 +1,17 @@
 # vim: ft=zsh
 
+relink() {
+    src="$1"
+    dst="$2"
+
+    rm -rf "$dst"
+
+    dir=$(dirname "$dst")
+    [[ ! -d "$dir" ]] && mkdir -p "$dir"
+
+    ln -s "$src" "$dst"
+}
+
 mkdcd () {
   [[ -n "$1" ]] && mkdir -p "$1" && builtin cd "$1"
 }
@@ -67,9 +79,21 @@ lcflow () {
 }
 
 calc () {
-  echo "$1" | bc -l
+  echo "$@" | bc -l
 }
 
 rmd () {
   pandoc $1 | lynx -stdin
+}
+
+stream() {
+  streamlink --player mpv --player-args '--ontop' $1 best
+}
+
+kubectl() {
+  if ! type __start_kubectl >/dev/null 2>&1; then
+    source <(command kubectl completion zsh)
+  fi
+
+  command kubectl "$@"
 }

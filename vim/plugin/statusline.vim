@@ -83,7 +83,7 @@ function! StatusLineALE() abort
 endfunction
 
 set statusline=%(\ %5*%{zoom#statusline()}%*\ \|%)
-set statusline+=%(\ %{fugitive#head()}\ \|%)
+set statusline+=%(\ %{fugitive#Head()}\ \|%)
 set statusline+=%(\ %{StatusLinePWD()}\ \|\ %)
 set statusline+=%(%r%m\ %)
 

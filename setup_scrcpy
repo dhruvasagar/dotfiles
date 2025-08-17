@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -d ~/src/oss/scrcpy ]]; then
+    git clone git@github.com:Genymobile/scrcpy.git
+    cd ~/src/oss/scrcpy
+
+    ~/dotfiles/bin/updatescrcpy
+fi

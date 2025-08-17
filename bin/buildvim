@@ -2,26 +2,26 @@
 
 platform=$(uname | awk '{print tolower($0)}')
 
-sudo make distclean
+make distclean
 
 if [ "$platform" = "linux" ]; then
-  ./configure \
-    --with-x \
-    --with-features=huge \
-    --enable-rubyinterp \
-    --enable-pythoninterp \
-    --enable-python3interp \
-    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python-config-dir="$(python2-config --configdir)" \
-    --with-python3-config-dir="$(python3-config --configdir)"
+    ./configure \
+        --with-x \
+        --with-features=huge \
+        --enable-rubyinterp \
+        --enable-pythoninterp \
+        --enable-python3interp \
+        --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
+        --with-python-config-dir="$(python2-config --configdir)" \
+        --with-python3-config-dir="$(python3-config --configdir)"
 else
-  ./configure \
-    --prefix=/usr/local \
-    --enable-rubyinterp \
-    --enable-python3interp \
-    --with-features=huge \
-    --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
-    --with-python3-config-dir="$(python3-config --configdir)"
+    ./configure \
+        --prefix=/usr/local \
+        --enable-rubyinterp \
+        --enable-python3interp \
+        --with-features=huge \
+        --with-compiledby="Dhruva Sagar <dhruva.sagar@gmail.com>" \
+        --with-python3-config-dir="$(python3-config --configdir)"
 fi
 
 sudo make

@@ -1,5 +1,6 @@
 if has('nvim')
-  let test#strategy = 'neoterm'
+  " let test#strategy = 'neoterm'
+  let test#strategy = 'neovim'
 else
   let test#strategy = 'vimux'
 endif
@@ -9,3 +10,5 @@ let test#ruby#rspec#options = {
       \ 'file':    '--format doc',
       \ 'suite':   '--format progress'
       \}
+
+let test#enabled_runners = ['viml#testify']

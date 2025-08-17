@@ -1,13 +1,14 @@
-# vim: ft=sshconfig
+Include /Users/dhruva/.colima/ssh_config
 
 Include configs/*
 IdentityFile ~/.ssh/id_rsa
 ServerAliveInterval 240
+# RemoteCommand TERM=xterm-256color $SHELL
 
 Host bitbucket.org
 HostName bitbucket.org
 User git
-IdentityFile ~/.ssh/bitbucket
+IdentityFile ~/.ssh/bitbucket_tarkalabs
 IdentitiesOnly yes
 PreferredAuthentications publickey
 
@@ -19,6 +20,10 @@ Host blog-tunnel
 HostName dhruvasagar.com
 User dhruvasagar
 RemoteForward 9022 localhost:22
+
+Host vicharak
+Hostname 192.168.1.150
+User vicharak
 
 Host blog-socks
 HostName dhruvasagar.com

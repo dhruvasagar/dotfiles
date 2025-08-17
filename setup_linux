@@ -1,3 +1,8 @@
+#!/bin/bash
+
+relink ~/dotfiles/config/xprofile ~/.xprofile
+relink ~/dotfiles/config/i3 "${XDG_CONFIG_HOME}/i3"
+
 base_os=$(cat /etc/os-release | grep -i id_like | sed 's/[^=]*=//')
 
-[[ -f "setup_${base_os}" ]] && source "./setup_${base_is}"
+[[ -f "setup_${base_os}" ]] && source "./setup_${base_os}"

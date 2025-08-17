@@ -1,8 +1,10 @@
-hs.hotkey.bind({"ctrl"}, "`", function()
-  local alacritty = hs.application.get('Alacritty')
-  if alacritty and alacritty:isFrontmost() then
-    alacritty:hide()
+local laucnOrFocusTerm = function()
+  local term = hs.application.get("WezTerm")
+  if term and term:isFrontmost() then
+    term:hide()
   else
-    hs.application.launchOrFocus("/Applications/Alacritty.app")
+    hs.application.launchOrFocus("/Applications/WezTerm.app")
   end
-end)
+end
+hs.hotkey.bind({ "ctrl" }, "`", laucnOrFocusTerm)
+hs.hotkey.bind({ "ctrl" }, "escape", laucnOrFocusTerm)

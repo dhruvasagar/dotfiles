@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ ! -d ~/src/oss/neovim ]]; then
+  git clone git@github.com:neovim/neovim.git ~/src/oss/neovim
+  cd ~/src/oss/neovim
+
+  ~/dotfiles/bin/buildnvim
+
+  nvim +"Lazy install --fast" +qall
+fi

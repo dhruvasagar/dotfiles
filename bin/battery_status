@@ -6,6 +6,10 @@ if [ "$platform" = 'Linux' ]; then
   if command -v upower; then
     BATTERY_STATUS=$(upower -i $(upower -e | grep BAT) | grep state | awk '{print $2}')
     BATTERY_PERCENTAGE=$(upower -i $(upower -e | grep BAT) | grep percentage | awk '{print $2}')
+    if [ -z "$BATTERY_STATUS" ]; then
+      BATTERY_STATUS="No Battery"
+      BATTERY_PERCENTAGE="100%"
+    fi
     printf "%s $BATTERY_STATUS" $BATTERY_PERCENTAGE
   else
     BATTERY_PATH="/sys/class/power_supply/BAT0"

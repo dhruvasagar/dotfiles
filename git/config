@@ -1,49 +1,61 @@
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore
-	ignorecase = false
+  editor = vim
+  excludesfile = ~/.gitignore
+  ignorecase = false
+  pager = delta
+[interactive]
+  deltaFilter = delta --color-only
+[delta "interactive"]
+  keep-plus-minus-markers = false
+[delta]
+  navigate = true
+  dark = true
+[merge]
+  conflictstyle = diff3
 [push]
-	default = simple
+  default = simple
 [user]
-	name = Dhruva Sagar
-	email = dhruva.sagar@gmail.com
+  name = Dhruva Sagar
+  email = dhruva.sagar@gmail.com
 [color]
-	ui = true
+  ui = true
 [commit]
-	; Commented to allow prepare-commit-msg hook to work
-	; template = ~/.gitcommit_template
-	verbose = true
+  ; Commented to allow prepare-commit-msg hook to work
+  ; template = ~/.gitcommit_template
+  verbose = true
 [github]
-	user = dhruvasagar
+  user = dhruvasagar
+[gitlab]
+  user = dhruvasagar_zo
 [pull]
   rebase = false
 [alias]
-	; Is this short enough ? I also have gst zsh alias tho...
-	st = status
-	; I typo a lot, save me alias
-	pul = pull
-	pus = push
-	; Here be cats
-	purr = pull --rebase
-	; We're ready to push a bunch of changes, lets rebase and clean the commit
-	; history before we do so
-	ready = rebase -i @{u}
-	; Who's been messing up our code more ? Tell me git
-	stats = shortlog -sn --no-merges
-	; What have I been upto ?
-	mylog = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%an>%Creset' --author dhruvasagar
-	standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%an>%Creset' --since yesterday --author dhruvasagar
-	; Nice logs
-	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	lgg1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
-	lgg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
-	; list files which have changed since REVIEW_BASE
+  ; Is this short enough ? I also have gst zsh alias tho...
+  st = status
+  ; I typo a lot, save me alias
+  pul = pull
+  pus = push
+  ; Here be cats
+  purr = pull --rebase
+  ; We're ready to push a bunch of changes, lets rebase and clean the commit
+  ; history before we do so
+  ready = rebase -i @{u}
+  ; Who's been messing up our code more ? Tell me git
+  stats = shortlog -sn --no-merges
+  ; What have I been upto ?
+  mylog = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%an>%Creset' --author dhruvasagar
+  standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%an>%Creset' --since yesterday --author dhruvasagar
+  ; Nice logs
+  lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  lgg1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+  lgg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
+  ; list files which have changed since REVIEW_BASE
   ; (REVIEW_BASE defaults to 'master' in my zshrc)
-	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+  files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
   ; Same as above, but with a diff stat instead of just names
   ; (better for interactive use)
-	stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
-	; NOTE: These aliases depend on the `git files` alias from
+  stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
+  ; NOTE: These aliases depend on the `git files` alias from
   ; a few sections ago!
 
   ; Open all files changed since REVIEW_BASE in Vim tabs
@@ -56,4 +68,14 @@
   ; git reviewone foo.js bar.js
   reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 [init]
-	defaultBranch = main
+  defaultBranch = main
+
+[diff]
+	submodule = log
+	colorMoved = default
+
+[pager]
+        blame = delta
+	diff = delta
+	reflog = delta
+	show = delta

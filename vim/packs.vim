@@ -2,6 +2,7 @@
 
 packadd cfilter
 packadd packup
+packadd comment
 
 call packup#init()
 
@@ -22,7 +23,6 @@ call packup#add('git@github.com:tpope/vim-sensible.git')
 call packup#add('git@github.com:tpope/vim-fireplace.git')
 call packup#add('git@github.com:tpope/vim-leiningen.git')
 call packup#add('git@github.com:tpope/vim-obsession.git')
-call packup#add('git@github.com:tpope/vim-commentary.git')
 call packup#add('git@github.com:tpope/vim-scriptease.git')
 call packup#add('git@github.com:tpope/vim-unimpaired.git')
 call packup#add('git@github.com:tpope/vim-speeddating.git')
@@ -43,6 +43,7 @@ call packup#add('git@github.com:AndrewRadev/sideways.vim.git')
 call packup#add('git@github.com:AndrewRadev/splitjoin.vim.git')
 call packup#add('git@github.com:simnalamburt/vim-mundo.git')
 call packup#add('git@github.com:machakann/vim-sandwich.git')
+call packup#add('git@github.com:dstein64/vim-startuptime.git')
 " Language Packs {{{3
 " Javascript {{{4
 " call packup#add('git@github.com:mxw/vim-jsx.git', {'for': 'javascript'})
@@ -67,6 +68,7 @@ call packup#add('git@github.com:fatih/vim-go.git', {'do': 'GoInstallBinaries'})
 call packup#add('git@github.com:racer-rust/vim-racer.git')
 call packup#add('git@github.com:leafgarland/typescript-vim.git')
 call packup#add('git@github.com:purescript-contrib/purescript-vim.git')
+call packup#add('git@github.com:mustache/vim-mustache-handlebars.git')
 " }}}4
 " Utility Plugins {{{3
 call packup#add('git@github.com:SirVer/ultisnips.git')
@@ -93,13 +95,15 @@ call packup#add('git@github.com:vim-scripts/DrawIt.git')
 call packup#add('git@github.com:junegunn/vim-emoji.git')
 call packup#add('git@github.com:RRethy/vim-hexokinase.git', {'do': { -> system('make hexokinase')}})
 call packup#add('git@github.com:guns/xterm-color-table.vim.git')
-call packup#add('git@github.com:vimwiki/vimwiki.git')
+" call packup#add('git@github.com:vimwiki/vimwiki.git')
 call packup#add('git@github.com:mattn/calendar-vim.git')
 call packup#add('git@github.com:ledger/vim-ledger.git')
 call packup#add('git@github.com:puremourning/vimspector.git')
 call packup#add('git@github.com:Yggdroot/indentLine.git')
+call packup#add('git@github.com:epilande/vim-react-snippets.git')
 " Colorschemes {{{3
 " call packup#add('git@github.com:flazz/vim-colorschemes.git')
+call packup#add('git@github.com:nordtheme/vim.git')
 "
 " DevOps {{{3
 call packup#add('git@github.com:towolf/vim-helm.git')
@@ -118,6 +122,7 @@ call packup#add('git@github.com:dhruvasagar/vim-dotoo.git')
 call packup#add('git@github.com:dhruvasagar/vim-pairify.git')
 " call packup#add('git@github.com:dhruvasagar/vim-highlight-word.git')
 call packup#add('git@github.com:dhruvasagar/vim-testify.git')
+call packup#add('git@github.com:dhruvasagar/vim-markify.git')
 call packup#add('git@github.com:dhruvasagar/vim-open-url.git')
 call packup#add('git@github.com:dhruvasagar/vim-table-mode.git')
 call packup#add('git@github.com:dhruvasagar/vim-buffer-history.git')

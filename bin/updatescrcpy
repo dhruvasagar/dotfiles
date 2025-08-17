@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd ~/src/oss/scrcpy
+git pull origin master
+~/dotfiles/bin/buildscrcpy

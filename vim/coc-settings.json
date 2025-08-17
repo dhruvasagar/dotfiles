@@ -4,7 +4,9 @@
   "solargraph.useBundler": true,
   "suggest.enablePreview": true,
   "rust-analyzer.procMacro.enable": true,
-  "rust-analyzer.diagnostics.enableExperimental": true,
+  "rust-analyzer.checkOnSave.extraArgs": [
+    "--target-dir", "/tmp/rust-analyzer-check"
+  ],
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server-wrapper",
@@ -24,6 +26,12 @@
         "languageServerHaskell": {
         }
       }
+    },
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"]
     }
-  }
+  },
+  "codeLens.enable": true
 }

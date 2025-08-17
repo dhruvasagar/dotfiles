@@ -26,10 +26,16 @@ else
 fi
 
 # Colorify
-alias l='ls --color=auto -1tA'
-alias ls='ls --color=auto --group-directories-first'
-alias ll='ls -lthN --color=auto --group-directories-first'
-alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias l='ls --color=auto -1tA'
+  alias ls='ls --color=auto'
+  alias ll='ls -lth --color=auto'
+else
+  alias l='ls --color=auto -1tA'
+  alias ls='ls --color=auto --group-directories-first'
+  alias ll='ls -lthN --color=auto --group-directories-first'
+fi
+alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} --exclude-dir={.bundle,node_modules}'
 
 alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vim -R -' -c pager.diff='vim -R -'"
 

@@ -6,7 +6,16 @@
 
 config_version: 2
 settings:
+  colors.webpage.darkmode.enabled:
+    global: false
+  content.autoplay:
+    global: false
+  content.blocking.method:
+    global: both
+  content.desktop_capture:
+    https://meet.google.com: true
   content.geolocation:
+    https://www.google.com: true
     https://www.horizonblue.com: true
   content.media.audio_capture:
     https://meet.google.com: true
@@ -15,15 +24,19 @@ settings:
   content.media.video_capture:
     https://meet.google.com: true
   content.notifications.enabled:
+    https://calendar.google.com: true
     https://lichess.org: true
     https://mail.google.com: true
+    https://mail.protonmail.com: true
     https://meet.google.com: true
+    https://www.chess.com: true
     https://www.facebook.com: true
     https://www.netflix.com: true
     https://www.producthunt.com: true
     https://www.reddit.com: true
     https://yourstory.com: true
   content.register_protocol_handler:
+    https://calendar.google.com?cid=%25s: true
     https://mail.google.com?extsrc=mailto&url=%25s: true
   fonts.default_family:
     global: FiraCode Nerd Font
@@ -31,5 +44,7 @@ settings:
     global: 10pt
   qt.highdpi:
     global: true
+  tabs.show:
+    global: always
   zoom.default:
     global: '100'

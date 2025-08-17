@@ -2,25 +2,31 @@
 
 set -e
 
-info () {
-  tput setaf 6; echo "$1"; tput sgr0
+info() {
+    tput setaf 6
+    echo "$1"
+    tput sgr0
 }
 
-error () {
-  tput setaf 1; (>&2 echo "$1"); tput sgr0
+error() {
+    tput setaf 1
+    (echo >&2 "$1")
+    tput sgr0
 }
 
-success () {
-  tput setaf 2; echo "$1"; tput sgr0
+success() {
+    tput setaf 2
+    echo "$1"
+    tput sgr0
 }
 
-quit () {
-  usage
-  exit 1
+quit() {
+    usage
+    exit 1
 }
 
-usage () {
-  cat <<EOM
+usage() {
+    cat << EOM
   comp v0.1
   Dhruva Sagar <dhruva.sagar@gmail.com>
 
@@ -50,47 +56,51 @@ extn_map['ruby']='rb'
 extn_map['python']='py'
 extn_map['haskell']='hs'
 
-create_project () {
-  extn=${extn_map["$1"]}
-  if [ -z $extn ]; then
-    extn="$1"
-  fi
-  name="$2"
-  cd "$name"
-  if [ -f "${TEMPLATE_DIR}/file.${extn}" ]; then
-    cp "${TEMPLATE_DIR}/file.${extn}" "${name}.${extn}"
-  elif [ -d "${TEMPLATE_DIR}/${extn}" ]; then
-    cp -R "${TEMPLATE_DIR}/${extn}/." .
-    mv "file.${extn}" "${name}.${extn}"
-  else
-    touch "${name}.${extn}"
-  fi
-  cp -R "${TEMPLATE_DIR}/shared/." .
-  find . -type f -exec sed -i "s/{{name}}/\u${name}/g" {} +
+create_project() {
+    extn=${extn_map["$1"]}
+    if [ -z $extn ]; then
+        extn="$1"
+    fi
+    name="$2"
+    cd "$name"
+    if [ -f "${TEMPLATE_DIR}/file.${extn}" ]; then
+        cp "${TEMPLATE_DIR}/file.${extn}" "${name}.${extn}"
+    elif [ -d "${TEMPLATE_DIR}/${extn}" ]; then
+        cp -R "${TEMPLATE_DIR}/${extn}/." .
+        if [ -f "file.${extn}" ]; then
+            mv "file.${extn}" "${name}.${extn}"
+        fi
+    else
+        touch "${name}.${extn}"
+    fi
+    cp -R "${TEMPLATE_DIR}/shared/." .
+    # find . -type f -exec sed -i "s/{{name}}/${name}/g" {} +
+    find . -type f -exec sed -i '' -e "s/{{name}}/${name}/g" {} \;
 }
 
-create () {
-  lang="$1"
-  if [ -z "$lang" ]; then
-    quit
-  fi
-  name="$2"
-  if [ -z "$name" ]; then
-    quit
-  fi
-  name="$2"
-  mkdir -p "$name/bin"
-  create_project "$lang" "$name"
+create() {
+    lang="$1"
+    if [ -z "$lang" ]; then
+        quit
+    fi
+    name="$2"
+    if [ -z "$name" ]; then
+        quit
+    fi
+    name="$2"
+    mkdir -p "$name/bin"
+    create_project "$lang" "$name"
 }
 
 COMMAND=$1
 case "$COMMAND" in
-  create)
-    create "${@:2}"
-    ;;
-  help)
-    usage
-    ;;
-  *)
-    quit
+    create)
+        create "${@:2}"
+        ;;
+    help)
+        usage
+        ;;
+    *)
+        quit
+        ;;
 esac
