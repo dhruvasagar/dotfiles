@@ -327,8 +327,8 @@ bar {
   position top
   # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   # font pango:DejaVu Sans Mono 9
-  status_command bumblebee-status \
-    -m sensors2 load nvidiagpu memory nic datetime \
+  status_command ~/.local/bin/bumblebee-status \
+    -m sensors2 load memory nic datetime battery-upower \
     -p nic.exclude="lo,enp30s0,docker0" \
     -p nic.format="{intf}:{ip}" \
     -p interval=2.5 \
