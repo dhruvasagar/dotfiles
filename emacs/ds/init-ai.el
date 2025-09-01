@@ -25,7 +25,7 @@
   ;; optionally set a timer, which might speed up things as the
   ;; codeium local language server takes ~0.2s to start up
   (add-hook 'emacs-startup-hook
-   (lambda () (run-with-timer 0.1 nil #'codeium-init)))
+	    (lambda () (run-with-timer 0.1 nil #'codeium-init)))
 
   ;; :defer t ;; lazy loading, if you want
   :config
@@ -62,13 +62,41 @@
   (setq codeium/document/text 'my-codeium/document/text)
   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
 
-(use-package aidermacs
-  :straight (:host github :repo "MatthewZMD/aidermacs" :files ("*.el"))
+;; (use-package aidermacs
+;;   :straight (:host github :repo "MatthewZMD/aidermacs" :files ("*.el"))
+;;   :config
+;;   (setq aidermacs-args '("--model" "openai/gpt-4o-mini"))
+;;   (global-set-key (kbd "C-c .") 'aidermacs-transient-menu))
+
+(use-package aider
+  :straight (:host github :repo "tninja/aider.el")
   :config
-  (setq aidermacs-args '("--model" "openai/gpt-4o-mini"))
-  (global-set-key (kbd "C-c .") 'aidermacs-transient-menu))
+  (setq aider-args '("--model" "openai/gpt-4o-mini"))
+  :bind
+  ("C-c ." . aider-transient-menu))
 
 (use-package mcp
   :straight (:host github :repo "lizqwerscott/mcp.el" :files ("*.el")))
+
+(use-package emigo
+  :straight (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.el" "*.py"))
+  :config
+  (emigo-enable) ;; Starts the background process automatically
+  :custom
+  ;; Encourage using OpenRouter with Deepseek
+  (emigo-model "openai/gpt-4o-mini")
+  (emigo-python-command "/Users/dhruva/.local/share/virtualenvs/emigo-q_76g5I8/bin/python"))
+
+(use-package shell-maker
+  :straight (:type git :host github :repo "xenodium/shell-maker"))
+
+(use-package chatgpt-shell
+  :after shell-maker
+  :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el"))
+  :custom
+  (setq chatgpt-shell-openai-key (auth-source-pick-first-password :host "api.openai.com")))
+
+(use-package eca
+  :straight (:host github :repo "editor-code-assistant/eca-emacs" :files ("*.el")))
 
 (provide 'init-ai)

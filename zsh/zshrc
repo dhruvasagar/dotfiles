@@ -13,12 +13,14 @@ export LANG="en_US.UTF-8"
 
 export EDITOR='vim'
 export VISUAL='vim'
+export GPG_TTY=$(tty)
 export TERMINAL='alacritty'
 export BROWSER='qutebrowser'
 
 # TERM with at least 256 colors (24 bit on supported terminals)
 # export TERM=alacritty
-export TERM=wezterm
+# export TERM=wezterm
+export TERM=xterm-256color
 
 export REVIEW_BASE=master
 
@@ -79,6 +81,13 @@ fi
 if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
   source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
 fi
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+FZF_DEFAULT_OPTS="--layout=reverse --inline-info"
+source <(fzf --zsh)
 
 # Setup history
 . ~/dotfiles/zsh/hist

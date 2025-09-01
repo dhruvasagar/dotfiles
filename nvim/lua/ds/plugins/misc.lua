@@ -148,6 +148,7 @@ return {
       "jfpedroza/neotest-elixir",
       "lawrence-laz/neotest-zig",
       "rcasia/neotest-java",
+      "nvim-neotest/neotest-python",
     },
     config = function()
       require("neotest").setup({
@@ -167,6 +168,7 @@ return {
           require("neotest-elixir"),
           require("neotest-zig"),
           require("neotest-java"),
+          require("neotest-python"),
         },
       })
     end,
@@ -342,6 +344,18 @@ return {
   },
   {
     "wurli/visimatch.nvim",
+    opts = {},
+  },
+  {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    -- enabled = false,
+    opts = {},
+  },
+  {
+    "pwntester/octo.nvim",
     opts = {},
   },
 }

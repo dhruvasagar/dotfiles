@@ -1502,4 +1502,6 @@ Comments:
 (use-package org-drill
   :after org)
 
+(use-package gnuplot)
+
 (provide 'init-org)

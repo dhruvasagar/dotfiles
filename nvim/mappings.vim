@@ -55,7 +55,7 @@ nnoremap <silent> go :Goyo<CR>
 
 cnoremap <C-P> <UP>
 
-nnoremap <C-P> <cmd>Telescope find_files follow=true<CR>
+nnoremap <Leader>sp <cmd>Telescope find_files follow=true<CR>
 nnoremap <Leader>sf <cmd>Telescope oldfiles only_cwd=true<CR>
 nnoremap <Leader>sb <cmd>Telescope buffers<CR>
 nnoremap <Leader>sh <cmd>Telescope help_tags<CR>
@@ -63,6 +63,7 @@ nnoremap <Leader>sw <cmd>Telescope grep_string<CR>
 nnoremap <Leader>sg <cmd>Telescope live_grep<CR>
 nnoremap <Leader>sd <cmd>Telescope diagnostics<CR>
 nnoremap <Leader>su <cmd>Telescope undo<CR>
+nnoremap <Leader>sv <cmd>Telescope find_files cmd=/Users/dhruva/dotfiles/nvim/<CR>
 
 nnoremap c- :.!toilet -w 200 -f small<CR>
 nnoremap c+ :.!toilet -w 200 -f standard<CR>

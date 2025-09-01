@@ -2,14 +2,13 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").setup({
-        defaults = {
-          path_display = { "filename_first" },
-          dynamic_preview_title = true,
-        },
-      })
-    end,
+    opts = {
+      defaults = {
+        path_display = { "filename_first" },
+        dynamic_preview_title = true,
+        -- layout_strategy = "bottom_pane",
+      },
+    },
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",

@@ -10,6 +10,28 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+    opt = {
+      automatic_enable = true,
+      ensure_installed = {
+        "angularls",
+        "clojure_lsp",
+        "ts_ls",
+        "dockerls",
+        "eslint",
+        "gopls",
+        "gradle_ls",
+        "hls",
+        "texlab",
+        "jsonls",
+        "marksman",
+        "rust_analyzer",
+        "vimls",
+        "terraformls",
+        "yamlls",
+        "basedpyright",
+        "lua_ls",
+      },
+    },
   },
   {
     "j-hui/fidget.nvim",

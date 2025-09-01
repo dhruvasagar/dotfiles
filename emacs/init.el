@@ -108,7 +108,8 @@ FILTER is function that runs after the process is finished, its args should be
       mac-command-key-is-meta t
       mac-command-modifier 'meta
       mac-option-modifier 'none
-      mac-pass-command-to-system nil)
+      mac-pass-command-to-system nil
+      ns-right-command-modifier 'super)
 
 (setq-default
  truncate-lines t

@@ -140,7 +140,7 @@
 (use-package dashboard
   :init
   (setq dashboard-center-content t)
-  (setq dashboard-startup-banner "~/Downloads/128px-Neovim-mark.svg.png")
+  (setq dashboard-startup-banner "~/dotfiles/emacs/128px-Neovim-mark.svg.png")
   (setq dashboard-set-file-icons t)
   (setq dashboard-banner-logo-title " Remember (Neo)VIM Is Always Better  ")
   (setq dashboard-set-heading-icon t)
@@ -673,6 +673,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package emacs
   :custom
   ;; Support opening new minibuffers from inside existing minibuffers.
+  (context-menu-mode t)
   (enable-recursive-minibuffers t)
   (tab-always-indent 'complete)
   (text-mode-ispell-word-completion nil)
@@ -1023,6 +1024,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 		     (interactive)
 		     (jira-actions-open-issue (jira-utils-marked-item))))
 	("C-c W" . jira-actions-add-worklog-menu)))
+
+(use-package swagg :straight (:host github :repo "isamert/swagg.el"))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

@@ -3,7 +3,7 @@
 (use-package gptel
   :config
   (setq gptel-default-mode 'org-mode)
-  (setq gptel-model "gpt-4o-mini")
+  (setq gptel-model "ChatGPT:gpt-4o-mini")
 
   ;; gptel tools
   ;; File System Tools
@@ -161,13 +161,13 @@ a old-string and a new-string, new-string will replace the old-string at the spe
 	  (let ((proc (get-buffer-process buffer)))
 	    (when proc
 	      (set-process-sentinel
-	     proc
-	     (lambda (process _event)
-	       (unless (process-live-p process)
-		 (with-current-buffer (process-buffer process)
-		   (let ((output (buffer-substring-no-properties (point-min) (point-max))))
-		     (kill-buffer (current-buffer))
-		     (funcall callback output)))))))))
+	       proc
+	       (lambda (process _event)
+		 (unless (process-live-p process)
+		   (with-current-buffer (process-buffer process)
+		     (let ((output (buffer-substring-no-properties (point-min) (point-max))))
+		       (kill-buffer (current-buffer))
+		       (funcall callback output)))))))))
       (t
        ;; Handle any kind of error
        (funcall callback (format "An error occurred: %s" error)))))
@@ -192,10 +192,10 @@ a old-string and a new-string, new-string will replace the old-string at the spe
 		 (goto-char (point-min))
 		 (forward-paragraph)
 		 (let ((dom (libxml-parse-html-region (point) (point-max))))
-		 (run-at-time 0 nil #'kill-buffer (current-buffer))
-		 (with-temp-buffer
-		   (shr-insert-document dom)
-		   (buffer-substring-no-properties (point-min) (point-max))))))
+		   (run-at-time 0 nil #'kill-buffer (current-buffer))
+		   (with-temp-buffer
+		     (shr-insert-document dom)
+		     (buffer-substring-no-properties (point-min) (point-max))))))
    :name "read_url"
    :description "Fetch and read the contents of a URL"
    :args (list '(:name "url"
@@ -282,8 +282,8 @@ by CONNECTION-NAME, evaluate the query, and return the result as a string."
    :function (lambda (buffer text)
 	       (with-current-buffer (get-buffer-create buffer)
 		 (save-excursion
-		 (goto-char (point-max))
-		 (insert text)))
+		   (goto-char (point-max))
+		   (insert text)))
 	       (format "Appended text to buffer %s" buffer))
    :name "append_to_buffer"
    :description "Append text to an Emacs buffer. If the buffer does not exist, it will be created."
