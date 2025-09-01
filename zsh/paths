@@ -27,7 +27,8 @@ PATH=$HOME/bin:$PATH
 
 [ -d "/opt/homebrew/opt/python@3.12" ] && PATH=/opt/homebrew/opt/python3/libexec/bin:$PATH
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 8)
+# export JAVA_HOME=$(/usr/libexec/java_home -v 8)
+export JAVA_HOME=$(asdf which java)
 
 export PATH
 export MANPATH
