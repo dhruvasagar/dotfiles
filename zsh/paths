@@ -7,6 +7,7 @@ fi
 
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
+  PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH
   PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH
   # PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
   PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
@@ -14,16 +15,12 @@ if [[ "$platform" == "darwin" ]]; then
   MANPATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
-if [ -d "$HOME/.ghcup" ]; then
-  source $HOME/.ghcup/env
-  PATH=$HOME/.ghcup/bin:$PATH
-fi
+[ -d "$HOME/.ghcup" ] && PATH=$HOME/.ghcup/bin:$PATH
+[ -d "$HOME/.cargo" ] && PATH=$HOME/.cargo/bin:$PATH
+[ -d "$HOME/.local" ] && PATH=$HOME/.local/bin:$PATH
 
-PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:$PATH
 PATH=$HOME/dotfiles/bin:$PATH
 PATH=$HOME/bin:$PATH
-
-[ -d "$HOME/.local/bin" ] && PATH=$HOME/.local/bin:$PATH
 
 [ -d "/opt/homebrew/opt/python@3.12" ] && PATH=/opt/homebrew/opt/python3/libexec/bin:$PATH
 
