@@ -1,39 +1,5 @@
 return {
   {
-    "David-Kunz/gen.nvim",
-    opts = {
-      model = "eramax/nxcode-cq-7b-orpo:q6", -- The default model to use.
-      quit_map = "q",                     -- set keymap for close the response window
-      retry_map = "<c-r>",                -- set keymap to re-send the current prompt
-      accept_map = "<c-cr>",              -- set keymap to replace the previous selection with the last result
-      host = "localhost",                 -- The host running the Ollama service.
-      port = "11434",                     -- The port on which the Ollama service is listening.
-      display_mode = "float",             -- The display mode. Can be "float" or "split" or "horizontal-split".
-      show_prompt = false,                -- Shows the prompt submitted to Ollama.
-      show_model = false,                 -- Displays which model you are using at the beginning of your chat session.
-      no_auto_close = false,              -- Never closes the window automatically.
-      hidden = false,                     -- Hide the generation window (if true, will implicitly set `prompt.replace = true`), requires Neovim >= 0.10
-      init = function(options)
-        pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
-      end,
-      -- Function to initialize Ollama
-      command = function(options)
-        local body = { model = options.model, stream = true }
-        return "curl --silent --no-buffer -X POST http://"
-            .. options.host
-            .. ":"
-            .. options.port
-            .. "/api/chat -d $body"
-      end,
-      -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
-      -- This can also be a command string.
-      -- The executed command must return a JSON object with { response, context }
-      -- (context property is optional).
-      -- list_models = '<omitted lua function>', -- Retrieves a list of model names
-      debug = false, -- Prints errors and the command which is run.
-    },
-  },
-  {
     "Exafunction/codeium.nvim",
     enabled = false,
     dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
@@ -43,28 +9,6 @@ return {
         language_server = "/usr/local/bin/language_server_macos_arm",
       },
     },
-  },
-  {
-    "sourcegraph/sg.nvim",
-    opts = {},
-  },
-  {
-    "nomnivore/ollama.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    ---@type Ollama.Config
-    opts = {
-      -- your configuration overrides
-    },
-  },
-  {
-    "robitx/gp.nvim",
-    opts = {},
-  },
-  {
-    "olimorris/codecompanion.nvim",
-    opts = {},
   },
   {
     "GeorgesAlkhouri/nvim-aider",
@@ -92,5 +36,73 @@ return {
       "folke/snacks.nvim",
     },
     config = true,
+  },
+  {
+    "folke/sidekick.nvim",
+    opts = {
+      -- add any options here
+      cli = {
+        mux = {
+          backend = "tmux",
+          enabled = true,
+        },
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      {
+        "<tab>",
+        function()
+          -- if there is a next edit, jump to it, otherwise apply it if any
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<Tab>" -- fallback to normal tab
+          end
+        end,
+        expr = true,
+        desc = "Goto/Apply Next Edit Suggestion",
+      },
+      {
+        "<leader>aa",
+        function() require("sidekick.cli").toggle() end,
+        desc = "Sidekick Toggle CLI",
+      },
+      {
+        "<leader>as",
+        function() require("sidekick.cli").select() end,
+        -- Or to select only installed tools:
+        -- require("sidekick.cli").select({ filter = { installed = true } })
+        desc = "Select CLI",
+      },
+      {
+        "<leader>at",
+        function() require("sidekick.cli").send({ msg = "{this}" }) end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>av",
+        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
+      },
+      {
+        "<leader>ap",
+        function() require("sidekick.cli").prompt() end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
+      },
+      {
+        "<c-.>",
+        function() require("sidekick.cli").focus() end,
+        mode = { "n", "x", "i", "t" },
+        desc = "Sidekick Switch Focus",
+      },
+      -- Example of a keybinding to open Claude directly
+      {
+        "<leader>ac",
+        function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
+        desc = "Sidekick Toggle Claude",
+      },
+    },
   },
 }

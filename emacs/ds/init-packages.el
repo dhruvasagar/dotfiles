@@ -323,11 +323,6 @@
   :config (flycheck-posframe-configure-pretty-defaults)
   :hook (flycheck-mode . flycheck-posframe-mode))
 
-;; (use-package eldoc-box
-;;   :commands (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
-;;   :custom
-;;   (eldoc-box-clear-with-C-g t))
-
 (use-package symbol-overlay
   :commands (symbol-overlay-mode symbol-overlay-put fk/highlight-occurrences)
   :bind
@@ -725,10 +720,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
         vterm-max-scrollback 5000))
 
 (use-package multi-vterm
-  :hook
-  (vterm-mode-hook . (lambda ()
-		       (setq-local evil-insert-state-cursor 'box)
-		       (evil-insert-state)))
   :config
   (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
   (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
@@ -777,7 +768,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 		  (turn-on-prettify-symbols-mode)
 		  (turn-on-flyspell))))
 
-(use-package pdf-tools)
+(use-package pdf-tools
+  :hook
+  (pdf-vew-mode . (lambda ()
+		    (set (make-local-variable 'evil-emacs-state-cursor) (list nil)))))
 
 (use-package define-word)
 
@@ -997,12 +991,6 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :straight (:type git :host github :repo "emacsmirror/gcmh")
   :config
   (gcmh-mode 1))
-
-;; (use-package flyover
-;;   :straight (:type git :host github :repo "konrad1977/flyover")
-;;   :init
-;;   (setq flyover-use-theme-colors t)
-;;   :hook (flycheck-mode . flyover-mode))
 
 (use-package jira
   :straight (:host github :repo "unmonoqueteclea/jira.el")
