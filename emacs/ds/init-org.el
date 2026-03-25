@@ -1,15 +1,21 @@
+(use-package ob-mermaid)
+
 (use-package org
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c c" . org-capture))
+  :hook
+  (org-mode . auto-fill-mode)
+  (org-mode . flyspell-mode)
+  (org-mode . org-indent-mode)
   :config
   (setq org-return-follows-link t)
+  (setq org-agenda-inhibit-startup t)
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   (setq org-directory "~/src/dhruvasagar/org-files")
   (setq org-default-notes-file "~/src/dhruvasagar/org-files/refile.org")
-  (setopt org-agenda-files
-	  (append '("~/src/dhruvasagar/org-files"
-		    "~/src/dhruvasagar/org-files/birthdays.org")
-		  (file-expand-wildcards "~/src/dhruvasagar/org-files/vim/*.org")
-		  (file-expand-wildcards "~/src/dhruvasagar/org-files/roam/*.org")
-		  (file-expand-wildcards "~/src/dhruvasagar/org-files/org-jira/*.org")))
+  (setopt org-agenda-files '("~/src/dhruvasagar/org-files"))
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
   (setq org-src-window-setup 'plain)
@@ -21,7 +27,7 @@
   (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
 		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")
-		(type "TO-READ" "TO-WATCH" "WATCHING(/!)"))))
+		(type "PROJECT" "TO-READ" "READING(!/!)" "TO-WATCH" "WATCHING(!/!)"))))
   (setq org-todo-keyword-faces
 	(quote (("TODO" :foreground "red" :weight bold)
 		("NEXT" :foreground "blue" :weight bold)
@@ -31,9 +37,11 @@
 		("CANCELLED" :foreground "forest green" :weight bold)
 		("MEETING" :foreground "forest green" :weight bold)
 		("PHONE" :foreground "forest green" :weight bold)
+		("PROJECT" :foreground "blue" :weight bold)
 		("TO-READ" :foreground "yellow" :weight bold)
+		("READING" :foreground "orange" :weight bold)
 		("TO-WATCH" :foreground "yellow" :weight bold)
-		("TO-WATCHING" :foreground "orange" :weight bold))))
+		("WATCHING" :foreground "orange" :weight bold))))
   (setq org-use-fast-todo-selection t)
   (setq org-treat-S-cursor-todo-selection-as-state-change nil)
   (setq org-todo-state-tags-triggers
@@ -45,49 +53,39 @@
 		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
   (setq org-capture-templates
-	(quote (("t" "todo" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-		("r" "respond" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-		("n" "note" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-		("j" "Journal" entry (file+datetree "~/src/dhruvasagar/org-files/diary.org")
-		 "* %?\n%U\n" :clock-in t :clock-resume t)
-		("w" "org-protocol" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* TODO Review %c\n%U\n" :immediate-finish t)
-		("m" "Meeting" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* MEETING %? :MEETING:\n%U" :clock-in t :clock-resume t)
-		("p" "Phone call" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-		("R" "To Read" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* TO-READ %? :READ:\n%U")
-		("W" "To Watch" entry (file "~/src/dhruvasagar/org-files/refile.org")
-		 "* TO-WATCH %? :WATCH:\n%U")
-		("h" "Habit" entry (file "~/src/dhruvasagar/org-files/habits.org")
-		 "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n%a\n"))))
-					; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				   (org-agenda-files :maxlevel . 9))))
-					; Use full outline paths for refile targets - we file directly with IDO
+        (quote (("t" "todo" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("r" "respond" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+                ("n" "note" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("j" "Journal" entry (file+datetree "~/src/dhruvasagar/org-files/diary.org")
+                 "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("w" "org-protocol" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* TODO Review %c\n%U\n" :immediate-finish t)
+                ("m" "Meeting" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* MEETING %? :MEETING:\n%U" :clock-in t :clock-resume t)
+                ("p" "Phone call" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+                ("R" "To Read" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* TO-READ %? :READ:\n%U")
+                ("W" "To Watch" entry (file "~/src/dhruvasagar/org-files/refile.org")
+                 "* TO-WATCH %? :WATCH:\n%U")
+                ("h" "Habit" entry (file "~/src/dhruvasagar/org-files/habits.org")
+                 "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n%a\n"))))
+
+  ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+  (setq org-refile-targets '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9)))
+  ;; Use full outline paths for refile targets
   (setq org-refile-use-outline-path t)
-					; Targets complete directly with IDO
-  (setq org-outline-path-complete-in-steps nil)
+  ;; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
 
-					; Allow refile to create parent tasks with confirmation
-  (setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-					; Use IDO for both buffer and file completion and ido-everywhere to t
-  (setq org-completion-use-ido t)
-  (setq ido-max-directory-size 100000)
-  (ido-mode (quote both))
-					; Use the current window when visiting files and buffers with ido
-  (setq ido-default-file-method 'selected-window)
-  (setq ido-default-buffer-method 'selected-window)
-					; Use the current window for indirect buffer display
+  ;; Use the current window for indirect buffer display
   (setq org-indirect-buffer-display 'current-window)
 
-             ;;;; Refile settings
-					; Exclude DONE state tasks from refile targets
+  ;; Refile settings
+  ;; Exclude DONE state tasks from refile targets
   (defun bh/verify-refile-target ()
     "Exclude todo keywords with a done state from refile targets"
     (not (member (nth 2 (org-heading-components)) org-done-keywords)))
@@ -195,15 +193,12 @@
 
   ;; Resume clocking task when emacs is restarted
   (org-clock-persistence-insinuate)
-  ;;
   ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
   (setq org-clock-history-length 23)
   ;; Resume clocking task on clock-in if the clock is open
   (setq org-clock-in-resume t)
   ;; Change tasks to NEXT when clocking in
   (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
-  ;; Separate drawers for clocking and logs
-  (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
   ;; Save clock data and state changes and notes in the LOGBOOK drawer
   (setq org-clock-into-drawer t)
   ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
@@ -602,18 +597,12 @@
       (bh/clock-in-parent-task)))
 
   (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-  ;; Show all future entries for repeating tasks
-  (setq org-agenda-repeating-timestamp-show-all t)
-
   ;; Show all agenda dates - even if they are empty
   (setq org-agenda-show-all-dates t)
 
   ;; Use sticky agenda's so they persist
   (setq org-agenda-sticky t)
 
-  (setq org-show-following-heading t)
-  (setq org-show-hierarchy-above t)
-  (setq org-show-siblings (quote ((default))))
   (setq org-special-ctrl-a/e t)
   (setq org-special-ctrl-k t)
   (setq org-yank-adjusted-subtrees t)
@@ -734,37 +723,16 @@
   (setq org-deadline-warning-days 30)
 
 					; Enable habit tracking (and a bunch of other modules)
-  (setq org-modules (quote (ol-bbdb
-                            ol-bibtex
-                            org-crypt
-                            ol-gnus
-                            org-id
-                            ol-info
-                            org-habit
-                            org-inlinetask
-                            ol-irc
-                            ol-mhe
-                            org-protocol
-                            ol-rmail
-			    ox-latex
-			    ox-publish
-                            ol-w3m)))
+  (setq org-modules '(org-crypt
+                      org-id
+                      ol-info
+                      org-habit
+                      org-inlinetask
+                      org-protocol))
 					; position the habit graph on the agenda to the right of the default
   (setq org-habit-graph-column 50)
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-  (defun bh/remove-empty-drawer-on-clock-out ()
-    (interactive)
-    (save-excursion
-      (beginning-of-line 0)
-      (org-remove-empty-drawer-at "LOGBOOK" (point))))
-  (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-
-  (setq org-ditaa-jar-path
-        (format "%s/libexec/ditaa-0.11.0-standalone.jar"
-                (string-trim-right (shell-command-to-string "brew --prefix ditaa"))))
-  (setq org-plantuml-jar-path (format "%s/libexec/plantuml.jar" (string-trim-right (shell-command-to-string "brew --prefix plantuml"))))
-
   (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
 
 					; Make babel results blocks lowercase
@@ -776,29 +744,23 @@
       (error nil)))
 
   (org-babel-do-load-languages
-   (quote org-babel-load-languages)
-   (quote ((emacs-lisp . t)
-           (dot . t)
-           (ditaa . t)
-           (R . t)
-           (python . t)
-           (ruby . t)
-           (gnuplot . t)
-           (clojure . t)
-           (shell . t)
-           (org . t)
-           (plantuml . t)
-	   (verb . t)
-	   (sql . t)
-           (latex . t))))
+   'org-babel-load-languages
+   '((awk . t)
+     (calc . t)
+     (emacs-lisp . t)
+     (python . t)
+     (js . t)
+     (shell . t)
+     (org . t)
+     (mermaid . t)
+     (verb . t)
+     (sql . t)
+     (latex . t)))
 
 					; Do not prompt to confirm evaluation
 					; This may be dangerous - make sure you understand the consequences
 					; of setting this -- see the docstring for details
   (setq org-confirm-babel-evaluate nil)
-
-					; Use fundamental mode when editing plantuml blocks with C-c '
-  (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 
   (appt-activate t)
 
@@ -841,92 +803,6 @@
 
   (define-abbrev org-mode-abbrev-table "sblk" "" 'skel-org-block)
 
-  ;; splantuml - PlantUML Source block
-  (define-skeleton skel-org-block-plantuml
-    "Insert a org plantuml block, querying for filename."
-    "File (no extension): "
-    "#+begin_src plantuml :file " str ".png :cache yes\n"
-    _ - \n
-    "#+end_src\n")
-
-  (define-abbrev org-mode-abbrev-table "splantuml" "" 'skel-org-block-plantuml)
-
-  (define-skeleton skel-org-block-plantuml-activity
-    "Insert a org plantuml block, querying for filename."
-    "File (no extension): "
-    "#+begin_src plantuml :file " str "-act.png :cache yes :tangle " str "-act.txt\n"
-    (bh/plantuml-reset-counters)
-    "@startuml\n"
-    "skinparam activity {\n"
-    "BackgroundColor<<New>> Cyan\n"
-    "}\n\n"
-    "title " str " - \n"
-    "note left: " str "\n"
-    "(*) --> \"" str "\"\n"
-    "--> (*)\n"
-    _ - \n
-    "@enduml\n"
-    "#+end_src\n")
-
-  (defvar bh/plantuml-if-count 0)
-
-  (defun bh/plantuml-if ()
-    (incf bh/plantuml-if-count)
-    (number-to-string bh/plantuml-if-count))
-
-  (defvar bh/plantuml-loop-count 0)
-
-  (defun bh/plantuml-loop ()
-    (incf bh/plantuml-loop-count)
-    (number-to-string bh/plantuml-loop-count))
-
-  (defun bh/plantuml-reset-counters ()
-    (setq bh/plantuml-if-count 0
-          bh/plantuml-loop-count 0)
-    "")
-
-  (define-abbrev org-mode-abbrev-table "sact" "" 'skel-org-block-plantuml-activity)
-
-  (define-skeleton skel-org-block-plantuml-activity-if
-    "Insert a org plantuml block activity if statement"
-    ""
-    "if \"\" then\n"
-    "  -> [condition] ==IF" (setq ifn (bh/plantuml-if)) "==\n"
-    "  --> ==IF" ifn "M1==\n"
-    "  -left-> ==IF" ifn "M2==\n"
-    "else\n"
-    "end if\n"
-    "--> ==IF" ifn "M2==")
-
-  (define-abbrev org-mode-abbrev-table "sif" "" 'skel-org-block-plantuml-activity-if)
-
-  (define-skeleton skel-org-block-plantuml-activity-for
-    "Insert a org plantuml block activity for statement"
-    "Loop for each: "
-    "--> ==LOOP" (setq loopn (bh/plantuml-loop)) "==\n"
-    "note left: Loop" loopn ": For each " str "\n"
-    "--> ==ENDLOOP" loopn "==\n"
-    "note left: Loop" loopn ": End for each " str "\n" )
-
-  (define-abbrev org-mode-abbrev-table "sfor" "" 'skel-org-block-plantuml-activity-for)
-
-  (define-skeleton skel-org-block-plantuml-sequence
-    "Insert a org plantuml activity diagram block, querying for filename."
-    "File appends (no extension): "
-    "#+begin_src plantuml :file " str "-seq.png :cache yes :tangle " str "-seq.txt\n"
-    "@startuml\n"
-    "title " str " - \n"
-    "actor CSR as \"Customer Service Representative\"\n"
-    "participant CSMO as \"CSM Online\"\n"
-    "participant CSMU as \"CSM Unix\"\n"
-    "participant NRIS\n"
-    "actor Customer"
-    _ - \n
-    "@enduml\n"
-    "#+end_src\n")
-
-  (define-abbrev org-mode-abbrev-table "sseq" "" 'skel-org-block-plantuml-sequence)
-
   ;; sdot - Graphviz DOT block
   (define-skeleton skel-org-block-dot
     "Insert a org graphviz dot block, querying for filename."
@@ -938,16 +814,6 @@
     "#+end_src\n")
 
   (define-abbrev org-mode-abbrev-table "sdot" "" 'skel-org-block-dot)
-
-  ;; sditaa - Ditaa source block
-  (define-skeleton skel-org-block-ditaa
-    "Insert a org ditaa block, querying for filename."
-    "File (no extension): "
-    "#+begin_src ditaa :file " str ".png :cache yes\n"
-    _ - \n
-    "#+end_src\n")
-
-  (define-abbrev org-mode-abbrev-table "sditaa" "" 'skel-org-block-ditaa)
 
   ;; selisp - Emacs Lisp source block
   (define-skeleton skel-org-block-elisp
@@ -1114,56 +980,56 @@
             #'(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
             'append)
   (setq org-use-speed-commands t)
-  (setq org-speed-commands-user (quote (("0" . ignore)
-                                        ("1" . ignore)
-                                        ("2" . ignore)
-                                        ("3" . ignore)
-                                        ("4" . ignore)
-                                        ("5" . ignore)
-                                        ("6" . ignore)
-                                        ("7" . ignore)
-                                        ("8" . ignore)
-                                        ("9" . ignore)
+  (setq org-speed-commands '(("0" . ignore)
+                             ("1" . ignore)
+                             ("2" . ignore)
+                             ("3" . ignore)
+                             ("4" . ignore)
+                             ("5" . ignore)
+                             ("6" . ignore)
+                             ("7" . ignore)
+                             ("8" . ignore)
+                             ("9" . ignore)
 
-                                        ("a" . ignore)
-                                        ("d" . ignore)
-                                        ("h" . bh/hide-other)
-                                        ("i" progn
-                                         (forward-char 1)
-                                         (call-interactively 'org-insert-heading-respect-content))
-                                        ("k" . org-kill-note-or-show-branches)
-                                        ("l" . ignore)
-                                        ("m" . ignore)
-                                        ("q" . bh/show-org-agenda)
-                                        ("r" . ignore)
-                                        ("s" . org-save-all-org-buffers)
-                                        ("w" . org-refile)
-                                        ("x" . ignore)
-                                        ("y" . ignore)
-                                        ("z" . org-add-note)
+                             ("a" . ignore)
+                             ("d" . ignore)
+                             ("h" . bh/hide-other)
+                             ("i" progn
+                              (forward-char 1)
+                              (call-interactively 'org-insert-heading-respect-content))
+                             ("k" . org-kill-note-or-show-branches)
+                             ("l" . ignore)
+                             ("m" . ignore)
+                             ("q" . bh/show-org-agenda)
+                             ("r" . ignore)
+                             ("s" . org-save-all-org-buffers)
+                             ("w" . org-refile)
+                             ("x" . ignore)
+                             ("y" . ignore)
+                             ("z" . org-add-note)
 
-                                        ("A" . ignore)
-                                        ("B" . ignore)
-                                        ("E" . ignore)
-                                        ("F" . bh/restrict-to-file-or-follow)
-                                        ("G" . ignore)
-                                        ("H" . ignore)
-                                        ("J" . org-clock-goto)
-                                        ("K" . ignore)
-                                        ("L" . ignore)
-                                        ("M" . ignore)
-                                        ("N" . bh/narrow-to-org-subtree)
-                                        ("P" . bh/narrow-to-org-project)
-                                        ("Q" . ignore)
-                                        ("R" . ignore)
-                                        ("S" . ignore)
-                                        ("T" . bh/org-todo)
-                                        ("U" . bh/narrow-up-one-org-level)
-                                        ("V" . ignore)
-                                        ("W" . bh/widen)
-                                        ("X" . ignore)
-                                        ("Y" . ignore)
-                                        ("Z" . ignore))))
+                             ("A" . ignore)
+                             ("B" . ignore)
+                             ("E" . ignore)
+                             ("F" . bh/restrict-to-file-or-follow)
+                             ("G" . ignore)
+                             ("H" . ignore)
+                             ("J" . org-clock-goto)
+                             ("K" . ignore)
+                             ("L" . ignore)
+                             ("M" . ignore)
+                             ("N" . bh/narrow-to-org-subtree)
+                             ("P" . bh/narrow-to-org-project)
+                             ("Q" . ignore)
+                             ("R" . ignore)
+                             ("S" . ignore)
+                             ("T" . bh/org-todo)
+                             ("U" . bh/narrow-up-one-org-level)
+                             ("V" . ignore)
+                             ("W" . bh/widen)
+                             ("X" . ignore)
+                             ("Y" . ignore)
+                             ("Z" . ignore)))
 
   (defun bh/show-org-agenda ()
     (interactive)
@@ -1241,28 +1107,19 @@
   (set-charset-priority 'unicode)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
-  (setq org-time-clocksum-format
-        '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+  (setq org-duration-format '(("h" . nil) (special . h:mm)))
 
-  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
-
-  :bind
-  (("C-c l" . org-store-link)
-   ("C-c a" . org-agenda)
-   ("C-c c" . org-capture))
-  :hook
-  (org-mode . auto-fill-mode)
-  (org-mode . flyspell-mode))
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
 (use-package evil-org
   :after org
-  :hook (org-mode . (lambda () evil-org-mode))
+  :hook (org-mode . evil-org-mode)
   :config
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode))
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode))
 
 (use-package org-roam
   :init
@@ -1298,7 +1155,6 @@
 	 ("Y" . org-roam-dailies-capture-yesterday)
 	 ("T" . org-roam-dailies-capture-tomorrow))
   :config
-  (org-roam-setup)
   (require 'org-roam-dailies)
   (org-roam-db-autosync-mode))
 
@@ -1317,7 +1173,9 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(use-package ob-penrose :straight (:host github :repo "weavermarquez/ob-penrose" :files ("ob-penrose.el")))
+(use-package ob-penrose 
+  :after org
+  :straight (:host github :repo "weavermarquez/ob-penrose" :files ("ob-penrose.el")))
 
 (use-package hide-mode-line)
 
@@ -1407,13 +1265,6 @@ Comments:
   :config
   (customize-set-variable 'org-download-image-dir "images"))
 
-(use-package org-jira
-  :straight (:type git :host github :repo "ahungry/org-jira")
-  ;; :straight (:type git :host github :repo "djgoku/org-jira" :branch "feature/add-jira-issue-mentions")
-  :config
-  (setq jiralib-url "https://zenoptics.atlassian.net"
-	org-jira-working-dir "~/src/dhruvasagar/org-files/org-jira"))
-
 (use-package consult-org-roam
   :after (org-roam consult)
   :config
@@ -1456,5 +1307,9 @@ Comments:
   :after org)
 
 (use-package gnuplot)
+
+(use-package org-roam-tree
+  :after org
+  :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
 
 (provide 'init-org)

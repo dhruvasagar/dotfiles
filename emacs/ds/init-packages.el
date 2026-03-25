@@ -1,3 +1,10 @@
+(use-package paredit
+  :general
+  (:states 'normal "C-)" 'paredit-forward-slurp-sexp)
+  (:states 'normal "C-(" 'paredit-backward-slurp-sexp)
+  (:states 'normal "C-}" 'paredit-forward-barf-sexp)
+  (:states 'normal "C-{" 'paredit-backward-barf-sexp))
+
 (use-package no-littering
   :demand t
   :config
@@ -88,18 +95,6 @@
   :config
   (which-key-mode))
 
-(use-package keycast
-  :hook (after-init . keycast-mode)
-  :config
-  (define-minor-mode keycast-mode
-    "Show current command and its key binding in the mode line (fix for use with doom-modeline)."
-    :global t
-    (if keycast-mode
-	(add-hook 'pre-command-hook 'keycast--update t)
-      (remove-hook 'pre-command-hook 'keycast--update)))
-
-  (add-to-list 'global-mode-string '("" keycast-mode-line)))
-
 (use-package helpful
   :custom
   ;; Use helpful in `helm-apropos'
@@ -135,7 +130,7 @@
 
 (use-package anzu
   :hook
-  (dashboard-after-initialize . global-anzu-mode))
+  (after-init . global-anzu-mode))
 
 (use-package dashboard
   :init
@@ -196,8 +191,26 @@
 		   :files (:defaults "queries" "treesit-queries")))
 
 (use-package hideshow
+  :config
+  (defun ds/maybe-enable-hs-minor-mode ()
+    (unless (derived-mode-p 'dbml-mode)
+      (hs-minor-mode 1)))
   :hook
-  (prog-mode . hs-minor-mode))
+  (prog-mode . ds/maybe-enable-hs-minor-mode))
+
+(use-package kirigami.el
+  :straight (:type git
+                   :host github
+                   :repo "jamescherti/kirigami.el"
+                   :files ("kirigami.el"))
+  :general
+  ;; Configure Kirigami to replace the default Evil-mode folding key bindings
+  (:states 'normal "zo" 'kirigami-open-fold)
+  (:states 'normal "zO" 'kirigami-open-fold-rec)
+  (:states 'normal "zc" 'kirigami-close-fold)
+  (:states 'normal "za" 'kirigami-toggle-fold)
+  (:states 'normal "zr" 'kirigami-open-folds)
+  (:states 'normal "zm" 'kirigami-close-folds))
 
 (use-package yasnippet
   ;; Expand snippets with `C-j', not with `TAB'. Use `TAB' to always
@@ -219,7 +232,7 @@
 	("TAB" . (lambda () (interactive) (yas-next-field)))
 	("<tab>" . (lambda () (interactive) (yas-next-field))))
   :hook
-  (dashboard-after-initialize . yas-global-mode)
+  (after-init . yas-global-mode)
   (snippet-mode . (lambda () (setq-local require-final-newline nil))))
 
 (use-package yasnippet-snippets)
@@ -246,13 +259,6 @@
   (:map corfu-popupinfo-map
 	("M-d" . corfu-popupinfo-documentation)
 	("M-l" . corfu-popupinfo-location)))
-
-(use-package corfu-terminal
-  :after corfu
-  :straight (:type git :host codeberg :repo "akib/emacs-corfu-terminal")
-  :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
 
 (use-package kind-icon
   :after corfu
@@ -293,10 +299,11 @@
   (add-hook 'completion-at-point-functions #'cape-history))
 
 (use-package whitespace-cleanup-mode
+  :init
+  (global-whitespace-cleanup-mode)
   :custom
   (show-trailing-whitespace t)  ; not from whitespace-cleanup-mode.el
   :hook
-  (dashboard-after-initialize . global-whitespace-cleanup-mode)
   (after-change-major-mode . (lambda ()
                                (unless (buffer-file-name)
                                  (setq-local show-trailing-whitespace nil)))))
@@ -596,6 +603,12 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package treesit-fold
+  :after treesit
+  :straight (:type git :host github :repo "emacs-tree-sitter/treesit-fold")
+  :config
+  (global-treesit-fold-mode))
+
 (use-package combobulate
   :after treesit
   :straight (:host github :repo "mickeynp/combobulate")
@@ -691,7 +704,11 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  :hook
+  ((prog-mode
+    text-mode) . display-line-numbers-mode))
 
 (use-package orderless
   :custom
@@ -718,6 +735,24 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :config
   (setq vterm-copy-exclude-prompt t
         vterm-max-scrollback 5000))
+
+(use-package gterm
+  :straight (:host github :repo "rwc9u/emacs-libgterm")
+  :init
+  (setq gterm-source-dir (straight--repos-dir "emacs-libgterm"))
+  (add-to-list 'project-switch-commands     '(project-gterm "Gterm") t)
+  :bind
+  (:map project-prefix-map ("h" . project-gterm))
+  :preface
+  (defun project-gterm ()
+    (interactive)
+    (defvar gterm-buffer-name)
+    (let* ((default-directory (project-root     (project-current t)))
+           (gterm-buffer-name (project-prefixed-buffer-name "gterm"))
+           (gterm-buffer (get-buffer gterm-buffer-name)))
+      (if (and gterm-buffer (not current-prefix-arg))
+          (pop-to-buffer gterm-buffer  (bound-and-true-p display-comint-buffer-action))
+        (gterm)))))
 
 (use-package multi-vterm
   :config
@@ -832,7 +867,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	      ("C-c r" . ledger-report)
 	      )
   :init
-  (setenv "LEDGER_FILE" (expand-file-name (concat org-directory "/comptes.ledger")))
+  ;; (setenv "LEDGER_FILE" (expand-file-name (concat org-directory "/comptes.ledger")))
   (setq ledger-mode-should-check-version nil
 	ledger-report-links-in-register nil
 	ledger-binary-path "ledger")
@@ -1014,6 +1049,40 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 	("C-c W" . jira-actions-add-worklog-menu)))
 
 (use-package swagg :straight (:host github :repo "isamert/swagg.el"))
+
+(use-package time-zones
+  :straight (:type git :host github :repo "xenodium/time-zones"))
+
+(use-package parrot
+  :config
+  (parrot-mode)
+  :general
+  (:states 'normal "[r" 'parrot-rotate-prev-word-at-point)
+  (:states 'normal "]r" 'parrot-rotate-next-word-at-point))
+
+(use-package google-this
+  :config
+  (google-this-mode))
+
+(use-package apache-mode
+  :mode
+  (("\\.htaccess\\'" . apache-mode)
+   ("\\httpd\\.conf\\'" . apache-mode)))
+
+(use-package fancy-compilation
+  :after compile
+  :config
+  (fancy-compilation-mode))
+
+(use-package appine
+  :straight (appine :type git :host github :repo "chaoswork/appine")
+  :custom
+  ;; enables opening URLs and files with Appine, default is nil
+  (appine-enable-open-in-org-mode t)
+  :config
+  ;; Optional: Set default keybindings
+  (global-set-key (kbd "C-x a w") 'appine-open-web-split)
+  (global-set-key (kbd "C-x a o") 'appine-open-file-split))
 
 (require 'project)
 (setq project-switch-commands '((project-find-file "Find file" "f")

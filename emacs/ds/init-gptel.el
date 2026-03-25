@@ -898,4 +898,9 @@
   :hook
   (after-init . mcp-hub-start-all-server))
 
+(use-package gptel-agent
+  :straight (:host github :repo "karthink/gptel-agent" :files ("*.el" "agents"))
+  :config
+  (gptel-agent-update))
+
 (provide 'init-gptel)

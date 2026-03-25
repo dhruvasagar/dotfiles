@@ -4,8 +4,8 @@
     (setq-local random "")
     (dotimes (_ times)
       (setq random (concat random (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
-	     (i (% (abs (random)) (length alnum))))
-		       (substring alnum i (1+ i))))))
+	                                 (i (% (abs (random)) (length alnum))))
+		                    (substring alnum i (1+ i))))))
     random))
 
 (defun util/test-emacs ()
@@ -32,5 +32,22 @@
 	  (delete-region (point-min) (point-max))
 	  (insert output)
 	  (search-backward "ERROR!"))))))
+
+(require 'project)
+(defun ds/get-project-name ()
+  "Get the directory name of the current project root."
+  (if-let ((pr (project-current)))
+      ;; (project-root pr) returns the full path
+      ;; directory-file-name removes the trailing slash
+      ;; file-name-nondirectory extracts the final folder name
+      (file-name-nondirectory (directory-file-name (project-root pr)))
+    "-"))
+
+;; 2. Custom function for the tab-bar label
+(defun ds/get-project-name-and-file ()
+  "Generate a tab name showing [Project] BufferName."
+  (let ((project-name (ds/get-project-name))
+        (buffer-name (buffer-name (window-buffer (selected-window)))))
+    (format "[%s] %s" project-name buffer-name)))
 
 (provide 'util)

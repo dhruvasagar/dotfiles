@@ -94,4 +94,10 @@
   :straight (:host github :repo "editor-code-assistant/eca-emacs" :files ("*.el"))
   :custom (eca-server-install-path (expand-file-name "~/.emacs.d/etc/eca/eca")))
 
+(use-package claude-code-ide
+  :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
+  :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
+  :config
+  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+
 (provide 'init-ai)

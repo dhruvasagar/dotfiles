@@ -73,6 +73,7 @@ alt-ctrl-9 = 'move-node-to-workspace 9'
 alt-ctrl-0 = 'move-node-to-workspace 10'
 
 alt-ctrl-shift-1 = 'move-node-to-workspace 11'
+alt-ctrl-shift-2 = 'move-node-to-workspace 12'
 
 alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
 alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
@@ -87,9 +88,14 @@ alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
 
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-alt-shift-c = 'reload-config'
+alt-shift-r = 'reload-config'
 alt-r = 'mode resize'
 alt-equal = 'balance-sizes'
+ctrl-backtick = '''exec-and-forget osascript -e '
+  tell application "Emacs"
+    activate
+  end tell'
+'''
 
 [mode.resize.binding]
 h = 'resize width -50'

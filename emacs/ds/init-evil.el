@@ -85,4 +85,8 @@
 
 (use-package evil-string-inflection)
 
+(use-package evil-paredit
+  :hook
+  (emacs-lisp-mode . evil-paredit-mode))
+
 (provide 'init-evil)

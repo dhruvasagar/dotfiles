@@ -7,6 +7,7 @@
 (menu-bar-mode -1)
 (global-hl-line-mode)
 (pixel-scroll-mode)
+(set-default 'indent-tabs-mode nil)
 (set-frame-font "FiraCode Nerd Font Mono 14" nil t)
 (progn
   (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
@@ -15,9 +16,13 @@
 (set-default 'truncate-lines t)
 (global-visual-line-mode t)
 (setq help-window-select t)
-(setq tab-bar-show 1)
 (winner-mode 1)
 (tab-bar-history-mode 1)
+
+;; Add Project Name to tab line as prefix
+(setq tab-bar-tab-name-function #'ds/get-project-name-and-file)
+(tab-bar-mode 1)
+
 
 (setq window-divider-default-places t
       window-divider-default-bottom-width 1
@@ -64,6 +69,7 @@
       electric-pair-open-newline-between-pairs t
       electric-pair-skip-whitespace t)
 (electric-pair-mode t)
+(electric-indent-mode t)
 
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
@@ -124,8 +130,6 @@ mouse-3: go to end")
 (setq-default mode-line-format nil)
 
 (blink-cursor-mode 0)
-
-(global-display-line-numbers-mode)
 
 (set-face-attribute 'default nil :height 150)
 
@@ -284,7 +288,7 @@ use in `display-buffer-alist'."
 			       (mode-line-format . none))))
 	("\\*\\(Man\\|Help\\|helpful\\|lsp-help\\|eldoc\\).*"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected))
-	("\\*\\(shell\\|vterm\\|eat\\)*"
+	("\\*\\(shell\\|vterm\\|gterm\\|eat\\)*"
 	 (display-buffer-reuse-mode-window display-buffer-below-selected))
 	("\\*\\(Output\\|Register Preview\\).*"
 	 (display-buffer-reuse-mode-window display-buffer-at-bottom))

@@ -101,7 +101,7 @@
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-)
+  )
 
 (use-package consult-web
   :straight (:host github :repo "armindarvish/consult-web" :files (:defaults "sources/*.el"))
@@ -122,5 +122,11 @@
 
 (use-package consult-todo
   :after (consult hl-todo))
+
+(use-package consult-jq
+  :straight (:host github :repo "bigbuger/consult-jq")
+  :config
+  (setq consult-jq-completion-styles '(basicc partial-completion))
+  :bind (("M-s j" . consult-jq)))
 
 (provide 'init-consult)

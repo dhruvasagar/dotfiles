@@ -20,6 +20,10 @@
   :general
   (:states 'normal :keymaps 'python-base-mode-map "C-c C-t C-d" 'python-pytest-dispatch))
 
+;; (use-package emacs-python-isort
+;;   :straight (:type git :host github :repo "wyuenho/emacs-python-isort")
+;;   :hook (python-mode . python-isort-on-save-mode))
+
 (use-package json-mode
   :mode ("\\.json\\'" . json-mode))
 (use-package json-navigator
@@ -128,7 +132,7 @@
 (use-package julia-mode)
 
 (use-package vimrc-mode
- :mode "\\.vim\\(rc\\)?\\'")
+  :mode "\\.vim\\(rc\\)?\\'")
 
 ;; Lisp / Elisp
 (use-package sly)
@@ -140,5 +144,10 @@
 (use-package zig-mode)
 
 (use-package clojure-mode)
+
+(use-package mermaid-mode)
+
+(use-package dbml-mode
+  :mode ("\\.dbml\\'" . dbml-mode))
 
 (provide 'init-langs)

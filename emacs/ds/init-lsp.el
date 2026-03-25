@@ -79,6 +79,10 @@
   (lsp-semantic-tokens-enable t)
   (lsp-inlay-hint-enable t)
   (lsp-eldoc-enable-hover t)
+
+  (lsp-rubocop-use-bundler t)
+  (lsp-ruby-lsp-use-bundler t)
+
   ;; (lsp-diagnostic-package :none)
   ;; (lsp-completion-provider :none)
   (lsp-file-watch-threshold 1000)  ; pyright has more than 1000
@@ -102,6 +106,8 @@
     js2-ts-mode
     java-ts-mode
     rust-mode
+    ruby-mode
+    ruby-ts-mode
     python-ts-mode
     haskell-ts-mode
     terraform-ts-mode

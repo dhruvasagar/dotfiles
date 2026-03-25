@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Usage: git_log_multi [PARENT_DIR] [GIT_LOG_ARGS...]
+#
+# Displays a unified, chronologically-sorted commit log across all git
+# repositories found under PARENT_DIR. Each commit is annotated with its
+# repo name. Any extra arguments are forwarded to `git log`.
+#
+# Examples:
+#   git_log_multi
+#   git_log_multi ~/src
+#   git_log_multi ~/src --since="2 weeks ago"
+#   git_log_multi --author="Alice" --since="1 month ago"
+#   git_log_multi ~/src --no-merges -n 20
+
+if [[ -d "$1" ]]; then
+  PARENT_DIR="$1"
+  shift
+else
+  PARENT_DIR="."
+fi
+
+GIT_ARGS=("$@")
+
+# Collect commits from every repo, prefixing each line with an ISO-8601
+# timestamp (used only for sorting). The timestamp field is separated from
+# the display portion by a tab (%x09) so it can be stripped cleanly after
+# sorting. --color=always preserves ANSI codes through the pipe.
+find "$PARENT_DIR" -maxdepth 2 -type d -name ".git" | while read -r gitdir; do
+  repo_dir=$(dirname "$gitdir")
+  git -C "$repo_dir" log --color=always --all --date=format:"%b %d %Y %H:%M" \
+    "${GIT_ARGS[@]}" \
+    --format="%ai%x09%C(yellow)%h%Creset %C(bold cyan)[${repo_dir}]%Creset %C(green)%an%Creset %s%C(dim) (%ad, %ar)%Creset"
+done | sort -r | cut -d$'\t' -f2- | ${PAGER:-less -R}
