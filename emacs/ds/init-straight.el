@@ -1,4 +1,9 @@
 (defvar bootstrap-version)
+
+;; Tell straight that seq is a built-in package — don't install or manage it.
+;; The ELPA seq 2.24's seq-25.el corrupts seq-empty-p's cl-generic dispatch.
+(setq straight-built-in-pseudo-packages '(emacs nadvice python image-mode seq))
+
 (let ((bootstrap-file
        (expand-file-name
 	"straight/repos/straight.el/bootstrap.el"

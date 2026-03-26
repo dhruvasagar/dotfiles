@@ -1073,9 +1073,6 @@
   (add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
   (add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
 
-  (setq org-startup-folded 'fold)
-  (setq org-list-allow-alphabetical t)
-
   ;; Disable keys in org-mode
   ;;    C-c [
   ;;    C-c ]
@@ -1308,8 +1305,8 @@ Comments:
 
 (use-package gnuplot)
 
-(use-package org-roam-tree
-  :after org
-  :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
+;; (use-package org-roam-tree
+;;   :after org
+;;   :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
 
 (provide 'init-org)

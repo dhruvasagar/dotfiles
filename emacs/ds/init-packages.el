@@ -11,7 +11,11 @@
   (setq backup-directory-alist `(("." . "~/.emacs-saves")))
   (setq auto-save-file-name-transforms
 	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-  (setq backup-by-copying t))
+  (setq backup-by-copying t)
+
+  ;; Redirect cache dir into var/ to keep top-level clean
+  ;; NOTE: eln-cache redirect is in early-init.el (must be set there)
+  (setq CACHE-DIR (no-littering-expand-var-file-name "cache/")))
 
 (use-package indent-bars
   :hook (prog-mode . indent-bars-mode)
@@ -131,16 +135,6 @@
 (use-package anzu
   :hook
   (after-init . global-anzu-mode))
-
-(use-package dashboard
-  :init
-  (setq dashboard-center-content t)
-  (setq dashboard-startup-banner "~/dotfiles/emacs/128px-Neovim-mark.svg.png")
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title " Remember (Neo)VIM Is Always Better  ")
-  (setq dashboard-set-heading-icon t)
-  :config
-  (dashboard-setup-startup-hook))
 
 (use-package tree-sitter
   :commands fk/tree-sitter-hl-mode
@@ -441,6 +435,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (magit-mode . hack-dir-local-variables-non-file-buffer))
 
 (use-package magit-delta
+  :if (executable-find "delta")
   :hook (magit-mode . magit-delta-mode))
 
 (use-package magit-todos
@@ -1075,6 +1070,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (fancy-compilation-mode))
 
 (use-package appine
+  :if (eq system-type 'darwin)
   :straight (appine :type git :host github :repo "chaoswork/appine")
   :custom
   ;; enables opening URLs and files with Appine, default is nil
