@@ -19,6 +19,7 @@ relink ~/dotfiles/nvim "${XDG_CONFIG_HOME}/nvim"
 relink ~/dotfiles/config/wezterm.lua ~/.wezterm.lua
 relink ~/dotfiles/config/kitty.conf "${XDG_CONFIG_HOME}/kitty/kitty.conf"
 relink ~/dotfiles/config/alacritty.yml "${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
+relink ~/dotfiles/config/lattice "${XDG_CONFIG_HOME}/lattice"
 
 platform=$(uname | awk '{print tolower($0)}')
 # shellcheck source=/dev/null

@@ -91,6 +91,7 @@
 ;;   (emigo-python-command (expand-file-name "~/dotfiles/emacs/straight/repos/emigo/.venv/bin/python")))
 
 (use-package eca
+  :after lsp-mode
   :straight (:host github :repo "editor-code-assistant/eca-emacs" :files ("*.el"))
   :custom (eca-server-install-path (expand-file-name "~/.emacs.d/etc/eca/eca")))
 
@@ -98,6 +99,8 @@
   :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
   :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
   :config
-  (claude-code-ide-emacs-tools-setup)) ; Optionally enable Emacs MCP tools
+  (claude-code-ide-emacs-tools-setup)
+  (setq claude-code-ide-vterm-anti-flicker t
+	claude-code-ide-prevent-reflow-glitch t)) ; Optionally enable Emacs MCP tools
 
 (provide 'init-ai)

@@ -1,0 +1,5 @@
+[lsp.rust-analyzer.diagnostics]
+experimental = { enable = true }
+
+[lsp.rust-analyzer.checkOnSave]
+enable = true

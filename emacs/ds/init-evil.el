@@ -25,6 +25,7 @@
   (org-mode . (lambda () (evil-local-set-key 'normal (kbd "RET") 'org-return))))
 
 (use-package undo-tree
+  :after evil
   :init
   (global-undo-tree-mode t)
   (setq undo-tree-auto-save-history t)

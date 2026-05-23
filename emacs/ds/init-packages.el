@@ -1095,7 +1095,10 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   (add-hook 'project-find-functions 'project-x-try-local 90)
   (add-hook 'kill-emacs-hook 'project-x--window-state-write)
   (setq project-x-save-interval 600     ;Save project state every 10 min
-	project-x-local-identifier '("package.json" "mix.es" "cargo.toml" ".project" ".git"))
-  (project-x-mode 1))
+	project-x-local-identifier '("package.json" "mix.exs" "cargo.toml" ".project" ".git")
+	project-x-window-list-file (concat no-littering-var-directory "project-x-window-list"))
+  (project-x-mode 1)
+  (advice-add 'project-switch-project :after
+	      (lambda (&rest _) (project-remember-project (project-current)))))
 
 (provide 'init-packages)

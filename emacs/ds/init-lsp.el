@@ -64,7 +64,7 @@
 (use-package lsp-mode
   :init
   (setq lsp-use-plists t)
-  :commands lsp
+  :commands (lsp lsp-deferred)
   :custom
   (lsp-auto-guess-root t)
   (lsp-auto-select-workspace t)
@@ -127,6 +127,7 @@
   :after lsp-mode)
 
 (use-package lsp-pyright
+  :after lsp-mode
   :custom
   (lsp-pyright-langserver-command "basedpyright"))
 
@@ -138,7 +139,7 @@
   (apheleia-global-mode +1))
 
 (use-package lsp-ui
-  :after lsp
+  :after lsp-mode
   :config
   (setq lsp-ui-doc-max-width 150
 	lsp-ui-doc-max-height 30)
@@ -178,6 +179,7 @@
    ("C-c d r" . dap-debug-recent))
   :hook (dap-mode . ds/dap-custom-bindings))
 
-(use-package lsp-docker)
+(use-package lsp-docker
+  :after lsp-mode)
 
 (provide 'init-lsp)

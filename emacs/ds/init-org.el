@@ -9,6 +9,7 @@
   (org-mode . auto-fill-mode)
   (org-mode . flyspell-mode)
   (org-mode . org-indent-mode)
+  (org-mode . (lambda () (which-function-mode -1)))
   :config
   (setq org-return-follows-link t)
   (setq org-agenda-inhibit-startup t)

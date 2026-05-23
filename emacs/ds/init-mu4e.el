@@ -74,10 +74,10 @@
 ;; (better only use that for the last field.
 ;; These are the defaults:
 (setq mu4e-headers-fields
-    '( (:date          .  25)
-       (:flags         .   6)
-       (:from          .  22)
-       (:subject       .  nil)))
+      '( (:date          .  25)
+	 (:flags         .   6)
+	 (:from          .  22)
+	 (:subject       .  nil)))
 
 ;; program to get mail; alternatives are 'fetchmail', 'getmail'
 ;; isync or your own shellscript. called when 'U' is pressed in
@@ -98,7 +98,7 @@
 ;; you can include in message with C-c C-w
 (setq mu4e-compose-signature-auto-include 't)
 (setq mu4e-compose-signature (with-temp-buffer
-                               (insert-file-contents "~/dotfiles/signature.gmail.txt")
+                               (insert-file-contents "~/dotfiles/config/signature.gmail.txt")
                                (buffer-string)))
 ;; message-signature-file NOT used by mu4e
 (setq message-signature-file "~/.mu4e.signature.txt")
@@ -109,7 +109,7 @@
   (interactive)
   (message "personal mail account")
   (setq  user-mail-address "dhruva.sagar@gmail.com"
-         mu4e-compose-signature (get-string-from-file "~/dotfilessignature.gmail.txt"))
+         mu4e-compose-signature (get-string-from-file "~/dotfiles/config/signature.gmail.txt"))
   )
 
 ;; (defun cpb-mu4e-tarkalabs()
