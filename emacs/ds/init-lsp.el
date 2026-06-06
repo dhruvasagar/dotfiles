@@ -62,9 +62,9 @@
   (lsp-format-on-save))
 
 (use-package lsp-mode
+  :commands (lsp lsp-deferred)
   :init
   (setq lsp-use-plists t)
-  :commands (lsp lsp-deferred)
   :custom
   (lsp-auto-guess-root t)
   (lsp-auto-select-workspace t)
@@ -96,23 +96,24 @@
   (lsp-face-highlight-write ((t (:underline t :background nil :foreground nil))))
   (lsp-face-highlight-textual ((t (:underline t :background nil :foreground nil))))
   :hook
-  ((ng2-mode
-    ng2-ts-mode
-    zig-mode
-    c-ts-mode
-    c++-ts-mode
-    lua-ts-mode
-    go-ts-mode
-    js2-ts-mode
-    java-ts-mode
-    rust-mode
-    ruby-mode
-    ruby-ts-mode
-    python-ts-mode
-    haskell-ts-mode
-    terraform-ts-mode
-    typescript-ts-mode) . lsp-deferred)
-  (lsp-mode . ds/lsp-mode-setup)
+  ((ng2-mode . lsp-deferred)
+   (ng2-ts-mode . lsp-deferred)
+   (zig-mode . lsp-deferred)
+   (c-ts-mode . lsp-deferred)
+   (c++-ts-mode . lsp-deferred)
+   (lua-ts-mode . lsp-deferred)
+   (go-ts-mode . lsp-deferred)
+   (js2-ts-mode . lsp-deferred)
+   (java-ts-mode . lsp-deferred)
+   (rust-mode . lsp-deferred)
+   (rust-ts-mode . lsp-deferred)
+   (ruby-mode . lsp-deferred)
+   (ruby-ts-mode . lsp-deferred)
+   (python-ts-mode . lsp-deferred)
+   (haskell-ts-mode . lsp-deferred)
+   (terraform-ts-mode . lsp-deferred)
+   (typescript-ts-mode . lsp-deferred)
+   (lsp-mode . ds/lsp-mode-setup))
   ;; (lsp-completion-mode . (lambda () (setq-local completion-category-defaults nil)))
   )
 
