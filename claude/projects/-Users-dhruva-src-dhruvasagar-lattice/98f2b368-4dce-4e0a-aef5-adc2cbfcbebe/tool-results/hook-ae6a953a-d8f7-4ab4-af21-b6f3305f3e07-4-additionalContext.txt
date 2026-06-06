@@ -1,0 +1,228 @@
+# [lattice] recent context, 2026-05-24 8:26am GMT+5:30
+
+**Legend:** session-request | 🔴 bugfix | 🟣 feature | 🔄 refactor | ✅ change | 🔵 discovery | ⚖️ decision
+
+**Column Key**:
+- **Read**: Tokens to read this observation (cost to learn it now)
+- **Work**: Tokens spent on work that produced this record ( research, building, deciding)
+
+**Context Index:** This semantic index (titles, types, files, tokens) is usually sufficient to understand past work.
+
+When you need implementation details, rationale, or debugging context:
+- Fetch by ID: get_observations([IDs]) for observations visible in this index
+- Search history: Use the mem-search skill for past decisions, bugs, and deeper research
+- Trust this index over re-reading code for past decisions and learnings
+
+**Context Economics**:
+- Loading: 50 observations (17,813 tokens to read)
+- Work investment: 319,522 tokens spent on research, building, and decisions
+- Your savings: 94% reduction from reuse
+
+### May 6, 2026
+
+**#S291** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:54 AM)
+
+**#S292** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:55 AM)
+
+**#S294** Implement modern file icons for FileTree and add oil.nvim-style buffer manipulation capabilities (May 6 at 1:09 AM)
+
+**#S295** Modernize FileTree with file icons and explore oil.nvim-style buffer manipulation (May 6 at 2:01 PM)
+
+**#S296** Beautify FileTree with modern file icons and explore oil.nvim-style buffer manipulation capabilities (May 6 at 2:29 PM)
+
+**#S297** Phase 5.B.19 - Complete LSP request channel field migration from App to Editor (May 6 at 2:33 PM)
+
+### May 15, 2026
+
+**crates/lattice-ui-tui/src/app/mode.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #852 | 2:11 PM | 🔵 | Non-lsp.rs LSP channel usage limited to 5 lines across 3 modules |  |  |
+| #853 | 2:12 PM | ✅ | Redirected 5 LSP channel field accesses to editor composition in mode.rs, picker.rs, completion.rs |  |  |
+
+**.claude/plans/hazy-exploring-kazoo.md**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #854 | " | ⚖️ | Formalized Phase 5.B.19 plan to complete LSP channel migration across 6 steps |  |  |
+
+**crates/lattice-ui-tui/src/app/mode.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #855 | 2:13 PM | ✅ | Re-applied mode.rs field redirection using perl substitution |  |  |
+
+**crates/lattice-ui-tui/src/app/picker.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #856 | " | ✅ | Re-applied picker.rs field redirections for code action channels |  |  |
+
+**crates/lattice-ui-tui/src/app/completion.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #857 | " | ✅ | Completed bulk field redirection in lsp.rs and completion.rs covering 252+ references |  |  |
+
+**crates/lattice-ui-tui/src/app/boot.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #858 | 2:14 PM | 🔵 | Boot initialization shows 6 live channels in App construction needing migration to Editor block |  |  |
+| #859 | " | ✅ | Restructured boot.rs initialization consolidating all LSP channels in Editor block |  |  |
+
+**crates/lattice-ui-tui/src/app.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #860 | 2:17 PM | 🔄 | LSP folding range request fields migrated to editor module |  |  |
+
+**#S304** Fix font configuration compilation errors in lattice GPUI editor to enable configurable font family and size (May 15 at 2:23 PM)
+
+### May 22, 2026
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #897 | 10:07 AM | 🔵 | Font hardcoded in GPUI window rendering |  |  |
+
+**crates/lattice-host/src/ui/theme_options.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #898 | 10:11 AM | 🟣 | Font configuration options added to UI settings |  |  |
+
+**crates/lattice-ui-gpui/src/lib.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #899 | 10:15 AM | 🟣 | Font configuration wired to GPUI theme rebuild |  |  |
+
+**#S305** Fix compilation errors and commit font configuration feature for lattice GPUI editor to resolve cursor misalignment issues (May 22 at 10:24 AM)
+
+**#S306** Resume phase 5B work and implement next logical piece after reviewing phase-5b-app-fields.md (May 22 at 10:26 AM)
+
+### May 24, 2026
+
+**General**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #902 | 6:56 AM | 🔵 | Focus management issue in gpui popups |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #903 | " | 🔵 | Popup and focus handling architecture in lattice-ui-gpui window.rs |  |  |
+| #904 | " | 🔵 | Recent popup focus visual indicator fix in window.rs |  |  |
+
+**crates/lattice-host/src/render_state.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #905 | 6:57 AM | 🔵 | PopupRenderState includes cursor position anchor field |  |  |
+| #906 | " | 🔵 | Popup state machine with State A and State B focus modes |  |  |
+
+**crates/lattice-host/src/dispatch.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #907 | " | 🔵 | focus_help_popup implements State A to State B transition |  |  |
+| #908 | 6:58 AM | 🔵 | Two distinct popup opening paths for State A versus State B |  |  |
+
+**crates/lattice-host/src/render_state.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #909 | 6:59 AM | 🔴 | Add doc_scroll_at_anchor field to fix popup position jump in State B transition |  |  |
+
+**crates/lattice-host/src/editor.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #910 | " | 🔴 | Add popup_doc_scroll_at_anchor field to Editor struct |  |  |
+
+**General**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #911 | 7:45 AM | 🔵 | LSP Mode Tests Flaky in Full Suite, Pass in Isolation |  |  |
+
+**crates/lattice-ui-gpui/Cargo.toml**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #912 | " | 🔵 | All Three Failing LSP Tests Pass When Run Individually |  |  |
+
+**Cargo.lock**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #913 | 7:46 AM | 🔄 | Eliminated Sync Actor Round-Trip for paint_request in Hot Path |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #914 | 8:07 AM | 🔵 | Popup cursor rendering uses line-level detection |  |  |
+| #915 | 8:08 AM | 🔵 | Popup cursor applies background to entire line div |  |  |
+| #916 | " | 🔵 | Describe-command popups use centered placement with 640x400px constraint |  |  |
+
+**crates/lattice-protocol/src/position.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #917 | " | 🔵 | Position struct located in lattice-protocol crate |  |  |
+| #918 | " | 🔵 | Position struct contains line and byte fields for cursor tracking |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #919 | 8:09 AM | 🔴 | Popup cursor changed from full-line to character-wide block |  |  |
+| #920 | 8:10 AM | ✅ | Popup dimensions increased from 640x400 to 900x600 |  |  |
+| #921 | " | ✅ | Committed popup cursor and size improvements |  |  |
+
+**#S307** Fix popup cursor display and increase popup size for describe commands (May 24 at 8:10 AM)
+
+**crates/lattice-host/src/dispatch.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #922 | 8:19 AM | 🔵 | Hover popup flow uses RendererSignal::DisplayBuffer for renderer-agnostic popup display |  |  |
+
+**crates/lattice-ui-gpui/src/lib.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #923 | " | 🔵 | GPUI DisplayBuffer signal handler updates unified popup state via editor.display_buffer |  |  |
+| #924 | 8:20 AM | 🔵 | GpuiApp::dispatch_action drains pending work via run_tick_pending after action execution |  |  |
+| #925 | " | 🔵 | X1b wake-bridge uses paint_request notification to trigger repaints for idle LSP arrivals |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #926 | " | 🔵 | Wake-bridge spawned in EditorView::new as detached async task with weak entity handle |  |  |
+
+**crates/lattice-host/src/dispatch.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #927 | " | 🔵 | Hover request spawns LSP runtime task sending HoverOutcome through unbounded channel |  |  |
+| #928 | 8:21 AM | 🔵 | Action::LspHoverRequest dispatches to editor.lsp_hover_request initiating async hover flow |  |  |
+| #929 | " | 🔵 | Hover outcomes distinguish between NoBody, NoServers, and successful Body responses |  |  |
+| #930 | 8:22 AM | 🔵 | ensure_cursor_visible clamps cursor within viewport using scroll and viewport_height |  |  |
+| #931 | " | 🔵 | ensure_cursor_visible handles both upward and downward scroll adjustments |  |  |
+
+**crates/lattice-ui-tui/src/render.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #932 | " | 🔵 | TUI popup height calculated from candidate count via popup_height function |  |  |
+| #933 | " | 🔵 | Help popup positioning uses inner_height parameter for boundary clamping |  |  |
+| #934 | 8:23 AM | 🔵 | TUI position_help_popup places popups below cursor with fallback to above based on available space |  |  |
+
+**crates/lattice-ui-tui/src/app/help.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #935 | " | 🔵 | TUI help_popup_inner_height computes viewport height with placement-specific caps |  |  |
+
+**crates/lattice-host/src/dispatch.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #936 | " | 🔵 | ensure_cursor_visible called after viewport changes and document mutation guards |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #937 | 8:24 AM | 🔵 | GPUI uses per-pane viewport dimensions instead of single global viewport_height |  |  |
+
+**crates/lattice-host/src/editor.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #938 | " | 🔵 | Host Editor lacks popup-specific viewport_height field |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #939 | " | 🔵 | collect_pane_geometries recursively distributes viewport dimensions accounting for chrome and split ratios |  |  |
+
+
+Access 320k tokens of past research & decisions for just 17,813t. Use the claude-mem skill to access memories by ID.

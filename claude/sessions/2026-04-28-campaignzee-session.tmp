@@ -1,0 +1,70 @@
+# Session: 2026-04-28
+**Date:** 2026-04-28
+**Started:** 00:08
+**Last Updated:** 21:15
+**Project:** campaignzee
+**Branch:** feature/redis-local-tls
+**Worktree:** /Users/dhruva/src/mindbody/campaignzee
+
+---
+<!-- ECC:SUMMARY:START -->
+## Session Summary
+
+### Tasks
+- I want to also add additional information regarding setting up the local tls setup for developers
+- Generate the PR template again
+- If the redis is password protected how will the REDISCLOUD_URL look like ? As per my understanding the url parsing issue involved the username / password being within the URL itself and redis not able
+- Go ahead and update the documentation
+- Is it required that the password be URL encoded ? What if it's not ?
+- Current staging redis url is \`redis://rediscloud:u0RFKvTPrvBFuiCZbeHdptvgy5nUhhs4@redis-12798.c34026.us-west-2-mz.ec2.cloud.rlrcp.com:12798\`, can we test with something like this ?
+- While working previously with a colleague they made the following change to redis url parsing which I don't fully understand. Analyse and share if this makes sense: \` # Redis 5.x sends the URL usernam
+- One of the checks fails in CI with following error: \`##[error]No agent found in pool aws-mbcore-dev-win2022 which satisfies the specified demands: Agent.Version -gtVersion 2.164.1\`, what does this mea
+- What can cause this error: \`/usr/local/bundle/gems/redis-client-0.28.0/lib/redis_client/connection_mixin.rb:79:in \`call_pipelined' /usr/local/bundle/gems/redis-client-0.28.0/lib/redis_client.rb:876:in
+- This was at the top of the stack trace: \`Error message: ERR unknown command 'hello'\`
+
+### Files Modified
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20160708152446_create_initial_schema.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20160825191357_add_html_and_document_columns_to_email_documents.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20160907015339_update_subject_line_to_null_fals.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20160913191609_add_sent_column_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20161014173130_remove_sent_from_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20170125221344_remove_uniq_name_index_from_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20171011231526_add_contact_lists_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20190131005333_add_deleted_at_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20190204192731_add_deleted_at_index_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20191123042040_add_failed_reason_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20210105114237_add_custom_html_template_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20210226075637_add_subject_line_fields_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20210226075922_add_index_for_recommended_subject_line_id_on_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20210517103918_change_recommended_subject_line_id_type_uuid_to_string.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20220404105905_create_campaign_shares.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20220413100115_add_shared_to_locations_count_cache_to_campaign.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20220415120716_add_coloum_public_url_to_campaign.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20220531121432_create_campaign_location_details.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20221014111231_add_send_at_in_campaign_shares.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20230131055502_add_indexes_to_campaign.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20240110094210_add_timestamps_to_campaigns.rb
+- /Users/dhruva/src/mindbody/campaignzee/db/migrate/20240318144530_add_total_sends_on_campaign_location_details.rb
+- /Users/dhruva/src/mindbody/campaignzee/spec/services/frederick_client/request_service_spec.rb
+- /Users/dhruva/src/mindbody/campaignzee/app/services/frederick_client/request_service.rb
+- /Users/dhruva/src/mindbody/campaignzee/spec/resources/api/v2/campaign_resource_spec.rb
+- /Users/dhruva/src/mindbody/campaignzee/.gitignore
+- /Users/dhruva/src/mindbody/campaignzee/redis/gen-certs.sh
+- /Users/dhruva/src/mindbody/campaignzee/docker-compose.yml
+- /Users/dhruva/src/mindbody/campaignzee/config/environments/development.rb
+- /Users/dhruva/src/mindbody/campaignzee/config/environments/test.rb
+
+### Tools Used
+Skill, Bash, Read, Edit, Write, ScheduleWakeup, ToolSearch, TaskList
+
+### Stats
+- Total user messages: 64
+<!-- ECC:SUMMARY:END -->
+
+### Notes for Next Session
+-
+
+### Context to Load
+```
+[relevant files]
+```

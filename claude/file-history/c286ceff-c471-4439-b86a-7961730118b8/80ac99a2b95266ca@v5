@@ -1,0 +1,8 @@
+class HealthController < ActionController::Base
+  skip_before_action :authenticate_user!, raise: false
+  skip_before_action :verify_authenticity_token, raise: false # Skip CSRF protection if it's causing issues
+  skip_before_action :redirect_to_login, raise: false # Skip custom redirect logic
+  def check
+    render plain: "OK", status: :ok
+  end
+end

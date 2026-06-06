@@ -1,0 +1,1 @@
+/Users/dhruva/dotfiles/claude/skills/gstack/plan-design-review/SKILL.md

@@ -1,0 +1,301 @@
+serviceName: campaignzee
+teamName: marketingsuite
+project: campaignzee
+
+projectResourceTags:
+  map-migrated: commR2904NNSME
+  t_overlap: heroku
+
+admin:
+  ecr:
+  - name: marketingsuite.campaignzee
+  - name: marketingsuite.campaignzee.tests
+staging:
+  alertNotificationChannels:
+  - name: default
+    type: slack
+    slackChannelId: 'C08JPD803SR' #squad-mb-marketing-suite-staging-alerts
+  kubernetes:
+    namespace: marketingsuite
+    alerts:
+    - type: Max CPU Utilization
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+    - type: Max CPU Throttled
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+    - type: Max Memory Utilization
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+  rdsAuroraPostgres:
+  - prefix: ms
+    name: campaignzee-staging
+    instanceArguments:
+      engineVersion: '16.8'
+      instanceClass: db.t4g.medium
+    replicas: 1
+    engine: aurora-postgresql
+    dbParameters:
+      authentication_timeout: '60'
+      autovacuum_analyze_scale_factor: '0.1'
+      autovacuum_naptime: '60'
+      autovacuum_vacuum_cost_delay: '20'
+      autovacuum_vacuum_cost_limit: '-1'
+      autovacuum_vacuum_scale_factor: '0.2'
+      autovacuum_work_mem: '-1'
+      deadlock_timeout: '1000'
+      idle_in_transaction_session_timeout: '0'
+      log_autovacuum_min_duration: '30000'
+      statement_timeout: '0'
+      wal_receiver_timeout: '60000'
+      wal_sender_timeout: '60000'
+  newrelic:
+    - name: Marketing Suite Campaignzee Policy
+      protect: false
+      entityName: marketingproducts-campaigns-service-staging
+      entityDomain: APM
+      incidentPreference: PER_CONDITION
+      alertNotificationChannels: ["default"]
+      nrqlAlertConditions:
+        - name: Campaigns scheduling aged
+          description: Campaigns scheduling aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: NA
+          nrql:
+            query:
+              SELECT average(newrelic.timeslice.value) AS `Custom/Campaigns/scheduling_aged` FROM Metric WHERE metricTimesliceName = 'Custom/Campaigns/scheduling_aged' AND `entity.guid` = 'MjEyNDI2MHxBUE18QVBQTElDQVRJT058MTY4ODQyMTQ5OQ'
+          critical:
+            operator: above
+            threshold: 0
+            thresholdDuration: 1800
+            thresholdOccurrences: ALL
+        - name: Campaigns Shared sending aged
+          description: Campaigns Shared sending aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 3600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: https://dev.azure.com/mindbody/Marketing%20Products/_wiki/wikis/Marketing-Products.wiki/1982/Campaigns-sending-aged
+          nrql:
+            query:
+              SELECT average(newrelic.timeslice.value) AS `Custom/Campaigns/shared_sending_aged` FROM Metric WHERE metricTimesliceName = 'Custom/Campaigns/shared_sending_aged' AND `entity.guid` = 'MjEyNDI2MHxBUE18QVBQTElDQVRJT058MTY4ODQyMTQ5OQ'
+          critical:
+            operator: above
+            threshold: 10
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+          warning:
+            operator: above_or_equals
+            threshold: 1
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+        - name: Campaigns Non-shared sending aged
+          description: Campaigns Non-shared sending aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 3600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: https://dev.azure.com/mindbody/Marketing%20Products/_wiki/wikis/Marketing-Products.wiki/1982/Campaigns-sending-aged
+          nrql:
+            query:
+              SELECT average(newrelic.timeslice.value) AS `Custom/Campaigns/shared_sending_aged` FROM Metric WHERE metricTimesliceName = 'Custom/Campaigns/shared_sending_aged' AND `entity.guid` = 'MjEyNDI2MHxBUE18QVBQTElDQVRJT058MTY4ODQyMTQ5OQ'
+          critical:
+            operator: above_or_equals
+            threshold: 10
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+          warning:
+            operator: above_or_equals
+            threshold: 1
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+        - name: Campaigns Marked As Failed
+          description: Campaigns Marked As Failed
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 600
+          fillOption: NONE
+          violationTimeLimitSeconds: 86400
+          runbookUrl: NA
+          nrql:
+            query:
+              SELECT count(*) as 'Campaigns Marked As Failed' FROM TransactionError WHERE (`error.message` LIKE 'Campaign Failed%') AND (`error.class` = 'Error') AND (transactionUiName = 'SendCampaignWorker/perform') AND (entityGuid = 'MjEyNDI2MHxBUE18QVBQTElDQVRJT058MTY4ODQyMTQ5OQ') AND (`error.expected` IS FALSE OR `error.expected` IS NULL)
+          critical:
+            operator: above
+            threshold: 5
+            thresholdDuration: 86400
+            thresholdOccurrences: ALL
+  awsBedrockInferenceProfiles:
+  - name: claude-sonnet
+    modelSourceCopyFrom: arn:aws:bedrock:us-west-2:029800430051:inference-profile/us.anthropic.claude-sonnet-4-5-20250929-v1:0
+  - name: sonnet-4-6
+    modelSourceCopyFrom: arn:aws:bedrock:us-west-2:029800430051:inference-profile/us.anthropic.claude-sonnet-4-6
+  - name: opus-4-6
+    modelSourceCopyFrom: arn:aws:bedrock:us-west-2:029800430051:inference-profile/us.anthropic.claude-opus-4-6-v1
+  - name: haiku-4-5
+    modelSourceCopyFrom: arn:aws:bedrock:us-west-2:029800430051:inference-profile/us.anthropic.claude-haiku-4-5-20251001-v1:0
+prod:
+  alertNotificationChannels:
+  - name: default
+    type: slack
+    slackChannelId: 'C08K1V57F7T' #squad-mb-marketing-suite-production-alerts
+  - name: opsgenie-marketing-suite
+    type: opsgenie
+    opsgenieTeam: 'Squad Marketing Suite'
+    opsgenieEscalationName: 'Marketing Products_escalation'
+  kubernetes:
+    namespace: marketingsuite
+    alerts:
+    - type: Max CPU Utilization
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+    - type: Max CPU Throttled
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+    - type: Max Memory Utilization
+      includeDeploymentNames:
+      - 'campaignzee-sidekiq-default'
+      - 'campaignzee'
+  rdsAuroraPostgres:
+  - prefix: production
+    name: ms-campaignzee
+    instanceArguments:
+      engineVersion: '16.8'
+      instanceClass: db.t4g.large
+    replicas: 1
+    engine: aurora-postgresql
+    dbParameters:
+      authentication_timeout: '60'
+      autovacuum_analyze_scale_factor: '0.1'
+      autovacuum_naptime: '60'
+      autovacuum_vacuum_cost_delay: '20'
+      autovacuum_vacuum_cost_limit: '-1'
+      autovacuum_vacuum_scale_factor: '0.2'
+      autovacuum_work_mem: '-1'
+      deadlock_timeout: '1000'
+      idle_in_transaction_session_timeout: '0'
+      log_autovacuum_min_duration: '30000'
+      statement_timeout: '0'
+      wal_receiver_timeout: '60000'
+      wal_sender_timeout: '0'
+      rds.logical_replication: '1'
+  newrelic:
+    - name: Marketing Suite Campaignzee Policy
+      protect: false
+      entityName: marketingproducts-campaignzee-service
+      entityDomain: APM
+      incidentPreference: PER_CONDITION
+      alertNotificationChannels:
+      - 'default'
+      - 'opsgenie-marketing-suite'
+      nrqlAlertConditions:
+        - name: Campaigns scheduling aged
+          description: Campaigns scheduling aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: NA
+          nrql:
+            query:
+              SELECT latest(currentCount) AS `Custom/Campaigns/scheduling_aged` FROM CampaignMetrics WHERE metricType = 'Custom/Campaigns/scheduled_aged' AND appName = 'marketingproducts-campaignzee-service'
+          critical:
+            operator: above
+            threshold: 0
+            thresholdDuration: 1800
+            thresholdOccurrences: ALL
+        - name: Campaigns Shared sending aged
+          description: Campaigns Shared sending aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 3600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: https://dev.azure.com/mindbody/Marketing%20Products/_wiki/wikis/Marketing-Products.wiki/1982/Campaigns-sending-aged
+          nrql:
+            query:
+              SELECT latest(currentCount) AS `Custom/Campaigns/shared_sending_aged` FROM CampaignMetrics WHERE metricType = 'shared_sending_aged' AND appName = 'marketingproducts-campaignzee-service'
+          critical:
+            operator: above_or_equals
+            threshold: 1
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+        - name: Campaigns Non-shared sending aged
+          description: Campaigns Non-shared sending aged
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 3600
+          fillOption: static
+          fillValue: 0.0
+          violationTimeLimitSeconds: 86400
+          runbookUrl: https://dev.azure.com/mindbody/Marketing%20Products/_wiki/wikis/Marketing-Products.wiki/1982/Campaigns-sending-aged
+          nrql:
+            query:
+              SELECT latest(currentCount) AS `Custom/Campaigns/unshared_sending_aged` FROM CampaignMetrics WHERE metricType = 'unshared_sending_aged' AND appName = 'marketingproducts-campaignzee-service'
+          critical:
+            operator: above_or_equals
+            threshold: 1
+            thresholdDuration: 86400
+            thresholdOccurrences: AT_LEAST_ONCE
+          warning:
+            operator: above_or_equals
+            threshold: 1
+            thresholdDuration: 43200
+            thresholdOccurrences: AT_LEAST_ONCE
+        - name: Campaigns Marked As Failed
+          description: Campaigns Marked As Failed
+          type: static
+          enabled: true
+          valueFunction: single_value
+          aggregationMethod: EVENT_FLOW
+          aggregationDelay: 120
+          aggregationWindow: 600
+          fillOption: NONE
+          violationTimeLimitSeconds: 86400
+          runbookUrl: NA
+          nrql:
+            query:
+              SELECT count(*) as 'Campaigns Marked As Failed' FROM TransactionError WHERE (`error.message` LIKE 'Campaign Failed%') AND (`error.class` = 'Error') AND (transactionUiName = 'SendCampaignWorker/perform') AND (appName = 'marketingproducts-campaignzee-service') AND (`error.expected` IS FALSE OR `error.expected` IS NULL)
+          critical:
+            operator: above
+            threshold: 5
+            thresholdDuration: 86400
+            thresholdOccurrences: ALL

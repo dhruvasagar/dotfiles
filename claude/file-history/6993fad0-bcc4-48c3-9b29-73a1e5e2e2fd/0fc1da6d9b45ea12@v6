@@ -1,0 +1,284 @@
+/* Tufte-style shortcode styles (sidenote, marginnote, newthought, epigraph, figure) */
+
+/* Epigraph */
+.epigraph {
+  margin: 3em 0;
+}
+.epigraph > blockquote {
+  margin-top: 3em;
+  margin-bottom: 3em;
+  font-style: italic;
+}
+.epigraph > blockquote > footer {
+  font-style: normal;
+}
+.epigraph > blockquote > footer > cite {
+  font-style: italic;
+}
+
+/* Newthought */
+.newthought {
+  font-variant: small-caps;
+  font-size: 1.2em;
+}
+
+/* ── Sidenotes / Marginnotes ────────────────────────────────────
+   Default (all screens): hidden, click superscript to reveal.
+   Wide screens (≥80em / ~1280px): always-visible right-column float.
+   ─────────────────────────────────────────────────────────────── */
+
+.sidenote,
+.marginnote {
+  display: none;
+}
+
+.marginnote-ind,
+.sidenote-number {
+  position: relative;
+  vertical-align: baseline;
+  user-select: none;
+}
+
+label.sidenote-number,
+label.marginnote-ind {
+  display: inline;
+  font-size: 0.78rem;
+  top: -0.4rem;
+  position: relative;
+  cursor: pointer;
+  color: var(--link-color);
+}
+
+span.sidenote-number,
+span.marginnote-ind {
+  font-size: 0.8rem;
+  color: var(--link-color);
+}
+
+.sidenote .code,
+.marginnote .code {
+  font-size: 0.85rem;
+}
+
+.margin-toggle {
+  cursor: pointer;
+}
+
+input.margin-toggle {
+  position: absolute;
+  outline: none;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin-left: 5px;
+  margin-top: 5px;
+  z-index: -100;
+}
+
+label:has(+ input.margin-toggle:focus) {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -3px;
+}
+
+label.sidenote-number {
+  display: inline;
+}
+
+label.marginnote-ind {
+  display: none;
+}
+
+/* Click-to-reveal on narrow screens */
+.margin-toggle:checked + .sidenote,
+.margin-toggle:checked + .marginnote {
+  display: block;
+  margin: 0.6rem 0 0.8rem 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--link-color);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--list-color);
+  font-style: italic;
+}
+
+/* ── Layout: full-page scroll with sticky sidebar ───────────────
+   Poison locks body/content to separate scroll panes. We undo
+   that so the page scrolls as a unit, then pin the sidebar with
+   position: sticky so it stays visible while the content scrolls.
+   ─────────────────────────────────────────────────────────────── */
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+}
+
+body > .wrapper {
+  height: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+@media (min-width: 48em) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: flex-start;
+  }
+
+  /* Remove the independent content scrollbar */
+  .container.content {
+    overflow-y: visible;
+  }
+}
+
+/* Wide math formulas scroll within their block rather than overflowing the page */
+.katex-display {
+  overflow-x: auto;
+}
+
+/* ── Sidenotes as right-column floats on wide screens ───────────
+   At ≥80em the content area is wide enough to hold a text column
+   (~30rem) and a sidenote column (12rem). The float naturally
+   creates a two-column layout; text wraps around the sidenote.
+   Labels become non-interactive since notes are always visible.
+   ─────────────────────────────────────────────────────────────── */
+
+@media (min-width: 80em) {
+  /* Let content fill available viewport width beside the sidebar.
+     min-width: 0 overrides the flex default (auto) so the item
+     can shrink below its max-content size on narrower screens. */
+  .container.content {
+    max-width: none;
+    min-width: 0;
+  }
+
+  /* Reserve a right column for sidenotes.
+     gap = padding-right − sidenote-width = 18rem − 13rem = 5rem */
+  .post {
+    padding-right: 18rem;
+  }
+
+  /* On very wide screens cap each text block at a comfortable reading width.
+     The sidenote column lives in the post's right padding (via negative
+     margin-right on floats), so no subtraction is needed here. */
+  .post > p,
+  .post > h2, .post > h3, .post > h4, .post > h5, .post > h6,
+  .post > ul, .post > ol, .post > dl,
+  .post > blockquote, .post > pre, .post > table,
+  .post > hr, .post > .epigraph {
+    max-width: 38rem;
+  }
+
+  /* Always-visible sidenote float — positioned in the right padding column */
+  .sidenote,
+  .marginnote {
+    display: block;
+    float: right;
+    clear: right;
+    width: 13rem;
+    margin-top: 0.15rem;
+    margin-right: -18rem;
+    margin-bottom: 0.75rem;
+    margin-left: 1rem;
+    padding: 0 0 0 0.5rem;
+    border-left: 2px solid var(--link-color);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--list-color);
+    font-style: italic;
+  }
+
+  /* Cancel the click-to-reveal expand styling */
+  .margin-toggle:checked + .sidenote,
+  .margin-toggle:checked + .marginnote {
+    margin: 0.15rem -18rem 0.75rem 1rem;
+    padding: 0 0 0 0.5rem;
+    border-left: 2px solid var(--link-color);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* The inline "(n)" inside the sidenote span is redundant here */
+  .sidenote > .sidenote-number {
+    display: none;
+  }
+
+  /* Labels become decorative, not toggle controls */
+  label.sidenote-number {
+    cursor: default;
+  }
+
+  label.marginnote-ind {
+    display: inline;
+    cursor: default;
+  }
+}
+
+/* ── Code block / copy-button fixes ─────────────────────────────
+   1. clear: right ensures code blocks drop below any right-floated
+      sidenotes rather than running alongside them.
+   2. Changing .code-container from inline-block to block prevents the
+      absolutely-positioned copy button from overhanging adjacent content.
+   ─────────────────────────────────────────────────────────────── */
+
+@media (min-width: 80em) {
+  .post .highlight,
+  .post .code-container {
+    clear: right;
+  }
+}
+
+.code-container {
+  display: block;
+}
+
+/* ── Full-width elements ─────────────────────────────────────── */
+
+.fullwidth {
+  max-width: 90%;
+  clear: both;
+}
+
+/* ── Figure shortcode ────────────────────────────────────────── */
+
+figure {
+  padding: 0;
+  border: 0;
+  max-width: 55%;
+  margin: 0 0 2em 0;
+}
+
+figure.fullwidth {
+  max-width: 90%;
+}
+
+figcaption {
+  float: right;
+  clear: right;
+  margin-right: -48%;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  vertical-align: baseline;
+  position: relative;
+  max-width: 40%;
+}
+
+figure.fullwidth figcaption {
+  margin-right: 24%;
+}
+
+@media (max-width: 760px) {
+  figure {
+    max-width: 90%;
+  }
+  figcaption,
+  figure.fullwidth figcaption {
+    margin-right: 0;
+    max-width: none;
+    float: none;
+  }
+}

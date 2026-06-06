@@ -1,0 +1,26 @@
+* MEETING Yamaha - %^{Meeting title} :YAMAHA:MEETING:
+%U
+Attendees (Yamaha): %^{Yamaha attendees}
+Attendees (Sedin): %^{Sedin attendees}
+
+** Agenda / Context
+%?
+
+** Discussion
+
+** Decisions Made
+
+** Commitments Made (by us)
+- [ ]
+
+** Commitments Made (by Yamaha)
+- [ ]
+
+** Action Items
+| Action | Owner | Due |
+|--------+-------+-----|
+|        |       |     |
+
+** Follow-up
+DEADLINE: %^{Follow-up by}t
+Send meeting summary to Yamaha within 2 hours.

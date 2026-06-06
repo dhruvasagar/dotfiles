@@ -1,0 +1,39 @@
+- Yamaha
+  - Yamaha Music Innovation Fund
+    - Their own investment arm that invests in music startups
+    - Create other things for Yamaha
+    - Very lean 4 member team
+    - We are their technology partner
+    - We were able to deliver in 2-3 months instead of ~8 months they
+      may have been able to do internally
+    - Creator Pass Product
+      - Yamaha has 10 million customers
+      - This product bundles a package for musicians to get a bunch of
+        tools / services required by them in a single package.
+      - Currently they built on the shopify platform for quick GTM
+      - Project Landscape
+        - Shopify
+        - Custom Integrations
+        - QA
+    - Sedin Perspective
+      - First $1M project
+        - We're facing internal issues. We're not able to present a
+          very cohesive view across different Sedin departments, such
+          as Code Rapper, Data Culture, Marketing, Tarkalabs, etc.
+
+    Q:
+    - Internal Issues vs Perception
+    - Tie things together (architecturally, design, delivery, etc.)
+      across departments
+
+
+Yamaha should see value by end of June then we'll be able to bill role
+
+Expectations:
+- Become a single point of contact for the customer for planning,
+  execution, etc.
+- Important to fix the perception that we are a single team rather
+  than separate teams collaborating. Ensure our communication with the
+  client is clear and does not surface any internal issues.
+- We want to prove this can work with Yamaha so we can repeat it for
+  other projects in future

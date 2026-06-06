@@ -1,0 +1,54 @@
+baseURL = 'https://dhruvasagar.dev'
+languageCode = 'en-us'
+title = 'Dhruva Sagar'
+theme = 'poison'
+hasCJKLanguage = true
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  brand         = "Dhruva Sagar"
+  hideToc       = true
+  description   = 'My perspective on Tech & Software Craftsmanship'
+  copyrightHolder = 'Dhruva Sagar'
+  rss_icon      = true
+  github_url    = "https://github.com/dhruvasagar"
+  twitter_url   = "https://twitter.com/dhruvasagar"
+  linkedin_url  = "https://www.linkedin.com/in/dhruvasagar"
+  youtube_url   = "https://youtube.com/@SoftwareCraftsmanship"
+
+[services]
+[services.disqus]
+shortname = 'dhruvasagar'
+[services.googleAnalytics]
+ID = 'G-6GYY1MJRXX'
+
+[markup]
+[markup.highlight]
+noClasses = false
+guessSyntax = false
+
+[[params.menu]]
+  name = "Posts"
+  url  = "/posts/"
+  pre  = "Recent"
+  hasChildren = true
+  limit = 5
+
+[[params.menu]]
+  name = "Categories"
+  url  = "/categories/"
+
+[[params.menu]]
+  name = "Tags"
+  url  = "/tags/"
+
+[[params.menu]]
+  name = "About"
+  url  = "/about/"
+
+[[params.menu]]
+  name     = "Resume"
+  url      = "/resume.pdf"
+  external = true

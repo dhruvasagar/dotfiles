@@ -1,0 +1,13 @@
+{
+  "name": "ruby-upgrade-toolkit",
+  "owner": {
+    "name": "Dhruva Sagar"
+  },
+  "plugins": [
+    {
+      "name": "ruby-upgrade-toolkit",
+      "source": "./",
+      "description": "Upgrade Ruby and Rails safely: audit breaking changes, plan a phased roadmap, fix code and dependencies, verify with RSpec and RuboCop."
+    }
+  ]
+}

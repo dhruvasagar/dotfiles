@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(zig build:*)",
+      "Bash(ls:*)",
+      "Bash(zig:*)",
+      "Bash(ln:*)",
+      "Bash(emacs:*)"
+    ]
+  }
+}

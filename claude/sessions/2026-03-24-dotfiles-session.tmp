@@ -1,0 +1,36 @@
+# Session: 2026-03-24
+**Date:** 2026-03-24
+**Started:** 21:34
+**Last Updated:** 21:42
+**Project:** dotfiles
+**Branch:** master
+**Worktree:** /Users/dhruva/dotfiles
+
+---
+<!-- ECC:SUMMARY:START -->
+## Session Summary
+
+### Tasks
+- Update git_log_multi output to be prefixed by project directory
+- When calling git_log_multi with args such as \`git_log_multi --oneline\`, I don't see the logs prefixed by directory
+- Add other metadata such as author to the log
+- I want to also see the full date of the commit
+- Can the date be in human readable format ? Keep the \`x days ago\` alongside the date
+
+### Files Modified
+- /Users/dhruva/dotfiles/bin/git_log_multi
+
+### Tools Used
+Read, Edit
+
+### Stats
+- Total user messages: 5
+<!-- ECC:SUMMARY:END -->
+
+### Notes for Next Session
+-
+
+### Context to Load
+```
+[relevant files]
+```

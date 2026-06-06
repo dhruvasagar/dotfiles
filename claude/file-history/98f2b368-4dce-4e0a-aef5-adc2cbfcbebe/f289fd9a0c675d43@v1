@@ -1,0 +1,106 @@
+[package]
+name = "lattice-ui-gpui"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Peer GPUI renderer for lattice — host-neutral substrate driving Zed's GPU-accelerated UI framework."
+
+[dependencies]
+# Renderer-neutral substrate. The whole point of this crate is to
+# prove `lattice-host` is reusable without `lattice-ui-tui` in the
+# dep tree; if a host module starts pulling in ratatui/crossterm via
+# transitive deps, the build below fails and the regression is
+# loud.
+lattice-host = { path = "../lattice-host" }
+lattice-core = { path = "../lattice-core" }
+lattice-mode = { path = "../lattice-mode" }
+# Slice 3c.unify.gpui-annotation-render: `paint_candidate_row`
+# names `RenderedCandidate` directly so picker + cmdline-
+# completion rows can render the right-aligned annotations
+# column. Matches the TUI peer's `candidate_to_line` shape.
+lattice-completion = { path = "../lattice-completion" }
+# 5.7.B.4: the binary's status-line renders `ModalState::*`
+# labels (Normal / Insert / Visual / ...). The type lives in
+# `lattice-grammar`; host doesn't re-export it (grammar is the
+# canonical owner). The lib doesn't use this dep directly --
+# field-typed Editor fields name the type internally and don't
+# require it in scope. Stays minimal: one type, named once.
+lattice-grammar = { path = "../lattice-grammar" }
+# 5.7.B.10: `RendererSignal::DisplayBuffer` carries a
+# `lattice_help::HelpContent`; the GPUI peer renders its text
+# in a popup overlay, so naming the type requires this dep.
+lattice-help = { path = "../lattice-help" }
+# 5.8.A: binary renders syntax highlights by calling
+# `Syntax::highlight_lines` and mapping `lattice_syntax::Style`
+# variants to a Catppuccin palette.
+lattice-syntax = { path = "../lattice-syntax" }
+# 5.8.I + 5.8.J: gutter renders LSP diagnostic severity signs and
+# inlay-hint virtual text. Window calls
+# `editor.lsp_diagnostics.line_severity(uri, line)` and walks
+# `editor.lsp_inlay_hints_cache.hints`. `lsp-types` proper stays
+# encapsulated behind `lattice-lsp` (which re-exports the named
+# types) so we don't gain a direct dep on the upstream crate.
+lattice-lsp = { path = "../lattice-lsp" }
+# Phase 5.8.AF.6: `picker.display` is a typed option read at
+# render time. Naming `PickerDisplay` requires this dep so the
+# renderer + host agree on the same option type (rather than
+# re-exporting through the host shim). Matches the TUI peer's
+# direct dep on lattice-config.
+lattice-config = { path = "../lattice-config" }
+
+# Zed's GPU-accelerated UI framework. Gated behind the `window`
+# feature so the scaffold types + tests build on every host
+# (including headless CI / WSL2 without X11). When `window` is on,
+# the `lattice-gpui` binary opens a real GPUI window; default
+# features pull `font-kit` + `wayland` + `x11` + `windows-manifest`
+# which need system libs (`libxcb1-dev` + `libxkbcommon-dev` +
+# `libxkbcommon-x11-dev` on Debian/Ubuntu) at link time. The
+# scaffold's value proposition (host substrate reusable without
+# ui-tui) is provable without the link.
+gpui = { version = "0.2.2", optional = true }
+
+anyhow.workspace = true
+# 5.7.B.4 / 5.8.M: structured logs from `on_key_down` + focus /
+# activation paths. Subscriber init lives in the unified `lattice`
+# binary (lattice-cli); this crate just emits via `tracing::*!`.
+tracing.workspace = true
+# Phase 5.8.AF.5 / Slice 3c.atomic.K: renderer-side clone of the
+# editor's `Arc<ArcSwap<RenderState>>` cell (`GpuiApp.render_state`).
+# Same primitive the host uses for the wait-free publish path; the
+# renderer just needs the `ArcSwap` type to spell the field.
+arc-swap = { workspace = true }
+
+[features]
+default = []
+# 5.7.B: enables real GPUI linkage so the unified `lattice` binary
+# can open a window via `lattice --gui`. Requires display system
+# libraries at link time (see the gpui dep comment above). Off by
+# default so `cargo test --workspace` works in environments without
+# display deps installed.
+#
+# Phase 5.8.M: the previous `lattice-gpui` shim binary was removed
+# in favour of the single `lattice` entry in lattice-cli; this
+# crate now ships only as a lib.
+window = ["dep:gpui"]
+# Phase 5.8.AF.6 / Slice X5: re-export `editor_element` internals
+# (build_line_with_inlays, byte_to_combined_col, run-collapse
+# helpers) so the frame-budget bench can call them without
+# requiring a real GPUI window. Pre-paint editor work is the
+# part we control under goal-#1; GPU shaping/painting is
+# hardware-bound and not the regression target.
+bench-internals = []
+
+[[bench]]
+name = "editor_element_frame"
+harness = false
+required-features = ["window", "bench-internals"]
+
+[dev-dependencies]
+criterion = { workspace = true }
+# X5 bench reaches into lattice_syntax::StyledSpan / Style.
+lattice-syntax = { path = "../lattice-syntax" }
+
+[lints]
+workspace = true

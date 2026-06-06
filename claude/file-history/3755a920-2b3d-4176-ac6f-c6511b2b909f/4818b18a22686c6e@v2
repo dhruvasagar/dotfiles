@@ -1,0 +1,33 @@
+FROM ruby:3.3.10
+
+RUN apt-get update -qq && apt-get install -y \
+    libicu-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    nodejs \
+    npm \
+    redis \
+    netcat-openbsd  # Needed for wait_for_postgres.sh
+
+EXPOSE 3000
+ENV DOCKER=true
+# Limit make parallelism inside each gem's C/C++ compilation to prevent
+# GCC from OOMing (segfault) on memory-constrained Docker build hosts.
+# sassc bundles all of libsass and will crash without this.
+ENV MAKEFLAGS="-j2"
+
+WORKDIR /syncsoldier
+ADD Gemfile /syncsoldier/
+ADD Gemfile.lock /syncsoldier/
+ADD package.json /syncsoldier/
+ADD yarn.lock /syncsoldier/
+
+RUN gem install bundler -v 2.5.22
+RUN bundle install -j2
+RUN npm install --global yarn
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of the application code into the working directory
+ADD . /syncsoldier
+# assets:precompile is intentionally disabled for this app; build Webpacker packs directly.
+RUN bundle exec rails webpacker:compile

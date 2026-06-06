@@ -1,0 +1,179 @@
+[1m[36m[lattice] recent context, 2026-05-22 10:06am GMT+5:30[0m
+[90m────────────────────────────────────────────────────────────[0m
+
+[2mLegend: session-request | 🔴 bugfix | 🟣 feature | 🔄 refactor | ✅ change | 🔵 discovery | ⚖️ decision[0m
+
+[1mColumn Key[0m
+[2m  Read: Tokens to read this observation (cost to learn it now)[0m
+[2m  Work: Tokens spent on work that produced this record ( research, building, deciding)[0m
+
+[2mContext Index: This semantic index (titles, types, files, tokens) is usually sufficient to understand past work.[0m
+
+[2mWhen you need implementation details, rationale, or debugging context:[0m
+[2m  - Fetch by ID: get_observations([IDs]) for observations visible in this index[0m
+[2m  - Search history: Use the mem-search skill for past decisions, bugs, and deeper research[0m
+[2m  - Trust this index over re-reading code for past decisions and learnings[0m
+
+[1m[36mContext Economics[0m
+[2m  Loading: 50 observations (23,144 tokens to read)[0m
+[2m  Work investment: 425,757 tokens spent on research, building, and decisions[0m
+[32m  Your savings: 95% reduction from reuse[0m
+
+[1m[36mMay 6, 2026[0m
+
+[33m#S287[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:44 AM)
+
+[33m#S288[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:45 AM)
+
+[33m#S289[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:49 AM)
+
+[33m#S290[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:52 AM)
+
+[33m#S291[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:54 AM)
+
+[33m#S292[0m Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:55 AM)
+
+[2mdocs/superpowers/plans/2026-05-06-filetree-icons-oil.md[0m
+  [2m#811[0m  [2m1:06 AM[0m  ✅  Comprehensive implementation plan for FileTree icons and OilBuffer  
+
+[33m#S294[0m Implement modern file icons for FileTree and add oil.nvim-style buffer manipulation capabilities (May 6 at 1:09 AM)
+
+[2mcrates/lattice-ui-tui/src/icons.rs[0m
+  [2m#812[0m  [2m1:15 AM[0m  🟣  Icons module created with file-type detection and Nerd Font support  
+  [2m#813[0m  [2m7:19 AM[0m  🟣  Icon module with nerd-font glyphs for file tree rendering  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#814[0m  [2m7:46 AM[0m  🟣  Add Oil buffer kind to lattice TUI  
+
+[2mcrates/lattice-grammar/src/effect.rs[0m
+  [2m#815[0m  [2m7:54 AM[0m  🟣  Register :Oil ex-command in lattice grammar system  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#816[0m  [2m8:01 AM[0m  🟣  Wire OpenOil effect into lattice-ui-tui app layer  
+
+[2mcrates/lattice-ui-tui/src/excommand.rs[0m
+  [2m#817[0m  [2m8:57 AM[0m  🔴  Fixed tree command aliases pointing to non-existent registry entries  
+
+[2mcrates/lattice-grammar/src/effect.rs[0m
+  [2m#818[0m  [2m9:39 AM[0m  🟣  Add Oil buffer support and reorganize FileTree ex-commands  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#819[0m  [2m1:07 PM[0m  🔵  File tree and oil mode function locations in lattice TUI  
+  [2m#820[0m           🔵  Command routing architecture for buffer types in lattice TUI  
+  [2m#821[0m           🔵  State management architecture for cursor and scroll in lattice TUI  
+  [2m#822[0m  [2m1:14 PM[0m  🟣  OilBuffer integration into App  
+
+[2mcrates/lattice-ui-tui/src/render.rs[0m
+  [2m#823[0m  [2m1:31 PM[0m  🟣  Oil pane renderer implementation  
+  [2m#824[0m           🟣  Oil buffer rendering dispatch connected  
+  [2m#825[0m  [2m1:48 PM[0m  🟣  Oil pane renderer with icons and dirty status  
+
+[2mcrates/lattice-ui-tui/src/input.rs[0m
+  [2m#826[0m  [2m1:58 PM[0m  🟣  Oil.nvim-style navigation keybinding added to input handler  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#827[0m           🟣  Context-sensitive oil navigation committed and deployed  
+
+[2mGeneral[0m
+  [2m#828[0m  [2m1:59 PM[0m  🔵  Seven workspace root resolution tests failing in lattice-lsp  
+
+[33m#S295[0m Modernize FileTree with file icons and explore oil.nvim-style buffer manipulation (May 6 at 2:01 PM)
+
+[2mcrates/lattice-ui-tui/src/icons.rs[0m
+  [2m#829[0m  [2m2:03 PM[0m  🔵  Icon system implementation with Nerd Font glyphs and color mappings  
+  [2m#830[0m  [2m2:08 PM[0m  🟣  Comprehensive icon mappings expanded to 100+ file types with exact filename matching  
+
+[2mGeneral[0m
+  [2m#831[0m           ✅  Icon system expansion validated with 8 new tests, all 1138 tests passing  
+
+[33m#S296[0m Beautify FileTree with modern file icons and explore oil.nvim-style buffer manipulation capabilities (May 6 at 2:29 PM)
+
+[2mcrates/lattice-ui-tui/src/picker.rs[0m
+  [2m#832[0m  [2m2:32 PM[0m  🔵  Picker system architecture — Vertico-style generalized UI  
+
+[2mdocs/DESIGN.md[0m
+  [2m#833[0m           🔵  Picker design vision — streaming, extensible, renderer-agnostic UI primitive  
+
+[2mcrates/lattice-grammar/src/effect.rs[0m
+  [2m#834[0m  [2m2:37 PM[0m  🔵  Oil-style buffer already planned in Effect enum  
+
+[1m[36mMay 15, 2026[0m
+
+[2mdocs/dev/architecture/phase-5b-app-design.md[0m
+  [2m#835[0m  [2m2:04 PM[0m  🔵  Phase 5B architectural pivot from generics to composition  
+
+[2mdocs/dev/architecture/phase-5b-app-fields.md[0m
+  [2m#836[0m  [2m2:05 PM[0m  🔵  Phase 5B migration progress: 18 commits completed through LSP subsystem  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#837[0m           🔵  Remaining Phase 5B migration scope: 84 App fields vs 163 migrated to Editor  
+
+[2mcrates/lattice-host/src/editor.rs[0m
+  [2m#838[0m  [2m2:06 PM[0m  🔵  LSP request channels duplicated between App and Editor during migration  
+  [2m#839[0m           🔵  Editor struct comments document intentional migration boundaries  
+  [2m#840[0m           🔵  Phase 5B migration history documented: commits 5.B.4 through 5.B.18b completed with explicit skip notes  
+
+[2mcrates/lattice-ui-tui/src/app/boot.rs[0m
+  [2m#841[0m  [2m2:07 PM[0m  🔵  LSP request channel fields duplicated but still actively used in App methods  
+
+[2mcrates/lattice-ui-tui/src/render.rs[0m
+  [2m#842[0m           🔵  Earlier migrations completed full three-step process: add, redirect, remove  
+
+[2mcrates/lattice-host/src/editor.rs[0m
+  [2m#843[0m  [2m2:08 PM[0m  🔵  All LSP channels in Editor but completion subsystem core remains in App  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#844[0m           🔵  CompletionState type resides in App module with cross-reference to migrated command_line  
+
+[2mcrates/lattice-ui-tui/src/app/lsp.rs[0m
+  [2m#845[0m           🔵  LSP channel migration requires updating 250+ references across three app modules  
+
+[2mcrates/lattice-ui-tui/src/app/boot.rs[0m
+  [2m#846[0m           🔵  Boot initialization adds 46 LSP field assignments to migration scope  
+  [2m#847[0m  [2m2:09 PM[0m  🔵  Editor struct already receives channel initializations in boot.rs via partial struct construction  
+  [2m#848[0m           🔵  Boot split: Editor receives 5 server-initiated channels, App retains 6 refresh/lifecycle channels plus all request channels  
+
+[2mcrates/lattice-ui-tui/src/runtime.rs[0m
+  [2m#849[0m  [2m2:10 PM[0m  🔵  LSP channel methods remain in App while field declarations exist in both structs  
+
+[2mcrates/lattice-ui-tui/src/app/lsp.rs[0m
+  [2m#850[0m           🔵  LSP channel references concentrated in 10,494-line lsp.rs with minor usage in three other modules  
+  [2m#851[0m           🔵  lsp.rs contains 3,500+ lines of test code setting pending fields directly on test App instances  
+
+[2mcrates/lattice-ui-tui/src/app/mode.rs[0m
+  [2m#852[0m  [2m2:11 PM[0m  🔵  Non-lsp.rs LSP channel usage limited to 5 lines across 3 modules  
+  [2m#853[0m  [2m2:12 PM[0m  ✅  Redirected 5 LSP channel field accesses to editor composition in mode.rs, picker.rs, completion.rs  
+
+[2m.claude/plans/hazy-exploring-kazoo.md[0m
+  [2m#854[0m           ⚖️  Formalized Phase 5.B.19 plan to complete LSP channel migration across 6 steps  
+
+[2mcrates/lattice-ui-tui/src/app/mode.rs[0m
+  [2m#855[0m  [2m2:13 PM[0m  ✅  Re-applied mode.rs field redirection using perl substitution  
+
+[2mcrates/lattice-ui-tui/src/app/picker.rs[0m
+  [2m#856[0m           ✅  Re-applied picker.rs field redirections for code action channels  
+
+[2mcrates/lattice-ui-tui/src/app/completion.rs[0m
+  [2m#857[0m           ✅  Completed bulk field redirection in lsp.rs and completion.rs covering 252+ references  
+
+[2mcrates/lattice-ui-tui/src/app/boot.rs[0m
+  [2m#858[0m  [2m2:14 PM[0m  🔵  Boot initialization shows 6 live channels in App construction needing migration to Editor block  
+  [2m#859[0m           ✅  Restructured boot.rs initialization consolidating all LSP channels in Editor block  
+
+[2mcrates/lattice-ui-tui/src/app.rs[0m
+  [2m#860[0m  [2m2:17 PM[0m  🔄  LSP folding range request fields migrated to editor module  
+
+[33m#S297[0m Phase 5.B.19 - Complete LSP request channel field migration from App to Editor (May 15 at 2:23 PM)
+
+[34mInvestigated:[0m Remaining unpatched references after initial field removal from App struct. Scanned lsp.rs, boot.rs, picker.rs, mode.rs, and completion.rs for call sites accessing `pending_*` fields. Verified test coverage with full workspace test run (960 tests) and targeted lattice-ui-tui test suite (1424 tests).
+
+[33mLearned:[0m The migration pattern requires two distinct steps: (1) scaffold fields on Editor with Default impls in 5.B.18, (2) update all call sites and remove App duplicates in 5.B.19. Perl batch replacements (`s/app\.pending_/app.editor.pending_/g`) efficiently handle ~300 call site updates across multiple files. The 7 lattice-lsp config test failures (workspace root resolution) are pre-existing and unrelated to LSP channel migration work. Boot initializations for non-default fields (the 6 channels with production endpoints) must be moved into the `editor: Editor { ... }` constructor block in boot.rs.
+
+[32mCompleted:[0m All ~50 LSP request channel field declarations removed from App struct. Updated ~300 call sites across 5 files (lsp.rs, boot.rs, mode.rs, picker.rs, completion.rs) from `self.pending_*` / `app.pending_*` to `self.editor.pending_*` / `app.editor.pending_*`. Moved 6 non-default boot channel initializations into Editor construction. Documented Phase 5.B.19 in editor.rs module comments. Committed d5b5b82 with comprehensive message (7 files, +295/-558 lines, net -263). All 1424 lattice-ui-tui tests pass; zero regressions introduced.
+
+[35mNext Steps:[0m Phase 5.B.19 complete. Completion cluster (completion_registry, completion_state, insert_completion, snippet_registry, active_snippet, etc.) identified as natural next migration slice (5.B.20). Fields requiring type-promotion follow-ups (visible_highlights_key, popup_back_stack) and constructor-gated fields (document, snapshot_cache, pane_tree requiring Editor::new) deferred to subsequent slices.
+
+
+[2mAccess 426k tokens of past research & decisions for just 23,144t. Use the claude-mem skill to access memories by ID.[0m
+
+View Observations Live @ http://localhost:37777

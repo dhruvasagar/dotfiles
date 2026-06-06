@@ -1,0 +1,193 @@
+:PROPERTIES:
+:ID:       40F89A68-EAB3-4C51-9AAE-DCF6AC310F33
+:END:
+#+title: Yamaha Role Plan
+#+date: [2026-05-29 Fri 23:42]
+
+* Yamaha Engagement: Role Plan
+
+** What This Role Is
+
+You are the single point of accountability between Yamaha Music Innovation Fund and
+all of Sedin's internal units. Your job has two layers:
+
+1. External: Be the face, voice, and conscience of the entire engagement for Yamaha
+2. Internal: Force coherence across Code Rapper, Data Culture, Marketing, and Tarka
+Labs before anything touches the client
+
+The existential risk: Yamaha sees four vendors in a trenchcoat. The win condition:
+they see one high-trust partner who happens to have deep benches.
+
+---
+The June Deadline First
+
+Yamaha needs to see value by end of June. Everything else is secondary to this.
+
+Immediate actions this week:
+- Define precisely what "value" means to Yamaha's 4-person team — ask them directly,
+in writing. Do they want a live Creator Pass milestone? A data dashboard? A roadmap?
+Get this in writing so you can deliver exactly that, not your interpretation.
+- Map what each internal team has that is shippable or demonstrable by June 30.
+- Pick 1-2 things that are genuinely impressive and sequence everything else behind
+them. Do not try to show everything.
+- Create a June delivery brief (1 page max) and share internally so all four teams
+are building toward the same finish line.
+
+---
+Daily Operating Rhythm
+
+Morning (30 min)
+
+┌────────────────────────────────────────────┬───────────────────────────────────┐
+│                  Activity                  │                Why                │
+├────────────────────────────────────────────┼───────────────────────────────────┤
+│ Scan all Yamaha threads/email              │ Nothing surprises you in client   │
+│                                            │ calls                             │
+├────────────────────────────────────────────┼───────────────────────────────────┤
+│ Read yesterday's async updates from each   │ Know blockers before they fester  │
+│ team                                       │                                   │
+├────────────────────────────────────────────┼───────────────────────────────────┤
+│ Identify the one thing that could go wrong │ Fix it before it becomes a client │
+│  today                                     │  issue                            │
+└────────────────────────────────────────────┴───────────────────────────────────┘
+
+Core Day
+
+Internal (keep short, keep tight):
+- One async written standup from each department lead — not a meeting, a written
+3-liner: what shipped, what's next, any blockers
+- You synthesize these into one coherent picture
+- Escalate blockers before EOD, not tomorrow
+
+External (deliberate, controlled):
+- All Yamaha communication routes through you
+- If another team member needs to communicate directly, you are CC'd and have
+pre-approved the message
+- Respond to Yamaha within 2 hours during business hours — speed of response signals
+confidence
+
+End of Day (15 min)
+
+- Update your running delivery tracker (see below)
+- Flag anything Yamaha asked for that does not yet have an owner assigned
+- Send one brief proactive note to Yamaha if something good shipped — don't wait for
+the weekly call
+
+---
+Weekly Rhythm
+
+┌───────────┬─────────────────────────────────────────────────────────────────────┐
+│    Day    │                              Activity                               │
+├───────────┼─────────────────────────────────────────────────────────────────────┤
+│ Monday    │ Internal sync with all department leads. Review the week's          │
+│           │ commitments vs. reality gap.                                        │
+├───────────┼─────────────────────────────────────────────────────────────────────┤
+│ Wednesday │ Written status update to Yamaha (3-5 bullets: what shipped, what's  │
+│           │ next, any decisions needed from them)                               │
+├───────────┼─────────────────────────────────────────────────────────────────────┤
+│ Friday    │ Yamaha call (or async loom if they prefer). You present. One voice. │
+├───────────┼─────────────────────────────────────────────────────────────────────┤
+│ Friday    │ Internal retro: what client comms went sideways, what coordination  │
+│           │ failed, fix the process                                             │
+└───────────┴─────────────────────────────────────────────────────────────────────┘
+
+---
+Communication Framework
+
+The Cardinal Rule
+
+Yamaha should never see the seams between Sedin departments.
+
+This means:
+- One Slack channel or email thread with Yamaha, owned by you
+- Departments do not CC Yamaha on inter-team coordination
+- If there is disagreement internally, it is resolved before Yamaha hears anything
+- All commitments to Yamaha are made by you — departments can say things informally
+but only you commit timelines
+
+The "One Team" Narrative
+
+In every Yamaha touchpoint, use "we" not "our Tarka Labs team" or "our data team."
+Reference capabilities not org structure: "we have deep expertise in X" not "our data   science division."
+
+Prepare a one-paragraph team introduction for any new Yamaha stakeholder that
+introduces the team as a single integrated unit.
+
+Escalation Protocol
+
+If a department is going to miss a commitment:
+1. You find out as early as possible (daily standup habit)
+2. You tell Yamaha before the deadline, not after, and with a revised plan already in   hand
+3. You own the message — no "our marketing team dropped the ball"
+
+---
+Internal Coordination Model
+
+Your Relationship with Each Department Lead
+
+Treat each lead as your delivery partner for their domain. Establish:
+- A weekly 30-min 1:1 with each
+- A shared tracker they update (not a meeting, a doc)
+- Clear ownership: they own how, you own what and when with the client
+
+The One Pager
+
+Create a single internal brief called Yamaha Engagement Overview covering:
+- What we've committed to and by when
+- Who owns each workstream (by department)
+- What Yamaha's success criteria look like
+- What we must not say / surface to the client (internal tensions, org structure,
+billing disputes)
+
+Every new person touching this engagement reads this before they email or call anyone   at Yamaha.
+
+Preventing the "Many Vendors" Problem
+
+The trap is that each department defaults to their own branding, tools, and
+communication style. Your job is to harmonize:
+- One slide deck template for all Yamaha presentations
+- One tone of voice (professional, capable, collaborative)
+- One project board/tracker that all teams update — Yamaha can have read access to
+this if it builds trust
+
+---
+Delivery Tracker
+
+Maintain a living document with these columns:
+
+┌───────────────────┬───────┬───────────┬───────────────┬────────┬──────────────┐
+│    Commitment     │ Made  │ Promised  │    Owner      │ Status │   Yamaha     │
+│                   │  On   │    By     │  (internal)   │        │  Notified?   │
+├───────────────────┼───────┼───────────┼───────────────┼────────┼──────────────┤
+│ Creator Pass      │ May   │ May 19    │ Tarka Labs    │ Done   │ Yes          │
+│ checkout fix      │ 12    │           │               │        │              │
+├───────────────────┼───────┼───────────┼───────────────┼────────┼──────────────┤
+│ ...               │       │           │               │        │              │
+└───────────────────┴───────┴───────────┴───────────────┴────────┴──────────────┘
+
+Review this weekly. Any row where "Owner" is blank is a fire.
+
+---
+Proving the Model (So It Repeats)
+
+The meta-objective: prove Sedin can operate as a unified technology partner at the
+$1M+ level. To document this for future clients:
+- Keep a running log of what worked and what didn't in this engagement
+- After June (assuming billing unlocks), write a one-page internal case study: how we   delivered, what the client valued, what we'd do differently
+- This becomes the playbook for the next Yamaha-type client
+
+---
+What Success Looks Like
+
+By end of June: Yamaha renews or expands the engagement. They reference you by name
+as the person who "gets it."
+
+By Q3: Yamaha stops comparing you to what they could have built internally. You are
+their default answer to "we need to build something."
+
+Long term: This engagement is cited internally as the proof case for Sedin's unified
+partner model.
+
+---
+The single most important daily habit: know what Yamaha is thinking before they say
+it. Proactive communication beats reactive firefighting every time.

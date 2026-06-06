@@ -1,0 +1,1 @@
+/Users/dhruva/dotfiles/claude/skills/gstack/connect-chrome/SKILL.md

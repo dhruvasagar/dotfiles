@@ -1,0 +1,4252 @@
+{
+  "schemaVersion": "ecc.install.v1",
+  "installedAt": "2026-03-17T08:21:44.940Z",
+  "target": {
+    "id": "claude-home",
+    "target": "claude",
+    "kind": "home",
+    "root": "/Users/dhruva/.claude",
+    "installStatePath": "/Users/dhruva/.claude/ecc/install-state.json"
+  },
+  "request": {
+    "profile": null,
+    "modules": [],
+    "includeComponents": [],
+    "excludeComponents": [],
+    "legacyLanguages": [
+      "typescript",
+      "python",
+      "golang"
+    ],
+    "legacyMode": true
+  },
+  "resolution": {
+    "selectedModules": [
+      "rules-core",
+      "agents-core",
+      "commands-core",
+      "hooks-runtime",
+      "platform-configs",
+      "framework-language",
+      "workflow-quality"
+    ],
+    "skippedModules": []
+  },
+  "source": {
+    "repoVersion": "1.8.0",
+    "repoCommit": "fce4513d58dc723177045dd7c3a3568d5c016407",
+    "manifestVersion": 1
+  },
+  "operations": [
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/README.md",
+      "sourceRelativePath": "rules/README.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/README.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/agents.md",
+      "sourceRelativePath": "rules/common/agents.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/agents.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/coding-style.md",
+      "sourceRelativePath": "rules/common/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/development-workflow.md",
+      "sourceRelativePath": "rules/common/development-workflow.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/development-workflow.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/git-workflow.md",
+      "sourceRelativePath": "rules/common/git-workflow.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/git-workflow.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/hooks.md",
+      "sourceRelativePath": "rules/common/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/patterns.md",
+      "sourceRelativePath": "rules/common/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/performance.md",
+      "sourceRelativePath": "rules/common/performance.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/performance.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/security.md",
+      "sourceRelativePath": "rules/common/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/common/testing.md",
+      "sourceRelativePath": "rules/common/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/common/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/cpp/coding-style.md",
+      "sourceRelativePath": "rules/cpp/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/cpp/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/cpp/hooks.md",
+      "sourceRelativePath": "rules/cpp/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/cpp/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/cpp/patterns.md",
+      "sourceRelativePath": "rules/cpp/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/cpp/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/cpp/security.md",
+      "sourceRelativePath": "rules/cpp/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/cpp/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/cpp/testing.md",
+      "sourceRelativePath": "rules/cpp/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/cpp/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/golang/coding-style.md",
+      "sourceRelativePath": "rules/golang/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/golang/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/golang/hooks.md",
+      "sourceRelativePath": "rules/golang/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/golang/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/golang/patterns.md",
+      "sourceRelativePath": "rules/golang/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/golang/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/golang/security.md",
+      "sourceRelativePath": "rules/golang/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/golang/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/golang/testing.md",
+      "sourceRelativePath": "rules/golang/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/golang/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/kotlin/coding-style.md",
+      "sourceRelativePath": "rules/kotlin/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/kotlin/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/kotlin/hooks.md",
+      "sourceRelativePath": "rules/kotlin/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/kotlin/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/kotlin/patterns.md",
+      "sourceRelativePath": "rules/kotlin/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/kotlin/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/kotlin/security.md",
+      "sourceRelativePath": "rules/kotlin/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/kotlin/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/kotlin/testing.md",
+      "sourceRelativePath": "rules/kotlin/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/kotlin/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/perl/coding-style.md",
+      "sourceRelativePath": "rules/perl/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/perl/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/perl/hooks.md",
+      "sourceRelativePath": "rules/perl/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/perl/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/perl/patterns.md",
+      "sourceRelativePath": "rules/perl/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/perl/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/perl/security.md",
+      "sourceRelativePath": "rules/perl/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/perl/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/perl/testing.md",
+      "sourceRelativePath": "rules/perl/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/perl/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/php/coding-style.md",
+      "sourceRelativePath": "rules/php/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/php/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/php/hooks.md",
+      "sourceRelativePath": "rules/php/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/php/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/php/patterns.md",
+      "sourceRelativePath": "rules/php/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/php/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/php/security.md",
+      "sourceRelativePath": "rules/php/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/php/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/php/testing.md",
+      "sourceRelativePath": "rules/php/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/php/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/python/coding-style.md",
+      "sourceRelativePath": "rules/python/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/python/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/python/hooks.md",
+      "sourceRelativePath": "rules/python/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/python/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/python/patterns.md",
+      "sourceRelativePath": "rules/python/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/python/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/python/security.md",
+      "sourceRelativePath": "rules/python/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/python/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/python/testing.md",
+      "sourceRelativePath": "rules/python/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/python/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/swift/coding-style.md",
+      "sourceRelativePath": "rules/swift/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/swift/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/swift/hooks.md",
+      "sourceRelativePath": "rules/swift/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/swift/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/swift/patterns.md",
+      "sourceRelativePath": "rules/swift/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/swift/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/swift/security.md",
+      "sourceRelativePath": "rules/swift/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/swift/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/swift/testing.md",
+      "sourceRelativePath": "rules/swift/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/swift/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/typescript/coding-style.md",
+      "sourceRelativePath": "rules/typescript/coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/typescript/coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/typescript/hooks.md",
+      "sourceRelativePath": "rules/typescript/hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/typescript/hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/typescript/patterns.md",
+      "sourceRelativePath": "rules/typescript/patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/typescript/patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/typescript/security.md",
+      "sourceRelativePath": "rules/typescript/security.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/typescript/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "rules-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/rules/typescript/testing.md",
+      "sourceRelativePath": "rules/typescript/testing.md",
+      "destinationPath": "/Users/dhruva/.claude/rules/typescript/testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/api-design/SKILL.md",
+      "sourceRelativePath": ".agents/skills/api-design/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/api-design/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/api-design/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/api-design/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/api-design/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/article-writing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/article-writing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/article-writing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/article-writing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/article-writing/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/article-writing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/backend-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/backend-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/backend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/backend-patterns/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/backend-patterns/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/backend-patterns/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/bun-runtime/SKILL.md",
+      "sourceRelativePath": ".agents/skills/bun-runtime/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/bun-runtime/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/bun-runtime/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/bun-runtime/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/bun-runtime/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/claude-api/SKILL.md",
+      "sourceRelativePath": ".agents/skills/claude-api/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/claude-api/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/claude-api/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/claude-api/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/claude-api/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/coding-standards/SKILL.md",
+      "sourceRelativePath": ".agents/skills/coding-standards/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/coding-standards/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/coding-standards/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/coding-standards/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/coding-standards/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/content-engine/SKILL.md",
+      "sourceRelativePath": ".agents/skills/content-engine/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/content-engine/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/content-engine/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/content-engine/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/content-engine/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/crosspost/SKILL.md",
+      "sourceRelativePath": ".agents/skills/crosspost/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/crosspost/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/crosspost/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/crosspost/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/crosspost/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/deep-research/SKILL.md",
+      "sourceRelativePath": ".agents/skills/deep-research/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/deep-research/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/deep-research/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/deep-research/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/deep-research/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/dmux-workflows/SKILL.md",
+      "sourceRelativePath": ".agents/skills/dmux-workflows/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/dmux-workflows/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/dmux-workflows/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/dmux-workflows/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/dmux-workflows/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/documentation-lookup/SKILL.md",
+      "sourceRelativePath": ".agents/skills/documentation-lookup/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/documentation-lookup/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/documentation-lookup/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/documentation-lookup/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/documentation-lookup/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/e2e-testing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/e2e-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/e2e-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/e2e-testing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/e2e-testing/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/e2e-testing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/eval-harness/SKILL.md",
+      "sourceRelativePath": ".agents/skills/eval-harness/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/eval-harness/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/eval-harness/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/eval-harness/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/eval-harness/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/exa-search/SKILL.md",
+      "sourceRelativePath": ".agents/skills/exa-search/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/exa-search/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/exa-search/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/exa-search/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/exa-search/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/fal-ai-media/SKILL.md",
+      "sourceRelativePath": ".agents/skills/fal-ai-media/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/fal-ai-media/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/fal-ai-media/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/fal-ai-media/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/fal-ai-media/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/frontend-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/frontend-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/frontend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/frontend-patterns/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/frontend-patterns/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/frontend-patterns/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/frontend-slides/SKILL.md",
+      "sourceRelativePath": ".agents/skills/frontend-slides/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/frontend-slides/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "sourceRelativePath": ".agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/frontend-slides/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/frontend-slides/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/frontend-slides/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/investor-materials/SKILL.md",
+      "sourceRelativePath": ".agents/skills/investor-materials/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/investor-materials/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/investor-materials/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/investor-materials/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/investor-materials/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/investor-outreach/SKILL.md",
+      "sourceRelativePath": ".agents/skills/investor-outreach/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/investor-outreach/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/investor-outreach/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/investor-outreach/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/investor-outreach/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/market-research/SKILL.md",
+      "sourceRelativePath": ".agents/skills/market-research/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/market-research/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/market-research/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/market-research/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/market-research/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/mcp-server-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/mcp-server-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/mcp-server-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/nextjs-turbopack/SKILL.md",
+      "sourceRelativePath": ".agents/skills/nextjs-turbopack/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/nextjs-turbopack/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/security-review/SKILL.md",
+      "sourceRelativePath": ".agents/skills/security-review/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/security-review/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/security-review/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/security-review/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/security-review/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/strategic-compact/SKILL.md",
+      "sourceRelativePath": ".agents/skills/strategic-compact/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/strategic-compact/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/strategic-compact/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/strategic-compact/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/strategic-compact/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/tdd-workflow/SKILL.md",
+      "sourceRelativePath": ".agents/skills/tdd-workflow/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/tdd-workflow/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/tdd-workflow/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/tdd-workflow/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/tdd-workflow/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/verification-loop/SKILL.md",
+      "sourceRelativePath": ".agents/skills/verification-loop/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/verification-loop/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/verification-loop/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/verification-loop/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/verification-loop/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/video-editing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/video-editing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/video-editing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/video-editing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/video-editing/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/video-editing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/x-api/SKILL.md",
+      "sourceRelativePath": ".agents/skills/x-api/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/x-api/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.agents/skills/x-api/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/x-api/agents/openai.yaml",
+      "destinationPath": "/Users/dhruva/.claude/.agents/skills/x-api/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/architect.md",
+      "sourceRelativePath": "agents/architect.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/build-error-resolver.md",
+      "sourceRelativePath": "agents/build-error-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/build-error-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/chief-of-staff.md",
+      "sourceRelativePath": "agents/chief-of-staff.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/chief-of-staff.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/code-reviewer.md",
+      "sourceRelativePath": "agents/code-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/code-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/cpp-build-resolver.md",
+      "sourceRelativePath": "agents/cpp-build-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/cpp-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/cpp-reviewer.md",
+      "sourceRelativePath": "agents/cpp-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/cpp-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/database-reviewer.md",
+      "sourceRelativePath": "agents/database-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/database-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/doc-updater.md",
+      "sourceRelativePath": "agents/doc-updater.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/doc-updater.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/docs-lookup.md",
+      "sourceRelativePath": "agents/docs-lookup.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/docs-lookup.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/e2e-runner.md",
+      "sourceRelativePath": "agents/e2e-runner.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/e2e-runner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/go-build-resolver.md",
+      "sourceRelativePath": "agents/go-build-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/go-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/go-reviewer.md",
+      "sourceRelativePath": "agents/go-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/go-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/harness-optimizer.md",
+      "sourceRelativePath": "agents/harness-optimizer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/harness-optimizer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/java-build-resolver.md",
+      "sourceRelativePath": "agents/java-build-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/java-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/java-reviewer.md",
+      "sourceRelativePath": "agents/java-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/java-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/kotlin-build-resolver.md",
+      "sourceRelativePath": "agents/kotlin-build-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/kotlin-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/kotlin-reviewer.md",
+      "sourceRelativePath": "agents/kotlin-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/kotlin-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/loop-operator.md",
+      "sourceRelativePath": "agents/loop-operator.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/loop-operator.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/planner.md",
+      "sourceRelativePath": "agents/planner.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/planner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/python-reviewer.md",
+      "sourceRelativePath": "agents/python-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/python-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/refactor-cleaner.md",
+      "sourceRelativePath": "agents/refactor-cleaner.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/refactor-cleaner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/rust-build-resolver.md",
+      "sourceRelativePath": "agents/rust-build-resolver.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/rust-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/rust-reviewer.md",
+      "sourceRelativePath": "agents/rust-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/rust-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/security-reviewer.md",
+      "sourceRelativePath": "agents/security-reviewer.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/security-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/agents/tdd-guide.md",
+      "sourceRelativePath": "agents/tdd-guide.md",
+      "destinationPath": "/Users/dhruva/.claude/agents/tdd-guide.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/AGENTS.md",
+      "sourceRelativePath": "AGENTS.md",
+      "destinationPath": "/Users/dhruva/.claude/AGENTS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/aside.md",
+      "sourceRelativePath": "commands/aside.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/aside.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/build-fix.md",
+      "sourceRelativePath": "commands/build-fix.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/build-fix.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/checkpoint.md",
+      "sourceRelativePath": "commands/checkpoint.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/checkpoint.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/claw.md",
+      "sourceRelativePath": "commands/claw.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/claw.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/code-review.md",
+      "sourceRelativePath": "commands/code-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/code-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/cpp-build.md",
+      "sourceRelativePath": "commands/cpp-build.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/cpp-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/cpp-review.md",
+      "sourceRelativePath": "commands/cpp-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/cpp-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/cpp-test.md",
+      "sourceRelativePath": "commands/cpp-test.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/cpp-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/devfleet.md",
+      "sourceRelativePath": "commands/devfleet.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/devfleet.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/docs.md",
+      "sourceRelativePath": "commands/docs.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/docs.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/e2e.md",
+      "sourceRelativePath": "commands/e2e.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/e2e.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/eval.md",
+      "sourceRelativePath": "commands/eval.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/eval.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/evolve.md",
+      "sourceRelativePath": "commands/evolve.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/evolve.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/go-build.md",
+      "sourceRelativePath": "commands/go-build.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/go-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/go-review.md",
+      "sourceRelativePath": "commands/go-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/go-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/go-test.md",
+      "sourceRelativePath": "commands/go-test.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/go-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/gradle-build.md",
+      "sourceRelativePath": "commands/gradle-build.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/gradle-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/harness-audit.md",
+      "sourceRelativePath": "commands/harness-audit.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/harness-audit.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/instinct-export.md",
+      "sourceRelativePath": "commands/instinct-export.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/instinct-export.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/instinct-import.md",
+      "sourceRelativePath": "commands/instinct-import.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/instinct-import.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/instinct-status.md",
+      "sourceRelativePath": "commands/instinct-status.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/instinct-status.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/kotlin-build.md",
+      "sourceRelativePath": "commands/kotlin-build.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/kotlin-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/kotlin-review.md",
+      "sourceRelativePath": "commands/kotlin-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/kotlin-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/kotlin-test.md",
+      "sourceRelativePath": "commands/kotlin-test.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/kotlin-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/learn-eval.md",
+      "sourceRelativePath": "commands/learn-eval.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/learn-eval.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/learn.md",
+      "sourceRelativePath": "commands/learn.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/learn.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/loop-start.md",
+      "sourceRelativePath": "commands/loop-start.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/loop-start.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/loop-status.md",
+      "sourceRelativePath": "commands/loop-status.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/loop-status.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/model-route.md",
+      "sourceRelativePath": "commands/model-route.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/model-route.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/multi-backend.md",
+      "sourceRelativePath": "commands/multi-backend.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/multi-backend.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/multi-execute.md",
+      "sourceRelativePath": "commands/multi-execute.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/multi-execute.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/multi-frontend.md",
+      "sourceRelativePath": "commands/multi-frontend.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/multi-frontend.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/multi-plan.md",
+      "sourceRelativePath": "commands/multi-plan.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/multi-plan.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/multi-workflow.md",
+      "sourceRelativePath": "commands/multi-workflow.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/multi-workflow.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/orchestrate.md",
+      "sourceRelativePath": "commands/orchestrate.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/orchestrate.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/plan.md",
+      "sourceRelativePath": "commands/plan.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/plan.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/pm2.md",
+      "sourceRelativePath": "commands/pm2.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/pm2.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/projects.md",
+      "sourceRelativePath": "commands/projects.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/projects.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/promote.md",
+      "sourceRelativePath": "commands/promote.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/promote.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/prompt-optimize.md",
+      "sourceRelativePath": "commands/prompt-optimize.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/prompt-optimize.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/python-review.md",
+      "sourceRelativePath": "commands/python-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/python-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/quality-gate.md",
+      "sourceRelativePath": "commands/quality-gate.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/quality-gate.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/refactor-clean.md",
+      "sourceRelativePath": "commands/refactor-clean.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/refactor-clean.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/resume-session.md",
+      "sourceRelativePath": "commands/resume-session.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/resume-session.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/rust-build.md",
+      "sourceRelativePath": "commands/rust-build.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/rust-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/rust-review.md",
+      "sourceRelativePath": "commands/rust-review.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/rust-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/rust-test.md",
+      "sourceRelativePath": "commands/rust-test.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/rust-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/save-session.md",
+      "sourceRelativePath": "commands/save-session.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/save-session.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/sessions.md",
+      "sourceRelativePath": "commands/sessions.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/sessions.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/setup-pm.md",
+      "sourceRelativePath": "commands/setup-pm.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/setup-pm.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/skill-create.md",
+      "sourceRelativePath": "commands/skill-create.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/skill-create.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/skill-health.md",
+      "sourceRelativePath": "commands/skill-health.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/skill-health.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/tdd.md",
+      "sourceRelativePath": "commands/tdd.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/tdd.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/test-coverage.md",
+      "sourceRelativePath": "commands/test-coverage.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/test-coverage.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/update-codemaps.md",
+      "sourceRelativePath": "commands/update-codemaps.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/update-codemaps.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/update-docs.md",
+      "sourceRelativePath": "commands/update-docs.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/update-docs.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "commands-core",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/commands/verify.md",
+      "sourceRelativePath": "commands/verify.md",
+      "destinationPath": "/Users/dhruva/.claude/commands/verify.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/hooks/README.md",
+      "sourceRelativePath": "hooks/README.md",
+      "destinationPath": "/Users/dhruva/.claude/hooks/README.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/hooks/hooks.json",
+      "sourceRelativePath": "hooks/hooks.json",
+      "destinationPath": "/Users/dhruva/.claude/hooks/hooks.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/auto-tmux-dev.js",
+      "sourceRelativePath": "scripts/hooks/auto-tmux-dev.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/auto-tmux-dev.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/check-console-log.js",
+      "sourceRelativePath": "scripts/hooks/check-console-log.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/check-console-log.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/check-hook-enabled.js",
+      "sourceRelativePath": "scripts/hooks/check-hook-enabled.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/check-hook-enabled.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/cost-tracker.js",
+      "sourceRelativePath": "scripts/hooks/cost-tracker.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/cost-tracker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/doc-file-warning.js",
+      "sourceRelativePath": "scripts/hooks/doc-file-warning.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/doc-file-warning.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/evaluate-session.js",
+      "sourceRelativePath": "scripts/hooks/evaluate-session.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/evaluate-session.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/insaits-security-monitor.py",
+      "sourceRelativePath": "scripts/hooks/insaits-security-monitor.py",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/insaits-security-monitor.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/insaits-security-wrapper.js",
+      "sourceRelativePath": "scripts/hooks/insaits-security-wrapper.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/insaits-security-wrapper.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/post-bash-build-complete.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-build-complete.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/post-bash-build-complete.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/post-bash-pr-created.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-pr-created.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/post-bash-pr-created.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/post-edit-console-warn.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-console-warn.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/post-edit-console-warn.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/post-edit-format.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-format.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/post-edit-format.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/post-edit-typecheck.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-typecheck.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/post-edit-typecheck.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/pre-bash-dev-server-block.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-dev-server-block.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/pre-bash-dev-server-block.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/pre-bash-git-push-reminder.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-git-push-reminder.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/pre-bash-git-push-reminder.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/pre-bash-tmux-reminder.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-tmux-reminder.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/pre-bash-tmux-reminder.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/pre-compact.js",
+      "sourceRelativePath": "scripts/hooks/pre-compact.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/pre-compact.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/pre-write-doc-warn.js",
+      "sourceRelativePath": "scripts/hooks/pre-write-doc-warn.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/pre-write-doc-warn.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/quality-gate.js",
+      "sourceRelativePath": "scripts/hooks/quality-gate.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/quality-gate.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/run-with-flags-shell.sh",
+      "sourceRelativePath": "scripts/hooks/run-with-flags-shell.sh",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/run-with-flags-shell.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/run-with-flags.js",
+      "sourceRelativePath": "scripts/hooks/run-with-flags.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/run-with-flags.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/session-end-marker.js",
+      "sourceRelativePath": "scripts/hooks/session-end-marker.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/session-end-marker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/session-end.js",
+      "sourceRelativePath": "scripts/hooks/session-end.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/session-end.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/session-start.js",
+      "sourceRelativePath": "scripts/hooks/session-start.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/session-start.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/hooks/suggest-compact.js",
+      "sourceRelativePath": "scripts/hooks/suggest-compact.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/hooks/suggest-compact.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.claude-plugin/PLUGIN_SCHEMA_NOTES.md",
+      "sourceRelativePath": ".claude-plugin/PLUGIN_SCHEMA_NOTES.md",
+      "destinationPath": "/Users/dhruva/.claude/PLUGIN_SCHEMA_NOTES.md",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.claude-plugin/README.md",
+      "sourceRelativePath": ".claude-plugin/README.md",
+      "destinationPath": "/Users/dhruva/.claude/README.md",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.claude-plugin/marketplace.json",
+      "sourceRelativePath": ".claude-plugin/marketplace.json",
+      "destinationPath": "/Users/dhruva/.claude/marketplace.json",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.claude-plugin/plugin.json",
+      "sourceRelativePath": ".claude-plugin/plugin.json",
+      "destinationPath": "/Users/dhruva/.claude/plugin.json",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.codex/AGENTS.md",
+      "sourceRelativePath": ".codex/AGENTS.md",
+      "destinationPath": "/Users/dhruva/.claude/.codex/AGENTS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.codex/agents/docs-researcher.toml",
+      "sourceRelativePath": ".codex/agents/docs-researcher.toml",
+      "destinationPath": "/Users/dhruva/.claude/.codex/agents/docs-researcher.toml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.codex/agents/explorer.toml",
+      "sourceRelativePath": ".codex/agents/explorer.toml",
+      "destinationPath": "/Users/dhruva/.claude/.codex/agents/explorer.toml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.codex/agents/reviewer.toml",
+      "sourceRelativePath": ".codex/agents/reviewer.toml",
+      "destinationPath": "/Users/dhruva/.claude/.codex/agents/reviewer.toml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.codex/config.toml",
+      "sourceRelativePath": ".codex/config.toml",
+      "destinationPath": "/Users/dhruva/.claude/.codex/config.toml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks.json",
+      "sourceRelativePath": ".cursor/hooks.json",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/adapter.js",
+      "sourceRelativePath": ".cursor/hooks/adapter.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/adapter.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/after-file-edit.js",
+      "sourceRelativePath": ".cursor/hooks/after-file-edit.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/after-file-edit.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/after-mcp-execution.js",
+      "sourceRelativePath": ".cursor/hooks/after-mcp-execution.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/after-mcp-execution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/after-shell-execution.js",
+      "sourceRelativePath": ".cursor/hooks/after-shell-execution.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/after-shell-execution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/after-tab-file-edit.js",
+      "sourceRelativePath": ".cursor/hooks/after-tab-file-edit.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/after-tab-file-edit.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/before-mcp-execution.js",
+      "sourceRelativePath": ".cursor/hooks/before-mcp-execution.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/before-mcp-execution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/before-read-file.js",
+      "sourceRelativePath": ".cursor/hooks/before-read-file.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/before-read-file.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/before-shell-execution.js",
+      "sourceRelativePath": ".cursor/hooks/before-shell-execution.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/before-shell-execution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/before-submit-prompt.js",
+      "sourceRelativePath": ".cursor/hooks/before-submit-prompt.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/before-submit-prompt.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/before-tab-file-read.js",
+      "sourceRelativePath": ".cursor/hooks/before-tab-file-read.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/before-tab-file-read.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/pre-compact.js",
+      "sourceRelativePath": ".cursor/hooks/pre-compact.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/pre-compact.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/session-end.js",
+      "sourceRelativePath": ".cursor/hooks/session-end.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/session-end.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/session-start.js",
+      "sourceRelativePath": ".cursor/hooks/session-start.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/session-start.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/stop.js",
+      "sourceRelativePath": ".cursor/hooks/stop.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/stop.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/subagent-start.js",
+      "sourceRelativePath": ".cursor/hooks/subagent-start.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/subagent-start.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/hooks/subagent-stop.js",
+      "sourceRelativePath": ".cursor/hooks/subagent-stop.js",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/hooks/subagent-stop.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-agents.md",
+      "sourceRelativePath": ".cursor/rules/common-agents.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-agents.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/common-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-development-workflow.md",
+      "sourceRelativePath": ".cursor/rules/common-development-workflow.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-development-workflow.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-git-workflow.md",
+      "sourceRelativePath": ".cursor/rules/common-git-workflow.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-git-workflow.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-hooks.md",
+      "sourceRelativePath": ".cursor/rules/common-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-patterns.md",
+      "sourceRelativePath": ".cursor/rules/common-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-performance.md",
+      "sourceRelativePath": ".cursor/rules/common-performance.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-performance.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-security.md",
+      "sourceRelativePath": ".cursor/rules/common-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/common-testing.md",
+      "sourceRelativePath": ".cursor/rules/common-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/common-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/golang-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/golang-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/golang-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/golang-hooks.md",
+      "sourceRelativePath": ".cursor/rules/golang-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/golang-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/golang-patterns.md",
+      "sourceRelativePath": ".cursor/rules/golang-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/golang-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/golang-security.md",
+      "sourceRelativePath": ".cursor/rules/golang-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/golang-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/golang-testing.md",
+      "sourceRelativePath": ".cursor/rules/golang-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/golang-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/kotlin-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/kotlin-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/kotlin-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/kotlin-hooks.md",
+      "sourceRelativePath": ".cursor/rules/kotlin-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/kotlin-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/kotlin-patterns.md",
+      "sourceRelativePath": ".cursor/rules/kotlin-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/kotlin-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/kotlin-security.md",
+      "sourceRelativePath": ".cursor/rules/kotlin-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/kotlin-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/kotlin-testing.md",
+      "sourceRelativePath": ".cursor/rules/kotlin-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/kotlin-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/php-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/php-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/php-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/php-hooks.md",
+      "sourceRelativePath": ".cursor/rules/php-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/php-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/php-patterns.md",
+      "sourceRelativePath": ".cursor/rules/php-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/php-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/php-security.md",
+      "sourceRelativePath": ".cursor/rules/php-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/php-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/php-testing.md",
+      "sourceRelativePath": ".cursor/rules/php-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/php-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/python-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/python-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/python-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/python-hooks.md",
+      "sourceRelativePath": ".cursor/rules/python-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/python-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/python-patterns.md",
+      "sourceRelativePath": ".cursor/rules/python-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/python-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/python-security.md",
+      "sourceRelativePath": ".cursor/rules/python-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/python-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/python-testing.md",
+      "sourceRelativePath": ".cursor/rules/python-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/python-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/swift-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/swift-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/swift-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/swift-hooks.md",
+      "sourceRelativePath": ".cursor/rules/swift-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/swift-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/swift-patterns.md",
+      "sourceRelativePath": ".cursor/rules/swift-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/swift-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/swift-security.md",
+      "sourceRelativePath": ".cursor/rules/swift-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/swift-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/swift-testing.md",
+      "sourceRelativePath": ".cursor/rules/swift-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/swift-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/typescript-coding-style.md",
+      "sourceRelativePath": ".cursor/rules/typescript-coding-style.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/typescript-coding-style.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/typescript-hooks.md",
+      "sourceRelativePath": ".cursor/rules/typescript-hooks.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/typescript-hooks.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/typescript-patterns.md",
+      "sourceRelativePath": ".cursor/rules/typescript-patterns.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/typescript-patterns.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/typescript-security.md",
+      "sourceRelativePath": ".cursor/rules/typescript-security.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/typescript-security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/rules/typescript-testing.md",
+      "sourceRelativePath": ".cursor/rules/typescript-testing.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/rules/typescript-testing.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/article-writing/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/article-writing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/article-writing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/bun-runtime/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/bun-runtime/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/bun-runtime/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/content-engine/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/content-engine/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/content-engine/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/documentation-lookup/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/documentation-lookup/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/documentation-lookup/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/frontend-slides/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/frontend-slides/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/frontend-slides/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/frontend-slides/STYLE_PRESETS.md",
+      "sourceRelativePath": ".cursor/skills/frontend-slides/STYLE_PRESETS.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/frontend-slides/STYLE_PRESETS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/investor-materials/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/investor-materials/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/investor-materials/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/investor-outreach/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/investor-outreach/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/investor-outreach/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/market-research/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/market-research/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/market-research/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/mcp-server-patterns/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/mcp-server-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/mcp-server-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.cursor/skills/nextjs-turbopack/SKILL.md",
+      "sourceRelativePath": ".cursor/skills/nextjs-turbopack/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/.cursor/skills/nextjs-turbopack/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/MIGRATION.md",
+      "sourceRelativePath": ".opencode/MIGRATION.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/MIGRATION.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/README.md",
+      "sourceRelativePath": ".opencode/README.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/README.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/build-fix.md",
+      "sourceRelativePath": ".opencode/commands/build-fix.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/build-fix.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/checkpoint.md",
+      "sourceRelativePath": ".opencode/commands/checkpoint.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/checkpoint.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/code-review.md",
+      "sourceRelativePath": ".opencode/commands/code-review.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/code-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/e2e.md",
+      "sourceRelativePath": ".opencode/commands/e2e.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/e2e.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/eval.md",
+      "sourceRelativePath": ".opencode/commands/eval.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/eval.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/evolve.md",
+      "sourceRelativePath": ".opencode/commands/evolve.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/evolve.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/go-build.md",
+      "sourceRelativePath": ".opencode/commands/go-build.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/go-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/go-review.md",
+      "sourceRelativePath": ".opencode/commands/go-review.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/go-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/go-test.md",
+      "sourceRelativePath": ".opencode/commands/go-test.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/go-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/harness-audit.md",
+      "sourceRelativePath": ".opencode/commands/harness-audit.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/harness-audit.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/instinct-export.md",
+      "sourceRelativePath": ".opencode/commands/instinct-export.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/instinct-export.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/instinct-import.md",
+      "sourceRelativePath": ".opencode/commands/instinct-import.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/instinct-import.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/instinct-status.md",
+      "sourceRelativePath": ".opencode/commands/instinct-status.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/instinct-status.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/learn.md",
+      "sourceRelativePath": ".opencode/commands/learn.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/learn.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/loop-start.md",
+      "sourceRelativePath": ".opencode/commands/loop-start.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/loop-start.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/loop-status.md",
+      "sourceRelativePath": ".opencode/commands/loop-status.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/loop-status.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/model-route.md",
+      "sourceRelativePath": ".opencode/commands/model-route.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/model-route.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/orchestrate.md",
+      "sourceRelativePath": ".opencode/commands/orchestrate.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/orchestrate.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/plan.md",
+      "sourceRelativePath": ".opencode/commands/plan.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/plan.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/projects.md",
+      "sourceRelativePath": ".opencode/commands/projects.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/projects.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/promote.md",
+      "sourceRelativePath": ".opencode/commands/promote.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/promote.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/quality-gate.md",
+      "sourceRelativePath": ".opencode/commands/quality-gate.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/quality-gate.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/refactor-clean.md",
+      "sourceRelativePath": ".opencode/commands/refactor-clean.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/refactor-clean.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/rust-build.md",
+      "sourceRelativePath": ".opencode/commands/rust-build.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/rust-build.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/rust-review.md",
+      "sourceRelativePath": ".opencode/commands/rust-review.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/rust-review.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/rust-test.md",
+      "sourceRelativePath": ".opencode/commands/rust-test.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/rust-test.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/security.md",
+      "sourceRelativePath": ".opencode/commands/security.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/security.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/setup-pm.md",
+      "sourceRelativePath": ".opencode/commands/setup-pm.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/setup-pm.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/skill-create.md",
+      "sourceRelativePath": ".opencode/commands/skill-create.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/skill-create.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/tdd.md",
+      "sourceRelativePath": ".opencode/commands/tdd.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/tdd.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/test-coverage.md",
+      "sourceRelativePath": ".opencode/commands/test-coverage.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/test-coverage.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/update-codemaps.md",
+      "sourceRelativePath": ".opencode/commands/update-codemaps.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/update-codemaps.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/update-docs.md",
+      "sourceRelativePath": ".opencode/commands/update-docs.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/update-docs.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/commands/verify.md",
+      "sourceRelativePath": ".opencode/commands/verify.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/commands/verify.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/index.ts",
+      "sourceRelativePath": ".opencode/index.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/index.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/instructions/INSTRUCTIONS.md",
+      "sourceRelativePath": ".opencode/instructions/INSTRUCTIONS.md",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/instructions/INSTRUCTIONS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/opencode.json",
+      "sourceRelativePath": ".opencode/opencode.json",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/opencode.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/package-lock.json",
+      "sourceRelativePath": ".opencode/package-lock.json",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/package-lock.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/package.json",
+      "sourceRelativePath": ".opencode/package.json",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/package.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/plugins/ecc-hooks.ts",
+      "sourceRelativePath": ".opencode/plugins/ecc-hooks.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/plugins/ecc-hooks.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/plugins/index.ts",
+      "sourceRelativePath": ".opencode/plugins/index.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/plugins/index.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/architect.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/architect.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/architect.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/build-error-resolver.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/build-error-resolver.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/build-error-resolver.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/code-reviewer.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/code-reviewer.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/code-reviewer.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/database-reviewer.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/database-reviewer.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/database-reviewer.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/doc-updater.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/doc-updater.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/doc-updater.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/e2e-runner.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/e2e-runner.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/e2e-runner.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/go-build-resolver.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/go-build-resolver.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/go-build-resolver.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/go-reviewer.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/go-reviewer.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/go-reviewer.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/planner.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/planner.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/planner.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/refactor-cleaner.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/refactor-cleaner.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/refactor-cleaner.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/rust-build-resolver.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/rust-build-resolver.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/rust-build-resolver.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/rust-reviewer.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/rust-reviewer.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/rust-reviewer.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/security-reviewer.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/security-reviewer.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/security-reviewer.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/prompts/agents/tdd-guide.txt",
+      "sourceRelativePath": ".opencode/prompts/agents/tdd-guide.txt",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/prompts/agents/tdd-guide.txt",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/check-coverage.ts",
+      "sourceRelativePath": ".opencode/tools/check-coverage.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/check-coverage.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/format-code.ts",
+      "sourceRelativePath": ".opencode/tools/format-code.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/format-code.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/git-summary.ts",
+      "sourceRelativePath": ".opencode/tools/git-summary.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/git-summary.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/index.ts",
+      "sourceRelativePath": ".opencode/tools/index.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/index.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/lint-check.ts",
+      "sourceRelativePath": ".opencode/tools/lint-check.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/lint-check.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/run-tests.ts",
+      "sourceRelativePath": ".opencode/tools/run-tests.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/run-tests.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tools/security-audit.ts",
+      "sourceRelativePath": ".opencode/tools/security-audit.ts",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tools/security-audit.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/.opencode/tsconfig.json",
+      "sourceRelativePath": ".opencode/tsconfig.json",
+      "destinationPath": "/Users/dhruva/.claude/.opencode/tsconfig.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/mcp-configs/mcp-servers.json",
+      "sourceRelativePath": "mcp-configs/mcp-servers.json",
+      "destinationPath": "/Users/dhruva/.claude/mcp-configs/mcp-servers.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/scripts/setup-package-manager.js",
+      "sourceRelativePath": "scripts/setup-package-manager.js",
+      "destinationPath": "/Users/dhruva/.claude/scripts/setup-package-manager.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/android-clean-architecture/SKILL.md",
+      "sourceRelativePath": "skills/android-clean-architecture/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/android-clean-architecture/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/api-design/SKILL.md",
+      "sourceRelativePath": "skills/api-design/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/api-design/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/backend-patterns/SKILL.md",
+      "sourceRelativePath": "skills/backend-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/backend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/coding-standards/SKILL.md",
+      "sourceRelativePath": "skills/coding-standards/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/coding-standards/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/compose-multiplatform-patterns/SKILL.md",
+      "sourceRelativePath": "skills/compose-multiplatform-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/compose-multiplatform-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/cpp-coding-standards/SKILL.md",
+      "sourceRelativePath": "skills/cpp-coding-standards/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/cpp-coding-standards/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/cpp-testing/SKILL.md",
+      "sourceRelativePath": "skills/cpp-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/cpp-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/django-patterns/SKILL.md",
+      "sourceRelativePath": "skills/django-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/django-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/django-tdd/SKILL.md",
+      "sourceRelativePath": "skills/django-tdd/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/django-tdd/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/django-verification/SKILL.md",
+      "sourceRelativePath": "skills/django-verification/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/django-verification/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/frontend-patterns/SKILL.md",
+      "sourceRelativePath": "skills/frontend-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/frontend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/frontend-slides/SKILL.md",
+      "sourceRelativePath": "skills/frontend-slides/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/frontend-slides/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/frontend-slides/STYLE_PRESETS.md",
+      "sourceRelativePath": "skills/frontend-slides/STYLE_PRESETS.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/frontend-slides/STYLE_PRESETS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/golang-patterns/SKILL.md",
+      "sourceRelativePath": "skills/golang-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/golang-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/golang-testing/SKILL.md",
+      "sourceRelativePath": "skills/golang-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/golang-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/java-coding-standards/SKILL.md",
+      "sourceRelativePath": "skills/java-coding-standards/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/java-coding-standards/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/kotlin-coroutines-flows/SKILL.md",
+      "sourceRelativePath": "skills/kotlin-coroutines-flows/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/kotlin-coroutines-flows/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/kotlin-exposed-patterns/SKILL.md",
+      "sourceRelativePath": "skills/kotlin-exposed-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/kotlin-exposed-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/kotlin-ktor-patterns/SKILL.md",
+      "sourceRelativePath": "skills/kotlin-ktor-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/kotlin-ktor-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/kotlin-patterns/SKILL.md",
+      "sourceRelativePath": "skills/kotlin-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/kotlin-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/kotlin-testing/SKILL.md",
+      "sourceRelativePath": "skills/kotlin-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/kotlin-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/laravel-patterns/SKILL.md",
+      "sourceRelativePath": "skills/laravel-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/laravel-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/laravel-tdd/SKILL.md",
+      "sourceRelativePath": "skills/laravel-tdd/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/laravel-tdd/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/laravel-verification/SKILL.md",
+      "sourceRelativePath": "skills/laravel-verification/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/laravel-verification/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/mcp-server-patterns/SKILL.md",
+      "sourceRelativePath": "skills/mcp-server-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/mcp-server-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/perl-patterns/SKILL.md",
+      "sourceRelativePath": "skills/perl-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/perl-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/perl-testing/SKILL.md",
+      "sourceRelativePath": "skills/perl-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/perl-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/python-patterns/SKILL.md",
+      "sourceRelativePath": "skills/python-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/python-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/python-testing/SKILL.md",
+      "sourceRelativePath": "skills/python-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/python-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/rust-patterns/SKILL.md",
+      "sourceRelativePath": "skills/rust-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/rust-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/rust-testing/SKILL.md",
+      "sourceRelativePath": "skills/rust-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/rust-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/springboot-patterns/SKILL.md",
+      "sourceRelativePath": "skills/springboot-patterns/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/springboot-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/springboot-tdd/SKILL.md",
+      "sourceRelativePath": "skills/springboot-tdd/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/springboot-tdd/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "framework-language",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/springboot-verification/SKILL.md",
+      "sourceRelativePath": "skills/springboot-verification/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/springboot-verification/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/ai-regression-testing/SKILL.md",
+      "sourceRelativePath": "skills/ai-regression-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/ai-regression-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/configure-ecc/SKILL.md",
+      "sourceRelativePath": "skills/configure-ecc/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/configure-ecc/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning/SKILL.md",
+      "sourceRelativePath": "skills/continuous-learning/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning/config.json",
+      "sourceRelativePath": "skills/continuous-learning/config.json",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning/config.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning/evaluate-session.sh",
+      "sourceRelativePath": "skills/continuous-learning/evaluate-session.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning/evaluate-session.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/SKILL.md",
+      "sourceRelativePath": "skills/continuous-learning-v2/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/agents/observer-loop.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/observer-loop.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/agents/observer-loop.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/agents/observer.md",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/observer.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/agents/observer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/agents/session-guardian.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/session-guardian.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/agents/session-guardian.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/agents/start-observer.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/start-observer.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/agents/start-observer.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/config.json",
+      "sourceRelativePath": "skills/continuous-learning-v2/config.json",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/config.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/hooks/observe.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/hooks/observe.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/hooks/observe.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/scripts/detect-project.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/detect-project.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/scripts/detect-project.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "destinationPath": "/Users/dhruva/.claude/skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/e2e-testing/SKILL.md",
+      "sourceRelativePath": "skills/e2e-testing/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/e2e-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/eval-harness/SKILL.md",
+      "sourceRelativePath": "skills/eval-harness/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/eval-harness/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/iterative-retrieval/SKILL.md",
+      "sourceRelativePath": "skills/iterative-retrieval/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/iterative-retrieval/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/plankton-code-quality/SKILL.md",
+      "sourceRelativePath": "skills/plankton-code-quality/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/plankton-code-quality/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/project-guidelines-example/SKILL.md",
+      "sourceRelativePath": "skills/project-guidelines-example/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/project-guidelines-example/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/skill-stocktake/SKILL.md",
+      "sourceRelativePath": "skills/skill-stocktake/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/skill-stocktake/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/skill-stocktake/scripts/quick-diff.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/quick-diff.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/skill-stocktake/scripts/quick-diff.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/skill-stocktake/scripts/save-results.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/save-results.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/skill-stocktake/scripts/save-results.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/skill-stocktake/scripts/scan.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/scan.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/skill-stocktake/scripts/scan.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/strategic-compact/SKILL.md",
+      "sourceRelativePath": "skills/strategic-compact/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/strategic-compact/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/strategic-compact/suggest-compact.sh",
+      "sourceRelativePath": "skills/strategic-compact/suggest-compact.sh",
+      "destinationPath": "/Users/dhruva/.claude/skills/strategic-compact/suggest-compact.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/tdd-workflow/SKILL.md",
+      "sourceRelativePath": "skills/tdd-workflow/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/tdd-workflow/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/dhruva/src/oss/everything-claude-code/skills/verification-loop/SKILL.md",
+      "sourceRelativePath": "skills/verification-loop/SKILL.md",
+      "destinationPath": "/Users/dhruva/.claude/skills/verification-loop/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+# frozen_string_literal: true
+
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # Code is not reloaded between requests.
+  config.cache_classes = true
+
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both threaded web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
+  config.eager_load = true
+
+  # Enable caching.
+  config.action_controller.perform_caching = true
+
+  redis_ssl_cache_params =
+    if ENV["REDIS_CACHE_CLIENT_CERT"]
+
+      # Load the certificates and private keys from environment variables
+      client_cert_content = ENV["REDIS_CACHE_CLIENT_CERT"].gsub('\\n', "\n")
+      client_key_content = ENV["REDIS_CACHE_CLIENT_CERT_KEY"].gsub('\\n', "\n")
+      trusted_cert_content = ENV["REDIS_CACHE_TRUSTED_CERT"].gsub('\\n', "\n")
+
+      # Write the certificate contents to temporary files (if needed)
+      File.write("/tmp/client_cert.pem", client_cert_content)
+      File.write("/tmp/client_key.pem", client_key_content)
+      File.write("/tmp/trusted_cert.pem", trusted_cert_content)
+
+      # redis_ssl_ca_store = OpenSSL::X509::Store.new
+      # redis_ssl_ca_store.add_cert(
+      #   OpenSSL::X509::Certificate.new(File.read("/tmp/trusted_cert.pem"))
+      # )
+      {
+        ssl: true,
+        ssl_params: {
+          cert: OpenSSL::X509::Certificate.new(File.read("/tmp/client_cert.pem")),
+          key: OpenSSL::PKey::RSA.new(File.read("/tmp/client_key.pem")),
+          ca_file: "/tmp/trusted_cert.pem"
+        }
+      }
+    end
+
+  config.cache_store = :redis_cache_store, {
+    url: ENV["RAILS_FLEXI_CACHE_REDIS_URL"] || ENV["REDIS_URL"],
+    pool_size: Integer(ENV["MAX_THREADS"] || 5),
+    pool_timeout: 10,
+    compress: true,
+    reconnect_attempts: 3
+  }.merge(redis_ssl_cache_params || {})
+
+  redis_ssl_sidekiq_params =
+    if ENV["REDIS_SIDEKIQ_CLIENT_CERT"]
+
+      # Load the certificates and private keys from environment variables
+      sidekiq_client_cert_content = ENV["REDIS_SIDEKIQ_CLIENT_CERT"].gsub('\\n', "\n")
+      sidekiq_client_key_content = ENV["REDIS_SIDEKIQ_CLIENT_CERT_KEY"].gsub('\\n', "\n")
+      sidekiq_trusted_cert_content = ENV["REDIS_SIDEKIQ_TRUSTED_CERT"].gsub('\\n', "\n")
+
+      # Write the certificate contents to temporary files (if needed)
+      File.write("/tmp/sidekiq_client_cert.pem", sidekiq_client_cert_content)
+      File.write("/tmp/sidekiq_client_key.pem", sidekiq_client_key_content)
+      File.write("/tmp/sidekiq_trusted_cert.pem", sidekiq_trusted_cert_content)
+
+      # redis_ssl_ca_store = OpenSSL::X509::Store.new
+      # redis_ssl_ca_store.add_cert(
+      #   OpenSSL::X509::Certificate.new(File.read("/tmp/sidekiq_trusted_cert.pem"))
+      # )
+
+      {
+        ssl: true,
+        ssl_params: {
+          cert: OpenSSL::X509::Certificate.new(File.read("/tmp/sidekiq_client_cert.pem")),
+          key: OpenSSL::PKey::RSA.new(File.read("/tmp/sidekiq_client_key.pem")),
+          ca_file: "/tmp/sidekiq_trusted_cert.pem"
+        }
+      }
+    end
+
+  # redis-rb 4.x pure-Ruby driver with RedisSSLRetry patch; see config/initializers/redis_ssl_retry.rb.
+  config.sidekiq_client_redis_options = {
+    url: ENV["RAILS_FLEXI_SIDEKIQ_REDIS_URL"] || ENV["REDISCLOUD_URL"],
+    size: Integer(ENV["MAX_THREADS"] || 5) + 2,
+    network_timeout: 5,
+    reconnect_attempts: 3
+  }.merge(redis_ssl_sidekiq_params || {})
+
+  config.sidekiq_server_redis_options = {
+    url: ENV["RAILS_FLEXI_SIDEKIQ_REDIS_URL"] || ENV["REDISCLOUD_URL"],
+    network_timeout: 5,
+    reconnect_attempts: 3,
+    tcp_keepalive: 60
+  }.merge(redis_ssl_sidekiq_params || {})
+
+  # Disable Rails"s static asset server (Apache or nginx will already do this).
+  # config.public_file_server.enabled = true
+  # config.public_file_server.headers = {"Cache-Control" => "public, max-age=31536000"}
+
+  # Set to :debug to see everything in the log.
+  config.log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :warn
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
+
+  # filepicker
+  config.filepicker_api_key = ENV["FILEPICKER_API_KEY"]
+  config.filepicker_api_secret = ENV["FILEPICKER_API_SECRET"]
+  config.filepicker_aws_bucket = ENV["AWS_BUCKET"]
+  config.filepicker_signed_read_query = ENV["FILEPICKER_SIGNED_READ_QUERY"]
+
+  # fog
+  config.fog_credentials = {
+    provider: "AWS",
+    aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+    aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+    host: "s3.amazonaws.com",
+    endpoint: "https://s3.amazonaws.com",
+    region: "us-east-1"
+  }
+  config.fog_directory = ENV["AWS_BUCKET"]
+  config.social_share_base_url = ENV["AWS_S3_HOST_ALIAS"]
+
+  config.host = ENV["HOST"] || "#{ENV["HEROKU_APP_NAME"]}.herokuapp.com" # Support for Git Flow
+  config.protocol = ENV["PROTOCOL"]
+
+  config.action_controller.asset_host = "#{config.protocol}://#{ENV["ASSET_HOST"] || config.host}"
+
+  config.full_root_url = (config.protocol == "https") ? "https://#{config.host}" : "http://#{config.host}"
+
+  # Redirect to to platatouille from root
+  config.root_redirect = ENV["ROOT_REDIRECT"] || "https://ui.hirefrederick.com"
+
+  # frederick
+  config.frederick_url = ENV["FREDERICK_URL"]
+
+  # Platform URLs
+  config.frederick_platform_urls = {
+    platatouille: ENV["PLATFORM_PLATATOUILLE_URL"]
+  }
+
+  # Frederick internal API authentication
+  config.frederick_internal_api_base_url = ENV["FREDERICK_INTERNAL_API_BASE_URL"]
+  config.frederick_internal_api_key = ENV["FREDERICK_INTERNAL_API_KEY"]
+  config.display_offer_builder = ENV["FEATURE_DISPLAY_OFFER_BUILDER"] == "true"
+  config.display_offer_builder_booker = ENV["FEATURE_DISPLAY_OFFER_BUILDER_BOOKER"] == "true"
+  config.display_offer_builder_promotion_option = ENV["FEATURE_DISPLAY_OFFER_BUILDER_PROMOTION_OPTION"] == "true"
+  config.display_offer_builder_booker_promotion_option =
+    ENV["FEATURE_DISPLAY_OFFER_BUILDER_BOOKER_PROMOTION_OPTION"] == "true"
+  config.display_image_align_dropdown = ENV["FEATURE_DISPLAY_IMAGE_ALIGN_DROPDOWN"] == "true"
+  config.display_section_video = ENV["FEATURE_DISPLAY_SECTION_VIDEO"] == "true"
+  config.display_dynamic_social_block = ENV["FEATURE_DISPLAY_DYNAMIC_SOCIAL_BLOCK"] == "true"
+  config.display_settings_page = ENV["FEATURE_DISPLAY_SETTINGS_PAGE"] == "true"
+  config.display_image_resizing_option = ENV["FEATURE_DISPLAY_IMAGE_RESIZING_OPTION"] == "true"
+  config.display_templates_filter_dropdown = ENV["FEATURE_DISPLAY_TEMPLATES_FILTER_DROPDOWN"] == "true"
+  config.display_templates_searchbar = ENV["FEATURE_DISPLAY_TEMPLATES_SEARCHBAR"] == "true"
+  config.display_conditional_video_modal = ENV["FEATURE_DISPLAY_CONDITIONAL_VIDEO_MODAL"] == "true"
+
+  config.cerberus_secret = ENV["CERBERUS_SECRET"]
+
+  config.template_manifest_url = ENV["TEMPLATE_MANIFEST_URL"]
+
+  # analytics
+  config.segment_business_write_key = ENV["SEGMENT_BUSINESS_WRITE_KEY"]
+
+  # API Gateway - search 1Password for API Gateway; AWS Access:
+  config.api_gateway_aws_access_key_id = ENV["API_GATEWAY_AWS_ACCESS_KEY_ID"]
+  config.api_gateway_aws_secret_access_key = ENV["API_GATEWAY_AWS_SECRET_ACCESS_KEY"]
+
+  config.api_gateway_api_id = ENV["API_GATEWAY_API_ID"]
+  config.api_gateway_host = ENV["API_GATEWAY_HOST"] || config.host
+  config.api_gateway_api_key = ENV["API_GATEWAY_API_KEY"]
+  config.api_gateway_base_url = ENV["API_GATEWAY_BASE_URL"]
+
+  config.api_gateway_internal_api_id = ENV["API_GATEWAY_INTERNAL_API_ID"]
+  config.api_gateway_internal_host = ENV["API_GATEWAY_INTERNAL_HOST"]
+  config.api_gateway_internal_base_url = "#{config.protocol}://#{config.api_gateway_internal_host}"
+
+  config.frederick_api_key = ENV["FREDERICK_API_KEY"] # see 1 Password for Frederick API
+
+  config.campaigns_disabled_location_ids = (ENV["CAMPAIGNS_DISABLED_LOCATION_IDS"] || "").split(",")
+end

@@ -1,0 +1,248 @@
+# [lattice] recent context, 2026-05-24 7:04am GMT+5:30
+
+**Legend:** session-request | 🔴 bugfix | 🟣 feature | 🔄 refactor | ✅ change | 🔵 discovery | ⚖️ decision
+
+**Column Key**:
+- **Read**: Tokens to read this observation (cost to learn it now)
+- **Work**: Tokens spent on work that produced this record ( research, building, deciding)
+
+**Context Index:** This semantic index (titles, types, files, tokens) is usually sufficient to understand past work.
+
+When you need implementation details, rationale, or debugging context:
+- Fetch by ID: get_observations([IDs]) for observations visible in this index
+- Search history: Use the mem-search skill for past decisions, bugs, and deeper research
+- Trust this index over re-reading code for past decisions and learnings
+
+**Context Economics**:
+- Loading: 50 observations (22,207 tokens to read)
+- Work investment: 437,387 tokens spent on research, building, and decisions
+- Your savings: 95% reduction from reuse
+
+### May 6, 2026
+
+**#S289** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:49 AM)
+
+**#S290** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:52 AM)
+
+**#S291** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:54 AM)
+
+**#S292** Modernize FileTree with file icons and add oil.nvim-style buffer manipulation (May 6 at 12:55 AM)
+
+**#S294** Implement modern file icons for FileTree and add oil.nvim-style buffer manipulation capabilities (May 6 at 1:09 AM)
+
+**crates/lattice-ui-tui/src/render.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #823 | 1:31 PM | 🟣 | Oil pane renderer implementation |  |  |
+| #824 | " | 🟣 | Oil buffer rendering dispatch connected |  |  |
+| #825 | 1:48 PM | 🟣 | Oil pane renderer with icons and dirty status |  |  |
+
+**crates/lattice-ui-tui/src/input.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #826 | 1:58 PM | 🟣 | Oil.nvim-style navigation keybinding added to input handler |  |  |
+
+**crates/lattice-ui-tui/src/app.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #827 | " | 🟣 | Context-sensitive oil navigation committed and deployed |  |  |
+
+**General**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #828 | 1:59 PM | 🔵 | Seven workspace root resolution tests failing in lattice-lsp |  |  |
+
+**#S295** Modernize FileTree with file icons and explore oil.nvim-style buffer manipulation (May 6 at 2:01 PM)
+
+**crates/lattice-ui-tui/src/icons.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #829 | 2:03 PM | 🔵 | Icon system implementation with Nerd Font glyphs and color mappings |  |  |
+| #830 | 2:08 PM | 🟣 | Comprehensive icon mappings expanded to 100+ file types with exact filename matching |  |  |
+
+**General**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #831 | " | ✅ | Icon system expansion validated with 8 new tests, all 1138 tests passing |  |  |
+
+**#S296** Beautify FileTree with modern file icons and explore oil.nvim-style buffer manipulation capabilities (May 6 at 2:29 PM)
+
+**crates/lattice-ui-tui/src/picker.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #832 | 2:32 PM | 🔵 | Picker system architecture — Vertico-style generalized UI |  |  |
+
+**docs/DESIGN.md**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #833 | " | 🔵 | Picker design vision — streaming, extensible, renderer-agnostic UI primitive |  |  |
+
+**#S297** Phase 5.B.19 - Complete LSP request channel field migration from App to Editor (May 6 at 2:33 PM)
+
+**crates/lattice-grammar/src/effect.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #834 | 2:37 PM | 🔵 | Oil-style buffer already planned in Effect enum |  |  |
+
+### May 15, 2026
+
+**docs/dev/architecture/phase-5b-app-design.md**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #835 | 2:04 PM | 🔵 | Phase 5B architectural pivot from generics to composition |  |  |
+
+**docs/dev/architecture/phase-5b-app-fields.md**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #836 | 2:05 PM | 🔵 | Phase 5B migration progress: 18 commits completed through LSP subsystem |  |  |
+
+**crates/lattice-ui-tui/src/app.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #837 | " | 🔵 | Remaining Phase 5B migration scope: 84 App fields vs 163 migrated to Editor |  |  |
+
+**crates/lattice-host/src/editor.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #838 | 2:06 PM | 🔵 | LSP request channels duplicated between App and Editor during migration |  |  |
+| #839 | " | 🔵 | Editor struct comments document intentional migration boundaries |  |  |
+| #840 | " | 🔵 | Phase 5B migration history documented: commits 5.B.4 through 5.B.18b completed with explicit skip notes |  |  |
+
+**crates/lattice-ui-tui/src/app/boot.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #841 | 2:07 PM | 🔵 | LSP request channel fields duplicated but still actively used in App methods |  |  |
+
+**crates/lattice-ui-tui/src/render.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #842 | " | 🔵 | Earlier migrations completed full three-step process: add, redirect, remove |  |  |
+
+**crates/lattice-host/src/editor.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #843 | 2:08 PM | 🔵 | All LSP channels in Editor but completion subsystem core remains in App |  |  |
+
+**crates/lattice-ui-tui/src/app.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #844 | " | 🔵 | CompletionState type resides in App module with cross-reference to migrated command_line |  |  |
+
+**crates/lattice-ui-tui/src/app/lsp.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #845 | " | 🔵 | LSP channel migration requires updating 250+ references across three app modules |  |  |
+
+**crates/lattice-ui-tui/src/app/boot.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #846 | " | 🔵 | Boot initialization adds 46 LSP field assignments to migration scope |  |  |
+| #847 | 2:09 PM | 🔵 | Editor struct already receives channel initializations in boot.rs via partial struct construction |  |  |
+| #848 | " | 🔵 | Boot split: Editor receives 5 server-initiated channels, App retains 6 refresh/lifecycle channels plus all request channels |  |  |
+
+**crates/lattice-ui-tui/src/runtime.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #849 | 2:10 PM | 🔵 | LSP channel methods remain in App while field declarations exist in both structs |  |  |
+
+**crates/lattice-ui-tui/src/app/lsp.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #850 | " | 🔵 | LSP channel references concentrated in 10,494-line lsp.rs with minor usage in three other modules |  |  |
+| #851 | " | 🔵 | lsp.rs contains 3,500+ lines of test code setting pending fields directly on test App instances |  |  |
+
+**crates/lattice-ui-tui/src/app/mode.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #852 | 2:11 PM | 🔵 | Non-lsp.rs LSP channel usage limited to 5 lines across 3 modules |  |  |
+| #853 | 2:12 PM | ✅ | Redirected 5 LSP channel field accesses to editor composition in mode.rs, picker.rs, completion.rs |  |  |
+
+**.claude/plans/hazy-exploring-kazoo.md**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #854 | " | ⚖️ | Formalized Phase 5.B.19 plan to complete LSP channel migration across 6 steps |  |  |
+
+**crates/lattice-ui-tui/src/app/mode.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #855 | 2:13 PM | ✅ | Re-applied mode.rs field redirection using perl substitution |  |  |
+
+**crates/lattice-ui-tui/src/app/picker.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #856 | " | ✅ | Re-applied picker.rs field redirections for code action channels |  |  |
+
+**crates/lattice-ui-tui/src/app/completion.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #857 | " | ✅ | Completed bulk field redirection in lsp.rs and completion.rs covering 252+ references |  |  |
+
+**crates/lattice-ui-tui/src/app/boot.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #858 | 2:14 PM | 🔵 | Boot initialization shows 6 live channels in App construction needing migration to Editor block |  |  |
+| #859 | " | ✅ | Restructured boot.rs initialization consolidating all LSP channels in Editor block |  |  |
+
+**crates/lattice-ui-tui/src/app.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #860 | 2:17 PM | 🔄 | LSP folding range request fields migrated to editor module |  |  |
+
+**#S304** Fix font configuration compilation errors in lattice GPUI editor to enable configurable font family and size (May 15 at 2:23 PM)
+
+### May 22, 2026
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #897 | 10:07 AM | 🔵 | Font hardcoded in GPUI window rendering |  |  |
+
+**crates/lattice-host/src/ui/theme_options.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #898 | 10:11 AM | 🟣 | Font configuration options added to UI settings |  |  |
+
+**crates/lattice-ui-gpui/src/lib.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #899 | 10:15 AM | 🟣 | Font configuration wired to GPUI theme rebuild |  |  |
+
+**#S305** Fix compilation errors and commit font configuration feature for lattice GPUI editor to resolve cursor misalignment issues (May 22 at 10:26 AM)
+
+### May 24, 2026
+
+**General**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #902 | 6:56 AM | 🔵 | Focus management issue in gpui popups |  |  |
+
+**crates/lattice-ui-gpui/src/window.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #903 | " | 🔵 | Popup and focus handling architecture in lattice-ui-gpui window.rs |  |  |
+| #904 | " | 🔵 | Recent popup focus visual indicator fix in window.rs |  |  |
+
+**crates/lattice-host/src/render_state.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #905 | 6:57 AM | 🔵 | PopupRenderState includes cursor position anchor field |  |  |
+| #906 | " | 🔵 | Popup state machine with State A and State B focus modes |  |  |
+
+**crates/lattice-host/src/dispatch.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #907 | " | 🔵 | focus_help_popup implements State A to State B transition |  |  |
+| #908 | 6:58 AM | 🔵 | Two distinct popup opening paths for State A versus State B |  |  |
+
+**crates/lattice-host/src/render_state.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #909 | 6:59 AM | 🔴 | Add doc_scroll_at_anchor field to fix popup position jump in State B transition |  |  |
+
+**crates/lattice-host/src/editor.rs**
+| ID | Time | T | Title | Read | Work |
+|----|------|---|-------|------|------|
+| #910 | " | 🔴 | Add popup_doc_scroll_at_anchor field to Editor struct |  |  |
+
+
+Access 437k tokens of past research & decisions for just 22,207t. Use the claude-mem skill to access memories by ID.

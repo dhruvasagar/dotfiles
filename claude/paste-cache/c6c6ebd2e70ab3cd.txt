@@ -1,0 +1,426 @@
+ > [ 9/13] RUN bundle install -j4:                                                                 2.140 Fetching https://x-oauth-basic@github.com/BookerSoftwareInc/cerberus_client_rails            7.269 Fetching https://x-oauth-basic@github.com/BookerSoftwareInc/frederick_gem.git                13.36 Fetching https://github.com/HireFrederick/frederick_api_gem.git                              17.40 Fetching https://x-oauth-basic@github.com/BookerSoftwareInc/frederick_internal_api_gem.git   23.39 Fetching gem metadata from https://gems.railslts.com/...
+30.32 Fetching gem metadata from https://rubygems.org/.........
+48.45 Fetching rake 13.4.2
+48.75 Installing rake 13.4.2
+48.81 Fetching base64 0.3.0
+48.81 Fetching bigdecimal 4.1.2
+48.81 Fetching concurrent-ruby 1.3.6
+48.81 Fetching drb 2.2.3
+48.84 Installing base64 0.3.0
+48.93 Fetching prism 1.9.0
+48.94 Installing drb 2.2.3
+48.97 Installing bigdecimal 4.1.2 with native extensions
+49.07 Fetching mutex_m 0.3.0
+49.38 Installing mutex_m 0.3.0
+49.41 Installing concurrent-ruby 1.3.6
+49.43 Fetching zeitwerk 2.8.1
+49.53 Installing zeitwerk 2.8.1
+49.59 Installing prism 1.9.0 with native extensions
+49.63 Fetching builder 3.3.0
+49.67 Installing builder 3.3.0
+49.76 Fetching erubi 1.13.1
+49.80 Installing erubi 1.13.1
+49.84 Fetching racc 1.8.1
+49.89 Installing racc 1.8.1 with native extensions
+49.98 Fetching crass 1.0.6
+50.04 Installing crass 1.0.6
+50.08 Fetching rack 2.2.23.10
+51.32 Installing rack 2.2.23.10
+51.39 Fetching nio4r 2.7.5
+51.44 Installing nio4r 2.7.5 with native extensions
+55.15 Fetching websocket-extensions 0.1.5
+55.22 Installing websocket-extensions 0.1.5
+55.23 Fetching marcel 1.2.0
+55.28 Installing marcel 1.2.0
+55.30 Fetching mini_mime 1.1.5
+55.33 Installing mini_mime 1.1.5
+55.36 Fetching logger 1.7.0
+55.39 Installing logger 1.7.0
+55.41 Fetching date 3.5.1
+55.45 Installing date 3.5.1 with native extensions
+83.97 Fetching timeout 0.6.1
+84.05 Installing timeout 0.6.1
+84.07 Fetching public_suffix 7.0.5
+84.12 Installing public_suffix 7.0.5
+84.15 Fetching ast 2.4.3
+84.18 Installing ast 2.4.3
+84.19 Fetching bindex 0.8.1
+84.22 Installing bindex 0.8.1 with native extensions
+87.35 Fetching msgpack 1.8.0
+87.43 Installing msgpack 1.8.0 with native extensions
+113.5 Fetching csv 3.3.5
+113.6 Installing csv 3.3.5
+113.7 Fetching ostruct 0.6.3
+113.7 Installing ostruct 0.6.3
+113.7 Fetching phony 3.0.6
+113.8 Installing phony 3.0.6
+113.8 Fetching king_konf 1.0.1
+113.9 Installing king_konf 1.0.1
+113.9 Fetching digest-crc 0.7.0
+113.9 Installing digest-crc 0.7.0 with native extensions
+125.7 Fetching uri 1.1.1
+125.8 Installing uri 1.1.1
+125.9 Fetching json 2.19.5
+126.0 Installing json 2.19.5 with native extensions
+138.5 Fetching zlib 3.2.3
+138.7 Installing zlib 3.2.3 with native extensions
+164.3 Fetching method_source 1.1.0
+164.4 Installing method_source 1.1.0
+164.4 Fetching thor 1.5.0
+164.5 Installing thor 1.5.0
+164.6 Fetching user_agent_parser 2.21.0
+164.7 Installing user_agent_parser 2.21.0
+164.7 Fetching connection_pool 2.4.1
+164.7 Installing connection_pool 2.4.1
+164.7 Fetching debase-ruby_core_source 3.3.1
+165.6 Installing debase-ruby_core_source 3.3.1
+168.0 Fetching libdatadog 7.0.0.1.0 (x86_64-linux)
+168.8 Installing libdatadog 7.0.0.1.0 (x86_64-linux)
+169.1 Fetching ffi 1.17.4 (x86_64-linux-gnu)
+169.2 Installing ffi 1.17.4 (x86_64-linux-gnu)
+169.4 Fetching diff-lcs 1.6.2
+169.4 Installing diff-lcs 1.6.2
+169.5 Fetching dogstatsd-ruby 5.7.1
+169.5 Installing dogstatsd-ruby 5.7.1
+169.6 Fetching hashdiff 1.2.1
+169.6 Installing hashdiff 1.2.1
+169.6 Fetching hirefire-resource 1.0.8
+169.6 Installing hirefire-resource 1.0.8
+169.7 Fetching kaminari-core 1.2.2
+169.7 Installing kaminari-core 1.2.2
+169.7 Fetching language_server-protocol 3.17.0.5
+169.8 Installing language_server-protocol 3.17.0.5
+170.0 Fetching lint_roller 1.1.0
+170.1 Installing lint_roller 1.1.0
+170.1 Fetching rb-fsevent 0.11.2
+170.1 Installing rb-fsevent 0.11.2
+170.1 Fetching mini_portile2 2.8.9
+170.2 Installing mini_portile2 2.8.9
+170.2 Fetching nested_form 0.3.2
+170.3 Installing nested_form 0.3.2
+170.4 Fetching parallel 2.1.0
+170.4 Installing parallel 2.1.0
+170.4 Fetching pg 1.6.3 (x86_64-linux)
+171.1 Installing pg 1.6.3 (x86_64-linux)
+171.4 Fetching rack-ssl-enforcer 0.2.9
+171.5 Installing rack-ssl-enforcer 0.2.9
+171.6 Fetching rack-timeout 0.7.0
+171.6 Installing rack-timeout 0.7.0
+171.6 Fetching rainbow 3.1.1
+171.7 Installing rainbow 3.1.1
+171.7 Fetching redis 4.8.1
+171.7 Installing redis 4.8.1
+171.8 Fetching regexp_parser 2.12.0
+171.8 Installing regexp_parser 2.12.0
+171.9 Fetching rspec-support 3.13.7
+172.0 Installing rspec-support 3.13.7
+172.0 Fetching ruby-progressbar 1.13.0
+172.1 Installing ruby-progressbar 1.13.0
+172.1 Fetching unicode-emoji 4.2.0
+172.2 Installing unicode-emoji 4.2.0
+172.3 Fetching tilt 2.7.0
+172.3 Installing tilt 2.7.0
+172.4 Fetching semantic_range 3.1.1
+172.4 Installing semantic_range 3.1.1
+172.4 Fetching spring 4.5.0
+172.5 Installing spring 4.5.0
+172.5 Fetching turbolinks-source 5.2.0
+172.5 Installing turbolinks-source 5.2.0
+172.6 Fetching i18n 1.14.8
+172.6 Installing i18n 1.14.8
+172.7 Fetching tzinfo 2.0.6
+172.7 Installing tzinfo 2.0.6
+172.8 Fetching rack-test 2.2.0
+172.9 Installing rack-test 2.2.0
+172.9 Fetching request_store 1.7.0
+172.9 Installing request_store 1.7.0
+173.0 Fetching rack-proxy 0.8.2
+173.0 Installing rack-proxy 0.8.2
+173.0 Fetching rack-session 1.0.2
+173.1 Installing rack-session 1.0.2
+173.1 Fetching nokogiri 1.19.3 (x86_64-linux-gnu)
+173.9 Installing nokogiri 1.19.3 (x86_64-linux-gnu)
+174.3 Fetching websocket-driver 0.8.0
+174.3 Installing websocket-driver 0.8.0 with native extensions
+177.4 Fetching newrelic_rpm 10.5.0
+177.6 Installing newrelic_rpm 10.5.0
+178.0 Fetching sprockets 4.2.2
+178.0 Installing sprockets 4.2.2
+178.1 Fetching puma 8.0.1
+178.2 Installing puma 8.0.1 with native extensions
+187.6 Fetching net-protocol 0.2.2
+187.7 Installing net-protocol 0.2.2
+187.7 Fetching addressable 2.9.0
+187.8 Installing addressable 2.9.0
+187.8 Fetching parser 3.3.11.1
+188.0 Installing parser 3.3.11.1
+188.2 Fetching multi_xml 0.9.1
+188.2 Installing multi_xml 0.9.1
+188.3 Fetching oj 3.17.1
+188.3 Installing oj 3.17.1 with native extensions
+208.8 Fetching net-http 0.9.1
+208.9 Installing net-http 0.9.1
+208.9 Fetching bootsnap 1.24.4
+209.0 Installing bootsnap 1.24.4 with native extensions
+209.5 Fetching datadog-ci 0.8.3
+209.5 Installing datadog-ci 0.8.3
+209.6 Fetching rails_same_site_cookie 0.1.10
+209.6 Installing rails_same_site_cookie 0.1.10
+209.7 Fetching crack 1.0.1
+209.7 Installing crack 1.0.1
+209.7 Fetching libddwaf 1.14.0.0.0 (x86_64-linux)
+209.9 Installing libddwaf 1.14.0.0.0 (x86_64-linux)
+210.0 Fetching rb-inotify 0.11.1
+210.0 Installing rb-inotify 0.11.1
+210.0 Fetching sassc 2.4.0
+210.1 Installing sassc 2.4.0 with native extensions
+222.1 Fetching redis-store 1.11.0
+222.2 Installing redis-store 1.11.0
+222.3 Fetching rspec-core 3.13.6
+222.3 Installing rspec-core 3.13.6
+222.5 Fetching rspec-expectations 3.13.5
+222.5 Installing rspec-expectations 3.13.5
+222.6 Fetching rspec-mocks 3.13.8
+222.7 Installing rspec-mocks 3.13.8
+222.7 Fetching unicode-display_width 3.2.0
+222.8 Installing unicode-display_width 3.2.0
+222.8 Fetching turbolinks 5.2.1
+222.8 Installing turbolinks 5.2.1
+222.9 Fetching loofah 2.25.1
+222.9 Installing loofah 2.25.1
+222.9 Fetching rdkafka 0.27.0 (x86_64-linux-gnu)
+225.0 Installing rdkafka 0.27.0 (x86_64-linux-gnu)
+225.5 Fetching net-imap 0.6.4
+225.6 Installing net-imap 0.6.4
+225.7 Fetching httparty 0.24.2
+225.7 Installing httparty 0.24.2
+225.8 Fetching faraday-net_http 3.4.2
+225.8 Installing faraday-net_http 3.4.2
+225.8 Fetching minitest 6.0.6
+225.9 Installing minitest 6.0.6
+225.9 Fetching rubocop-ast 1.49.1
+226.0 Installing rubocop-ast 1.49.1
+226.0 Fetching webmock 3.26.2
+226.1 Installing webmock 3.26.2
+226.2 Fetching ddtrace 1.23.3
+226.4 Installing ddtrace 1.23.3 with native extensions
+240.5 Fetching listen 3.10.0
+241.0 Installing listen 3.10.0
+241.0 Fetching redis-rack 3.0.0
+241.1 Installing redis-rack 3.0.0
+241.1 Fetching rails-html-sanitizer 1.7.0
+241.1 Installing rails-html-sanitizer 1.7.0
+241.2 Fetching racecar 2.12.0
+241.2 Installing racecar 2.12.0
+241.3 Fetching mail 2.9.0
+241.4 Installing mail 2.9.0
+241.6 Fetching faraday 2.14.2
+241.6 Installing faraday 2.14.2
+241.7 Fetching activesupport 6.1.7.37
+243.4 Installing activesupport 6.1.7.37
+243.6 Fetching rubocop 1.86.2
+243.7 Installing rubocop 1.86.2
+244.4 Fetching ruby-kafka 1.5.0
+244.4 Installing ruby-kafka 1.5.0
+244.6 Fetching spring-watcher-listen 2.1.0
+244.7 Installing spring-watcher-listen 2.1.0
+244.7 Fetching faraday-gzip 2.0.1
+244.7 Installing faraday-gzip 2.0.1
+244.7 Fetching rails-dom-testing 2.3.0
+244.8 Installing rails-dom-testing 2.3.0
+244.8 Fetching globalid 1.3.0
+244.8 Installing globalid 1.3.0
+244.9 Fetching activemodel 6.1.7.37
+245.5 Installing activemodel 6.1.7.37
+245.5 Fetching phony_rails 0.14.6
+245.6 Installing phony_rails 0.14.6
+245.6 Fetching redis-activesupport 5.3.0
+245.7 Installing redis-activesupport 5.3.0
+245.7 Fetching rubocop-md 2.0.4
+245.8 Installing rubocop-md 2.0.4
+245.8 Fetching rubocop-minitest 0.39.1
+245.8 Installing rubocop-minitest 0.39.1
+245.9 Fetching rubocop-packaging 0.6.0
+246.0 Installing rubocop-packaging 0.6.0
+246.0 Fetching rubocop-performance 1.26.1
+246.1 Installing rubocop-performance 1.26.1
+246.2 Fetching rubocop-rails 2.35.2
+246.2 Installing rubocop-rails 2.35.2
+246.5 Fetching rubocop-rspec 3.9.0
+246.6 Installing rubocop-rspec 3.9.0
+246.7 Fetching delivery_boy 1.3.1
+246.7 Installing delivery_boy 1.3.1
+246.7 Fetching actionview 6.1.7.37
+247.5 Installing actionview 6.1.7.37
+247.6 Fetching activejob 6.1.7.37
+247.9 Installing activejob 6.1.7.37
+247.9 Fetching activerecord 6.1.7.37
+248.4 Installing activerecord 6.1.7.37
+248.7 Fetching activemodel-serializers-xml 1.0.3
+248.7 Installing activemodel-serializers-xml 1.0.3
+248.8 Fetching json_api_client 1.23.0
+248.8 Installing json_api_client 1.23.0
+248.8 Fetching rubocop-rails_config 1.17.7
+248.9 Installing rubocop-rails_config 1.17.7
+248.9 Fetching actionpack 6.1.7.37
+249.3 Installing actionpack 6.1.7.37
+249.5 Fetching kaminari-actionview 1.2.2
+249.5 Installing kaminari-actionview 1.2.2
+249.5 Fetching kaminari-activerecord 1.2.2
+249.5 Installing kaminari-activerecord 1.2.2
+249.6 Fetching actioncable 6.1.7.37
+249.8 Installing actioncable 6.1.7.37
+249.9 Fetching activestorage 6.1.7.37
+250.1 Installing activestorage 6.1.7.37
+250.2 Fetching actionmailer 6.1.7.37
+250.4 Installing actionmailer 6.1.7.37
+250.4 Fetching railties 6.1.7.37
+250.9 Installing railties 6.1.7.37
+251.1 Fetching sprockets-rails 3.5.2
+251.2 Installing sprockets-rails 3.5.2
+251.2 Fetching redis-actionpack 5.5.0
+251.2 Installing redis-actionpack 5.5.0
+251.3 Fetching kaminari 1.2.2
+251.3 Installing kaminari 1.2.2
+251.3 Fetching actionmailbox 6.1.7.37
+251.6 Installing actionmailbox 6.1.7.37
+251.6 Fetching actiontext 6.1.7.37
+251.8 Installing actiontext 6.1.7.37
+251.9 Fetching health_check 3.1.0
+251.9 Installing health_check 3.1.0
+252.0 Fetching lograge 0.14.0
+252.0 Installing lograge 0.14.0
+252.0 Fetching turbo-rails 2.0.12
+252.1 Installing turbo-rails 2.0.12
+252.1 Fetching rspec-rails 6.1.5
+252.2 Installing rspec-rails 6.1.5
+252.3 Fetching web-console 4.2.1
+252.3 Installing web-console 4.2.1
+252.4 Fetching webpacker 5.4.4
+252.4 Installing webpacker 5.4.4
+252.6 Fetching redis-rails 5.0.2
+252.6 Installing redis-rails 5.0.2
+252.6 Fetching rails 6.1.7.37
+252.9 Installing rails 6.1.7.37
+252.9 Fetching rails_admin 3.3.0
+253.0 Installing rails_admin 3.3.0
+484.6 Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+484.6 
+484.6     current directory: /usr/local/bundle/gems/sassc-2.4.0/ext
+484.6 /usr/local/bin/ruby extconf.rb
+484.6 creating Makefile
+484.6 
+484.6 current directory: /usr/local/bundle/gems/sassc-2.4.0/ext
+484.6 make DESTDIR\= sitearchdir\=./.gem.20260525-8-z8xfza
+484.6 sitelibdir\=./.gem.20260525-8-z8xfza clean
+484.6 
+484.6 current directory: /usr/local/bundle/gems/sassc-2.4.0/ext
+484.6 make DESTDIR\= sitearchdir\=./.gem.20260525-8-z8xfza
+484.6 sitelibdir\=./.gem.20260525-8-z8xfza
+484.6 compiling ./libsass/src/ast.cpp
+484.6 compiling ./libsass/src/ast2c.cpp
+484.6 compiling ./libsass/src/ast_fwd_decl.cpp
+484.6 compiling ./libsass/src/ast_sel_cmp.cpp
+484.6 compiling ./libsass/src/ast_sel_super.cpp
+484.6 compiling ./libsass/src/ast_sel_unify.cpp
+484.6 compiling ./libsass/src/ast_sel_weave.cpp
+484.6 compiling ./libsass/src/ast_selectors.cpp
+484.6 compiling ./libsass/src/ast_supports.cpp
+484.6 compiling ./libsass/src/ast_values.cpp
+484.6 compiling ./libsass/src/backtrace.cpp
+484.6 compiling ./libsass/src/base64vlq.cpp
+484.6 compiling ./libsass/src/bind.cpp
+484.6 compiling ./libsass/src/c2ast.cpp
+484.6 compiling ./libsass/src/c99func.c
+484.6 compiling ./libsass/src/cencode.c
+484.6 compiling ./libsass/src/check_nesting.cpp
+484.6 compiling ./libsass/src/color_maps.cpp
+484.6 compiling ./libsass/src/constants.cpp
+484.6 compiling ./libsass/src/context.cpp
+484.6 compiling ./libsass/src/cssize.cpp
+484.6 compiling ./libsass/src/emitter.cpp
+484.6 compiling ./libsass/src/environment.cpp
+484.6 compiling ./libsass/src/error_handling.cpp
+484.6 compiling ./libsass/src/eval.cpp
+484.6 compiling ./libsass/src/eval_selectors.cpp
+484.6 compiling ./libsass/src/expand.cpp
+484.6 compiling ./libsass/src/extender.cpp
+484.6 compiling ./libsass/src/extension.cpp
+484.6 compiling ./libsass/src/file.cpp
+484.6 compiling ./libsass/src/fn_colors.cpp
+484.6 compiling ./libsass/src/fn_lists.cpp
+484.6 compiling ./libsass/src/fn_maps.cpp
+484.6 compiling ./libsass/src/fn_miscs.cpp
+484.6 compiling ./libsass/src/fn_numbers.cpp
+484.6 compiling ./libsass/src/fn_selectors.cpp
+484.6 compiling ./libsass/src/fn_strings.cpp
+484.6 compiling ./libsass/src/fn_utils.cpp
+484.6 compiling ./libsass/src/inspect.cpp
+484.6 compiling ./libsass/src/json.cpp
+484.6 compiling ./libsass/src/lexer.cpp
+484.6 compiling ./libsass/src/listize.cpp
+484.6 compiling ./libsass/src/memory/allocator.cpp
+484.6 compiling ./libsass/src/memory/shared_ptr.cpp
+484.6 compiling ./libsass/src/operators.cpp
+484.6 make: *** [Makefile:240: operators.o] Segmentation fault (core dumped)
+484.6 
+484.6 make failed, exit code 2
+484.6 
+484.6 Gem files will remain installed in /usr/local/bundle/gems/sassc-2.4.0 for
+484.6 inspection.
+484.6 Results logged to
+484.6 /usr/local/bundle/extensions/x86_64-linux/3.3.0/sassc-2.4.0/gem_make.out
+484.6 
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:125:in `run'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:51:in `block in make'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:43:in `each'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:43:in `make'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/ext_conf_builder.rb:42:in `build'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:193:in `build_extension'
+484.6 /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:227:in `block in
+484.6 build_extensions'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:224:in `each'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/ext/builder.rb:224:in `build_extensions'
+484.6   /usr/local/lib/ruby/3.3.0/rubygems/installer.rb:844:in `build_extensions'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/rubygems_gem_installer.rb:109:in
+484.6 `build_extensions'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/rubygems_gem_installer.rb:28:in
+484.6 `install'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/source/rubygems.rb:205:in
+484.6 `install'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/installer/gem_installer.rb:55:in
+484.6 `install'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/installer/gem_installer.rb:17:in
+484.6 `install_from_spec'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/installer/parallel_installer.rb:133:in
+484.6 `do_install'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/installer/parallel_installer.rb:124:in
+484.6 `block in worker_pool'
+484.6   /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/worker.rb:62:in `apply_func'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/worker.rb:57:in `block in
+484.6 process_queue'
+484.6   <internal:kernel>:187:in `loop'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/worker.rb:54:in
+484.6 `process_queue'
+484.6 /usr/local/bundle/gems/bundler-2.5.22/lib/bundler/worker.rb:90:in `block (2
+484.6 levels) in create_threads'
+484.6 
+484.6 An error occurred while installing sassc (2.4.0), and Bundler cannot continue.
+484.6 
+484.6 In Gemfile:
+484.6   sass-rails was resolved to 6.0.0, which depends on
+484.6     sassc-rails was resolved to 2.1.2, which depends on
+484.6       sassc
+------
+Dockerfile:22
+--------------------
+  20 |     
+  21 |     RUN gem install bundler -v 2.5.22
+  22 | >>> RUN bundle install -j4
+  23 |     RUN npm install --global yarn
+  24 |     RUN yarn install --frozen-lockfile
+--------------------
+error: failed to solve: process "/bin/sh -c bundle install -j4" did not complete successfully: exit code: 5
+FATA[0490] no image was built                           
+FATA[0490] error while building image syncsoldier-main: exit status 1 
+FATA[0491] exit status 1                                

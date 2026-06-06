@@ -1,0 +1,9 @@
+class HealthController < ActionController::Base
+  skip_before_action :authenticate_user!, raise: false
+  skip_before_action :verify_authenticity_token, raise: false
+  skip_before_action :redirect_to_login, raise: false
+
+  def check
+    render plain: "OK", status: :ok
+  end
+end

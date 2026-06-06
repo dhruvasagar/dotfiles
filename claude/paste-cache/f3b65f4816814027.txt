@@ -1,0 +1,180 @@
+Context
+
+What story is associated with this PR?
+N/A
+
+What kind of change does this PR introduce?
+Bugfix + dependency upgrade (production-incident mitigation), with a
+local mTLS Redis replica and accompanying documentation.
+
+Summary
+
+Production Sidekiq has been intermittently failing with
+OpenSSL::SSL::SSLError: SSL_read: (null) (tls_retry_write_records failure)
+during scheduled-job enqueue and the job-dispatch loop. Root cause:
+redis-rb 4.8.1's pure-Ruby driver routes reads through Ruby's
+OpenSSL::Buffering, and the resulting OpenSSL::SSL::SSLError is
+not a Redis::BaseConnectionError — so redis-rb's
+ensure_connected retry list doesn't catch it; it propagates to
+Sidekiq's worker layer and surfaces in NewRelic.
+
+This PR upgrades to redis 5.4.1 + redis-client 0.28.0 +
+sidekiq 7.3.10 + sidekiq-pro 7.3.7. redis-client doesn't go
+through Ruby's OpenSSL::Buffering; connection errors are wrapped as
+RedisClient::ConnectionError and uniformly retried by Sidekiq 7's
+pool wrapper. The architectural path through which the production
+exception reached the application layer no longer exists.
+
+Coupled with the gem upgrade, config/environments/{production,development}.rb
+must be updated in the same deploy: redis-client 0.28 rejects
+:network_timeout and :tcp_keepalive at boot with
+unknown keyword: :tcp_keepalive. Replaced with the split timeouts
+(:connect_timeout, :read_timeout, :write_timeout).
+
+The PR also includes:
+
+    A local mTLS Redis docker-compose replica (redis/gen-certs.sh,
+    docker-compose.yml, generated redis/tls/redis.env) that mirrors
+    the production TLS posture so the dev stack exercises the exact same
+    env-var → PEM → OpenSSL load path as production.
+    redis/README.md — focused developer onboarding for the local
+    mTLS setup (quick-start, troubleshooting, reference).
+    redis/INVESTIGATION.md — full investigation report (the bug,
+    why it propagates, the validated mitigation, the testing campaign,
+    the rollout plan, a pre-deploy checklist).
+    Companion fixes from the upgrade-compat audit: 22 migration files
+    annotated with ActiveRecord::Migration[X.Y] (Rails 5+ requirement),
+    app/services/frederick_client/request_service.rb return →
+    next inside Campaign.transaction (Rails 6.1 deprecation),
+    spec/services/frederick_client/request_service_spec.rb legacy
+    .stub → allow().to receive (×2), and a silence_warnings { }
+    wrap around an intentional re-load in
+    spec/resources/api/v2/campaign_resource_spec.rb.
+
+Aggregate validation on the new stack:
+~18,000 Sidekiq-pool ops + ~50 write-bursts + ~315 deliberate
+CLIENT KILLs + 1 full server bounce → 0 worker-layer errors. 0
+OpenSSL::SSL::SSLError of any kind. Includes a 25-minute exhaustive
+soak against redis:6.2-alpine (production-exact server version)
+producing 11,875 pool ops + 39 bursts + 0 errors.
+
+How can the reviewer see this work locally?
+
+git checkout feature/redis-local-tls                                                                                                                                                      
+                                                                                                                                                                                          
+# 3-command quick-start (full guide in redis/README.md)                                                                                                                                   
+./redis/gen-certs.sh                              # idempotent; FORCE=1 to regenerate                                                                                                     
+docker-compose up -d --force-recreate redis main sidekiq db                                                                                                                               
+                                                                                                                                                                                          
+# Verify the mTLS round-trip and boot signature                                                                                                                                           
+docker exec campaignzee-sidekiq-1 bundle exec rails runner '                                                                                                                              
+  puts %Q{PING:  #{Sidekiq.redis { |c| c.call("PING") }}}                                                                                                                                 
+  Rails.cache.write("k", "ok"); puts %Q{cache: #{Rails.cache.read("k")}}                                                                                                                  
+'                                                                                                                                                                                         
+# Expected: PING: PONG, cache: ok                                                                                                                                                         
+                                                                                                                                                                                          
+# Confirm the boot banner shows split timeouts and ssl: true                                                                                                                              
+docker logs --tail=20 campaignzee-sidekiq-1 | grep "connecting to Redis"                                                                                                                  
+                                                                                                                                                                                          
+# Full RSpec on the new stack                                                                                                                                                             
+docker exec campaignzee-main-1 bundle exec rspec                                                                                                                                          
+# Expected: 1142 examples, 0 failures, 98.7% line coverage                                                                                                                                
+                                                                                                                                                                                          
+For deeper understanding:                                                                                                                                                                 
+- redis/README.md — the onboarding/troubleshooting guide for the                                                                                                                          
+local stack (the doc most reviewers should start with).                                                                                                                                   
+- redis/INVESTIGATION.md TL;DR + §6 + Appendix A1 — the                                                                                                                                   
+bug story, the mitigation diff, and the staging-deploy checklist.                                                                                                                         
+                                                                                                                                                                                          
+Screenshots                                                                                                                                                                               
+                                                                                                                                                                                          
+N/A — config + dependency change, no UI surface.                                                                                                                                          
+                                                                                                                                                                                          
+Test Coverage                                                                                                                                                                             
+                                                                                                                                                                                          
+- I added unit tests as necessary.                                                                                                                                                        
+- I added integration tests as necessary.                                                                                                                                                 
+                                                                                                                                                                                          
+Documentation                                                                                                                                                                             
+                                                                                                                                                                                          
+https://github.com/BookerSoftwareInc/campaignzee/wiki                                                                                                                                     
+                                                                                                                                                                                          
+- I documented major functions/methods/services.                                                                                                                                          
+- I updated app-level documentation and README as necessary.                                                                                                                              
+- I updated API documentation as necessary.                                                                                                                                               
+                                                                                                                                                                                          
+Security Impact                                                                                                                                                                           
+                                                                                                                                                                                          
+For assistance, see https://dev.azure.com/mindbody/MBScrum/_wiki/wikis/MBScrum.wiki/1                                                                                                     
+6933/Security-impact-in-pull-requests.                                                                                                                                                    
+                                                                                                                                                                                          
+- No security impact                                                                                                                                                                      
+- I have linked to a document that considers security impact or described the                                                                                                             
+security impact below.                                                                                                                                                                    
+                                                                                                                                                                                          
+Deployment                                                                                                                                                                                
+                                                                                                                                                                                          
+Does this PR introduce a breaking change?                                                                                                                                                 
+                                                                                                                                                                                          
+Yes — at the infrastructure / dependency layer, not the application                                                                                                                       
+API. Two specific items:                                                                                                                                                                  
+                                                                                                                                                                                          
+1. Coupled gem + config change. The new gems                                                                                                                                              
+(redis-client 0.28) reject the old config keys at boot. The                                                                                                                               
+gem upgrade and the config update must land in the same deploy.                                                                                                                           
+This PR is structured so that's automatic — both changes are in                                                                                                                           
+the same merge commit.                                                                                                                                                                    
+2. Sidekiq 7 connection footprint. Sidekiq 7 opens 15 Redis                                                                                                                               
+connections per process (10 internal + 5 default) vs ~7 on                                                                                                                                
+Sidekiq 6 — multiply by your sidekiq replica count. Verify managed                                                                                                                        
+Redis MAXCLIENTS headroom before deploy.                                                                                                                                                  
+                                                                                                                                                                                          
+Application-level changes:                                                                                                                                                                
+- Worker code paths unchanged. Sidekiq::Worker is still aliased to                                                                                                                        
+Sidekiq::Job in v7. super_fetch!, sidekiq_retries_exhausted,                                                                                                                              
+and default_job_options APIs are preserved.                                                                                                                                               
+- Rails 6.1 LTS unchanged. Ruby 3.3.10 unchanged.                                                                                                                                         
+                                                                                                                                                                                          
+                                                                                                                                                                                          
+Application-level changes:                                                                                                                                                                
+- Worker code paths unchanged. Sidekiq::Worker is still aliased to                                                                                                                        
+Sidekiq::Job in v7. super_fetch!, sidekiq_retries_exhausted,                                                                                                                              
+and default_job_options APIs are preserved.                                                                                                                                               
+- Rails 6.1 LTS unchanged. Ruby 3.3.10 unchanged.                                                                                                                                         
+                                                                                                                                                                                          
+Rollback is a single revert of the merge commit (gems and config                                                                                                                          
+revert atomically).                                                                                                                                                                       
+                                                                                                                                                                                          
+Are there special deployment instructions?                                                                                                                                                
+                                                                                                                                                                                          
+Yes — follow redis/INVESTIGATION.md Appendix A1 (pre-deploy                                                                                                                               
+verification checklist). Highlights:                                                                                                                                                      
+                                                                                                                                                                                          
+1. Boot-time verification — confirm Sidekiq logs show                                                                                                                                     
+Sidekiq 7.3.10 connecting to Redis with options {... :ssl=>true, :connect_timeout=>5, :read_timeout=>5, :write_timeout=>5, :reconnect_attempts=>3 ...} for both the internal and          
+default pools. If you see unknown keyword: :tcp_keepalive —                                                                                                                               
+the config didn't deploy with the gems; abort.                                                                                                                                            
+2. Confirm Sidekiq Pro 7.3.7, commercially licensed. and                                                                                                                                  
+SuperFetch[default] activated log lines appear.                                                                                                                                           
+3. Soak in staging ≥ 24 hours before promoting to production.                                                                                                                             
+Goal: cross at least one full TLSv1.3 session-ticket rotation                                                                                                                             
+window. Watch NewRelic for any                                                                                                                                                            
+OpenSSL::SSL::SSLError (tls_retry_write_records) recurrence —                                                                                                                             
+should drop to zero.                                                                                                                                                                      
+4. Production promotion on a non-peak window. Watch NewRelic                                                                                                                              
+error rate and Rails.cache hit rate for the first hour.                                                                                                                                   
+5. Optional, post-stabilization defense-in-depth: bump                                                                                                                                    
+connection_pool to ~> 2.5 and add idle_timeout: 30                                                                                                                                        
+(§6 option 2 in redis/INVESTIGATION.md).                                                                                                                                                  
+                                                                                                                                                                                          
+Rollback plan: revert the merge commit. Gems and config revert                                                                                                                            
+atomically, restoring the prior stack.                                                                                                                                                    
+                                                                                                                                                                                          
+                                                                                                                                                                                          
+Differences from the previous version:                                                                                                                                                    
+                                                                                                                                                                                          
+1. **Mentions `redis/README.md`** alongside `INVESTIGATION.md` in the Summary, "How to see locally" steps, and Documentation checklist.                                                   
+2. **Adds the upgrade-compat companion fixes** to the Summary (migration annotations, `return` → `next`, spec hygiene). Those are real diffs in the PR's commit list and worth flagging so
+reviewers don't think they're unrelated.                                                                                                                                                  
+3. **"How to see locally"** points reviewers at `redis/README.md` first as the simplest starting point (its 3-command quick-start matches what's there).                                  
+4. **Documentation checklist** explicitly enumerates both new docs.                                                                                                                       

@@ -1,0 +1,207 @@
+# frozen_string_literal: true
+
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # In the development environment your application's code is reloaded on
+  # every request. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
+  config.cache_classes = false
+
+  # Do not eager load code on boot.
+  config.eager_load = false
+
+  # Disable caching.
+  config.action_controller.perform_caching = false
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
+  config.log_level = :info
+
+  # Mirrors production.rb's load path exactly so this dev stack exercises the
+  # same env-var → PEM → OpenSSL pipeline as production. PEM contents arrive
+  # as a single line with literal "\n" sequences (Heroku/PaaS convention),
+  # which we restore to real newlines before writing to /tmp and loading.
+
+  redis_ssl_cache_params =
+    if ENV["REDIS_CACHE_CLIENT_CERT"]
+
+      # Load the certificates and private keys from environment variables
+      client_cert_content = ENV["REDIS_CACHE_CLIENT_CERT"].gsub('\\n', "\n")
+      client_key_content = ENV["REDIS_CACHE_CLIENT_CERT_KEY"].gsub('\\n', "\n")
+      trusted_cert_content = ENV["REDIS_CACHE_TRUSTED_CERT"].gsub('\\n', "\n")
+
+      # Write the certificate contents to temporary files (if needed)
+      File.write("/tmp/client_cert.pem", client_cert_content)
+      File.write("/tmp/client_key.pem", client_key_content)
+      File.write("/tmp/trusted_cert.pem", trusted_cert_content)
+
+      {
+        ssl: true,
+        ssl_params: {
+          cert: OpenSSL::X509::Certificate.new(File.read("/tmp/client_cert.pem")),
+          key: OpenSSL::PKey::RSA.new(File.read("/tmp/client_key.pem")),
+          ca_file: "/tmp/trusted_cert.pem"
+        }
+      }
+    end
+
+  config.cache_store = :redis_cache_store, {
+    url: ENV["RAILS_FLEXI_CACHE_REDIS_URL"] || ENV["REDIS_URL"],
+    pool_size: Integer(ENV["MAX_THREADS"] || 5),
+    pool_timeout: 10,
+    compress: true,
+    reconnect_attempts: 3
+  }.merge(redis_ssl_cache_params || {})
+
+  redis_ssl_sidekiq_params =
+    if ENV["REDIS_SIDEKIQ_CLIENT_CERT"]
+
+      # Load the certificates and private keys from environment variables
+      sidekiq_client_cert_content = ENV["REDIS_SIDEKIQ_CLIENT_CERT"].gsub('\\n', "\n")
+      sidekiq_client_key_content = ENV["REDIS_SIDEKIQ_CLIENT_CERT_KEY"].gsub('\\n', "\n")
+      sidekiq_trusted_cert_content = ENV["REDIS_SIDEKIQ_TRUSTED_CERT"].gsub('\\n', "\n")
+
+      File.write("/tmp/sidekiq_client_cert.pem", sidekiq_client_cert_content)
+      File.write("/tmp/sidekiq_client_key.pem", sidekiq_client_key_content)
+      File.write("/tmp/sidekiq_trusted_cert.pem", sidekiq_trusted_cert_content)
+
+      {
+        ssl: true,
+        ssl_params: {
+          cert: OpenSSL::X509::Certificate.new(File.read("/tmp/sidekiq_client_cert.pem")),
+          key: OpenSSL::PKey::RSA.new(File.read("/tmp/sidekiq_client_key.pem")),
+          ca_file: "/tmp/sidekiq_trusted_cert.pem"
+        }
+      }
+    end
+
+  redis_url = ENV["RAILS_FLEXI_SIDEKIQ_REDIS_URL"] || ENV["REDISCLOUD_URL"] || ENV["REDIS_URL"] || "redis://0.0.0.0:6379"
+
+  # Stack: redis-rb 4.8.1 with the hiredis driver (C extension that uses
+  # libhiredis_ssl). hiredis bypasses Ruby's OpenSSL::Buffering, which is the
+  # source of the OpenSSL::SSL::SSLError tls_retry_write_records failure
+  # propagation that prompted this work. Connection-level errors are
+  # translated to Redis::ConnectionError (a Redis::BaseConnectionError) and
+  # retried by ensure_connected. This is the tactical bridge while we await
+  # RedisCloud proxy support for HELLO so we can advance to Sidekiq 7 +
+  # redis-client. See redis/INVESTIGATION.md §6 option 5 for rationale.
+  config.sidekiq_client_redis_options = {
+    url: redis_url,
+    size: Integer(ENV["MAX_THREADS"] || 5) + 2,
+    network_timeout: 5,
+    reconnect_attempts: 3
+  }.merge(redis_ssl_sidekiq_params || {})
+
+  config.sidekiq_server_redis_options = {
+    url: redis_url,
+    network_timeout: 5,
+    reconnect_attempts: 3,
+    tcp_keepalive: 60
+  }.merge(redis_ssl_sidekiq_params || {})
+
+  config.host = "localhost"
+  config.asset_host = "localhost:5000"
+  config.protocol = "http"
+  config.full_root_url = "http://localhost:5000"
+  # Redirect to to platatouille from root
+  config.root_redirect = "https://staging.hirefrederick.com"
+
+  config.display_offer_builder = ENV["FEATURE_DISPLAY_OFFER_BUILDER"] != "false"
+  config.display_offer_builder_booker = ENV["FEATURE_DISPLAY_OFFER_BUILDER_BOOKER"] != "false"
+  config.display_offer_builder_promotion_option = ENV["FEATURE_DISPLAY_OFFER_BUILDER_PROMOTION_OPTION"] != "false"
+  config.display_offer_builder_booker_promotion_option =
+    ENV["FEATURE_DISPLAY_OFFER_BUILDER_BOOKER_PROMOTION_OPTION"] != "false"
+  config.display_image_align_dropdown = ENV["FEATURE_DISPLAY_IMAGE_ALIGN_DROPDOWN"] != "false"
+  config.display_section_video = ENV["FEATURE_DISPLAY_SECTION_VIDEO"] != "false"
+  config.display_dynamic_social_block = ENV["FEATURE_DISPLAY_DYNAMIC_SOCIAL_BLOCK"] != "false"
+  config.display_settings_page = ENV["FEATURE_DISPLAY_SETTINGS_PAGE"] != "false"
+  config.display_image_resizing_option = ENV["FEATURE_DISPLAY_IMAGE_RESIZING_OPTION"] != "false"
+  config.display_templates_filter_dropdown = ENV["FEATURE_DISPLAY_TEMPLATES_FILTER_DROPDOWN"] != "false"
+  config.display_templates_searchbar = ENV["FEATURE_DISPLAY_TEMPLATES_SEARCHBAR"] != "false"
+  config.display_conditional_video_modal = ENV["FEATURE_DISPLAY_CONDITIONAL_VIDEO_MODAL"] != "false"
+
+  # filepicker
+  config.filepicker_api_key = "AwXvn6qhLSmePIowDaTmrz"
+  config.filepicker_api_secret = "5NOOYVD5SJHUPACWIIFRTWGZSA"
+  config.filepicker_aws_bucket = "campaignzee-development"
+  config.filepicker_signed_read_query = %w[
+    ?signature=389f71d96c67d7d899609d0def7b3194bc5c339fe7b55f226aafd8f59ed5f5c4
+    &policy=eyJjYWxsIjoicmVhZCIsImV4cGlyeSI6NDYzMzM2MTQ2OH0%3D
+  ].join("")
+
+  # fog
+  config.fog_credentials = {
+    provider: "AWS",
+    aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+    aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+    host: "s3.amazonaws.com",
+    endpoint: "https://s3.amazonaws.com",
+    region: "us-east-1"
+  }
+
+  config.fog_directory = ENV["AWS_BUCKET"] || "campaignzee-social-shareable-development"
+  config.social_share_base_url = ENV["AWS_S3_HOST_ALIAS"] || "https://dxtdw3r8r0tof.cloudfront.net"
+
+  # frederick
+  config.frederick_url = "http://localhost:3000"
+
+  # Platform URLs
+  config.frederick_platform_urls = {
+    platatouille: "http://localhost:2000"
+  }
+
+  # Frederick internal API authentication
+  config.frederick_internal_api_key = "BAgcSXsfYM7OoDU18bsyT8sfr0ds3nqx31Whbqva"
+  config.frederick_internal_api_base_url = "https://api.internal.staging.hirefrederick.com"
+  # config.frederick_internal_api_base_url = 'http://localhost:3000/api/internal'
+  # ^ for local development with frederick internal api
+
+  # cerberus
+  config.cerberus_secret = "d279a7f5e23c81f74ecc5026a158025dff813faf0f95d83b8ac935aa398bdfce"
+
+  # templates
+  config.template_manifest_url = "https://s3.amazonaws.com/campaignzee-templates-staging/email_templates.json"
+  # config.template_manifest_url = 'http://localhost:5050/email_templates.json'
+  # ^ for local development with campaignzee_fredit_templates
+
+  # analytics
+  config.segment_business_write_key = "iqHxGHecS8LJrZgCxYEP2q6Dw0N6hQiO"
+
+  # API Gateway
+  config.api_gateway_aws_access_key_id = "foo" # We do not deploy apis in development
+  config.api_gateway_aws_secret_access_key = "bar"
+
+  config.api_gateway_api_id = "quux"
+  config.api_gateway_host = "0.0.0.0:3000"
+  config.api_gateway_api_key = "SGyar2VYL6a7IQdRdqFNB6ku5NNATwQw6eug8cMm"
+  config.api_gateway_base_url = "https://api.staging.hirefrederick.com"
+  # config.api_gateway_base_url = 'http://localhost:3000/api'
+  # ^ for local development with frederick api
+
+  config.api_gateway_internal_host = "0.0.0.0:3000"
+  config.api_gateway_internal_api_id = "baz"
+  config.api_gateway_internal_base_url = "#{config.protocol}://#{config.api_gateway_internal_host}/api/internal"
+
+  config.frederick_api_key = "BAgcSXsfYM7OoDU18bsyT8sfr0ds3nqx31Whbqva"
+  config.campaigns_disabled_location_ids = []
+  MindbodyInternalApis.configure do |config|
+    config.mindbody_service_identity_client_id = "Marketing.Campaigns.Campaignzee.Development"
+    config.mindbody_service_identity_client_secret = ENV["MINDBODY_SERVICE_IDENTITY_CLIENT_SECRET"]
+    config.mindbody_ai_ml_email_optimization_base_url =
+      "https://www.mindbodyapis.com/aiml/email-optimization"
+    config.mindbody_ai_ml_email_optimization_token_default_scope =
+      ENV["MINDBODY_AI_ML_EMAIL_OPTIMIZATION_TOKEN_DEFAULT_SCOPE"] ||
+      "aiml.emailoptimization.access.production.test"
+  end
+end

@@ -1,0 +1,23 @@
+* ADR: %^{Decision title} :YAMAHA:ADR:
+%U
+Status: %^{Status|Proposed|Accepted|Deprecated|Superseded}
+
+** Context
+What is the situation forcing this decision? What constraints apply?
+%?
+
+** Decision
+What was decided, and by whom?
+
+** Alternatives Considered
+- Option A:
+- Option B:
+
+** Trade-offs Accepted
+
+** Consequences
+- Positive:
+- Negative:
+- Risks introduced:
+
+** Review Date

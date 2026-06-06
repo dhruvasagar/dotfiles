@@ -1,0 +1,355 @@
+# Local mTLS Redis Setup
+
+Quick-start guide for running the campaignzee docker-compose stack with
+mTLS-enabled Redis locally. This mirrors production's TLS posture so
+the dev stack exercises the exact same env-var → PEM → OpenSSL load
+path as production.
+
+> **For context** on why this setup exists (production bug, gem
+> upgrade, validation campaign), read [`INVESTIGATION.md`](./INVESTIGATION.md).
+> Most developers won't need that detail — start with this README.
+
+## Prerequisites
+
+- **Docker** and **docker-compose** (v2 syntax — `docker-compose up`,
+  not `docker compose up`).
+- **OpenSSL CLI** on the host (used by `gen-certs.sh`).
+- Branch checked out at `feature/redis-local-tls` (or after merge: any
+  branch with the redis-tls work).
+
+## Quick start
+
+```bash
+# 1. Generate the local PKI (idempotent — re-running is safe)
+./redis/gen-certs.sh
+
+# 2. Bring up the stack
+docker-compose up -d --force-recreate redis main sidekiq db
+
+# 3. Smoke-test mTLS round-trip
+docker exec campaignzee-sidekiq-1 bundle exec rails runner '
+  puts %Q{PING:  #{Sidekiq.redis { |c| c.call("PING") }}}
+  Rails.cache.write("k", "ok")
+  puts %Q{cache: #{Rails.cache.read("k")}}
+'
+# Expected:
+#   PING:  PONG
+#   cache: ok
+```
+
+If both lines are correct, you're done — the dev stack is running with
+full mTLS to Redis.
+
+## What `gen-certs.sh` produces
+
+In `redis/tls/` (gitignored):
+
+| File                  | Purpose                                                  |
+|-----------------------|----------------------------------------------------------|
+| `ca.crt` / `ca.key`   | Local self-signed CA. CA key is mode `600` (host-only).  |
+| `redis.crt` / `.key`  | Server cert. EKU `serverAuth`; SANs: `redis`, `localhost`, `127.0.0.1`. |
+| `client.crt` / `.key` | Client cert. EKU `clientAuth`; CN `campaignzee-client`.  |
+| `redis.env`           | docker-compose `env_file` with `REDIS_SIDEKIQ_*` and `REDIS_CACHE_*` triplets, PEM contents `\n`-encoded (matches the Heroku/PaaS convention used in `config/environments/production.rb`). |
+
+The script **self-verifies** at the end: openssl chain validation,
+required EKUs, and the `redis` SAN. It fails loudly if anything's
+wrong, so you find issues at gen-time, not at TLS-handshake-time.
+
+To force a full regenerate (e.g., to add a new SAN, or after a CA
+compromise):
+
+```bash
+FORCE=1 ./redis/gen-certs.sh
+docker-compose up -d --force-recreate redis main sidekiq
+```
+
+`FORCE=1` invalidates all previously-issued certs — you must recreate
+the containers afterwards or they'll fail mTLS handshake against the
+new CA.
+
+## Stack at a glance
+
+After `docker-compose up`:
+
+| Container                | What it runs                                                                         |
+|--------------------------|--------------------------------------------------------------------------------------|
+| `campaignzee-redis-1`    | Redis 7-alpine, **TLS-only** (`--port 0 --tls-port 6379 --tls-auth-clients yes`). Plaintext is refused. |
+| `campaignzee-main-1`     | Rails app (Puma) on `localhost:3000`. Connects to Redis over `rediss://redis:6379` with mTLS. |
+| `campaignzee-sidekiq-1`  | Sidekiq worker (Pro 5.5 / SuperFetch). Same Redis URL/mTLS shape.                     |
+| `campaignzee-db-1`       | PostgreSQL.                                                                          |
+
+> **Stack note.** This is currently the **redis-rb 4.8.1 + Sidekiq 6.5
+> + Sidekiq Pro 5.5** stack with the `redis_ssl_retry.rb` band-aid
+> active (see `config/initializers/redis_ssl_retry.rb` and
+> `INVESTIGATION.md` §6 option (4) + §10). The Sidekiq 7 + redis-client
+> upgrade is parked on commit `cbf2baa7` and blocked on a RedisCloud
+> proxy fix.
+
+Boot signature you should see in `docker logs campaignzee-sidekiq-1`:
+
+```
+Sidekiq 6.5.5 connecting to Redis with options {
+  :url=>"rediss://redis:6379",
+  :network_timeout=>5, :reconnect_attempts=>3,
+  :tcp_keepalive=>60, :ssl=>true
+}
+Sidekiq Pro 5.5.2, commercially licensed.
+SuperFetch activated
+```
+
+If those lines look right, you can also confirm the patch is loaded:
+
+```bash
+docker exec campaignzee-sidekiq-1 bundle exec rails runner '
+  puts "patched? #{Redis::Client.ancestors.include?(RedisSSLRetry)}"
+'
+# Expected: patched? true
+```
+
+`patched? false` means the initializer didn't run — investigate before
+trusting the stack.
+
+## Connecting via redis-cli
+
+**From inside the redis container** (certs at `/tls/`):
+
+```bash
+docker exec -it campaignzee-redis-1 \
+  redis-cli --tls \
+    --cacert /tls/ca.crt \
+    --cert   /tls/client.crt \
+    --key    /tls/client.key \
+    -h redis -p 6379
+```
+
+**From inside main / sidekiq containers** (env vars already set; certs at `/campaignzee/redis/tls/`):
+
+```bash
+docker exec -it campaignzee-sidekiq-1 sh -c '
+  redis-cli --tls \
+    --cacert "$REDIS_CA_FILE" \
+    --cert   "/campaignzee/redis/tls/client.crt" \
+    --key    "/campaignzee/redis/tls/client.key" \
+    -h redis -p 6379
+'
+```
+
+## Sidekiq-perceived Redis health
+
+Two complementary signals to confirm Redis connectivity from Sidekiq's
+side, especially relevant while the `redis_ssl_retry` band-aid is
+active. Same measurements; pick the form that fits:
+
+### Periodic log probe (recommended for ongoing monitoring)
+
+`config/initializers/redis_ssl_retry_health_probe.rb` runs a thread
+on every Sidekiq server process. Once a minute it logs a structured
+key=value line:
+
+```
+[redis_health_probe] ping_ok=true ping_ms=1.21 cache_ok=true cache_ms=4.92 \
+  patch_loaded=true patch_fires_total=0 sidekiq_processed_total=120 \
+  sidekiq_failed_total=0 sidekiq_scheduled_size=4 sidekiq_enqueued_size=2 \
+  patch_fires_delta=0 sidekiq_processed_delta=15
+```
+
+- **INFO** when everything is healthy and no patch fires this tick.
+- **WARN** when `patch_fires_delta > 0` (band-aid actively suppressing
+  TLS errors this minute — correlate against NewRelic OpenSSL count).
+- **ERROR** when ping or cache round-trip failed.
+
+Tunable via env:
+- `REDIS_HEALTH_PROBE_ENABLED` (default `true`)
+- `REDIS_HEALTH_PROBE_INTERVAL_SECONDS` (default `60`)
+
+### HTTP endpoint (on-demand)
+
+`GET /health/redis` returns the same fields as JSON. Useful for
+external monitors and ad-hoc checks. Returns **200** when ping +
+cache both succeed; **503** otherwise (suitable as a load-balancer
+liveness check).
+
+```bash
+curl -sS http://localhost:3000/health/redis | jq
+```
+
+```json
+{
+  "ping_ok": true,
+  "ping_ms": 1.45,
+  "cache_ok": true,
+  "cache_ms": 5.32,
+  "patch_loaded": true,
+  "patch_fires_total": 0,
+  "sidekiq_processed_total": 0,
+  "sidekiq_failed_total": 0,
+  "sidekiq_scheduled_size": 0,
+  "sidekiq_enqueued_size": 0
+}
+```
+
+`patch_loaded` confirms the `RedisSSLRetry` initializer is in
+`Redis::Client.ancestors` — useful as a deploy-time sanity check.
+`patch_fires_total` is the cumulative counter. To compute a rate,
+poll the endpoint at known intervals and diff the value.
+
+## Troubleshooting
+
+### `unknown keyword: :tcp_keepalive` at boot
+
+You're on the redis-client 0.28 stack with redis-rb 4.x option keys.
+This README documents the **band-aid stack** (redis-rb 4.8.1 +
+Sidekiq 6.5) where `:network_timeout` and `:tcp_keepalive` are
+correct. If you've cherry-picked the parked Sidekiq 7 commit
+(`cbf2baa7`) on top, switch the option keys to the split timeouts:
+
+```ruby
+connect_timeout: 5,
+read_timeout: 5,
+write_timeout: 5,
+reconnect_attempts: 3,
+```
+
+See `INVESTIGATION.md` §6.1b for the exact diff and §7B for when to
+flip stacks.
+
+### `[redis_ssl_retry]` markers in production logs — should I worry?
+
+No — that's the band-aid catching a TLS state-recovery error and
+converting it to a retryable `Redis::ConnectionError` so the request
+recovers transparently. Each marker means the patch did its job. A
+handful per day matches historical incidence; sustained hundreds per
+hour would be a new upstream regression worth investigating
+independently. See `INVESTIGATION.md` §6 option (4) for the mechanism
+and §7A Step 3 for what "normal" volume looks like.
+
+### `Redis::Client.ancestors.include?(RedisSSLRetry)` returns `false`
+
+The `redis_ssl_retry.rb` initializer didn't load. Most likely cause:
+the file is missing in the deployed slug (e.g., it was excluded from
+.dockerignore, or a partial revert dropped it). Without it the
+production bug returns. Confirm the file exists in
+`config/initializers/redis_ssl_retry.rb` and that the boot logs
+contain no `LoadError` near `redis_ssl_retry`.
+
+### `Connection reset by peer` from `redis-cli`
+You're trying plaintext. Redis is TLS-only — use the `--tls --cacert
+... --cert ... --key ...` flags shown above.
+
+### `OpenSSL::SSL::SSLError: certificate verify failed`
+Either the CA was regenerated and the running container has a stale
+client cert, or you copied certs around manually. Fix:
+
+```bash
+FORCE=1 ./redis/gen-certs.sh
+docker-compose up -d --force-recreate redis main sidekiq
+```
+
+### Container "Can't handle RDB format version 12"
+You're booting an older Redis (e.g., `redis:6.2-alpine`) against an RDB
+written by Redis 7. Wipe and re-create:
+
+```bash
+docker-compose stop redis && docker-compose rm -f redis
+docker-compose up -d redis
+```
+
+Local dev doesn't persist Redis state across restarts.
+
+### Want to test against the production server version (`redis:6.2-alpine`)
+```bash
+sed -i.bak 's|image: redis:7-alpine|image: redis:6.2-alpine|' docker-compose.yml
+docker-compose stop redis && docker-compose rm -f redis
+docker-compose up -d redis
+# When done, restore:
+sed -i.bak 's|image: redis:6.2-alpine|image: redis:7-alpine|' docker-compose.yml
+rm -f docker-compose.yml.bak
+```
+
+Don't commit the `redis:6.2-alpine` change — `redis:7-alpine` is the
+committed default.
+
+### Want to drop mTLS temporarily (e.g., to attach an external Redis client)
+Edit `docker-compose.yml`'s `redis:` service:
+- Change `--tls-auth-clients yes` → `--tls-auth-clients no` for
+  server-only TLS (no client cert required from the connecting peer).
+- OR remove all `--tls*` flags and revert to `--port 6379` for full
+  plaintext (also flip the `REDIS_URL`/`REDISCLOUD_URL` env vars from
+  `rediss://` back to `redis://`).
+
+**Don't commit either change.** Production uses full mTLS, and
+`config/environments/test.rb` is the only environment that should ever
+be plaintext.
+
+### Tests are passing locally but CI is failing
+CI doesn't use mTLS — it runs against plaintext
+`redis://localhost:6379`. `config/environments/test.rb` is intentionally
+unchanged from upstream and the `REDIS_SIDEKIQ_*` env vars are gated by
+an `if ENV["REDIS_SIDEKIQ_CLIENT_CERT"]` check, which is false in CI.
+If CI is failing for a Redis-related reason, it's not the TLS work in
+this PR — investigate normally.
+
+### Production `REDISCLOUD_URL` has a password — does that work?
+**Yes.** redis-rb 4.8.1 (the current production stack) parses
+embedded credentials in `rediss://user:pass@host:port` URLs without
+issue. The historic regression that rolled back the previous redis-rb
+5.x attempt is also fixed in redis-client 0.28, so the upgrade path
+is unblocked from a URL-parsing perspective.
+
+**URL-encoding is required only for some characters**, not all:
+
+- **Safe raw**: alphanumerics + `! - . _ ~ $ : ; , ' ( ) * =`
+  (most managed-Redis passwords).
+- **Must be encoded** (URI parse fails loudly otherwise): space, `@`,
+  `/`, `?`, `#`, `%`.
+- **Genuine silent gotcha — `+`**: URI parser accepts raw `+` in the
+  password position, but `URI.decode_www_form_component` decodes it as
+  a space at AUTH time. So a password containing `+` that's not
+  encoded as `%2B` will be sent as a different string and AUTH fails
+  with `RedisClient::AuthenticationError: WRONGPASS`. All major
+  managed providers URL-encode `+` correctly, so this is rare in
+  practice — but worth knowing if you see a `WRONGPASS` post-deploy.
+
+Empirical test results and the full character table are in
+[`INVESTIGATION.md` §6.1d](./INVESTIGATION.md#1d-historical-regression-check--rediss-url-parsing-with-passwords).
+
+If you do hit a `WRONGPASS` after deploy and suspect the `+` gotcha,
+switch to passing the password as a separate option (sidesteps URL
+parsing entirely):
+```ruby
+config.sidekiq_client_redis_options = {
+  url: ENV["REDISCLOUD_URL"]&.sub(/:[^@\/]*@/, "@"),  # strip embedded password
+  password: URI(ENV["REDISCLOUD_URL"]).password.then { |p| URI.decode_www_form_component(p) },
+  ...
+}.merge(redis_ssl_sidekiq_params || {})
+```
+Not needed by default — just an escape hatch.
+
+## What lives where
+
+| Path                                              | Purpose                                                                |
+|---------------------------------------------------|------------------------------------------------------------------------|
+| `redis/gen-certs.sh`                              | Local PKI generator with self-verification.                            |
+| `redis/tls/`                                      | Generated cert material (gitignored).                                  |
+| `redis/INVESTIGATION.md`                          | Full investigation report (the bug, the fix, the validation campaign). |
+| `docker-compose.yml`                              | Redis service mTLS config + `env_file` reference for main/sidekiq.    |
+| `config/environments/development.rb`              | Production-shape Sidekiq + cache Redis config (mTLS).                 |
+| `config/environments/test.rb`                     | Plaintext-only (unchanged from upstream — keeps CI working).          |
+| `config/environments/production.rb`               | Source-of-truth for the Redis option shape this dev setup mirrors.    |
+| `config/initializers/redis_ssl_retry.rb`          | The active band-aid (deletion criteria documented in the file's header). |
+| `config/initializers/redis_ssl_retry_health_probe.rb` | Periodic Sidekiq-perceived Redis health logger + `RedisHealthProbe.snapshot` for on-demand reads. |
+| `spec/initializers/redis_ssl_retry_spec.rb`       | Mechanism-level RSpec for the band-aid (retryable vs config-error patterns). |
+| `app/controllers/health_controller.rb` (`#redis`) | `GET /health/redis` JSON endpoint (200 healthy / 503 otherwise). |
+
+## Further reading
+
+- [`INVESTIGATION.md`](./INVESTIGATION.md) — full bug investigation, why
+  the band-aid is the active deploy, and the validation results.
+- [`INVESTIGATION.md` §10](./INVESTIGATION.md#10-why-the-strategic-path-is-currently-blocked) —
+  why we ship the band-aid instead of Sidekiq 7 today (HELLO, hiredis
+  SSL gap, sidekiq-pro / redis-rb compatibility constraints).
+- [`INVESTIGATION.md` Appendix A1](./INVESTIGATION.md#appendix-a1--pre-deploy-verification-checklist-staging) —
+  pre-deploy checklist for the band-aid (Rollout A). A1B has the
+  parallel checklist for the future strategic upgrade (Rollout B).
+- [`INVESTIGATION.md` Appendix B](./INVESTIGATION.md#appendix-b--useful-one-liners-during-investigation) —
+  debug one-liners for poking at the live mTLS setup.

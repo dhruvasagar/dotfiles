@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+class FixUuidDefaultsToUuidGenerateV4 < ActiveRecord::Migration[6.1]
+  def up
+    execute "ALTER TABLE campaign_location_details ALTER COLUMN id SET DEFAULT uuid_generate_v4()"
+    execute "ALTER TABLE campaign_shares ALTER COLUMN id SET DEFAULT uuid_generate_v4()"
+  end
+
+  def down
+    execute "ALTER TABLE campaign_location_details ALTER COLUMN id SET DEFAULT gen_random_uuid()"
+    execute "ALTER TABLE campaign_shares ALTER COLUMN id SET DEFAULT gen_random_uuid()"
+  end
+end

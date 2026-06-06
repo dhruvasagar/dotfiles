@@ -1,0 +1,122 @@
+{
+  "e9ea051017b2": {
+    "id": "e9ea051017b2",
+    "name": "claude-code-job-application",
+    "root": "/Users/dhruva/src/dhruvasagar/claude-code-job-application",
+    "remote": "",
+    "created_at": "2026-03-17T12:06:00.015418Z",
+    "last_seen": "2026-03-17T14:24:58.302134Z"
+  },
+  "0417534bd360": {
+    "id": "0417534bd360",
+    "name": "dotfiles",
+    "root": "/Users/dhruva/dotfiles",
+    "remote": "git@github.com:dhruvasagar/dotfiles.git",
+    "created_at": "2026-03-24T16:03:29.280885Z",
+    "last_seen": "2026-06-04T06:33:28.056461Z"
+  },
+  "6d38aeeaabcf": {
+    "id": "6d38aeeaabcf",
+    "name": "org-files",
+    "root": "/Users/dhruva/src/dhruvasagar/org-files",
+    "remote": "git@github.com:dhruvasagar/org-files.git",
+    "created_at": "2026-04-02T05:33:17.087158Z",
+    "last_seen": "2026-06-01T06:44:30.097186Z"
+  },
+  "fe275b30e2ec": {
+    "id": "fe275b30e2ec",
+    "name": "rails-upgrade-with-claude",
+    "root": "/Users/dhruva/src/dhruvasagar/rails-upgrade-with-claude",
+    "remote": "",
+    "created_at": "2026-04-02T06:17:35.949124Z",
+    "last_seen": "2026-04-02T12:36:18.053929Z"
+  },
+  "28f2e758d7be": {
+    "id": "28f2e758d7be",
+    "name": "kridha_pratiyogita",
+    "root": "/Users/dhruva/src/dhruvasagar/kridha_pratiyogita",
+    "remote": "",
+    "created_at": "2026-04-03T06:07:51.369256Z",
+    "last_seen": "2026-04-03T06:07:51.369256Z"
+  },
+  "8a70de9166a4": {
+    "id": "8a70de9166a4",
+    "name": "claude-rails-upgrade",
+    "root": "/Users/dhruva/src/oss/claude-rails-upgrade",
+    "remote": "",
+    "created_at": "2026-04-07T18:58:20.544060Z",
+    "last_seen": "2026-04-16T05:20:33.989080Z"
+  },
+  "3e3bc3f59f27": {
+    "id": "3e3bc3f59f27",
+    "name": "ruby-upgrade-toolkit",
+    "root": "/Users/dhruva/src/oss/ruby-upgrade-toolkit",
+    "remote": "",
+    "created_at": "2026-04-16T05:36:47.495670Z",
+    "last_seen": "2026-04-16T08:51:57.453313Z"
+  },
+  "ba3e691d567a": {
+    "id": "ba3e691d567a",
+    "name": "frederick_mindbody_v2",
+    "root": "/Users/dhruva/src/mindbody/frederick_mindbody_v2",
+    "remote": "git@mindbody.github.com:BookerSoftwareInc/frederick_mindbody_v2.git",
+    "created_at": "2026-04-16T07:20:53.745102Z",
+    "last_seen": "2026-04-21T21:05:15.440680Z"
+  },
+  "5076be467acc": {
+    "id": "5076be467acc",
+    "name": "ruby-upgrade-toolkit",
+    "root": "/Users/dhruva/src/oss/ruby-upgrade-toolkit",
+    "remote": "git@github.com:dhruvasagar/ruby-upgrade-toolkit.git",
+    "created_at": "2026-04-16T10:08:52.370336Z",
+    "last_seen": "2026-04-29T16:51:36.312825Z"
+  },
+  "adc2737788c2": {
+    "id": "adc2737788c2",
+    "name": "stromalytics",
+    "root": "/Users/dhruva/src/dhruvasagar/stromalytics",
+    "remote": "git@github.com:dhruvasagar/stromalytics.git",
+    "created_at": "2026-04-18T11:10:24.553429Z",
+    "last_seen": "2026-04-18T12:58:27.922888Z"
+  },
+  "f4566f911ac2": {
+    "id": "f4566f911ac2",
+    "name": "campaignzee",
+    "root": "/Users/dhruva/src/mindbody/campaignzee",
+    "remote": "git@mindbody.github.com:BookerSoftwareInc/campaignzee.git",
+    "created_at": "2026-04-24T16:00:37.433710Z",
+    "last_seen": "2026-05-06T08:25:18.227407Z"
+  },
+  "e879561ab801": {
+    "id": "e879561ab801",
+    "name": "website",
+    "root": "/Users/dhruva/src/dhruvasagar/website",
+    "remote": "git@github.com:dhruvasagar/website.git",
+    "created_at": "2026-04-27T05:50:05.734636Z",
+    "last_seen": "2026-05-22T05:34:30.847114Z"
+  },
+  "d415d59c6039": {
+    "id": "d415d59c6039",
+    "name": "lattice",
+    "root": "/Users/dhruva/src/dhruvasagar/lattice",
+    "remote": "git@github.com:dhruvasagar/lattice.git",
+    "created_at": "2026-05-05T18:50:56.742616Z",
+    "last_seen": "2026-05-27T06:59:34.966583Z"
+  },
+  "7c0b20d302a1": {
+    "id": "7c0b20d302a1",
+    "name": "syncsoldier",
+    "root": "/Users/dhruva/src/mindbody/syncsoldier",
+    "remote": "git@mindbody.github.com:BookerSoftwareInc/syncsoldier.git",
+    "created_at": "2026-05-25T11:29:49.273574Z",
+    "last_seen": "2026-05-25T12:02:33.876944Z"
+  },
+  "70d5a8cb906b": {
+    "id": "70d5a8cb906b",
+    "name": "gstack",
+    "root": "/Users/dhruva/dotfiles/claude/skills/gstack",
+    "remote": "git@github.com:garrytan/gstack.git",
+    "created_at": "2026-06-04T06:15:43.304026Z",
+    "last_seen": "2026-06-04T06:24:48.038801Z"
+  }
+}

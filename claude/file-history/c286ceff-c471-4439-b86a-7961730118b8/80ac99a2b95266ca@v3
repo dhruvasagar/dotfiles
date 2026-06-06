@@ -1,0 +1,30 @@
+class HealthController < ActionController::Base
+  skip_before_action :authenticate_user!, raise: false
+  skip_before_action :verify_authenticity_token, raise: false
+  skip_before_action :redirect_to_login, raise: false
+
+  before_action :authenticate_auth_key!, only: :redis
+
+  def check
+    render plain: "OK", status: :ok
+  end
+
+  # Returns Redis/Sidekiq connectivity as JSON, gated on Bearer auth.
+  # Status: 200 when Sidekiq.redis PING and Rails.cache both succeed; 503 otherwise.
+  # Authenticate with: Authorization: Bearer <CERBERUS_SECRET>
+  def redis
+    snap = RedisHealthProbe.snapshot
+    status = RedisHealthProbe.healthy?(snap) ? :ok : :service_unavailable
+    render json: snap, status: status
+  end
+
+  private
+
+  def authenticate_auth_key!
+    expected = "#{BaseController::AUTHORIZATION_HEADER_PREFIX} #{Cerberus::Services::CerberusService.cerberus_secret}"
+    provided = request.headers[BaseController::AUTHORIZATION_HEADER_KEY].to_s
+    unless ActiveSupport::SecurityUtils.secure_compare(provided, expected)
+      render json: {error: "Unauthorized"}, status: :unauthorized
+    end
+  end
+end

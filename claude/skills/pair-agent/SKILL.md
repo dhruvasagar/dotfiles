@@ -1,0 +1,1 @@
+/Users/dhruva/dotfiles/claude/skills/gstack/pair-agent/SKILL.md

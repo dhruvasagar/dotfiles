@@ -1,0 +1,41 @@
+* ARCH REVIEW: Q%^{Quarter} %^{Year} :YAMAHA:ARCHREVIEW:
+%U
+Conducted by: %^{Your name}
+Teams reviewed: Code Rapper, Data Culture, Tarka Labs
+
+** Scalability
+- Current platform limits:
+- Projected bottlenecks at scale:
+- Shopify / third-party ceiling:
+%?
+
+** Maintainability
+- Code complexity hotspots:
+- Documentation gaps:
+- Test coverage status:
+
+** Integration Fragility
+- Single points of failure identified:
+- API / webhook reliability:
+- Sync job failure modes:
+
+** Dependency Risk
+- Critical third-party dependencies:
+- Vendor lock-in exposure:
+- Licence / pricing risk:
+
+** Technical Debt
+| Area | Debt Description | Severity | Priority |
+|------+------------------+----------+----------|
+|      |                  |          |          |
+
+** Technology Roadmap Review
+- Still on track?
+- What changed this quarter that affects the roadmap?
+- Adjustments needed:
+
+** Recommendations for Next Quarter
+- [ ]
+
+** How to Present to Yamaha
+(Frame as transparency and forward planning, not a list of problems)

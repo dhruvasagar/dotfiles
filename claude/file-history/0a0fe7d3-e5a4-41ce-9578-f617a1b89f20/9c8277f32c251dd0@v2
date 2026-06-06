@@ -1,0 +1,65 @@
+<h2>File Tree: Icon & Visual Style</h2>
+<p class="subtitle">How should files and folders be visually distinguished? Each mockup shows the same tree rendered differently.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1e1e2e;color:#cdd6f4;font-family:monospace;font-size:13px;padding:16px 20px;border-radius:6px;line-height:1.8;text-align:left">
+        <div style="color:#89b4fa;font-weight:bold">▾ <span style="color:#cdd6f4">/project</span></div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▾ <span style="color:#cdd6f4">src</span></div>
+        <div style="padding-left:32px;color:#fab387">  main.rs</div>
+        <div style="padding-left:32px;color:#fab387">  lib.rs</div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▸ <span style="color:#cdd6f4">docs</span></div>
+        <div style="padding-left:16px;color:#a6e3a1">  Cargo.toml</div>
+        <div style="padding-left:16px;color:#cdd6f4">  README.md</div>
+        <div style="padding-left:16px;color:#585b70">  .gitignore</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Color-coded, no extra glyphs</h3>
+      <p>Directories: bold blue. Files colored by extension (Rust = orange, TOML = green, hidden = dim). No font dependency. Works in any terminal.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1e1e2e;color:#cdd6f4;font-family:monospace;font-size:13px;padding:16px 20px;border-radius:6px;line-height:1.8;text-align:left">
+        <div style="color:#89b4fa;font-weight:bold">▾ 󰉋 <span style="color:#cdd6f4">/project</span></div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▾ 󰉋 <span style="color:#cdd6f4">src</span></div>
+        <div style="padding-left:32px;color:#fab387">  󱘗 main.rs</div>
+        <div style="padding-left:32px;color:#fab387">  󱘗 lib.rs</div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▸ 󰉋 <span style="color:#cdd6f4">docs</span></div>
+        <div style="padding-left:16px;color:#a6e3a1">   Cargo.toml</div>
+        <div style="padding-left:16px;color:#cdd6f4">  󰍔 README.md</div>
+        <div style="padding-left:16px;color:#585b70">  󰒓 .gitignore</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Nerd Font icons + colors</h3>
+      <p>Full nerd-font glyphs per file type (folder, Rust crab, TOML gear, markdown, git). Rich visuals — requires Nerd Font installed. Falls back to simple markers if font absent.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1e1e2e;color:#cdd6f4;font-family:monospace;font-size:13px;padding:16px 20px;border-radius:6px;line-height:1.8;text-align:left">
+        <div style="color:#89b4fa;font-weight:bold">▾ 📂 <span style="color:#cdd6f4">/project</span></div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▾ 📂 <span style="color:#cdd6f4">src</span></div>
+        <div style="padding-left:32px;color:#fab387">  📄 main.rs</div>
+        <div style="padding-left:32px;color:#fab387">  📄 lib.rs</div>
+        <div style="padding-left:16px;color:#89b4fa;font-weight:bold">▸ 📁 <span style="color:#cdd6f4">docs</span></div>
+        <div style="padding-left:16px;color:#a6e3a1">  📄 Cargo.toml</div>
+        <div style="padding-left:16px;color:#cdd6f4">  📄 README.md</div>
+        <div style="padding-left:16px;color:#585b70">  📄 .gitignore</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Emoji icons + colors</h3>
+      <p>📂/📁/📄 emoji for folder open/closed/file. No nerd font needed; works on most terminals. Less precise per-type info but universally visible. Colors still applied by extension.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px">Note: A is already terminal-safe; B requires Nerd Fonts but aligns with §5.6.7 of the design doc; C is a middle ground. You can also mix (e.g. B with A as fallback).</p>

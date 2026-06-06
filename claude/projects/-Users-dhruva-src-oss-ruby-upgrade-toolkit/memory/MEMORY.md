@@ -1,0 +1,1 @@
+- [Always tag new plugin versions](feedback_always_tag_versions.md) — bump plugin.json + create `vX.Y.Z` git tag in the same release workflow

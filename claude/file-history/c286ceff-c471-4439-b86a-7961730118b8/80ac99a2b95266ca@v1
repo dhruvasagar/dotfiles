@@ -1,0 +1,22 @@
+class HealthController < ActionController::Base
+  skip_before_action :authenticate_user!, raise: false
+  skip_before_action :verify_authenticity_token, raise: false # Skip CSRF protection if it's causing issues
+  skip_before_action :redirect_to_login, raise: false # Skip custom redirect logic
+
+  def check
+    render plain: "OK", status: :ok
+  end
+
+  # Returns Sidekiq's view of Redis connectivity as JSON. Companion to
+  # the periodic probe (config/initializers/redis_ssl_retry_health_probe.rb)
+  # — same measurements, on-demand. Used by external monitors and to
+  # build the staging case that the redis_ssl_retry band-aid is working.
+  #
+  # Status code: 200 when Sidekiq.redis PING and Rails.cache round-trip
+  # both succeed; 503 otherwise (suitable as a load-balancer health
+  # check).
+  def redis
+    snap = RedisHealthProbe.snapshot
+    render json: snap, status: (RedisHealthProbe.healthy?(snap) ? :ok : :service_unavailable)
+  end
+end
