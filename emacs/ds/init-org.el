@@ -1,4 +1,6 @@
-(use-package ob-mermaid)
+(use-package ob-mermaid
+  :after org)
+
 
 (use-package org
   :bind
@@ -15,7 +17,8 @@
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   (setq org-directory "~/src/dhruvasagar/org-files")
   (setq org-default-notes-file "~/src/dhruvasagar/org-files/refile.org")
-  (setopt org-agenda-files '("~/src/dhruvasagar/org-files"))
+  ;; Base agenda files; org-fractional-cto-setup adds client directories.
+  (setq org-agenda-files (list org-directory))
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
   (setq org-src-window-setup 'plain)
@@ -179,7 +182,9 @@
                         ((org-agenda-overriding-header "Tasks to Archive")
                          (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                          (org-tags-match-list-sublevels nil))))
-                 nil))))
+                 nil)
+                ;; Per-client dashboard is provided by org-fractional-cto (C-c a E)
+                )))
 
   (defun bh/org-auto-exclude-function (tag)
     "Automatic task exclusion in the agenda with / RET"
@@ -753,7 +758,7 @@
      (shell . t)
      (org . t)
      (mermaid . t)
-     (verb . t)
+                                        ;(verb . t)				
      (sql . t)
      (latex . t)))
 
@@ -1111,6 +1116,25 @@
 
   (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
+;; Client engagement workflow: onboarding (M-x org-fractional-cto-new-client),
+;; captures (C-c c e …), and the per-client dashboard (C-c a E).
+;; Management commands (set/switch client, etc.) are M-x — no global prefix.
+;; NOTE: :load-path must be a plain string — use-package normalizes a list
+;; like (expand-file-name "…") as multiple paths and errors on the symbol.
+(use-package org-fractional-cto
+  ;; straight's default :files directive only links *.el (plus info/docs), so
+  ;; the bundled templates/ never made it into the build dir and every
+  ;; (file …) capture template resolved to a non-existent path. Pull templates/
+  ;; into the build so org-fractional-cto-template-directory resolves correctly.
+  :straight (:local-repo "~/src/dhruvasagar/org-fractional-cto"
+             :files (:defaults "templates" "doc"))
+  :after org
+  :custom
+  (org-fractional-cto-clients-directory (expand-file-name "~/src/dhruvasagar/org-files/roam/clients"))
+  (org-fractional-cto-author "Dhruva Sagar")
+  :config
+  (org-fractional-cto-setup))
+
 (use-package evil-org
   :after org
   :hook (org-mode . evil-org-mode)
@@ -1119,9 +1143,11 @@
   (evil-org-agenda-set-keys))
 
 (use-package org-superstar
+  :after org
   :hook (org-mode . org-superstar-mode))
 
 (use-package org-roam
+  :after org
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -1206,6 +1232,7 @@
   (setq-local face-remapping-alist '((default variable-pitch default))))
 
 (use-package org-tree-slide
+  :after org
   :hook ((org-tree-slide-play . efs/presentation-setup)
          (org-tree-slide-stop . efs/presentation-end))
   :custom
@@ -1252,8 +1279,9 @@ Comments:
            (format-time-string "-%Y-%m-%d-%H%M%S") ".docx")))
 
 (use-package org-yt
-  :straight (:type git :host github :repo "TobiasZawada/org-yt")
-  :after org)
+  :after org
+  :straight (:type git :host github :repo "TobiasZawada/org-yt"))
+
 (use-package org-download
   :after org
   :custom
