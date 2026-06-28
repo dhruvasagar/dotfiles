@@ -1,4 +1,5 @@
 wrap = true
+cursorline = true
 
 [lsp.rust-analyzer.diagnostics]
 experimental = { enable = true }
@@ -8,3 +9,6 @@ enable = true
 
 [ui]
 font_family = "FiraCode Nerd Font Mono"
+
+[ui.modeline]
+separator = "|"
