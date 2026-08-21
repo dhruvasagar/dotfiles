@@ -1,8 +1,0 @@
-{
-    "name": "semgrep",
-    "description": "Scans agent-generated code for security vulnerabilities using Semgrep.",
-    "version": "0.5.3",
-    "author": {
-        "name": "Semgrep"
-    }
-}

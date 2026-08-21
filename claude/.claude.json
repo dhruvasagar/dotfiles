@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "tokensave": {
+      "command": "/Users/dhruva/.local/bin/tokensave",
+      "args": [
+        "serve"
+      ]
+    }
+  }
+}
