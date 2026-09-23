@@ -1,0 +1,447 @@
+package lattice:plugin-host@0.1.0;
+
+/// OM.A1: plugin-contributed agenda rows.
+///
+/// A plugin teaches lattice to recognise "things with a date on them" in a
+/// filetype the editor has never heard of. Org's agenda is the first and the
+/// motivating one, but nothing here is org: a source names the file
+/// extensions it wants offered, is handed one file's text at a time, and
+/// returns the rows it found.
+///
+/// ## It is a multibuffer, so the row shape is an excerpt
+///
+/// The host turns each [`entry`] into an `Excerpt { source, start_line,
+/// end_line, header }` in a multibuffer view — which buys jump-to-source,
+/// edit-propagates-to-source, headerline status and refresh from machinery
+/// that already ships (`org-mode.md` §6.1). That is why an entry carries a
+/// *line* rather than a rendered string: an agenda you can only read is a
+/// lesser feature wearing the name.
+///
+/// ## Text AND a tree — structure from one, characters from the other
+///
+/// The text was always here. OT.3 adds the tree beside it, because a scan
+/// that recognises structure by matching line prefixes cannot see CONTEXT.
+/// `* TODO ` at the start of a line inside a `#+BEGIN_SRC` block is example
+/// text, not a headline, and no line matcher can tell — the fact is not on
+/// the line. org's text scan invented a phantom agenda row there.
+///
+/// **Both, not either.** An earlier draft of this slice replaced the text
+/// with the tree, on the theory that the per-file copy was the cost worth
+/// removing. Two measurements killed that: the copy is **217 ns** per file
+/// (`benches/agenda_scan_input.rs`), and the parse that buys the tree is
+/// **1–2 ms** — so the copy was never the expense. Worse, a tree alone
+/// cannot answer what a scanner asks: this seam exposes node kinds and
+/// ranges but no node TEXT, so a guest would need one boundary crossing per
+/// headline to read a TODO keyword — about 50 µs per file, 200× the copy it
+/// was avoiding. Structure from the tree, characters from the text.
+///
+/// `tree` is `none` when the extension resolves to no registered language or
+/// the parse yields nothing. A source is independent of the `language` seam
+/// (see `extensions` below), so a filetype with no grammar must still scan —
+/// it simply scans text, as it always did.
+///
+/// **The guest still touches no filesystem** — no preopens, no `walk`, and
+/// not `tree-sitter.parse-file` either. The host must read the file anyway
+/// to build the source `Document`, so it reads once and parses once, and
+/// the guest is handed both results. That keeps this the one seam that
+/// needs no capability at all.
+///
+/// ## Where it runs
+///
+/// Off the UI and actor threads, on a spawned scan task. Not the keystroke
+/// path — but it IS the critical path of a producer, so a guest that blocks
+/// in `scan` backs up the agenda the way a slow `error-parser` backs up a
+/// build. Budgeted per call like every other seam.
+///
+/// ## What the host does with a bad entry
+///
+/// Validates and drops, never traps. A malformed file must not fail the
+/// agenda — `error-parser`'s rule, because it is the same failure class.
+interface scanned-excerpt-source {
+    /// OA.5: reused, not reinvented — `display-span` already names a style by
+    /// slot and resolves host-side through `name_to_style_with_theme`, which
+    /// is how a plugin's own theme element reaches a rendered row.
+    use types.{display-span};
+
+    /// One agenda row the guest recognised in a file.
+    record entry {
+        /// **0-based** line of the row's anchor, `error-parser`'s
+        /// convention. Becomes the excerpt's `start_line`.
+        line: u32,
+        /// Last 0-based line of the excerpt, inclusive. Equal to `line` for
+        /// the one-row-per-headline case. A guest wanting the headline plus
+        /// its `SCHEDULED:` line returns `line + 1` here.
+        end-line: u32,
+        /// Grouping **key**. Rows that sort next to each other and share a
+        /// key render under ONE header — which is how a date group shows
+        /// one header for N rows drawn from N different files.
+        ///
+        /// It is a key, not a label, because the guest cannot know which
+        /// of its rows will land first once every other file's rows are
+        /// interleaved by the sort. The host compares keys AFTER sorting
+        /// and titles the first row of each run; the rest render no header.
+        group: string,
+        /// The header title for this row, used when it turns out to start
+        /// a group — `"Today"`, `"2026-08-27 Thu"`. Rows sharing a `group`
+        /// should carry the same `label`; the first one after the sort is
+        /// the one rendered.
+        ///
+        /// The row's own text is the source line itself. This is a header,
+        /// not a rendered agenda line: an excerpt shows the file, which is
+        /// what makes the agenda editable rather than a list of strings.
+        label: string,
+        /// Host stable-sorts across files on this, ascending. The guest
+        /// owns what it means (an epoch day, a priority rank, a composite).
+        sort-key: s64,
+        /// OA.5: how this row is COLOURED, as byte spans into the row's own
+        /// first line.
+        ///
+        /// Without this a row is painted by the source file's tree-sitter
+        /// grammar, because that is all the host has — so an agenda looks
+        /// like org text that happens to be out of order, rather than like an
+        /// agenda. The keyword, the priority, the tags and the date are
+        /// semantics only the guest knows.
+        ///
+        /// Offsets are relative to the start of `line`, not to the composed
+        /// view: the guest cannot know where its row lands once every other
+        /// file's rows are interleaved by the sort. The host translates after
+        /// sorting, the same way it titles group runs.
+        ///
+        /// `display-span.slot` names a style rather than carrying one, so a
+        /// guest's own registered theme elements (`org.todo.WAITING`) resolve
+        /// through exactly the path a `highlights.scm` capture takes. Empty is
+        /// the ordinary case for a source with nothing to say about colour —
+        /// the grammar's own highlighting is then what shows, unchanged.
+        spans: list<display-span>,
+        /// HB.5: a row to hang BELOW this one, or `none`.
+        ///
+        /// A row's own text is a verbatim excerpt of a source line, so there is
+        /// nowhere in it to put something the guest computed — org writes a
+        /// habit's consistency graph at column 50 because its agenda line is
+        /// generated text, and ours is the file. The annotation becomes a
+        /// `virtual-row` anchored below the row instead.
+        ///
+        /// It rides the entry rather than a producer seam of its own for
+        /// [`spans`]'s reason: a general producer would be handed the COMPOSED
+        /// buffer, and a guest cannot know where its row lands until the sort
+        /// has interleaved every other file's rows. See `org-agenda.md` §5b.
+        ///
+        /// `none` is the ordinary case — an agenda of plain TODOs grows no
+        /// second rows.
+        annotation: option<annotation>,
+        /// MH.A6: render this row's header EMPHASISED, if it turns out to
+        /// start a group.
+        ///
+        /// Read only from the row that starts the group — the same rule
+        /// [`label`] already lives by, and for the same reason: the guest
+        /// cannot know which of its rows lands first once the sort has
+        /// interleaved every other file's, so it sets this on EVERY row of
+        /// the group and the host reads whichever one wins. Setting it on
+        /// some rows of a group and not others is a guest bug whose symptom
+        /// is "the header is sometimes emphasised".
+        ///
+        /// What emphasis LOOKS like is the colourscheme's business, not the
+        /// guest's: the host renders these headers from
+        /// `multibuffer.excerpt_header.emphasis[.title]` rather than from
+        /// anything named here. A theme that does not define those elements
+        /// renders an emphasised header exactly like an ordinary one —
+        /// undistinguished, never invisible.
+        ///
+        /// **One per view is a convention this cannot enforce.** A guest that
+        /// emphasises every group has emphasised nothing.
+        ///
+        /// `false` is the ordinary case and is byte-identical to the
+        /// behaviour before this field existed.
+        emphasis: bool,
+    }
+
+    /// HB.5: one line hung below a row, and how it is coloured.
+    ///
+    /// One line rather than a list: the consistency graph is one row, and
+    /// heights and scroll interactions are not worth inventing for a consumer
+    /// that does not exist. A `list<annotation>` is the obvious widening.
+    record annotation {
+        /// The line's text, rendered as-is. Not an excerpt of anything — this
+        /// is the one place a scan source draws content of its own.
+        text: string,
+        /// Byte spans into `text` (NOT into the row's source line, which this
+        /// is not part of), so a guest's own registered elements
+        /// (`org.habit.overdue`) reach the row with the active colourscheme
+        /// applied and no colour crosses the boundary.
+        ///
+        /// **A slot here names a THEME ELEMENT, and only that.** `entry.spans`
+        /// also accepts tree-sitter capture names (`keyword`, `string`),
+        /// because those stay a semantic style the cells worker colours at
+        /// paint time — but a virtual row's cells carry a baked colour, so the
+        /// annotation resolves its slots when the row is built and a capture
+        /// name has nothing to resolve against. An unknown slot renders in the
+        /// renderer's default foreground rather than failing the row.
+        ///
+        /// Validated per span like `entry.spans`: a bad one costs itself, and
+        /// an annotation whose spans are all bad still renders its text. A row
+        /// must never lose its annotation because a decoration was malformed.
+        spans: list<display-span>,
+    }
+
+    /// OA.14b: time clocked on one headline on one day.
+    ///
+    /// Independent of [`entry`] on purpose — see `scan`'s doc. A span is
+    /// reported for every clocked headline the guest saw, whether or not that
+    /// headline became an agenda row.
+    ///
+    /// **Aggregated per (headline, day) by the guest**, not one span per
+    /// `CLOCK:` line. A headline clocked four times in a morning is one span,
+    /// which is the granularity every report actually renders and keeps a file
+    /// with years of history from crossing thousands of records it would only
+    /// sum again.
+    ///
+    /// **Every span the file has, not just the ones in view.** The report's
+    /// range is the agenda's span — day, week, month or year — and the host
+    /// filters on `day` when it builds the table. Carrying them all is what
+    /// lets `gD` switch that range and redraw from data already in hand
+    /// instead of re-walking the corpus for each answer.
+    record clock-span {
+        /// 0-based line of the HEADLINE the time was logged under (not of the
+        /// `CLOCK:` line), so a report row can locate its entry.
+        line: u32,
+        /// The headline's outline path: outermost ancestor first, the headline
+        /// itself last. Its length is the outline level, which is what emacs's
+        /// `:maxlevel` bounds.
+        ///
+        /// A PATH rather than a name plus a level, because the report is a
+        /// hierarchy and totals roll up it. An ancestor that logged no time of
+        /// its own emits no span, so the host cannot name it from the span
+        /// list — carrying the chain is what lets the tree be rebuilt without
+        /// inventing zero-minute rows for every parent.
+        outline: list<string>,
+        /// Days since the Unix epoch that the clocked time is filed under.
+        ///
+        /// A span crossing midnight is counted whole on the day it began
+        /// rather than split. Emacs splits it; matching that is a refinement
+        /// this record can carry later without changing shape.
+        day: s64,
+        /// Minutes clocked. A running (unclosed) clock contributes nothing —
+        /// its duration is not yet a fact, and guessing one would make the
+        /// report disagree with the file.
+        minutes: u32,
+    }
+
+    /// What one file's scan produced.
+    record scan-result {
+        /// The agenda rows, filtered by whatever the guest's sections admit.
+        entries: list<entry>,
+        /// Every clocked span in the file, unfiltered. Empty for the
+        /// overwhelming majority of files, which costs nothing.
+        clock: list<clock-span>,
+    }
+}
+
+/// The world an scanned-excerpt-source plugin implements.
+///
+/// `extensions` is called ONCE at load and cached; `begin` then `scan` are
+/// called per scan, `scan` once per matching file in walk order.
+world scanned-excerpt-source-plugin {
+    import scanned-excerpt-source;
+    import logging;
+    import project;
+    /// AF.3: a source answers `roots` from ITS OWN configuration, so it has to
+    /// be able to read an option. Without this import the world declares an
+    /// export it gives no way to implement — the only honest answer a pure
+    /// scanned-excerpt-source plugin could give would be a compiled-in constant.
+    ///
+    /// The host's store had the matching gap: `config.get-option` returned
+    /// `none` in every agenda call because the agenda store, alone among
+    /// `context` / `event` / `transient` / `grammar`, was never handed the
+    /// registry. Both halves are fixed together, because either alone still
+    /// leaves the export unimplementable.
+    import config;
+
+    use scanned-excerpt-source.{entry, clock-span, scan-result};
+    use tree-sitter.{tree-snapshot};
+    /// OT.3: the host lends a parse tree per file, so `scan`'s `tree` param
+    /// resolves. The guest never parses and never reads — it is handed the
+    /// result of the read the host had to do anyway.
+    import tree-sitter;
+
+    /// File extensions this source wants offered, WITHOUT the leading dot
+    /// (`["org"]`). Matched case-insensitively. Called once at load.
+    ///
+    /// This export is why the host does not know what an org file is. Two
+    /// alternatives were rejected: offering every project file to every
+    /// source (one boundary crossing carrying the full text of every file
+    /// in the tree — the producer-critical-path cost §7 warns about), and
+    /// resolving the extensions from the plugin's `language` seam, which
+    /// would make an agenda source *require* a language when the two are
+    /// independent contributions.
+    ///
+    /// A source returning an empty list scans nothing and is logged at
+    /// load — a silently-inert producer is the `NotWired` failure the host
+    /// spends effort avoiding elsewhere.
+    export extensions: func() -> list<string>;
+
+    /// A MINOR mode this source wants activated on the agenda view, by id.
+    /// Called once at load, beside `extensions`.
+    ///
+    /// This is how a source gets to act on its own rows. The view's generic
+    /// behaviour — jump-to-source, `gr` refresh — belongs to the host, which
+    /// built the view and is the only thing that can re-walk it. But
+    /// *changing a TODO state from the agenda* is the source's semantics, and
+    /// it needs chords in a buffer whose major is `multibuffer-mode`.
+    ///
+    /// An activation policy cannot express "the buffer this provider just
+    /// built": `majors(["multibuffer-mode"])` would fire the source's chords
+    /// in search results and diffs too. So the provider activates it, and
+    /// this is the source naming what to activate.
+    ///
+    /// `none` for a source that only produces rows. A `major` named here is
+    /// refused with a warning — the view already has one, and replacing it
+    /// would take the multibuffer's own motions away.
+    export view-mode: func() -> option<string>;
+
+    /// AF.1: the paths this source wants scanned. Called per scan.
+    ///
+    /// Each entry is a **file** or a **directory**: the host walks a directory
+    /// (applying `extensions` as it does today) and takes a file as given
+    /// without asking whether anyone claims its extension — naming a file IS
+    /// the claim. `~` is expanded host-side. Relative paths resolve against the
+    /// editor's working directory.
+    ///
+    /// **Empty means "no opinion", not "scan nothing".** The host then uses the
+    /// root it would have used anyway, so a source that does not implement this
+    /// behaves exactly as it did before, and a user who has configured nothing
+    /// keeps the project-root scan.
+    ///
+    /// **Per scan, unlike `extensions` and `view-mode`.** Those are facts about
+    /// the source and are resolved once at load. This one comes from user
+    /// configuration and has to follow a `:set` without a reload — caching it
+    /// would make the setting appear not to work until the editor restarted,
+    /// which is the worst shape of "configured and behaving as if it were not".
+    ///
+    /// The grant is unchanged: every path still passes the host's `fs` check,
+    /// so naming a directory does not acquire the right to read it. A path
+    /// outside the grant, or one that does not exist, is skipped with a log and
+    /// the rest of the scan continues — `error-parser`'s rule, because one bad
+    /// entry in a config list is the same failure class as one bad file.
+    ///
+    /// ## Why the source answers this and not the host
+    ///
+    /// The host owns the walk, so the host owning the *list* is the obvious
+    /// design. It is not the one here, because the list is the user's
+    /// configuration and every source's users already have a name for it in
+    /// whatever ecosystem the source came from. A host-side setting would have
+    /// to pick one of those names, or invent a neutral one nobody's fingers
+    /// know.
+    ///
+    /// So each source configures its own file set under its own option, and the
+    /// host never learns any option's name — it asks and merges. Two sources
+    /// with completely different configuration vocabularies coexist without a
+    /// line of host code knowing either.
+    export roots: func() -> list<string>;
+
+    /// Drop per-scan state, and declare what would invalidate this scan's
+    /// results. Called before the first file of a scan.
+    ///
+    /// Every scan is a fresh one — `gr` re-runs from `begin`, so a guest
+    /// accumulating across a scan (a "seen headlines" set, a today anchor
+    /// captured once) clears here rather than leaking into the next.
+    ///
+    /// ## The return value is a GENERATION KEY (OT.3b)
+    ///
+    /// An opaque `u64` the guest computes from everything scan-wide that
+    /// changes what its rows would say — for org, the day the scan is anchored
+    /// to and the configured TODO keywords. The host caches results under it
+    /// and discards the whole cache when it changes.
+    ///
+    /// **Opaque on purpose.** The host must be able to persist a scan's rows
+    /// across restarts without re-running the guest, and it cannot key that on
+    /// state it can only guess at: `today` and the keyword set live inside the
+    /// guest. Handing back an integer lets the guest declare its own
+    /// invalidation without the host learning what a date group or a TODO
+    /// keyword is — the property this whole seam is built to protect.
+    ///
+    /// A guest with nothing to declare returns a constant, and its results are
+    /// then cached until the files themselves change.
+    ///
+    /// ## `args` — what this particular scan was asked for (OA.11a)
+    ///
+    /// The `scan-args` the view was opened with, verbatim. **The host never
+    /// interprets these** — they are the guest's own vocabulary, and the host
+    /// carries them the way it carries a generation key: as something it can
+    /// route but not read.
+    ///
+    /// This is what lets one source serve more than one scan. Org's agenda
+    /// dispatcher opens "Waiting and Postponed" by name; without a channel
+    /// here, the guest would have to publish its selection through an option
+    /// and read it back, which makes view state look like user configuration
+    /// and leaves the host unable to tell that the view is parameterised at
+    /// all.
+    ///
+    /// Distinct from the provider view's `argument`, which is the **root
+    /// override** and is host-interpreted precisely because the host does the
+    /// walk. The two are separate slots because they have separate owners:
+    /// folding them together means a command key gets taken for a directory
+    /// path, and the scan silently covers nothing.
+    ///
+    /// `begin` runs before `roots`, so args stashed here are in hand for
+    /// `roots`, every `scan` call and the generation key — which is where they
+    /// belong, since a scan parameterised differently must not read a cache
+    /// filled by the previous one.
+    ///
+    /// Empty is the ordinary case and means "the default scan".
+    export begin: func(args: list<string>) -> u64;
+
+    /// OA.22: what this view IS, in the guest's own words, for its headerline.
+    ///
+    /// The host knows how many rows it composed and how many files it walked,
+    /// and that is all it can say — it deliberately does not read `args` (see
+    /// `begin`). So an agenda narrowed to one tag looks exactly like an
+    /// unfiltered one, and "you have no tasks" is the worst thing this view can
+    /// say incorrectly. A forgotten filter is the likeliest way to make it say
+    /// so.
+    ///
+    /// Return a short phrase naming the command, the span and any active
+    /// filters — `"Waiting · next 7 days · +work"`. The host prefixes its own
+    /// counts, so do NOT repeat them; empty means "nothing worth saying" and
+    /// the header keeps the plain form.
+    ///
+    /// **Also the only place a bad view argument can be reported.** A guest
+    /// `logging::log` call makes the component import `logging`, which org's
+    /// multi-seam linker does not wire on every seam — the whole component then
+    /// fails to instantiate, a trap this plugin has paid for more than once. So
+    /// an unrecognised argument has nowhere else to surface, and silently
+    /// dropping it means a typo'd command shows the default agenda while
+    /// looking like the one that was asked for.
+    ///
+    /// Called ONCE per scan, after `begin`, so it sees the args `begin` stashed.
+    /// Off the per-file path by construction: one crossing per scan, not one
+    /// per file.
+    export describe: func(args: list<string>) -> string;
+
+    /// Scan one file; return its agenda rows AND the time clocked in it.
+    ///
+    /// `path` is absolute. Rows may be returned in any order; the host
+    /// stable-sorts every file's rows together on `sort-key`.
+    ///
+    /// An `err` skips this file with a `debug` log and the scan continues.
+    /// One bad file must not fail the agenda.
+    ///
+    /// ## Why a record rather than a bare row list (OA.14b)
+    ///
+    /// The clock report is not a view of the agenda's rows. Emacs's clocktable
+    /// totals every clocked headline in the agenda files; agenda rows are a
+    /// FILTERED subset, so a headline clocked yesterday with no TODO and no
+    /// date is not a row at all. Hanging clock data off `entry` would report
+    /// only the time that happened to land on a row and silently drop the
+    /// rest — and a clock report that under-reports is worse than none, since
+    /// nothing distinguishes a quiet week from a lossy one.
+    ///
+    /// It rides this call rather than an export of its own so the walk still
+    /// makes ONE guest call per file. The scan is a producer's critical path
+    /// (§7); a second crossing per file would double it to carry data most
+    /// files have none of.
+    export scan: func(
+        path: string,
+        text: string,
+        tree: option<borrow<tree-snapshot>>,
+    ) -> result<scan-result, string>;
+}

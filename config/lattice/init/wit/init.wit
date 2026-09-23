@@ -1,0 +1,25 @@
+package lattice:plugin-host@0.1.0;
+
+// Your init.rs world — the seams you use. EXPORT the register-* your guest
+// implements; IMPORT the host APIs you call. Add/remove seams as needed. Browse
+// exact signatures in a running editor with `:describe-plugin-api <seam>`.
+// (The comment sits BELOW `package` — only one file per package may doc it.)
+world init {
+    import config;
+    import keymap;
+    import events;
+    import plugin-manager;
+
+    export register-options: func();
+    export register-keymap: func();
+    export register-events: func();
+    export register-plugins: func();
+    export on-event: func(handler: u32, ev: event);
+    // A periodic wake you asked for with `events::wake_every(ms)`. Required
+    // even if you arm none — the host instantiates this world against the
+    // events bindings, which name every export.
+    export on-wake: func(id: wake-id);
+
+    use types.{event};
+    use events.{wake-id};
+}

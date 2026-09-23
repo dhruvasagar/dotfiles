@@ -1,0 +1,181 @@
+package lattice:plugin-host@0.1.0;
+
+/// Structural queries for plugins (plugin-treesitter-seam.md). The host already
+/// parses every buffer with tree-sitter (`lattice-syntax`) and publishes an
+/// immutable `SyntaxSnapshot` per buffer; this seam **publishes that snapshot to
+/// a plugin, read-only**, so a WASM plugin can navigate the parse tree exactly
+/// as native structural code does. First consumer: `auto-pair`'s manual style
+/// queries the enclosing lexical scope to bound its backward scan (design §7).
+///
+/// The tree NEVER crosses the boundary — walks execute host-side against the
+/// snapshot's `tree_sitter::Tree`; only *results* (a node projection, a kind
+/// string) cross. A plugin reads a POINT-IN-TIME snapshot: it acquires the
+/// handle alongside the `document` handle from the same dispatch context (same
+/// instant → tree + text versions agree, §7); an edit landing after swaps a
+/// newer snapshot without disturbing the read (the `document`-handle
+/// mutation-under-read discipline, applied to structure). Gated on the
+/// `tree-sitter` editor-capability — no grant, no handle (design §5).
+///
+/// **TS.1 scope:** the snapshot + node core (enough for auto-pair's `enclosing`).
+/// Queries (`compile-query` / `run-query` with host-side predicates) and the
+/// `tree-cursor` walk land at TS.2; see the design fragment §3.3–§3.4 / §10.
+interface tree-sitter {
+    use types.{position, range};
+
+    /// OT.2: parse a file that is **not an open buffer**, and hand back a
+    /// snapshot on the same terms as a buffer's.
+    ///
+    /// Every other snapshot in this interface belongs to a buffer the editor
+    /// already parsed. A plugin acting on project files it never opened — org's
+    /// capture resolving a `file+headline` target, its refile picker listing
+    /// every headline in the project — had no way to get structure, so it
+    /// hand-parsed text and diverged from the grammar. That divergence is the
+    /// bug class OT.x exists to end, and this is the primitive that ends it for
+    /// off-buffer content.
+    ///
+    /// Names no plugin and no language: the extension resolves through the same
+    /// registry a buffer's does (native languages first, then plugin-registered
+    /// ones), so a plugin gets a tree for `.org` for exactly the reason the
+    /// editor would.
+    ///
+    /// **`none`, never a trap**, when any link in the chain is missing: no
+    /// `tree-sitter` capability, the path is outside the plugin's `fs:` grant,
+    /// the file is unreadable or not UTF-8, the extension maps to no language,
+    /// or the parse yields no tree. A caller that cannot tell these apart is
+    /// making one decision — "can I read structure here?" — and the answer is
+    /// no. `error-parser`'s rule: one bad file must not fail the walk.
+    ///
+    /// **The host reads and parses; only the path crosses.** The tree never
+    /// crosses the boundary (§7) and neither does the file's text, so this is
+    /// strictly cheaper than `read-file` plus a guest-side scan.
+    ///
+    /// **Cost, stated rather than buried.** Reachable from the SYNC grammar
+    /// linker, where the sibling comment says reads are "no I/O, no parse — the
+    /// tree is already there". This one is both, so it belongs on explicit user
+    /// actions (capture's chord) and NOT in a motion or text object, which fire
+    /// per keystroke. `read-file` set the I/O precedent here; this adds the
+    /// parse on top of it.
+    parse-file: func(path: string) -> option<tree-snapshot>;
+
+    /// A host-owned, point-in-time view of a buffer's parse tree — backed by an
+    /// `Arc<SyntaxSnapshot>` (an O(1) `ArcSwap` bump, no parse, no copy). An
+    /// `apply-action` receives it as `option<borrow<tree-snapshot>>` (absent
+    /// when the buffer has no parse: plain text / parse pending). Every `node`
+    /// it hands out is anchored to THIS snapshot.
+    resource tree-snapshot {
+        /// The tree root.
+        root: func() -> node;
+        /// The smallest NAMED node spanning `pos`
+        /// (`Tree::named-descendant-for-point-range`), or `none` when the buffer
+        /// is empty / `pos` is out of range.
+        node-at: func(pos: position) -> option<node>;
+        /// The nearest ancestor of `pos` whose `kind` is in `kinds` (the
+        /// auto-pair scope query; the native `scope_toward` precedent). `kinds`
+        /// empty → the nearest named ancestor. `none` when there's no match / no
+        /// parse.
+        enclosing: func(pos: position, kinds: list<string>) -> option<node>;
+        /// The grammar id (e.g. `"rust"`), so a plugin can pick the right query.
+        language: func() -> string;
+        /// TS.2: compile a tree-sitter query (S-expression) against THIS
+        /// snapshot's grammar. `err` (with the tree-sitter message) on a
+        /// malformed query. The returned `query` is reusable across snapshots of
+        /// the same language — compile once, run many.
+        compile-query: func(source: string) -> result<query, string>;
+        /// TS.2: run `q` over the whole tree, or `within` a point range. Returns
+        /// the surviving captures — the `#eq?` / `#match?` / `#any-of?` predicates
+        /// are evaluated HOST-side (against the snapshot's source), so the guest
+        /// never re-filters. Empty when `q` was compiled for a different grammar
+        /// than this snapshot's (graceful — never a trap).
+        run-query: func(q: borrow<query>, within: option<range>) -> list<capture>;
+        /// TS.2b: the same query, returning RANGES instead of node handles.
+        ///
+        /// `run-query` mints one `node` resource per capture. A resource is a
+        /// table entry with a host-side snapshot bump and a guest-side drop, so
+        /// a whole-file structural query pays that per capture — and a
+        /// structural query over a large file has tens of thousands of them.
+        /// That cost is what forced `treesitter-context`'s `max-file-lines`
+        /// guard, and it is pure overhead for the (common) plugin that only
+        /// ever reads a capture's extent.
+        ///
+        /// Same predicates, same host-side filtering, same graceful-empty on a
+        /// grammar mismatch. `match-index` groups captures that came from ONE
+        /// pattern match, so a query can capture a construct and its body
+        /// (`@context` + `@context.end`) and the guest can pair them without a
+        /// second query or a containment test.
+        ///
+        /// Use `run-query` when the capture must be NAVIGATED (parent, field,
+        /// sibling); use this when its extent is the answer.
+        run-query-ranges: func(q: borrow<query>, within: option<range>) -> list<capture-range>;
+    }
+
+    /// An opaque, navigable handle into the snapshot's tree (design §3.2). Owned
+    /// by the guest and dropped when it goes out of scope; each holds its own
+    /// snapshot bump so it stays coherent for the call. Projection is cheap and
+    /// value-returning; navigation returns a FRESH `node` (or `none`). The tree
+    /// itself never crosses — a handle is a host-side `(snapshot, path)` pair.
+    resource node {
+        /// The node's grammar kind (e.g. `"function_item"`).
+        kind: func() -> string;
+        /// Whether the node is *named* (a grammar rule) vs an anonymous token.
+        is-named: func() -> bool;
+        /// Whether the node is a tree-sitter ERROR node (a parse error).
+        is-error: func() -> bool;
+        /// The node's `[start, end)` span as byte-columns per line (matching the
+        /// native structural objects' `ProtoRange`, N.1.4c).
+        byte-range: func() -> range;
+        /// The parent node, or `none` at the root.
+        parent: func() -> option<node>;
+        /// Count of NAMED children.
+        named-child-count: func() -> u32;
+        /// The `index`-th NAMED child (0-based), or `none` past the end.
+        named-child: func(index: u32) -> option<node>;
+        /// The child under the grammar field `name` (e.g. `"body"`), or `none`.
+        child-by-field: func(name: string) -> option<node>;
+        /// The next NAMED sibling, or `none`.
+        next-named-sibling: func() -> option<node>;
+        /// The previous NAMED sibling, or `none`.
+        prev-named-sibling: func() -> option<node>;
+        /// TS.2: a stateful cursor positioned at this node, for structural walks
+        /// without per-step parent/child handle churn.
+        walk: func() -> tree-cursor;
+    }
+
+    /// TS.2: a compiled tree-sitter query — opaque, owned by the guest (dropped
+    /// when it leaves scope), reusable across snapshots of the same language.
+    resource query;
+
+    /// TS.2: one query match capture — the `@name` and the node it bound.
+    record capture {
+        name: string,
+        node: node,
+    }
+
+    /// TS.2b: a capture reduced to its extent — no resource, no drop.
+    ///
+    /// `match-index` is the ordinal of the pattern match this capture belongs
+    /// to WITHIN this call's results (not a stable tree id): captures sharing
+    /// one value came from one match of one pattern.
+    record capture-range {
+        name: string,
+        match-index: u32,
+        range: range,
+    }
+
+    /// TS.2: a stateful walk cursor over the snapshot's tree (design §3.4).
+    /// Anchored to one snapshot; `goto-*` move it and report whether they could.
+    resource tree-cursor {
+        /// The node the cursor currently sits on.
+        current-node: func() -> node;
+        /// The grammar field of the current node relative to its parent (e.g.
+        /// `"body"`), or `none` (root, or an unnamed field slot).
+        current-field: func() -> option<string>;
+        /// Move to the first NAMED child; `false` (and no move) if there is none.
+        goto-first-named-child: func() -> bool;
+        /// Move to the next NAMED sibling; `false` (and no move) if there is none.
+        goto-next-named-sibling: func() -> bool;
+        /// Move to the parent; `false` (and no move) at the root.
+        goto-parent: func() -> bool;
+        /// Reposition the cursor onto `n` (must be a node of the same snapshot).
+        reset: func(n: borrow<node>);
+    }
+}

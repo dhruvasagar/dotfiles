@@ -1,0 +1,41 @@
+package lattice:plugin-host@0.1.0;
+
+/// The `comment` bundled plugin's world (CM.3). One component, four seams:
+///   - **grammar** — the `comment-toggle` OPERATOR. The first operator any
+///     plugin has contributed, which is why CM.1 gave `apply-operator` the
+///     `borrow<document>` its four sibling callbacks already had: deciding
+///     comment-vs-uncomment, finding the indent column and stripping an
+///     existing leader are all reads of the range it was handed.
+///   - **modes** — `comment-mode`, the minor mode that owns everything here.
+///     `activation-policy = global` — every *document* buffer, not `universal`:
+///     `gc` over user-edited text is the point, and `gc` in `*messages*`, the
+///     file tree or a help popup is noise. Its keymap layer is where CM.2 binds
+///     the operator's chord, so `:set comment.enabled=false` takes the keys
+///     with it.
+///   - **config** — `comment.enabled` is auto-registered by the loader from
+///     `default_modes`; this seam carries the plugin's own options.
+///   - **help** — `:help comment`, `include_str!`'d from this plugin's `doc/`.
+///
+/// `tree-sitter` is imported because `grammar-callbacks`' signatures take a
+/// `tree-snapshot`; the operator never queries it. The leader comes from the
+/// plugin's own table keyed on the file extension (CM.3), because the host
+/// does not expose comment syntax across the boundary and shipping the table
+/// here is what Comment.nvim and every other editor's comment plugin does.
+///
+/// `logging` is intentionally NOT imported, for auto-pair's reason: it would
+/// put `log` on the sync grammar linker, and the operator is on the keystroke
+/// path.
+world comment-plugin {
+    import grammar;
+    import buffer;
+    import tree-sitter;
+    import modes;
+    import config;
+    import help;
+
+    export register-grammar: func();
+    export grammar-callbacks;
+    export register-modes: func();
+    export register-options: func();
+    export register-help-topics: func();
+}

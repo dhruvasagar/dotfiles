@@ -1,0 +1,128 @@
+package lattice:plugin-host@0.1.0;
+
+/// The event/hook **subscription** API (plugin-host.md §5 `events`, PH7.8). The
+/// surface a plugin calls to *observe* editor state transitions — mirroring
+/// `EventBus::subscribe` (lattice-runtime). The host provides this function; the
+/// guest **imports** it and calls it (from its `register-events` export). Each
+/// call records the `(handler, filter)` pair into `PluginState`; after
+/// `register-events` returns, the host wires each recorded subscription to the
+/// native `EventBus` with a host-owned `SubscriptionTarget::Plugin { plugin,
+/// handler, tx }` (PH7.8c) — so a plugin subscription is dispatched by the SAME
+/// bus a native subscriber uses (paramount #2). `:autocmd` from a plugin
+/// desugars to this call.
+///
+/// **Observation-only in v1** (the native bus is observation-only, §5.10): a
+/// plugin sees events, it does not veto or mutate them. The before-class
+/// veto/mutation seam is deferred with the bus's.
+///
+/// `handler` is the guest-chosen id the host passes back to the world's
+/// `on-event` export on delivery (the grammar `callback` precedent) — the
+/// guest's own dispatch key, so the host never allocates it and a plugin can
+/// route many `:autocmd`s to distinct handlers behind one `on-event`. No
+/// `unsubscribe` in v1: a plugin's subscriptions live for its lifetime and tear
+/// down en masse on deactivate/quarantine (the reload/lifecycle seam, PH7.12).
+interface events {
+    use types.{event-filter};
+
+    /// Subscribe `handler` to every event matching `filter` (the declarative
+    /// `kinds` / `path-globs` / `major-modes` subset; a custom predicate is the
+    /// guest filtering inside `on-event`). The host delivers each match to the
+    /// world's `on-event(handler, ev)` export.
+    subscribe: func(filter: event-filter, handler: u32);
+
+    /// The host-issued handle for one armed periodic wake (OC.2). Host-allocated
+    /// rather than guest-chosen — unlike `handler` above, which the guest picks
+    /// because it is a *dispatch key*. A wake is a live resource the host must be
+    /// able to cancel unambiguously, so the host names it; `0` is never a valid
+    /// id and is what a refused `wake-every` returns.
+    type wake-id = u32;
+
+    /// Ask to be woken every `ms` milliseconds, forever, until `cancel-wake`
+    /// (OC.2). Delivery is `on-wake(id)` on the plugin's own actor task — the
+    /// SAME channel `on-event` arrives on, so a wake is subject to the same
+    /// budget, the same quarantine, and the same "never on the keystroke path"
+    /// guarantee (paramount #4). It is not a precise timer: a wake fires no
+    /// sooner than the interval and may be late under load, and a late one does
+    /// not queue a backlog — the period restarts when the wake is delivered.
+    ///
+    /// Intended for the low-frequency "recompute my own display string" shape
+    /// (org's clock re-renders its modeline segment once a minute, `design.md`
+    /// Appendix B's idle hooks). It is NOT a frame or animation source: each
+    /// firing is a full guest call, so a small `ms` buys a guest call at that
+    /// rate for as long as the plugin is loaded.
+    ///
+    /// Returns `0` when no wake mechanism is wired on this seam — a plugin
+    /// instantiated on a store with no timer (the sync grammar seam, a test
+    /// harness). Like every other seam here that answers rather than traps, the
+    /// degradation is honest and visible in the log, and a guest that treats a
+    /// `0` as armed simply never hears back.
+    wake-every: func(ms: u32) -> wake-id;
+
+    /// Disarm a wake. Unknown / already-cancelled / `0` ids are ignored — a
+    /// cancel is idempotent, because the alternative is a guest that must track
+    /// host state to avoid a trap. There is deliberately no bulk form: wakes are
+    /// cancelled en masse on deactivate / quarantine by the host, for the same
+    /// reason `events` has no `unsubscribe`.
+    cancel-wake: func(id: wake-id);
+}
+
+/// The world an event-observing plugin implements (PH7.8). **Async** (unlike the
+/// sync grammar seam): event delivery is OFF the keystroke path — the host owns
+/// an mpsc and pushes each serialized `event` to `on-event` on the plugin's own
+/// task, so a slow handler never delays a keystroke or another subscriber
+/// (§5.10.4, paramount #4). Mirrors the picker/completion dedicated-world shape
+/// (a 5th `bindgen!` reusing the `plugin` world's `types` via `with:` so crossed
+/// values are the SAME Rust types `WitBoundary` round-trips, `boundary_event.rs`).
+///
+/// `register-events` is the host-called registration entry (the guest invokes the
+/// imported `subscribe` inside it — the grammar `register-grammar` precedent);
+/// `on-event` is the host→guest delivery. A plugin that observes nothing exports
+/// an empty `register-events` (and an `on-event` the host never calls).
+world events-plugin {
+    import events;
+    /// Capability-gated services a handler may reach (e.g. an fs `walk` from a
+    /// project-watcher hook). Inert for a handler that calls nothing.
+    import host-services;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+
+    /// OA.15a: so a handler can act on a view this guest owns.
+    ///
+    /// Without it, an event handler can observe everything and change nothing
+    /// that is on screen — it can reindex a store, emit an event or push a
+    /// modeline segment, but not touch its own view. That is what made a guest
+    /// minor mode unable to be a switch: the host delivers `minor-activated`,
+    /// and the guest had no way to answer it.
+    ///
+    /// Safe to add to this world specifically because `multibuffer-view-registry`
+    /// is already wired into BOTH linkers (`PluginHost::new`, the async and the
+    /// sync-grammar one). An import absent from a linker a component is
+    /// instantiated against fails the WHOLE component, silently — the OC.2 scar
+    /// where one `logging::log` call took org down entirely — so an import is
+    /// only added to a world once its seam is known to resolve everywhere.
+    import multibuffer-view-registry;
+
+    use types.{event};
+    use events.{wake-id};
+
+    /// Called once by the host to drive subscription registration; the guest
+    /// calls the imported `events.subscribe(filter, handler)` inside it.
+    export register-events: func();
+
+    /// Deliver one matching event to `handler` (host→guest, async). An error /
+    /// trap is the graceful-degradation guard: the host logs + skips this
+    /// delivery, the plugin stays subscribed, other subscribers are untouched
+    /// (§8; PH7.8c bounds it with the event budget, PH7.8d).
+    export on-event: func(handler: u32, ev: event);
+
+    /// OC.2: an armed `wake-every` came due. Same task, same budget, same
+    /// graceful-degradation contract as `on-event` — a trap here quarantines the
+    /// plugin exactly as one there does, and the actor keeps running for every
+    /// other plugin. A plugin that arms no wakes exports an empty body the host
+    /// never calls.
+    export on-wake: func(id: wake-id);
+}

@@ -1,0 +1,2196 @@
+package lattice:plugin-host@0.1.0;
+
+/// Shared boundary records/variants — the owned, WIT-serializable mirrors of
+/// the native grammar + picker/completion types (plugin-host.md §4). Every
+/// interface that crosses one of these `use`s it from here; the host
+/// round-trips native ↔ these generated types via the `WitBoundary` adapter
+/// trait (`boundary.rs`, PH7.3a). Bulk rope text never rides these records —
+/// it crosses via the `buffer` `document` resource handle (PH7.3c).
+///
+/// Populated incrementally across PH7.3: `args`/`arg-value` (PH7.3a),
+/// `raw-candidate` + `picker-accept-outcome` (PH7.3a), the `effect` variant
+/// mirror (PH7.3b). Types whose native form carries a nested
+/// `CommandInvocation` (e.g. `arg-value::invocation`) are deferred to the
+/// command mirror (§4.1) and cross as a typed error until then.
+interface types {
+    /// Mirrors `lattice_grammar::args::ArgValue`. The native
+    /// `Invocation(Box<CommandInvocation>)` variant is intentionally absent
+    /// until the command mirror lands (§4.1); crossing it before then is a
+    /// typed `WitBoundary` error, never a lossy encoding.
+    variant arg-value {
+        %string(string),
+        %char(char),
+        %bool(bool),
+        int(s64),
+        pattern(string),
+        chord(string),
+        raw(string),
+    }
+
+    /// Mirrors `lattice_grammar::args::Args`. `bytes` is the msgpack escape
+    /// hatch (`Args::Bytes`) retained for now; typed calls prefer `list`.
+    variant args {
+        none,
+        %char(char),
+        %string(string),
+        bytes(list<u8>),
+        %list(list<arg-value>),
+    }
+
+    /// Mirrors `lattice_completion::candidate::CandidateKind`.
+    variant candidate-kind {
+        command,
+        %option,
+        file,
+        directory,
+        pattern,
+        buffer,
+        register,
+        mark,
+        chord,
+        plain,
+        /// Plugin-defined kind; the u32 is the registered kind tag.
+        extension(u32),
+    }
+
+    /// Mirrors `lattice_completion::candidate::CandidateData`. The native
+    /// `Command { .., source: SourceLocation }` variant is intentionally
+    /// absent: `SourceLocation` is recursive (`DotRepeat(Box<Self>)`), which a
+    /// WIT variant cannot express directly, and command candidates are a
+    /// native-generator concern, not a plugin one. Crossing it is a typed
+    /// `WitBoundary` error until the provenance mirror lands — never lossy.
+    variant candidate-data {
+        file(candidate-file),
+        %option(candidate-option),
+        option-value(candidate-option-value),
+        chord(candidate-chord),
+        register(candidate-register),
+        mark(candidate-mark),
+        plain,
+        /// Plugin-defined arbitrary payload (the `Extension` hatch): the
+        /// `kind-id` routes to the registering plugin's annotator, which
+        /// decodes `payload`.
+        extension(candidate-extension),
+    }
+
+    record candidate-file {
+        path: string,
+        is-dir: bool,
+        size: option<u64>,
+    }
+    record candidate-option {
+        name: string,
+        current-value: string,
+        doc: string,
+    }
+    record candidate-option-value {
+        option-name: string,
+        value: string,
+        doc: string,
+    }
+    record candidate-chord {
+        chord: string,
+        mode-label: string,
+        doc: string,
+    }
+    record candidate-register {
+        name: char,
+        preview: string,
+    }
+    record candidate-mark {
+        name: char,
+        position: string,
+    }
+    record candidate-extension {
+        kind-id: u32,
+        payload: list<u8>,
+    }
+
+    // ---- Marginalia annotations (PH7.4a, marginalia.md §8 / MARG.1) ----
+    // The whole closed `Annotation` enum crosses so a plugin picker source can
+    // define + populate marginalia columns (the user's PH7.4 requirement). The
+    // host lays out `AnnotationColumns` from the visible set (a render-consumed
+    // projection), so only the per-candidate annotations cross, never the column
+    // layout. `slot` / `category` are theme element KEYS resolved at paint, never
+    // baked colors, so a `:colorscheme` swap recolors plugin marginalia live.
+
+    /// Mirrors `lattice_protocol::chord::SpecialKey`. `f` carries the function-key
+    /// number (`1..=24`; `0` is invalid and rejected at the boundary).
+    variant special-key {
+        esc, enter, tab, backspace, space,
+        up, down, left, right,
+        home, end, page-up, page-down, insert, delete,
+        f(u8),
+    }
+    /// Mirrors `lattice_protocol::chord::KeyKind`.
+    variant key-kind {
+        %char(char),
+        special(special-key),
+    }
+    /// Mirrors `lattice_protocol::chord::KeyChord`. `mods` is the raw `KeyMods`
+    /// bitfield (Ctrl=1, Shift=2, Alt=4, Super=8) — structural, not lossy.
+    record key-chord {
+        key: key-kind,
+        mods: u8,
+    }
+
+    /// Mirrors `lattice_completion::candidate::AnnotationSegment` — one run of
+    /// marginalia text sharing a theme `slot` key.
+    record annotation-segment {
+        text: string,
+        slot: string,
+    }
+    /// Payload of `annotation::custom` (the plugin escape hatch): pre-formatted
+    /// `text` + a theme `slot` key.
+    record annotation-custom {
+        text: string,
+        slot: string,
+    }
+    /// Payload of `annotation::styled` (§8: a multi-slot column cell) — a `category`
+    /// key plus per-segment slot-keyed runs (file-permission strings, size+unit, …).
+    record annotation-styled {
+        category: string,
+        segments: list<annotation-segment>,
+    }
+    /// Mirrors `lattice_completion::candidate::Annotation` (whole closed enum).
+    variant annotation {
+        kind(string),
+        doc-snippet(string),
+        keybinding(list<key-chord>),
+        source(string),
+        custom(annotation-custom),
+        styled(annotation-styled),
+    }
+
+    /// PS.1: a styled run of a candidate's `display` text.
+    ///
+    /// `start` / `end` are BYTE offsets into `display`, half-open. A range that
+    /// is out of bounds, inverted, or not on a UTF-8 boundary is dropped with a
+    /// warning naming the source — one bad span must not cost a row its other
+    /// runs, and must never panic the picker.
+    ///
+    /// `slot` is a **capture or theme-element name**, resolved host-side
+    /// through exactly the path a `highlights.scm` capture takes
+    /// (`name_to_style_with_theme`): a builtin category (`keyword`,
+    /// `text.title.1`, `comment`) wins first, and any other name resolves
+    /// against the theme registry as a `Style::Element` — which is how a
+    /// plugin's own registered element (`org.todo.WAITING`) reaches a picker
+    /// row. An unresolvable name renders unstyled rather than failing the row.
+    ///
+    /// Naming a style rather than carrying one is deliberate, and follows
+    /// `annotation-custom.slot`: a `Style` is a closed Rust enum plus an
+    /// interned element id, and neither crosses an ABI meaningfully. A name
+    /// does, and it means a guest's picker row is coloured by the SAME
+    /// vocabulary — and the same active colourscheme — as the buffer it came
+    /// from.
+    record display-span {
+        start: u32,
+        end: u32,
+        slot: string,
+    }
+
+    /// Mirrors the crossable core of `lattice_completion::candidate::RawCandidate`
+    /// **plus marginalia** (PH7.4a). `accept_action` remains host-only
+    /// (`#[serde(skip)]`, reconstructed host-side, §4.4); `annotations` crosses
+    /// so plugin sources contribute themed columns. `source` is the optional
+    /// source id.
+    ///
+    /// PS.1: `display-spans` now crosses too. It was host-only on the reasoning
+    /// that render-time fields are "re-derived host-side when needed" — which
+    /// holds for a grep hit (the host has the path and the line, and re-derives
+    /// through the preview highlighter) and does not hold for a row that is not
+    /// a line of a file. An org-roam node title is a *headline's text* with no
+    /// stars and no file line to parse, so there was nothing to re-derive from
+    /// and every plugin picker row rendered plain, with no way for the plugin
+    /// that owns the domain to say otherwise.
+    record raw-candidate {
+        text: string,
+        /// OR.7: what to insert on accept when that differs from the text
+        /// the query matched. `none` ⇒ insert `text`. A completion source
+        /// that offers a human-readable label but inserts machine syntax
+        /// (org-roam offering a node title and inserting an `[[id:…][…]]`
+        /// link) needs both, and matching against the machine syntax
+        /// instead would score every candidate on its id.
+        insert-text: option<string>,
+        display: string,
+        source: option<string>,
+        kind: candidate-kind,
+        data: candidate-data,
+        annotations: list<annotation>,
+        /// PS.1: styled runs over `display`. Empty for every source that does
+        /// not style itself, which is the pre-PS.1 behaviour exactly.
+        display-spans: list<display-span>,
+    }
+
+    /// Mirrors `lattice_picker::outcome::PickerAcceptOutcome`. All flat pure
+    /// data; paths cross as strings; `invoke-command` reuses `args`.
+    variant picker-accept-outcome {
+        open-file(string),
+        switch-buffer(u32),
+        jump-in-buffer(jump-target),
+        jump-to-mark(char),
+        jump-to-location(location),
+        invoke-command(command-ref),
+        paste-register(char),
+        expand-snippet(string),
+        open-lsp-log(string),
+        open-lsp-trace-log(string),
+        apply-lsp-code-action(lsp-code-action-ref),
+        apply-lsp-completion(u32),
+        apply-colorscheme(string),
+        no-op,
+    }
+
+    record jump-target {
+        buffer-id: u32,
+        line: u32,
+        col: u32,
+    }
+    record location {
+        path: string,
+        line: u32,
+        col: u32,
+    }
+    record command-ref {
+        id: string,
+        args: args,
+    }
+    record lsp-code-action-ref {
+        handle: u64,
+        index: u32,
+    }
+
+    // ---- Effect payload mirrors (PH7.3b1a) ----
+    // The nested payload types the `effect` variant (PH7.3b1b) composes.
+
+    /// Mirrors `lattice_protocol::position::Position`.
+    record position {
+        line: u32,
+        byte: u32,
+    }
+    /// Mirrors `lattice_protocol::position::Range`.
+    record range {
+        start: position,
+        end: position,
+    }
+
+    /// Mirrors `lattice_protocol::edit::EditKind`.
+    variant edit-kind {
+        replace(string),
+    }
+    /// Mirrors `lattice_protocol::edit::Edit`.
+    record edit {
+        range: range,
+        kind: edit-kind,
+    }
+    /// Mirrors `lattice_protocol::edit::EditDelta`.
+    record edit-delta {
+        start-byte: u32,
+        old-end-byte: u32,
+        new-end-byte: u32,
+        start-position: position,
+        old-end-position: position,
+        new-end-position: position,
+    }
+    /// Mirrors `lattice_core::buffer::AppliedEdit`.
+    record applied-edit {
+        original-range: range,
+        inserted-range: range,
+        replaced-text: string,
+        inserted-text: string,
+        delta: edit-delta,
+    }
+
+    /// Mirrors `lattice_protocol::selection::VisualMode`.
+    variant visual-mode {
+        charwise,
+        linewise,
+        blockwise,
+    }
+    /// Mirrors `lattice_protocol::selection::Selection`.
+    record selection {
+        anchor: position,
+        head: position,
+        visual: option<visual-mode>,
+    }
+    /// Mirrors `lattice_protocol::selection::SelectionSet` (reconstructed via
+    /// `SelectionSet::from_parts`). Always non-empty; `primary` indexes
+    /// `selections`.
+    record selection-set {
+        selections: list<selection>,
+        primary: u32,
+    }
+
+    /// Mirrors `lattice_grammar::modal::VisualKind`.
+    variant visual-kind {
+        charwise,
+        linewise,
+        blockwise,
+    }
+    /// Mirrors `lattice_grammar::modal::SearchDirection`.
+    variant search-direction {
+        forward,
+        backward,
+    }
+    /// Mirrors `lattice_grammar::modal::ModalState`.
+    variant modal-state {
+        normal,
+        insert,
+        visual(visual-kind),
+        %select(visual-kind),
+        operator-pending,
+        command,
+        search(search-direction),
+        %replace,
+        prompt,
+    }
+
+    /// Mirrors `lattice_grammar::register::Register`.
+    variant register {
+        unnamed,
+        named(char),
+        system,
+        black-hole,
+        expression,
+        read-only(char),
+        numbered(u8),
+    }
+
+    /// Mirrors `lattice_grammar::effect::YankKind`.
+    variant yank-kind {
+        charwise,
+        linewise,
+        blockwise,
+    }
+
+    // ---- The `effect` variant mirror (PH7.3b1b) ----
+    // Mirrors the whole crossable surface of `lattice_grammar::effect::Effect`
+    // (§4.4: the closed "host boundary vocabulary"). Three arms are absent by
+    // design and cross as typed `WitBoundary` errors (never lossy):
+    //   - `Effect::Many(Vec<Effect>)` — WIT value types cannot be recursive, so
+    //     `Many` is not an arm. The boundary crosses `list<effect>` instead:
+    //     `to_wit` flattens `Many` (associative composition), `from_wit`
+    //     rebuilds `Many` when the list has >1 element.
+    //   - `Effect::Global { body: Box<CommandInvocation>, .. }` — needs the
+    //     command mirror (§4.1); typed error until then.
+    //   - `Effect::AppAction(AppEffect)` — needs the `AppEffect` mirror (PH7.3b2);
+    //     typed error until then.
+
+    /// Mirrors `lattice_grammar::effect::QuitScope`.
+    variant quit-scope { pane, all }
+    /// Mirrors `lattice_grammar::effect::EchoLevel`.
+    variant echo-level { trace, debug, info, warn, error }
+    /// Mirrors `lattice_grammar::effect::SubstituteScope`.
+    variant substitute-scope { current-line, whole }
+    /// Mirrors `lattice_grammar::effect::Utf16Pos`.
+    record utf16-pos { line: u32, col: u32 }
+    /// Mirrors `lattice_grammar::effect::LspRequest`.
+    variant lsp-request {
+        hover,
+        definition,
+        declaration,
+        type-definition,
+        implementation,
+        references,
+        follow-link,
+    }
+
+    // Payload records for the multi-field `effect` arms. Paths cross as
+    // `option<string>` / `string` (a non-UTF-8 path is a typed error, §4.4).
+    /// Mirrors `lattice_core::ui::popup::PopupPlacement`.
+    ///
+    /// WK.5 added `minibuffer-band` (full pane width, flush to its bottom
+    /// edge — which-key's placement). Mirrored here rather than collapsed
+    /// to `centered` at the boundary because this enum's contract is that
+    /// it IS the mirror: a placement reachable natively but not from a
+    /// plugin is an arbitrary gap in the canonical API (paramount #2).
+    enum popup-placement { centered, cursor-anchored, minibuffer-band }
+    /// Mirrors `lattice_core::ui::popup::PopupFocus`.
+    enum popup-focus { steal, passive }
+    /// Payload for the `open-popup` effect (popup-api.md §4.3). Name-based:
+    /// the host ensures a popup buffer named `name` under major mode `mode-id`.
+    record open-popup-payload {
+        name: string,
+        mode-id: string,
+        placement: popup-placement,
+        focus: popup-focus,
+    }
+    /// IX.3: the payload of `effect.confirm`.
+    ///
+    /// `yes-action` names an action the guest (or host) registered; the
+    /// host resolves it through the command registry when the user
+    /// answers `y`. A **name**, not a command id — a guest cannot hold a
+    /// host-internal id, and names are what a plugin registers under.
+    ///
+    /// `args` is what the yes-action receives when it fires, so the
+    /// confirmed target and the executed target are the same thing.
+    /// Without it the yes-half must re-derive its target at answer time
+    /// from context that may have changed while the dialog was open.
+    record confirm-payload {
+        /// Shown as the dialog's title. Name the target in it — a
+        /// question has to be answerable without dismissing it to go
+        /// look.
+        prompt: string,
+        /// Action name dispatched on `y`. `n` / `q` / Esc dismiss and
+        /// dispatch nothing.
+        yes-action: string,
+        /// Arguments handed to `yes-action`, positional against its
+        /// declared `args-schema`.
+        args: args,
+    }
+
+    /// IX.5: the payload of `effect.open-prompt`.
+    ///
+    /// A one-line minibuffer prompt. On submit the host dispatches
+    /// `on-submit-action`, handing it the typed text — the action reads
+    /// it from its context's `prompt-value`, not from `args`, because
+    /// the value is what the *user* typed rather than what the caller
+    /// chose.
+    /// TR.3a: what `effect::open-transient` carries.
+    record open-transient-payload {
+        /// The registered source name.
+        source: string,
+        /// Arguments for this open, handed to the builder as
+        /// `transient-context.args`. `args::none` for a plain open.
+        args: args,
+    }
+
+    record open-prompt-payload {
+        /// Shown before the input area.
+        prompt: string,
+        /// Pre-filled text; empty for a blank prompt.
+        initial: string,
+        /// Action dispatched on submit. Escape dismisses and dispatches
+        /// nothing.
+        on-submit-action: string,
+        /// Optional synthetic name for the prompt buffer. Callers that
+        /// need to smuggle state through a multi-step flow encode it
+        /// here; `none` gets the default name.
+        buffer-name: option<string>,
+    }
+
+    /// XF.4: where in a target file a `write-to-file` lands.
+    ///
+    /// A *position*, not a range, and the asymmetry with `apply-edit` is
+    /// deliberate: for its own buffer a guest holds `borrow<document>` and can
+    /// compute a range that means something; for a file it has never read, a
+    /// range would be a guess. These are the three positions namable without
+    /// reading. Insert-only also means a guest cannot silently destroy content
+    /// in a file the user was not looking at.
+    variant file-anchor {
+        /// After the last line. The common case — archive, refile and capture
+        /// all append.
+        end,
+        /// Before the first line.
+        start,
+        /// Before this 0-based line. Past the end clamps to `end` rather than
+        /// failing: a guest computing a line from a file it has not read can
+        /// legitimately be off, and refusing to file the text at all is worse
+        /// than filing it at the end.
+        line(u32),
+    }
+
+    /// XF.4: move text into a file the editor may not have open.
+    ///
+    /// The primitive `org-archive-subtree`, `org-refile` and `org-capture`
+    /// were blocked on. `apply-edit` addresses a `buffer-id`, which a guest
+    /// cannot learn for a file that has never been opened.
+    ///
+    /// **The write goes through the document pipeline, not to disk.** The host
+    /// resolves `path` to a buffer, reusing one already open — so the user's
+    /// unsaved changes are what the write lands on, `u` covers it, and the LSP
+    /// hears about it. The target is left MODIFIED, not saved: a plugin that
+    /// silently writes files is a larger authority than one that edits
+    /// buffers.
+    record write-to-file-payload {
+        /// Absolute, or relative to the editor's working directory.
+        ///
+        /// **Checked against this plugin's `fs:write` grant**, host-side, at
+        /// the boundary — a path outside it is refused and echoed, and the
+        /// effect never reaches the editor. The check runs here rather than at
+        /// the applier because the applier cannot tell a plugin's effect from
+        /// a native mode's; only the boundary still knows whose this is.
+        path: string,
+        anchor: file-anchor,
+        /// Inserted verbatim. A trailing newline is the guest's business —
+        /// except that the host supplies a line break when appending to a
+        /// target whose last line has none, which the guest cannot know.
+        text: string,
+        /// When present, this range is removed from the buffer the action ran
+        /// in — and ONLY after the insert has landed.
+        ///
+        /// One effect rather than two, because as two the failure modes are
+        /// "the text exists twice" and "the text is gone". The second is data
+        /// loss from a keystroke, and an effect cannot report failure, so two
+        /// ordered effects could not be made to depend on each other.
+        cut: option<range>,
+        /// OR.10: create missing parent directories rather than refusing.
+        ///
+        /// **False is the rule, not caution.** The host refuses a missing
+        /// parent because creating directories is a larger authority than
+        /// creating a file, and a typo'd path must not silently build a tree.
+        /// That stays true for every guest that does not ask.
+        ///
+        /// A guest asks when the directory is part of the LAYOUT IT OWNS rather
+        /// than something the user typed. org-roam's `daily/YYYY-MM-DD.org` is
+        /// the case that forced this: the folder is named by an option with a
+        /// default, no user ever types it, and without this the very first
+        /// `:org-roam-dailies-today` on a fresh corpus fails — the one use
+        /// where the feature has to work.
+        ///
+        /// Still bounded by `path`'s `fs:write` check above, which runs BEFORE
+        /// this is read. Asking widens what is created inside the grant, never
+        /// what is reachable outside it.
+        create-parents: bool,
+        /// OC.9: persist the target to disk once the write has landed, rather
+        /// than leaving the buffer modified.
+        ///
+        /// **False is the rule.** `cross-file-writes.md` §7 leaves a target
+        /// open, listed and MODIFIED, and that is what emacs's `org-refile` and
+        /// `org-archive-subtree` do: the user reviews the change and writes it
+        /// themselves. Every guest that does not ask keeps that behaviour.
+        ///
+        /// A guest asks when its whole operation is "commit this somewhere",
+        /// and org-capture is that case — `org-capture.el`'s finalize runs
+        /// `(unless (org-capture-get :no-save) (save-buffer))`, so saving is
+        /// emacs's DEFAULT there and `:no-save` exists to opt out of it. The
+        /// asymmetry with refile is not an inconsistency in either editor: a
+        /// refile moves text you are looking at, a capture files text you are
+        /// done with.
+        ///
+        /// It also decides whether anything that reads the FILE can see the
+        /// write. The agenda scan reads from disk, so an unsaved capture is
+        /// invisible to a refresh no matter how correct the buffer is.
+        ///
+        /// **Only after a landed insert**, and after `cut` — the ordering
+        /// `cut` already documents extends to this. A write that failed saves
+        /// nothing, so the flag can never persist a half-applied effect.
+        /// Bounded by the same `fs:write` grant as `path`: this reaches disk
+        /// only where the guest could already have created the file.
+        save: bool,
+    }
+
+    record apply-edit-payload {
+        /// The target `BufferId` (its inner `u32`).
+        target: u32,
+        edit: edit,
+        /// Where to park the caret after the edit — a column-precise `position`
+        /// (line + byte), so a plugin action can place it *between* an inserted
+        /// pair, not only at a row start (AP.2). `none` leaves the caret put.
+        cursor: option<position>,
+    }
+    record yank-payload {
+        register: register,
+        content: string,
+        kind: yank-kind,
+        /// `true` for an explicit yank (`y`/`yy`/Visual `y`); `false` for the
+        /// register writes delete/change/`x` also perform. Drives the yank-only
+        /// system-clipboard mirror (clipboard.md §5).
+        explicit-yank: bool,
+    }
+    record quit-payload {
+        force: bool,
+        scope: quit-scope,
+    }
+    record open-buffer-payload {
+        path: option<string>,
+        force: bool,
+    }
+    record open-buffer-at-payload {
+        path: option<string>,
+        position: position,
+        force: bool,
+        /// CD.2: seed text, applied only when the file is NOT on disk —
+        /// reopening an existing file never replaces what is in it.
+        content: option<string>,
+        /// CD.2: a minor to activate alongside the major the path resolves,
+        /// before the buffer is shown. The file-backed peer of
+        /// `open-synthetic-buffer-payload`'s field, for OC.7a's reason.
+        activate-minor: option<string>,
+    }
+    record open-buffer-at-column-payload {
+        path: option<string>,
+        column: option<utf16-pos>,
+        force: bool,
+    }
+    /// OC.7a: `content` / `cursor` / `activate-minor` close a hole a guest
+    /// could not work around.
+    ///
+    /// A native mode fills its own synthetic buffer from `on_activate`. The
+    /// `modes` seam is DECLARATION-ONLY — a guest exports `register-modes` and
+    /// nothing else — so a plugin mode has no such hook, and a guest that
+    /// emitted this effect got a buffer it could never put text in. The other
+    /// route, `effect.apply-edit`, needs the target's `buffer-id`, which this
+    /// effect does not hand back and which the guest cannot look up.
+    ///
+    /// So the payload carries what the guest would otherwise have to write:
+    /// the text, where to leave the caret in it, and a minor to ride the
+    /// major. Every field is optional and omitting all three is the pre-OC.7a
+    /// behaviour exactly.
+    record open-synthetic-buffer-payload {
+        name: string,
+        /// The buffer's MAJOR mode.
+        mode-id: string,
+        /// Seed text, applied before the buffer is shown so the first frame is
+        /// the finished one — a buffer that appears empty and fills a tick
+        /// later is the content-jump the UX contract vetoes.
+        ///
+        /// `none` leaves the buffer empty (the mode fills it, or nothing does).
+        /// Ignored when the buffer already existed: a re-open must not
+        /// overwrite what the user has typed into it, which is the difference
+        /// between reopening a capture and losing one.
+        content: option<string>,
+        /// Where to park the caret in `content` — org capture's `%?` point.
+        /// Out of range is clamped rather than refused; a template whose `%?`
+        /// sits past its own text is a template bug that must not cost the
+        /// user the capture.
+        cursor: option<position>,
+        /// A minor to activate on the buffer alongside its major. Mirrors
+        /// `spawn-terminal-payload.activate-minor`, and exists for the same
+        /// reason: the interesting behaviour belongs to a minor that rides a
+        /// general-purpose major. An org capture buffer IS an org buffer — it
+        /// wants org's grammar, motions and folding — so its major is
+        /// `org-mode` and only the `C-c C-c` / `C-c C-k` finalize/abort pair
+        /// is capture-specific. Naming the minor here is what keeps those
+        /// chords off every other org buffer.
+        activate-minor: option<string>,
+    }
+    record spawn-terminal-payload {
+        /// PC.2: working directory to spawn in, overriding the active buffer's
+        /// project root for this spawn only.
+        ///
+        /// `lattice_terminal::SpawnConfig` has carried a `cwd` since the
+        /// terminal shipped ("`none` = inherit parent's cwd"); this is the
+        /// boundary catching up, so a producer that knows WHICH project it
+        /// means can say so. `none` keeps PR.3's behaviour exactly.
+        cwd: option<string>,
+        cmd-line: option<string>,
+        env: list<tuple<string, string>>,
+        activate-minor: option<string>,
+    }
+    record echo-payload {
+        level: echo-level,
+        text: string,
+    }
+    record substitute-payload {
+        scope: substitute-scope,
+        pattern: string,
+        replacement: string,
+        global: bool,
+    }
+    record describe-command-payload {
+        name: string,
+        anchor: option<string>,
+    }
+    record open-picker-payload {
+        source: string,
+        args: list<string>,
+        /// PC.1: the root this picker resolves against, overriding the active
+        /// buffer's project for this open only.
+        ///
+        /// **Why the context and not an argument.** A `live` source (`grep`)
+        /// re-queries through `on-query-changed`, which sees the query and the
+        /// context and NOT the open's args — and a source is a shared generator
+        /// with no per-open state. A root passed as an argument would apply to
+        /// the first query and silently revert to the workspace root on the
+        /// next keystroke, which is worse than not having it.
+        ///
+        /// `none` resolves from the active buffer, exactly as before.
+        root: option<string>,
+        /// PC.11: this picker is being opened **to answer a question**, and
+        /// the answer goes to the named ex-command as its first argument.
+        ///
+        /// `picker-accept-outcome`'s `fill-caller` already means "hand this
+        /// value to whoever opened me". What it lacked was a destination a
+        /// GUEST can own: the host's fill targets are the document, the `:`
+        /// line, a prompt, a transient argument and another picker's query,
+        /// and a plugin owns none of them. It does own an ex-command.
+        ///
+        /// `open-prompt-payload.on-submit-action` is this shape already, for
+        /// this reason — the asymmetry between the two, where a guest could
+        /// be handed a prompt's answer but not a picker's, is what this
+        /// closes.
+        ///
+        /// **Not an override of the source's own accept.** A source decides
+        /// what accepting one of its candidates means; `file-pick` and
+        /// `dir-pick` exist as separate sources precisely so "supply a value"
+        /// is the source's decision rather than the caller's. This names
+        /// where such a value lands.
+        ///
+        /// `none` leaves the target as whatever surface was captured at open.
+        fill-action: option<string>,
+        /// CD.6a: text the query starts with. For a static source it narrows the
+        /// rows from the first frame (emacs's `completing-read` initial input);
+        /// org-roam's node insert seeds it from the active region. Appended
+        /// last, so earlier fields keep their positions.
+        query: option<string>,
+    }
+    record set-lsp-log-level-payload {
+        server-id: option<string>,
+        level: string,
+    }
+    record diffsplit-payload {
+        path: string,
+        remote: option<string>,
+    }
+    record close-session-diffs-payload {
+        origin-session: u64,
+        tab-name: string,
+    }
+
+    /// Mirrors `lattice_grammar::effect::Effect` (§4.4). Every arm is pure data;
+    /// `Many`/`Global`/`AppAction` are absent by design (see the note above).
+    variant effect {
+        none,
+        /// AP.0.2: the action DECLINES the chord (it did nothing) — the
+        /// dispatcher re-resolves as if this action's keymap layer weren't there,
+        /// falling through to the next binding. Distinct from `none` (a no-op
+        /// that consumes the chord). A guest returns `[declined]` to fall through.
+        declined,
+        edits(list<applied-edit>),
+        apply-edit(apply-edit-payload),
+        /// XF.4: move text into another file. See `write-to-file-payload`.
+        write-to-file(write-to-file-payload),
+        selection-change(selection-set),
+        cursor-move(position),
+        /// IX.3: ask the user a yes/no question, then dispatch an action.
+        /// Available to plugins because asking the user something is
+        /// table stakes, not an advanced capability.
+        confirm(confirm-payload),
+        /// IX.5: ask the user for a line of text, then dispatch an
+        /// action with it. The other half of "a plugin can collect
+        /// input" — without it a guest can only ask yes/no questions.
+        open-prompt(open-prompt-payload),
+        /// IX.6: open a named transient menu. The payload names the
+        /// *source* the owning crate registered with the
+        /// `TransientSourceRegistry`, not a menu structure — the menu is
+        /// built host-side from that registration, so a guest opens its
+        /// own menu by naming it rather than by shipping a spec across
+        /// on every press.
+        ///
+        /// TR.3a: it also carries the ARGUMENTS the open was requested
+        /// with, which reach the builder as `transient-context.args`.
+        /// Without them a menu cannot drill down — a row that opens a
+        /// second menu has no way to say what it opened it FOR, and the
+        /// builder would have to keep the answer in guest memory where
+        /// nothing clears it.
+        open-transient(open-transient-payload),
+        yank(yank-payload),
+        enter-mode(modal-state),
+        save-buffer(option<string>),
+        quit-editor(quit-payload),
+        open-buffer(open-buffer-payload),
+        open-buffer-at(open-buffer-at-payload),
+        open-external-uri(string),
+        open-buffer-at-column(open-buffer-at-column-payload),
+        spawn-terminal(spawn-terminal-payload),
+        terminal-input(list<u8>),
+        set-option(string),
+        set-local-option(string),
+        set-global-option(string),
+        clear-search-highlight,
+        set-colorscheme(string),
+        echo(echo-payload),
+        show-diagnostics-popup(list<tuple<string, u8>>),
+        lsp(lsp-request),
+        echo-registers,
+        echo-marks,
+        substitute(substitute-payload),
+        delete-current-line,
+        describe-command(describe-command-payload),
+        describe-buffer,
+        apropos(string),
+        describe-key(string),
+        list-keymap,
+        buffer-next,
+        buffer-prev,
+        list-buffers,
+        open-buffer-picker,
+        open-picker(open-picker-payload),
+        buffer-delete(bool),
+        open-file-tree(option<string>),
+        close-file-tree,
+        open-oil(option<string>),
+        describe-option(string),
+        describe-element(string),
+        list-options,
+        // PI.2: plugin-API introspection help effects.
+        describe-plugin-api(option<string>),
+        list-plugin-apis,
+        export-plugin-api(option<string>),
+        list-commands,
+        describe-plugin(string),
+        list-plugins,
+        open-hover(string),
+        dismiss-popup,
+        // Dismiss the popup only if it is the named one; a no-op otherwise.
+        // `dismiss-popup` is the user's verb ("close what I am looking at");
+        // this is the one a mode uses when it dismisses on its own schedule,
+        // where the slot may hold someone else's popup by the time the effect
+        // lands. See `Effect::DismissPopupNamed` for the bug that motivated it.
+        dismiss-popup-named(string),
+        open-popup(open-popup-payload),
+        open-help-topic(option<string>),
+        list-diagnostics,
+        next-diagnostic,
+        prev-diagnostic,
+        open-lsp-log(option<string>),
+        open-messages,
+        open-dashboard,
+        toggle-lsp-trace(string),
+        open-lsp-trace-log(option<string>),
+        lsp-status,
+        lsp-server-log-listing,
+        lsp-restart(string),
+        lsp-progress-cancel(option<string>),
+        lsp-expand-region,
+        lsp-shrink-region,
+        set-lsp-log-level(set-lsp-log-level-payload),
+        lsp-log-clear(option<string>),
+        lsp-document-symbol,
+        lsp-workspace-symbol(string),
+        lsp-incoming-calls,
+        lsp-outgoing-calls,
+        lsp-supertypes,
+        lsp-subtypes,
+        lsp-moniker,
+        lsp-code-lens,
+        lsp-color-presentation,
+        lsp-format,
+        lsp-format-range,
+        lsp-signature-help,
+        lsp-complete,
+        lsp-rename(string),
+        lsp-code-action,
+        expand-snippet(range),
+        reload-snippets,
+        describe-events,
+        describe-diff,
+        diff-open,
+        diff-off(bool),
+        diffthis,
+        diffsplit(diffsplit-payload),
+        diff-get-cmd(option<u32>),
+        diff-put-cmd(option<u32>),
+        diff-accept,
+        diff-reject,
+        diff-accept-all,
+        diff-reject-all,
+        close-session-diffs(close-session-diffs-payload),
+        close-all-session-diffs(u64),
+        next-hunk,
+        prev-hunk,
+        describe-event(string),
+        list-modes,
+        describe-mode(string),
+        describe-active-modes,
+        describe-active-bindings,
+        describe-option-resolution(string),
+        customize(option<string>),
+        tutor(option<u32>),
+        toggle-mode(string),
+        app-action(app-effect),
+        record-jump,
+        open-ai-log(option<string>),
+        open-synthetic-buffer(open-synthetic-buffer-payload),
+        /// CD.1: show the buffer with this id in the active pane. The peer of
+        /// `apply-edit`'s `target`: a guest can edit a buffer it knows only by
+        /// id, and this shows one. An id that no longer names a buffer is a
+        /// no-op. Appended last so existing variant indices do not move.
+        focus-buffer(u32),
+        /// CD.3d: run a registered command — an action with typed args, else
+        /// an ex line — AFTER the effects before it in the same batch. A
+        /// write-to-file that does not land stops the batch, so work that must
+        /// follow a successful write (deleting what was filed) goes here rather
+        /// than in a host call, which runs before any effect is applied.
+        invoke-command(command-ref),
+    }
+
+    // ---- The `app-effect` variant mirror (PH7.3b2) ----
+    // Mirrors `lattice_grammar::app_effect::AppEffect` — the App-side typed
+    // effect carried by `Effect::AppAction` (chord-bound work with no grammar
+    // concept: `<Esc>`, `<C-w>v`, `o`, …). Pure, flat, non-recursive data. One
+    // arm is absent by design: `AppEffect::NarrowTrigger { range: Option<Range> }`
+    // carries `lattice_grammar::range::Range`, which is recursive
+    // (`RangeBound::Offset { base: Box<RangeBound> }`) and carries a plugin
+    // `RangeId` — WIT cannot express it, so `NarrowTrigger` crosses as a typed
+    // `WitBoundary` error until a range mirror lands (the `Global` precedent).
+    // `NarrowLines` (pre-resolved line span) crosses fine.
+
+    /// Mirrors `lattice_grammar::app_effect::ViewportPos` (`H`/`M`/`L`).
+    variant viewport-pos { top, middle, bottom }
+    /// Mirrors `lattice_grammar::app_effect::ScrollPos` (`zt`/`zz`/`zb`).
+    variant scroll-pos { top, center, bottom }
+    /// Mirrors `lattice_grammar::app_effect::PaneDirection`.
+    variant pane-direction { left, down, up, right }
+    /// Mirrors `lattice_grammar::app_effect::InsertLineEdit` — the `<C-a>`,
+    /// `<C-e>`, `<C-b>`, `<C-f>`, `<C-w>`, `<C-u>`, `<C-k>`, `<C-t>`, `<C-d>`
+    /// readline/vim line-editing family within Insert mode.
+    variant insert-line-edit {
+        cursor-line-start,
+        cursor-line-end,
+        cursor-char-left,
+        cursor-char-right,
+        delete-word-backward,
+        delete-to-line-start,
+        kill-to-line-end,
+        indent-line,
+        dedent-line,
+    }
+    /// Mirrors `lattice_grammar::app_effect::HScroll` (vim `z{l,h,L,H,s,e}`).
+    /// Each arm's bool is the native struct field: `columns`/`half-screen`
+    /// carry `right`, `cursor-to-edge` carries `end`.
+    variant hscroll {
+        columns(bool),
+        half-screen(bool),
+        cursor-to-edge(bool),
+    }
+    /// Mirrors `AppEffect::NarrowLines` and `AppEffect::CreateFold`: a
+    /// pre-resolved inclusive 0-based line span.
+    record narrow-lines-payload {
+        start-line: u32,
+        end-line: u32,
+    }
+
+    /// RF.5b: which of the three formatting jobs a range wants done.
+    ///
+    /// Mirrors `lattice_core::FormatIntent`. Separate values rather than
+    /// one "format" because they are not substitutable: an indent that
+    /// reflows is destructive, and a reformatter asked to reflow prose
+    /// mostly does nothing. See `docs/dev/architecture/text-reflow.md` §2.
+    enum format-intent {
+        /// Leading whitespace only (`=`).
+        indent,
+        /// Line breaks within a paragraph (`gq` / `gw`).
+        reflow,
+        /// Anything the formatter likes (`:format`, `g=`).
+        reformat,
+    }
+
+    /// Mirrors `AppEffect::FormatRange` — an operator has resolved its
+    /// range and the buffer's chain says a non-native provider owns it.
+    record format-range-payload {
+        intent: format-intent,
+        start-line: u32,
+        end-line: u32,
+    }
+
+    /// AG.1: what `app-effect::open-provider-view` carries.
+    ///
+    /// `provider` is the name a provider registered on the generic
+    /// provider-view seam (`"agenda"`, `"search"`).
+    ///
+    /// `argument` is the **host-interpreted** parameter: a root for the agenda,
+    /// a query for search. One free-text string rather than the full recursive
+    /// `Args` shape a command handler receives, because mirroring that enum
+    /// here would cost a second args encoding on the boundary to express cases
+    /// no provider has. A native caller passing anything richer is refused with
+    /// a typed error rather than silently flattened, which is the
+    /// `NarrowTrigger` precedent.
+    ///
+    /// `scan-args` (OA.11a) is the **guest-interpreted** one, passed through to
+    /// a scan source's `begin` verbatim and never read by the host.
+    ///
+    /// Two slots because they have two owners, and conflating them breaks. The
+    /// host must understand `argument` — it does the walk, and it *replaces*
+    /// the source's roots with it. So a guest sending a command key down that
+    /// slot would set the scan root to a path that does not exist and quietly
+    /// cover nothing. `scan-args` is the channel for anything only the guest
+    /// can read.
+    ///
+    /// Empty `scan-args` reproduces the pre-OA.11a boundary exactly: the
+    /// payload maps to `Args::None` / `Args::String`, so every existing trigger
+    /// is unchanged.
+    record open-provider-view-payload {
+        provider: string,
+        argument: option<string>,
+        scan-args: list<string>,
+    }
+
+    /// Mirrors `lattice_grammar::app_effect::AppEffect` (PH7.3b2). `NarrowTrigger`
+    /// is absent by design (recursive `Range`; see the note above).
+    variant app-effect {
+        quit,
+        match-bracket,
+        toggle-case-at-cursor,
+        open-line-below,
+        open-line-above,
+        search-next,
+        search-previous,
+        jump-history-back,
+        jump-history-forward,
+        pane-history-back,
+        pane-history-forward,
+        walk-mark-history-back,
+        walk-mark-history-forward,
+        tag-stack-pop,
+        open-fold-at-cursor,
+        close-fold-at-cursor,
+        toggle-fold-at-cursor,
+        open-all-folds,
+        close-all-folds,
+        cycle-fold-at-cursor,
+        cycle-folds-global,
+        goto-parent-fold,
+        delete-fold-at-cursor,
+        goto-next-fold,
+        goto-prev-fold,
+        toggle-fold-enable,
+        open-folds-recursively,
+        close-folds-recursively,
+        delete-folds-recursively,
+        undo,
+        redo,
+        repeat-last-change,
+        page-down,
+        page-up,
+        half-page-down,
+        half-page-up,
+        scroll-line-up,
+        scroll-line-down,
+        redraw-screen,
+        open-command-picker,
+        enter-command-line,
+        oil-navigate-up,
+        reselect-last-visual,
+        swap-visual-ends,
+        paste-after,
+        paste-before,
+        enter-append,
+        enter-insert-first-non-blank,
+        enter-append-end-of-line,
+        display-line-down,
+        display-line-up,
+        display-line-start,
+        display-line-end,
+        create-fold-from-visual,
+        delete-char-backward,
+        completion-trigger,
+        exit-visual,
+        replace-undo-last,
+        enter-mode(modal-state),
+        enter-visual(visual-kind),
+        enter-select(visual-kind),
+        enter-search(search-direction),
+        search-word-under-cursor(search-direction),
+        jump-viewport(viewport-pos),
+        scroll-cursor-to(scroll-pos),
+        horizontal-scroll(hscroll),
+        insert-line-edit(insert-line-edit),
+        join-lines(bool),
+        find-repeat(bool),
+        insert-newline,
+        insert-tab,
+        overwrite-char(char),
+        set-mark(char),
+        jump-to-mark-line(char),
+        jump-to-mark-exact(char),
+        select-register(register),
+        start-macro-record(char),
+        play-macro(char),
+        play-last-macro,
+        absorb-operator-prefix(u64),
+        split-pane-horizontal,
+        split-pane-vertical,
+        close-pane,
+        only-pane,
+        toggle-zoom-pane,
+        navigate-pane(pane-direction),
+        next-pane,
+        prev-pane,
+        next-tab,
+        prev-tab,
+        go-to-tab(u32),
+        new-tab,
+        new-tab-at(string),
+        terminal-spawn(option<string>),
+        terminal-spawn-in-new-tab(option<string>),
+        move-pane-to-new-tab,
+        close-tab,
+        only-tab,
+        move-tab(u32),
+        picker-accept-in-split,
+        picker-accept-in-vsplit,
+        picker-accept-in-tab,
+        equalize-panes,
+        grow-pane-height,
+        shrink-pane-height,
+        grow-pane-width,
+        shrink-pane-width,
+        completion-next,
+        completion-prev,
+        completion-accept,
+        completion-cancel,
+        completion-cancel-and-exit-insert,
+        completion-toggle-docs,
+        completion-docs-scroll-down,
+        completion-docs-scroll-up,
+        completion-accept-then-insert(char),
+        snippet-next-placeholder,
+        snippet-prev-placeholder,
+        completion-filter-to-source(string),
+        completion-filter-clear,
+        diff-get,
+        diff-put,
+        tutor-advance,
+        tutor-retreat,
+        multibuffer-expand(s32),
+        narrow-widen,
+        narrow-lines(narrow-lines-payload),
+        /// VM.3h: vim's `zf` operator. A closed fold over the span.
+        create-fold(narrow-lines-payload),
+        /// RF.5b: hand a resolved line range to the buffer's
+        /// `format.{indent,reflow,reformat}` chain. Emitted by `=`, `gq`
+        /// and `g=` when the winning rung is not `native`; the host runs
+        /// the provider asynchronously and applies a minimal edit set.
+        format-range(format-range-payload),
+        search-trigger(string),
+        search-refresh,
+        /// AG.1: open a registered provider's multibuffer view by name.
+        ///
+        /// Withheld from this mirror until now, on the reasoning that letting a
+        /// plugin open any registered provider by name is a capability question
+        /// belonging with the host's capability model. The precedent had
+        /// already answered it: `effect::open-picker` and
+        /// `effect::open-transient` both let a guest open any registered source
+        /// by name, ungated, and this is the same authority in the same shape.
+        /// Withholding it did not withhold the capability — it only made the
+        /// one seam that needed it borrow a host ex-command instead.
+        ///
+        /// What that borrowing cost is the reason this landed: a plugin whose
+        /// trigger is a host command cannot name it. The agenda's `:agenda`
+        /// therefore had a generic name for a feature every user calls
+        /// `org-agenda`, and the plugin could not fix that from its own side.
+        open-provider-view(open-provider-view-payload),
+    }
+
+    // ---- The picker-source seam (PH7.4a, §4.2 / §5 `picker-source`) ----
+    // Mirrors the data types a plugin picker source authors against:
+    // `PickerSourceSpec` (+`ArgSpec`), `RoutingPayload`, `OpenTarget`, and the
+    // owned `PickerContext` projection the host hands `init`. This is the
+    // plugin-facing API (the user's "expose the api, not sources"): native
+    // sources stay native Rust; a plugin implements a source against these types
+    // and registers through the same `PickerRegistry::register_generator` seam.
+    //
+    // The active buffer's bulk rope text and syntax-highlight overlay do NOT ride
+    // `active-buffer-snapshot`; they cross via the `buffer` `document` resource
+    // handle, wired with the `init(ctx)` guest export at PH7.4c.
+
+    /// Mirrors `lattice_grammar::args::ArgKind`.
+    variant arg-kind {
+        %string, %char, %bool, int, pattern, chord, body, raw,
+    }
+    /// Mirrors `lattice_grammar::args::ArgDefault`. `literal` reuses `arg-value`.
+    variant arg-default {
+        required,
+        none,
+        literal(arg-value),
+        use-selection,
+        use-cursor-word,
+        use-last-response,
+    }
+    /// Mirrors `lattice_grammar::args::ArgSpec`. Native `name`/`doc`/`prompt`/
+    /// `completion` are `&'static str`; the host adapter interns the plugin's
+    /// owned strings at registration (`Box::leak`, bounded by loaded-source count
+    /// — see the slice plan note on hot-reload).
+    record arg-spec {
+        name: string,
+        kind: arg-kind,
+        doc: string,
+        prompt: string,
+        default: arg-default,
+        /// A registered COMPLETION source (`gen:files`, ...) — inline
+        /// candidates as the user types this argument.
+        completion: option<string>,
+        /// YR.6: a registered PICKER source offered for this argument.
+        ///
+        /// Two fields because they name two registries, which is a
+        /// decision rather than an oversight: a completion source is
+        /// engine-shaped, a picker source is surface-shaped and needs
+        /// `PickerContext`. An argument may set both — `<Tab>` completes
+        /// inline, `<C-x><C-o>` opens the picker on the same question.
+        picker: option<string>,
+    }
+    /// Mirrors `lattice_picker::source::PickerSourceSpec`. `live` opts the source
+    /// out of the picker's fuzzy refilter (the source owns filtering).
+    // ─── MV.1: plugin-owned multibuffer views ────────────────────────
+    // Design: `docs/dev/architecture/plugin-multibuffer-views.md`.
+
+    /// One row of a plugin-owned multibuffer view.
+    ///
+    /// `path` names a FILE, not a buffer id. `Excerpt` carries a `BufferId`
+    /// and only the host can mint one — so the host opens (or reuses) the
+    /// document and adds it as this excerpt's source. A path is the stable
+    /// name both sides already share; `effect::write-to-file` resolves paths
+    /// to buffers for the same reason.
+    record multibuffer-view-excerpt {
+        path: string,
+        /// 0-based, inclusive of `end-line`, matching `scanned-excerpt`.
+        start-line: u32,
+        end-line: u32,
+        /// Rendered above this excerpt. **Empty renders no header row**, which
+        /// is the entire grouping mechanism: a group is "title on the first
+        /// excerpt of a run, empty on the rest". A pull guest computes the runs
+        /// itself, because unlike a scan guest it can see the whole ordered set.
+        header: string,
+        /// The `· N matches` badge beside the header. `none` ⇒ no badge.
+        match-count: option<u32>,
+    }
+
+    /// Where a view's rows come from. Declared on the spec rather than per
+    /// `build` call: the host must know BEFORE it calls anything, because a
+    /// scan view needs the walk driven and a pull view needs `build` invoked.
+    /// Per-call, the host would have to call `build` to learn it should not
+    /// have. It also matches the seam next door, where `extensions` and
+    /// `view-mode` are load-time facts and only `roots` is per-scan.
+    variant multibuffer-view-input {
+        /// The guest already knows the answer — an index lookup, a computed
+        /// set. The host calls `build` and renders what comes back.
+        pull,
+        /// The host walks, reads and parses; the guest classifies each file
+        /// through `scanned-excerpt-source`.
+        ///
+        /// **No payload, deliberately.** An earlier draft carried the file
+        /// extensions here and that was a second source of truth: a scan source
+        /// already declares its own `extensions()`, and the walk reads them
+        /// from the live sources. Two places to say it is one place to get it
+        /// wrong.
+        ///
+        /// Kept as a separate input rather than folded into `pull` because the
+        /// two are different COST MODELS, not two spellings of one. The host
+        /// must read each file anyway to build the source document, so it reads
+        /// once, parses once, and hands over text *and* tree: a 1-2 ms parse for
+        /// a 217 ns copy (`benches/agenda_scan_input.rs`), and the guest needs
+        /// no filesystem capability at all. A pull-only world makes the guest
+        /// discover and read files itself, and reading node text back through
+        /// the tree seam costs ~50 us per file — 200x the copy it avoided.
+        scan,
+    }
+
+    /// A view a plugin owns.
+    record multibuffer-view-spec {
+        /// The provider name. `app-effect::open-provider-view` and the view's
+        /// own `gr` both reach it by this.
+        id: string,
+        /// Shown in `:describe-command` and the provider listing.
+        doc: string,
+        /// The view's buffer name — the GUEST's to choose (`*agenda*`,
+        /// `*org-roam-backlinks*`). Host constants are what made the agenda's
+        /// identity un-ownable.
+        buffer-name: string,
+        /// A minor mode to activate on the view, by name. This is where the
+        /// view's chords and their handler bodies live, and it is a property of
+        /// the VIEW rather than of how its rows were found. A name that is not
+        /// registered warns through the ordinary activation path rather than
+        /// failing the open — the rows are still worth showing.
+        view-mode: option<string>,
+        /// Reuse one buffer across triggers (a second `:agenda` re-scans into
+        /// the same buffer) or open a fresh view each time.
+        reuse: bool,
+        input: multibuffer-view-input,
+    }
+
+    /// What `build` returns.
+    record multibuffer-view-result {
+        /// In FINAL order — see `multibuffer-view-source.build`.
+        excerpts: list<multibuffer-view-excerpt>,
+        /// The headerline's terminal summary ("42 backlinks"). Returned with
+        /// the rows rather than fetched by a second call: one crossing, and the
+        /// count is a fact the guest already has.
+        summary: string,
+    }
+
+    record picker-source-spec {
+        id: string,
+        doc: string,
+        args-schema: list<arg-spec>,
+        args-hint: string,
+        live: bool,
+        /// OR.5: when set, the picker offers one synthetic **create** row
+        /// whenever the query is non-empty — the offer to make the thing the
+        /// user was looking for and did not find. `%s` in the label is replaced
+        /// by the query.
+        ///
+        /// Two things about the row are load-bearing and neither is obvious.
+        /// It appears whenever the query is non-empty, NOT only when nothing
+        /// matches: offering it only on zero matches makes it impossible to
+        /// create *Rust* while *Rust Async* exists, which is precisely when you
+        /// most want to. And it is pinned last and never ranked, because a
+        /// create row that could sort above a real match would let `<CR>`
+        /// produce a duplicate through ranking noise — destructive rather than
+        /// merely wrong.
+        ///
+        /// Accepting it hands `routing-payload::create(query)` to this source's
+        /// `accept`, which decides what creation means. `none` — every source
+        /// but roam's — behaves exactly as before.
+        create-label: option<string>,
+        /// PP.2: these results are scoped to a project / workspace root, so the
+        /// picker prompt names the root it is operating on
+        /// (`files ~/src/lattice> `).
+        ///
+        /// A DECLARATION, not an inference. The host resolves a root for every
+        /// picker open — `picker-context.workspace-root` is always filled — so
+        /// it could show one everywhere, and a path on a list that spans every
+        /// open project is noise on the one line the user reads to know what
+        /// they are looking at. Only the source knows whether the root is part
+        /// of what its list MEANS.
+        ///
+        /// Set it when the answer to *"would these results be different in
+        /// another project?"* is yes. `false` is the answer for a list that is
+        /// global, buffer-local, or registry-wide — and for a source whose
+        /// QUERY already names a path, where a root beside it would be a
+        /// second and staler answer to the same question.
+        rooted: bool,
+        /// PD.1: `<C-d>` — the ex-command that REMOVES the selected row from
+        /// whatever backs this list, invoked with that row's routing argument.
+        /// `none` leaves `<C-d>` doing nothing.
+        ///
+        /// The SOURCE owns the verb and the host owns only the key. `<C-s>` /
+        /// `<C-v>` / `<C-t>` are host concerns — it knows how to open a thing
+        /// in a split without asking. Deletion is not: only the source knows
+        /// that removing a row from a project list means forgetting a root.
+        /// Naming a command is how a source says so, and it is the same
+        /// routing its rows already take, so declaring this needs no new seam
+        /// and no new capability.
+        ///
+        /// **Not destructive to the filesystem, and must not be.** A project
+        /// list forgets a path; deleting a directory is oil's job and the file
+        /// tree's. A source whose delete verb touched disk would make `<C-d>`
+        /// mean two very different things depending on which picker had focus.
+        delete-command: option<string>,
+    }
+
+    /// Mirrors the crossable core of `lattice_completion::traits::GenerateContext`
+    /// (PH7.6). `buffer` (`&Buffer`) + `registry` (`&CommandRegistry`) do NOT
+    /// cross — a plugin generator that needs buffer text waits for the `document`
+    /// handle (the picker-source precedent); v1 carries the query prefix + the
+    /// case-sensitivity flag, which is all a produce-then-`match_and_rank`
+    /// generator needs (matching stays native — the sync-pipeline + paramount-#1
+    /// reason a plugin completion source is a GENERATOR, not four trait objects).
+    /// OR.7 widened this. `prefix` alone cannot answer *whether a source
+    /// applies* — org-roam's node source offers link targets only inside
+    /// `[[…]]`, and the anchor scan stops at `[`, so the prefix it receives
+    /// is indistinguishable from an ordinary word. The alternative was a
+    /// host-side `link-context` flag beside `path-context`, i.e. teaching
+    /// the host one plugin's syntax; `line-before-cursor` lets every source
+    /// answer for itself and the host stay ignorant.
+    record generate-context {
+        prefix: string,
+        case-sensitive: bool,
+        /// The cursor's line from its start up to the cursor, verbatim.
+        /// The replacement region is still `[anchor, cursor]` — a source
+        /// whose insert would cover more than the prefix must check that
+        /// this string ends with its own opener plus `prefix`, and decline
+        /// otherwise, or it will splice over the wrong span.
+        line-before-cursor: string,
+        /// The buffer's language id (`"org"`, `"rust"`, …); empty when no
+        /// language is detected. A source registered by a plugin is offered
+        /// to every buffer, so this is how it scopes itself to its own.
+        language: string,
+    }
+    /// A completion source's identity — the `(name, doc)` pair `insert_generator`
+    /// stamps (`registry.rs`). Mirrors nothing structural; the host interns the
+    /// owned strings at registration like `picker-source-spec`.
+    record completion-source-spec {
+        id: string,
+        doc: string,
+        /// OR.7: keep the popup open when the query picks up a non-word
+        /// character. Default behaviour dismisses there — right for
+        /// identifier completion, wrong for a source completing phrases
+        /// (org-roam node titles contain spaces, and the popup used to
+        /// close at the first one).
+        accepts-non-word-query: bool,
+    }
+
+    /// Mirrors `lattice_picker::outcome::OpenTarget` (`<CR>`/`<C-s>`/`<C-v>`/`<C-t>`).
+    variant open-target { default, split, vsplit, tab }
+
+    // Payload records for the multi-field `routing-payload` arms. `lsp-location`
+    // and `jump-in-buffer` reuse the shared `location` / `jump-target` records;
+    // `invoke-command` reuses `command-ref`.
+    record resolve-diff-payload {
+        primary: u32,
+        accept: bool,
+    }
+    record lsp-instance-payload {
+        server-id: string,
+        workspace: string,
+    }
+    record show-message-action-payload {
+        request-id: u32,
+        action-index: u32,
+    }
+    /// Mirrors `lattice_picker::RoutingPayload` — the opaque token a source emits
+    /// per candidate and consumes in `accept`. All flat pure data; paths cross as
+    /// strings (a non-UTF-8 path is a typed error, §4.4).
+    variant routing-payload {
+        buffer(u32),
+        resolve-diff(resolve-diff-payload),
+        lsp-instance(lsp-instance-payload),
+        lsp-location(location),
+        lsp-completion(u32),
+        lsp-code-action(u32),
+        open-file(string),
+        jump-in-buffer(jump-target),
+        invoke-command(command-ref),
+        paste-register(char),
+        jump-to-mark(char),
+        expand-snippet(string),
+        accept-show-message-action(show-message-action-payload),
+        lsp-code-lens(u32),
+        color-presentation(u32),
+        colorscheme(string),
+        ai-session(ai-session-payload),
+        pane-history-entry(u32),
+        /// OR.6: a place in a file on disk. The peer `picker-accept-outcome`'s
+        /// `jump-to-location` already had and this side lacked — without it a
+        /// row standing for a position in a file can only carry `open-file`,
+        /// which drops the line and lands at the top. Distinct from
+        /// `lsp-location`, which is the same shape under a name that says where
+        /// it came from.
+        file-location(location),
+        /// OR.5: the query the user typed, carried by the picker's synthetic
+        /// create row. Verbatim — spaces and non-ASCII included — because the
+        /// source is creating something the USER named, and trimming here would
+        /// be the picker having an opinion about a namespace it does not own.
+        create(string),
+    }
+
+    /// Mirrors `lattice_picker::RoutingPayload::AiSession` — the
+    /// `(provider, index)` key for opening the per-session AI log buffer.
+    record ai-session-payload {
+        provider: string,
+        index: u32,
+    }
+
+    // ---- The owned `PickerContext` projection (§4.2) ----
+    // Host→guest only: the host projects live borrows into these owned records at
+    // `init` time; the guest never sends a context back. So these mirror one-way
+    // (a `project_picker_context` fn, the `project_buffer_snapshot` precedent),
+    // no `from_wit`.
+
+    /// Mirrors `lattice_picker::context::BufferEntry`. `kind-label` is a display
+    /// string — the picker seam stays oblivious to `BufferKind` (CLAUDE.md rule).
+    record buffer-entry {
+        id: u32,
+        kind-label: string,
+        path: option<string>,
+        title: string,
+        dirty: bool,
+    }
+    /// Mirrors `lattice_picker::context::PositionSource`.
+    variant position-source {
+        auto-jump,
+        explicit-mark,
+        plugin-push,
+        named-mark(char),
+    }
+    /// Mirrors `lattice_picker::context::PositionEntry`.
+    record position-entry {
+        buffer-id: u32,
+        line: u32,
+        col: u32,
+        source: position-source,
+    }
+    /// One tree-sitter symbol location `(name, line, byte-col)` — the owned form
+    /// of `ActiveBufferSnapshot::syntax_symbols`.
+    record symbol-location {
+        name: string,
+        line: u32,
+        col: u32,
+    }
+    /// Mirrors `lattice_picker::context::ActiveBufferSnapshot` (metadata only).
+    /// `buffer` (the rope) + `syntax_highlights` are deferred to the `document`
+    /// resource wiring (PH7.4c); a fuzzy-finder needs neither.
+    record active-buffer-snapshot {
+        buffer-id: u32,
+        path: option<string>,
+        language: option<string>,
+        cursor: position,
+        selection: option<tuple<position, position>>,
+        syntax-symbols: list<symbol-location>,
+    }
+    /// Mirrors `lattice_picker::context::PickerContext` (the owned projection).
+    record picker-context {
+        active-buffer: active-buffer-snapshot,
+        workspace-root: string,
+        recent-files: list<string>,
+        position-history: list<position-entry>,
+        buffers: list<buffer-entry>,
+        marks: list<tuple<char, position>>,
+        registers: list<tuple<string, string>>,
+    }
+
+    // ---- The transient seam (TR.2b, plugin-transients.md §5) ----
+    // A transient is a keyed menu: one keystroke per row, fires and closes.
+    // The mechanism is the picker's; these are the owned mirrors a plugin
+    // authors a menu against.
+
+    /// Mirrors `lattice_picker::TransientContext` — where the menu was opened
+    /// from, so a builder can vary its rows. Host→guest only (a `project_*`
+    /// fn, the `picker-context` precedent); the guest never sends one back.
+    ///
+    /// Deliberately NOT the cursor or the selection: a builder produces rows,
+    /// it does not act. Each row's action receives its own `ActionContext` at
+    /// FIRE time, when those are current.
+    record transient-context {
+        /// The active major's id, if the buffer has one. Emacs magit's
+        /// `:if-mode` question.
+        major-mode: option<string>,
+        /// The active minor ids — the looser `:if-derived` family test. A
+        /// separate field from `major-mode` on purpose: a flat list of active
+        /// mode ids can only answer one of the two questions.
+        minor-modes: list<string>,
+        /// The buffer the menu was opened over. `none` mid-boot, where a
+        /// builder degrades exactly as it does for the mode fields.
+        buffer: option<u32>,
+        /// TR.3a: the arguments the open carried
+        /// (`effect::open-transient`'s payload).
+        ///
+        /// This is what lets a menu DRILL DOWN: org's capture menu has a
+        /// row per template, and the fields menu that row opens needs to
+        /// know which template it is collecting for. The alternative is
+        /// guest memory, which `<Esc>` never clears — the next open would
+        /// inherit the last one's subject.
+        args: args,
+    }
+
+    /// An action row's target: a command **name** plus the arguments this
+    /// particular row fires it with.
+    ///
+    /// A name, not an id, because a `CommandId` is host-issued and a plugin
+    /// must not be able to forge one — the host resolves the name against the
+    /// `CommandRegistry` at build time, and an unresolvable name drops that
+    /// row rather than failing the menu.
+    ///
+    /// The args are per-ROW, which is the whole reason the slot exists: the
+    /// menu-wide `TransientState` projection cannot distinguish rows that
+    /// differ only in a parameter, and that is the shape a plugin menu has
+    /// (one row per capture template). `args::none` for a row that wants the
+    /// state projection instead, which is what every native row does.
+    record transient-action {
+        command: string,
+        args: args,
+    }
+
+    /// TR.3b: a field the menu collects before anything fires.
+    ///
+    /// Pressing its key PARKS the whole menu, opens a one-line prompt, writes
+    /// the answer into the menu's state under `name`, and puts the menu back —
+    /// `<Esc>` cancels the value with the menu untouched. That mechanism is
+    /// the host's (`PendingTransientArgument` → `resume_parked_transient`) and
+    /// magit's argument rows already use it; this record is only what lets a
+    /// guest declare one.
+    ///
+    /// It is what makes a template's `%^{Question}` expressible: several named
+    /// answers collected before one write, with the menu as the surface
+    /// throughout rather than a run of prompts the user cannot go back into.
+    record transient-argument {
+        /// Key in the menu's state this answer lands under. Also what names
+        /// it when the fired row's command has no `args-schema` — the rows'
+        /// order is then the schema.
+        name: string,
+        /// Pre-filled on first ask; `none` for an empty field. A re-edit
+        /// always seeds with the value already held.
+        default: option<string>,
+        /// The prompt's label.
+        prompt: string,
+    }
+
+    /// Mirrors `lattice_picker::TransientItemKind`. v1 crosses three of its
+    /// six variants; `submenu` / `flag` / `variable` are deferred with reasons
+    /// in `plugin-transients.md` §5.
+    variant transient-item-kind {
+        /// Fires a command and closes the menu.
+        action(transient-action),
+        /// Collects a named value into the menu's state (TR.3b).
+        argument(transient-argument),
+        /// Closes the menu without firing anything. Free, and a menu with no
+        /// `q` is a trap.
+        dismiss,
+    }
+
+    /// One row. `key` is a list of STRINGS, not chars: magit binds multi-key
+    /// rows (`, k`, `= f`) and the resolver walks them one keystroke at a
+    /// time, so a plugin gets the same expressiveness.
+    record transient-item {
+        key: list<string>,
+        label: string,
+        description: string,
+        kind: transient-item-kind,
+    }
+
+    /// A named group of rows — one header, its items, one separator.
+    record transient-group {
+        label: string,
+        items: list<transient-item>,
+    }
+
+    /// Mirrors `lattice_picker::TransientSpec`, minus `preview`: that is a
+    /// `Box<dyn Fn(&TransientState) -> String>` and a closure has no WIT
+    /// form, so a guest-built menu has no live preview pane. Stated here
+    /// rather than discovered at bindgen.
+    record transient-spec {
+        title: string,
+        groups: list<transient-group>,
+        footer: option<string>,
+    }
+
+    // ---- The grammar-extension seam (PH7.7, §4.1) ----
+    // Mirrors the data types a plugin authors against when it EXTENDS the vim
+    // grammar via `register_{motion,operator,text_object,ex_command,action}`.
+    // The grammar *handling* (dispatcher, `:`-line + chord parser, operator∘
+    // motion composition, ranges, counts, registers) stays native, sync, and
+    // untouched — a plugin only CONTRIBUTES entries through these types; it can
+    // neither observe nor reimplement dispatch. A plugin-registered command
+    // lands in the same `CommandRegistry` via the same `register_*` path,
+    // stamped `SourceLayer::Plugin(id)`, so it is indistinguishable from a
+    // builtin (paramount #3).
+    //
+    // Direction: each *context* is a one-way host→guest projection of the
+    // dispatch environment (a `project_*` fn, the `project_picker_context`
+    // precedent — no `from_wit`); the *result*/*effect*/*args* come back
+    // guest→host. Bulk buffer text never rides a context — it crosses via the
+    // `buffer` `document` resource handle (§4.2). The tree-sitter env
+    // (`scope_resolver` / `comment_syntax`) is host-owned trait objects a v1
+    // grammar plugin reaches through that handle, deferred like the picker's
+    // syntax overlay.
+    //
+    // The `apply` / `parse_args` closures are NOT fields on the spec records:
+    // the behavior is a sync guest export the host calls back by callback-id
+    // (PH7.7b/c), so each spec mirrors its native `*Spec` struct with the
+    // closure field dropped. `name` / `doc` are `register_*` arguments (PH7.7b),
+    // not spec fields, matching the native imperative API.
+
+    /// Mirrors `lattice_grammar::command::Count` — a repeat count. `Count(1)` is
+    /// the bare invocation; `has-explicit-count` on the motion context
+    /// disambiguates `G` from `1G`.
+    type count = u32;
+
+    /// Mirrors `lattice_grammar::command::LatencyClass` (§5.2.5 budget class).
+    enum latency-class { reflex, display, background }
+
+    /// Mirrors `lattice_grammar::registry::SurfaceForm`. `delimiter` carries the
+    /// canonical-syntax `hint` shown when the keyword form is (deliberately) a
+    /// hard error (`:s/pat/repl/`, `:g/pat/body`).
+    variant surface-form {
+        keyword,
+        delimiter(string),
+    }
+
+    /// Mirrors `lattice_grammar::registry::MotionContext` (owned projection).
+    /// `from` is the cursor the motion evaluates from; `buffer-id` is the active
+    /// buffer's registry identity (mode-state lookups). Buffer text + the
+    /// tree-sitter resolver ride the `document` handle, not this record.
+    record motion-context {
+        buffer-id: u32,
+        %from: position,
+        count: count,
+        has-explicit-count: bool,
+        args: args,
+    }
+
+    /// Mirrors `lattice_grammar::registry::MotionResult`. `linewise` expands the
+    /// resolved range to whole lines.
+    record motion-result {
+        target: position,
+        linewise: bool,
+    }
+
+    /// Mirrors `lattice_grammar::registry::OperatorContext` (owned projection).
+    /// The `&mut Document` is NOT a field — document mutation is expressed by the
+    /// returned `effect` (§4.5), and the operator reads text through the
+    /// `document` handle. `range` is the operator's target span (the
+    /// `lattice_protocol` position `range`, which crosses; the recursive grammar
+    /// `Range` is a dispatcher concern the guest never sees).
+    record operator-context {
+        range: range,
+        linewise: bool,
+        register: register,
+        count: count,
+        args: args,
+    }
+
+    /// Mirrors `lattice_grammar::registry::TextObjectContext` (owned
+    /// projection). `at` is the cursor; buffer text + the scope/comment env ride
+    /// the `document` handle.
+    record text-object-context {
+        at: position,
+        count: count,
+        args: args,
+    }
+
+    /// Mirrors `lattice_grammar::registry::ExCommandContext` (owned projection).
+    /// The native `range: option<lattice_grammar::range::Range>` is ABSENT by
+    /// design: the grammar `Range` is recursive (`RangeBound::Offset { base:
+    /// Box<..> }`) and carries a plugin `RangeId`, which a WIT record cannot
+    /// express (the `Global` / `NarrowTrigger` precedent). A v1 ex-command
+    /// plugin gets `bang` / `args` / `register` / `count`; the resolved range
+    /// lands with the range mirror.
+    record ex-command-context {
+        bang: bool,
+        args: args,
+        register: register,
+        count: count,
+        /// OC.10: where the caret sits when the `:` line is submitted, and the
+        /// buffer it was submitted from — the two `action-context` below already
+        /// carries.
+        ///
+        /// They are here because `apply-ex-command` returns `list<effect>` and
+        /// `effect.apply-edit` names a `target` buffer id. Without these a guest
+        /// could be handed that vocabulary and had no way to build a value for
+        /// it, which is a seam that looks usable and is not. The native
+        /// `ExCommandContext` gained `buffer-id` at MR.2 on the same reasoning —
+        /// "a command reached that way was seeing strictly less than the same
+        /// command reached by a chord" — and the mirror simply never followed.
+        cursor: position,
+        buffer-id: u32,
+    }
+
+    /// Mirrors `lattice_grammar::registry::ActionContext` (owned projection) —
+    /// the count/register prefixes typed before a chord-bound action.
+    record action-context {
+        args: args,
+        register: register,
+        count: count,
+        /// Where the caret sits when the action fires (AP.0.1) — the action's
+        /// equivalent of `motion-context.from`. A plugin action pairs it with
+        /// the `borrow<document>` handle `apply-action` receives to read the
+        /// buffer around the cursor.
+        cursor: position,
+        /// The active buffer's id (AP.2) — the `target` a plugin action names in
+        /// an `apply-edit` effect. Mirrors `motion-context.buffer-id`.
+        buffer-id: u32,
+        /// OS.2: the active region when the action fired from a Visual/Select
+        /// chord; `none` in Normal and on every non-chord firing path. Carries
+        /// no visual kind — the row span is what every consumer reads.
+        ///
+        /// The `ex-command-context` precedent (OC.10): a command reached one
+        /// way must not see less than the same command reached another. The
+        /// native peer is `lattice_mode::ActionContext::selection` (MG.18e),
+        /// and both are filled from ONE host resolver.
+        selection: option<range>,
+    }
+
+    /// Mirrors `lattice_grammar::registry::MotionSpec` (metadata; `apply` is a
+    /// guest export, not a field).
+    record motion-spec {
+        jump: bool,
+        exclusive: bool,
+        args-schema: list<arg-spec>,
+    }
+
+    /// Mirrors `lattice_grammar::registry::OperatorSpec` (metadata; `apply` is a
+    /// guest export). `blockwise-per-row` is the block-visual dispatch hint.
+    record operator-spec {
+        repeatable: bool,
+        args-schema: list<arg-spec>,
+        blockwise-per-row: bool,
+        /// When true, the operator's keymap bindings need a trailing
+        /// character wildcard after each motion path (e.g. surround's
+        /// `ys{motion}{char}` captures the wrapping char).
+        post-motion-char: bool,
+    }
+
+    /// Mirrors `lattice_grammar::registry::TextObjectSpec` (metadata; `apply` is
+    /// a guest export).
+    record text-object-spec {
+        args-schema: list<arg-spec>,
+    }
+
+    /// Mirrors `lattice_grammar::registry::ExCommandSpec` (metadata; `parse_args`
+    /// + `apply` are two guest exports, not fields).
+    record ex-command-spec {
+        latency-class: latency-class,
+        accepts-bang: bool,
+        accepts-range: bool,
+        args-schema: list<arg-spec>,
+        surface-form: surface-form,
+    }
+
+    /// Mirrors `lattice_grammar::registry::ActionSpec` (metadata; `apply` is a
+    /// guest export).
+    record action-spec {
+        args-schema: list<arg-spec>,
+    }
+
+    // --- Event / hook seam (PH7.8, plugin-host.md §5 `events`) -----------------
+    //
+    // Mirrors `lattice_runtime::EventBus` + the `lattice_protocol::Event` enum. A
+    // plugin subscribes (guest→host `events.subscribe`, an `event-filter`) and
+    // receives each matching event on its `on-event` export (host→guest, the
+    // owned `event` variant). Observation-only in v1 — no before-class veto (the
+    // native bus is observation-only, §5.10). The payloads reuse the PH7.3b
+    // mirrors (`range` / `selection-set`); ids cross as `u64` (`.raw()`).
+
+    /// Mirrors `lattice_protocol::event::AppliedEdit`. Distinct from the PH7.3b
+    /// `applied-edit` record: the event form carries NO `delta` (the tree-sitter
+    /// re-parse delta is a document-actor concern, not published to observers).
+    record event-applied-edit {
+        original-range: range,
+        inserted-range: range,
+        replaced-text: string,
+        inserted-text: string,
+    }
+
+    /// Mirrors `lattice_protocol::EventKind` — the discriminator a subscription
+    /// filters on. Each arm pairs 1:1 with an `event` variant arm.
+    enum event-kind {
+        document-opened,
+        document-closed,
+        before-save,
+        document-saved,
+        document-changed,
+        selections-changed,
+        modal-mode-changed,
+        before-quit,
+        option-changed,
+        major-entered,
+        major-exiting,
+        minor-activated,
+        minor-deactivated,
+        // Discriminator for EVERY plugin-defined event (PH7.8b). All plugin
+        // events share this one kind; the per-event `name` is not a bus
+        // discriminator — a subscriber filters by name in its `on-event`.
+        plugin,
+        // OA.14d: a named plugin is about to run the load-time exports that
+        // read its OWN options. Delivery is awaited — the loader does not
+        // continue the load until every handler has returned — which is what
+        // lets an `init.rs` `set-option` reach a value the plugin consumes at
+        // load. `plugin-loaded` is too late for those.
+        pre-plugin-loaded,
+        // CI.1: plugin-lifecycle signals delivered to guests. An `init.rs`
+        // subscribes to `plugin-loaded` (filtering by name in its handler) to run
+        // deferred config against a now-present plugin (`with-eval-after-load`).
+        plugin-loaded,
+        plugin-unloaded,
+        // OR.2: a directory this plugin asked the host to watch changed. One
+        // kind for every watch; the host addresses each batch to the plugin
+        // that armed it, so subscribing to this kind never surfaces another
+        // plugin's watch.
+        files-changed,
+    }
+
+    /// Mirrors `lattice_runtime::EventFilter` — the DECLARATIVE subset a plugin
+    /// can express at subscribe time. `kinds = none` is the wildcard (every
+    /// kind); `path-globs` / `major-modes` AND-combine on top (each `none` is
+    /// unconstrained), matching the native EF.1 semantics. The native
+    /// `predicate` (an arbitrary Rust closure) does NOT cross — a plugin that
+    /// needs custom logic filters inside its `on-event` handler (the grammar
+    /// typed-error-defer precedent).
+    record event-filter {
+        kinds: option<list<event-kind>>,
+        path-globs: option<list<string>>,
+        major-modes: option<list<string>>,
+        /// Restrict minor-mode lifecycle events to ones naming these minors —
+        /// the peer of `major-modes`, and NOT the same field.
+        ///
+        /// `minor-activated` / `minor-deactivated` carry the MINOR's name, so
+        /// a `major-modes` constraint rejects every one of them. Without this
+        /// a subscriber wanting one specific minor had to subscribe
+        /// unfiltered and compare names in its handler — which wakes the
+        /// plugin's task for every minor activation in every buffer, to do
+        /// nothing.
+        ///
+        /// Separate rather than merged into one `modes` list because there
+        /// are far more minors than majors and the two ask different
+        /// questions: `major-modes` means *the buffer is entering one of
+        /// these majors*, this means *this specific minor turned on*. A
+        /// merged field would answer both at once and let a subscription fire
+        /// on a name collision across the two namespaces.
+        ///
+        /// Constraining both matches NOTHING, since no event carries both
+        /// names — the honest reading of "a major event AND a minor event".
+        minor-modes: option<list<string>>,
+    }
+
+    /// Mirrors `lattice_protocol::Event` (owned; delivered to `on-event`). Each
+    /// multi-field arm carries an explicit payload record (the `effect` mirror
+    /// precedent); ids cross as `u64`, paths as `string` (a non-UTF-8 path is a
+    /// typed boundary error, never lossy). Text-bearing arms (`document-opened`)
+    /// carry the initial content the native event already clones for observers.
+    variant event {
+        document-opened(event-document-opened),
+        document-closed(u64),
+        before-save(event-document-path),
+        document-saved(event-document-path),
+        document-changed(event-document-changed),
+        selections-changed(event-selections-changed),
+        modal-mode-changed(event-modal-mode-changed),
+        before-quit,
+        option-changed(event-option-changed),
+        major-entered(event-mode-lifecycle),
+        major-exiting(event-mode-lifecycle),
+        minor-activated(event-mode-lifecycle),
+        minor-deactivated(event-mode-lifecycle),
+        plugin(event-plugin),
+        /// OA.14d: the manifest id of the plugin whose load-time exports are
+        /// about to run. No numeric id: the plugin has not finished loading, so
+        /// the id its contributions will carry is not yet settled — and a
+        /// handler matches on the name anyway.
+        pre-plugin-loaded(string),
+        plugin-loaded(event-plugin-lifecycle),
+        plugin-unloaded(event-plugin-lifecycle),
+        /// OR.2: absolute paths that changed under a directory this plugin
+        /// watches, coalesced — a `git pull` rewriting two hundred files
+        /// arrives as ONE delivery carrying two hundred paths. Deduplicated and
+        /// sorted; a removal is reported as a change (the consumer stats it),
+        /// because an index that cannot see deletions offers destinations that
+        /// no longer exist. A non-UTF-8 path is skipped rather than failing the
+        /// batch — `walk`'s rule, for `walk`'s reason.
+        ///
+        /// No plugin id crosses: a guest only ever receives its own watch.
+        files-changed(list<string>),
+    }
+
+    /// `Event::PluginLoaded` / `Event::PluginUnloaded` payload (CI.1). `name` is
+    /// the plugin's manifest id (what a handler matches on); `id` the host-issued
+    /// numeric plugin id.
+    record event-plugin-lifecycle {
+        name: string,
+        id: u32,
+    }
+
+    /// `Event::DocumentOpened` payload. `path` is `none` for scratch buffers.
+    record event-document-opened {
+        id: u64,
+        path: option<string>,
+        version: u64,
+        text: string,
+    }
+
+    /// `Event::BeforeSave` / `Event::DocumentSaved` payload — both always carry a
+    /// concrete path (a save target).
+    record event-document-path {
+        id: u64,
+        path: string,
+    }
+
+    /// `Event::DocumentChanged` payload. `path` is `none` for scratch buffers.
+    record event-document-changed {
+        id: u64,
+        path: option<string>,
+        version: u64,
+        edits: list<event-applied-edit>,
+    }
+
+    /// `Event::SelectionsChanged` payload.
+    record event-selections-changed {
+        id: u64,
+        version: u64,
+        selections: selection-set,
+    }
+
+    /// `Event::ModalModeChanged` payload — the previous / next modal-state labels.
+    record event-modal-mode-changed {
+        from-state: string,
+        to-state: string,
+    }
+
+    /// `Event::OptionChanged` payload. `old` is `none` on the first publish after
+    /// registration (default init, no prior value).
+    record event-option-changed {
+        name: string,
+        old: option<string>,
+        new-value: string,
+    }
+
+    /// `Event::{MajorEntered,MajorExiting,MinorActivated,MinorDeactivated}`
+    /// payload — the buffer + the mode's canonical name.
+    record event-mode-lifecycle {
+        buffer: u64,
+        mode: string,
+    }
+
+    /// `Event::Plugin` payload (PH7.8b) — a plugin-defined event. `name` is the
+    /// plugin's event identifier (declared via `host-services register-event`);
+    /// `payload` is opaque MessagePack the plugin owns and the host NEVER
+    /// interprets. The host is a thin router: it moves the bytes, it does not
+    /// parse them (the boundary discipline the plugin host rests on). The
+    /// ergonomic typed wrapper (`#[derive(PluginEvent)]`) is a guest-side SDK
+    /// layer OVER this opaque wire (PH7.8b.3) — the wire is identical with or
+    /// without it.
+    record event-plugin {
+        name: string,
+        payload: list<u8>,
+    }
+
+    // --- Decoration seam (PH7.9, plugin-host.md §5 `decorations`) --------------
+    //
+    // Mirrors `Mode::gutter_decorations` + `GutterDecoration` (lattice-mode). A
+    // WASM decoration provider is an ASYNC PRODUCER (the completion PH7.6 fork —
+    // the sync `gutter_decorations` trait is read PER-FRAME by the renderer, so a
+    // WASM mode can't satisfy it inline): the host calls the guest's producer OFF
+    // the render path on a trigger, caches the returned `list<gutter-decoration>`
+    // per buffer, and the renderer reads the cache (never WASM on the tick,
+    // paramount #1). Per-line data only — no draw calls cross.
+
+    /// Mirrors `lattice_mode::GutterDiffKind` — the diff-sign column.
+    enum gutter-diff-kind { add, remove, change, conflict }
+
+    /// Mirrors `lattice_mode::GutterSeverityLevel` — the diagnostic column
+    /// (ascending severity; `max()` selects the most severe).
+    enum gutter-severity-level { hint, info, warning, error }
+
+    /// `GutterDecoration::Diff { line, kind }` payload.
+    record gutter-diff {
+        line: u32,
+        kind: gutter-diff-kind,
+    }
+
+    /// `GutterDecoration::Severity { line, level }` payload.
+    record gutter-severity {
+        line: u32,
+        level: gutter-severity-level,
+    }
+
+    /// SG.3b: `GutterDecoration::Sign { line, sign }` payload — vim's
+    /// `:sign place`.
+    ///
+    /// Carries the definition's NAME, not an id. A guest has no id to carry:
+    /// ids are interned by the host and the resolution happens ONCE, at this
+    /// boundary, off the render path — which is exactly what keeps the native
+    /// placement `Copy` and free of a per-line `String`.
+    ///
+    /// `name` is the plugin's own namespaced name as `define-sign` returned it
+    /// (`debugger.breakpoint`). A name nothing has defined resolves to nothing
+    /// and the placement is SKIPPED — the same answer the native path gives an
+    /// unknown id, because a definition that has not registered yet is
+    /// recoverable and failing the whole batch would take the plugin's other
+    /// marks down with it.
+    record gutter-sign {
+        line: u32,
+        name: string,
+    }
+
+    /// Mirrors `lattice_mode::GutterDecoration` — one per-line gutter cell a
+    /// provider contributes. Each arm maps to one physical gutter column.
+    variant gutter-decoration {
+        diff(gutter-diff),
+        severity(gutter-severity),
+        sign(gutter-sign),
+    }
+
+    /// The owned projection of `lattice_mode::DecorationCtx` (host→guest). The
+    /// native ctx is `buffer_id` + a `ServiceRegistry` of render-state snapshots
+    /// (host-owned, can't cross); the projection carries the owned scalars a v1
+    /// producer computes from — buffer id / path / line count. Bulk buffer text
+    /// (a diff producer's input) rides `host-services` or the deferred `document`
+    /// handle (the picker/grammar precedent), NOT this record.
+    record decoration-context {
+        buffer-id: u64,
+        path: option<string>,
+        line-count: u32,
+    }
+
+    // --- Inline media seam (IM.6, inline-media.md §7) ---------------------------
+
+    /// How a media block's intrinsic size maps into its box. Mirrors
+    /// `lattice_cells::MediaFit`.
+    enum media-fit {
+        /// Scale down to fit, preserving aspect ratio; never scale up.
+        contain,
+        /// Scale to the pane width, up or down; the height follows.
+        width,
+    }
+
+    /// One inline media block a guest wants drawn.
+    ///
+    /// The guest names a FILE and a LINE; it never sends pixels. That keeps the
+    /// `fs:read` decision host-side — the host decides whether this plugin may
+    /// read that path — and stops a plugin putting arbitrary bytes on screen.
+    /// It also avoids copying a decoded image across the boundary per load.
+    ///
+    /// Note what is ABSENT: any notion of size. The host resolves the intrinsic
+    /// dimensions and computes the reserved rows, so sizing policy lives in one
+    /// place and a guest cannot reserve arbitrary vertical space.
+    record media-block {
+        /// 0-based source line the block hangs below.
+        anchor-line: u32,
+        /// Path to the image. Relative paths resolve against the buffer's own
+        /// directory, which is what an org `[[file:diagram.png]]` means.
+        path: string,
+        /// What a renderer that cannot draw shows instead, and what a screen
+        /// reader reads. `none` falls back to the file name — never nothing,
+        /// because a blank box tells the user nothing about what is missing.
+        alt: option<string>,
+        fit: media-fit,
+    }
+
+    // --- Sticky-context seam (TC.2, treesitter-context.md) ----------------------
+
+    /// One structural scope: the range it spans, plus the line span that NAMES
+    /// it. Mirrors `lattice_cells::context::ContextScope` exactly (TC.1).
+    ///
+    /// `header-start ..= header-end` is normally one line and spans several when
+    /// a signature wraps. All four are inclusive, 0-based source lines.
+    ///
+    /// A scope is a **pure function of the parse tree** — no viewport, no cursor,
+    /// no options. That is what lets the guest compute the set once per parse and
+    /// the host resolve it per pane afterwards without another guest call, which
+    /// is the whole reason this seam returns scopes rather than finished rows.
+    record context-scope {
+        scope-start: u32,
+        scope-end: u32,
+        header-start: u32,
+        header-end: u32,
+    }
+
+    /// The owned projection handed to a context producer (host→guest), same
+    /// shape rule as `decoration-context` (§4.2): owned scalars only, bulk text
+    /// and structure ride handles instead.
+    ///
+    /// Deliberately NOT reusing `decoration-context` even though the fields
+    /// coincide today: the two describe different things (a decoration trigger
+    /// vs a context request), and sharing the record would make a field one seam
+    /// needs into ABI churn for the other.
+    ///
+    /// No `language` and no `parse-version` field: the guest reads the language
+    /// off the `tree-snapshot` it is handed (so the two can never disagree), and
+    /// the parse version is host-side cache bookkeeping the guest has no use for.
+    record context-request {
+        buffer-id: u64,
+        path: option<string>,
+        line-count: u32,
+    }
+
+    // --- UI-contribution seam (plugin-host.md §5 `ui`) — TYPE-MIRROR ----------
+    //
+    // Sized for the ABI freeze (§14) when the emit producer was still deferred.
+    // **OC.3 / ML.6 landed that producer for the modeline half** (`ui.wit`), and
+    // building it against a real consumer reshaped the mirror — which is what the
+    // deferral note said should happen ("waits for a real plugin that needs
+    // more", §5.5).
+    //
+    // What changed and why: `ui-segment` bundled `zone` with `text` and `role`,
+    // which turned out to conflate two different lifetimes. The zone belongs to
+    // the *descriptor*, registered once and owned by the plugin for its whole
+    // life (`modeline.md` §6); the text is *content*, pushed many times per
+    // descriptor. A record carrying both forces a plugin to restate its zone on
+    // every push and gives the host no way to tell a re-registration from an
+    // update. So `ui.register-segment(id, zone, priority)` takes the descriptor
+    // half and `ui.emit-segment(id, text)` the content half, and the record
+    // dissolves — leaving `ui-zone` as the only piece with a native counterpart
+    // to mirror.
+    //
+    // `role` did not survive the same review. Both renderers match role names
+    // against a closed set and *disagree* on the fallback (TUI defaults to no
+    // style, GPUI to the path colour), so a role parameter would have shipped a
+    // silent cross-renderer difference. Neither native modeline producer uses
+    // more than one role either. It returns when a plugin registers its own
+    // theme element (TC.4) and can be styled coherently.
+    //
+    // Notifications remain a mirror with no producer — `effect.echo` still
+    // carries them. Sprites (§5.6.7) have no native struct yet, so mirroring one
+    // would violate exercised-trait-first.
+
+    /// A modeline zone (mirrors `lattice_mode::modeline::Zone`).
+    enum ui-zone { left, center, right }
+
+    /// A user notification a plugin emits — reuses the `echo-level` severity the
+    /// `effect.echo` path already carries.
+    record ui-notification {
+        level: echo-level,
+        message: string,
+    }
+}

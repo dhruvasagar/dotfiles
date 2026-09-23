@@ -9,6 +9,7 @@
        (when (byte-code-function-p bytecode)
 	 (funcall bytecode))))
    (apply old-fn args)))
+
 (advice-add (if (progn (require 'json)
 		       (fboundp 'json-parse-buffer))
 		'json-parse-buffer
@@ -62,9 +63,9 @@
   (lsp-format-on-save))
 
 (use-package lsp-mode
-  :commands (lsp lsp-deferred)
   :init
   (setq lsp-use-plists t)
+  :commands (lsp lsp-deferred)
   :custom
   (lsp-auto-guess-root t)
   (lsp-auto-select-workspace t)

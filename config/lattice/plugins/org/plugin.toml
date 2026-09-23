@@ -1,0 +1,92 @@
+# The manifest the plugin manager stages beside the built component.
+#
+# It has to live HERE, at the source root, not only in the directory the
+# manager stages into: `build::stage` copies this file next to the artifact,
+# and a source with no `plugin.toml` fails the build outright ("source has no
+# plugin.toml") rather than staging half a plugin. A `require`d local or git
+# source without this file can never be installed.
+id = "org"
+
+# Every seam org contributes. The order is cosmetic — the loader sorts by real
+# registration dependency before draining.
+provides = [
+    "language",
+    "modes",
+    "grammar",
+
+    "media",
+    "scanned-excerpt-source",
+    # MV.3: the agenda is org's view, so org declares it.
+    "multibuffer-view-source",
+    "picker-source",
+    # OA.30: agenda bulk marks. `signs` declares the `>` once; `decorations`
+    # is asked which rows carry it, and is the seam `refresh-decorations`
+    # exists to re-ask. Without either the marks are still recorded and the
+    # chords still work — they just never appear, which is the honest
+    # degradation but not a useful one.
+    "signs",
+    "decorations",
+    # OR.7: org-roam nodes inside an `[[…]]` link.
+    "completion-source",
+    # OC.3: the capture menu, one key per template.
+    "transient-source",
+    "help",
+    # TK.3/TK.5: one theme element per TODO state, plus the user's own
+    # per-keyword overrides. BEFORE `theme` on purpose: both drain at rank
+    # 0 and the sort is stable, so this order is what lets
+    # `register-theme-elements` read `org.todo-keywords` and
+    # `org.todo-keyword-styles` rather than silently falling back to the
+    # defaults.
+    "config",
+    "theme",
+    # OC.6: the clock's session, its minute wake and its modeline segment all
+    # live on the event actor (design D6) — off the keystroke path by
+    # construction. Without this seam the four clock chords still edit the
+    # buffer correctly and the modeline simply never appears.
+    "events",
+]
+
+# Publishes the enablement request for each mode named here. Without it a mode
+# registers correctly and simply never activates — `auto_activatable_minors`
+# filters on enablement BEFORE it filters on policy — so the chords silently do
+# nothing. This also auto-registers the single `org.enabled` gate that turns all
+# of them on or off.
+#
+# An `ActivationPolicy` is NOT a substitute for being listed here, and reading
+# it as one is what left `org-table-mode` off this line until 2026-08-30.
+# `Majors(["org-mode"])` says *where* a minor may activate; enablement says
+# *whether* it may at all, and a minor that is never enabled is never asked
+# about policy. The eleven table chords — `<Tab>` between cells among them —
+# therefore did nothing on a default install, while the plugin's own tests
+# passed because every one of them enabled the mode by hand first.
+#
+# `org-global-mode` is the universal `<leader>o` prefix (agenda, capture,
+# org-roam), which has to be on wherever you are; `org-todo-mode` is keyword
+# cycling inside org files; `org-table-mode` is table editing inside them.
+#
+# `org-agenda-mode` is the one that stays off, and for a reason that is about
+# activation rather than enablement: the agenda view's major is
+# `multibuffer-mode`, so no policy on this list could reach it. The provider
+# that builds the view activates it.
+default_modes = ["org-todo-mode", "org-global-mode", "org-table-mode"]
+
+# Archive (`<leader>o$`), refile (`<leader>or`) and capture (`<leader>oc`) all
+# write to a file other than the one you are in, and the host checks the target
+# against this grant at the plugin boundary. Point it at the directory your org
+# files live in; without it those three chords are refused and say so, and
+# everything else still works. It must also cover capture's drafts directory
+# (`org.directory`/captures by default).
+#
+# `state:write` is the plugin store, where each capture records its target and
+# its caller (CD.4). Without it no capture opens.
+#
+capabilities = ["fs:write:~/src/dhruvasagar/org-files", "state:write"]
+
+# OT.4: the grammar seam is capability-gated, and without this grant it hands
+# every motion, text object and action a `none` tree handle. Org then falls back
+# to matching `*` at the start of a line — silently, and only in the built
+# editor, which is exactly the divergence the tree migration exists to end. A
+# plugin that registers an org grammar and then cannot read the tree it
+# registered is the half-wiring this gate is meant to make visible, so it is
+# declared here rather than assumed from `provides = ["language"]`.
+editor_capabilities = ["tree-sitter"]

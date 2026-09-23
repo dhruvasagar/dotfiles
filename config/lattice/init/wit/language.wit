@@ -1,0 +1,172 @@
+package lattice:plugin-host@0.1.0;
+
+/// LG.3c: plugin-contributed languages.
+///
+/// A plugin ships a tree-sitter grammar compiled to WebAssembly and the
+/// queries that go with it. The language lands in the SAME registry the
+/// bundled ones live in, so `Lang::detect_from_path` selects it by extension,
+/// `:describe-buffer` names it, highlighting, folding, indenting and
+/// incremental reparse all run through the ordinary paths — with no host
+/// kind-branch anywhere.
+///
+/// ## The host still owns the parse loop
+///
+/// The guest ships the grammar; it does not run it. `WasmStore::load_language`
+/// turns the bytes into an ordinary `tree_sitter::Language`, and from that
+/// point nothing downstream can tell where the grammar came from. There is no
+/// guest call on the keystroke path at all — the plugin is consulted once, at
+/// load.
+///
+/// This preserves the rejection recorded in `plugin-treesitter-seam.md` §9: a
+/// text-only seam where the guest re-parses would duplicate the host's live
+/// incremental tree. What changes here is only where the grammar comes from,
+/// never who runs it.
+///
+/// ## Data, not a callback
+///
+/// A language is a static description. Nothing about the guest needs to be
+/// alive once the bytes and query sources are across, so the store is dropped
+/// when registration returns — the `help` seam's shape and reasoning, not
+/// `dashboard`'s live sections.
+///
+/// ## Where it runs
+///
+/// Once per load, on the loader's off-boot-thread task. Compiling a grammar
+/// costs ~100 ms (Cranelift), which is exactly why it happens here and once,
+/// rather than on first open of a matching file.
+interface language {
+    /// H.2: one display-time elision rule.
+    ///
+    /// The host compiles the pattern once at registration and matches it
+    /// against each display line during a matrix rebuild — never per frame,
+    /// and never for a language that declares none. See
+    /// `docs/dev/architecture/conceal.md`.
+    ///
+    /// The engine is RE2-style and cannot backtrack. That is a property, not
+    /// an implementation note: these patterns come from a plugin and run over
+    /// every rebuilt line, so an engine with a pathological input would be a
+    /// plugin's ability to freeze the renderer. Lookaround and backreferences
+    /// are therefore unavailable, and a pattern using them is refused at
+    /// registration rather than being slow later.
+    record conceal-rule {
+        /// Regex matched against a single line. Anchoring is the rule's
+        /// business; the host adds none.
+        pattern: string,
+        /// 1-based capture-group indices whose spans are hidden.
+        ///
+        /// Group 0 (the whole match) is REFUSED — a rule that hides its
+        /// entire match is a deletion rather than a concealment, and is
+        /// almost always a pattern that forgot its capture parentheses.
+        /// An index the pattern has no group for is refused too, at
+        /// registration, because checking it per line would log at
+        /// rebuild rate.
+        hide: list<u32>,
+        /// OL.1: a capture or theme-element NAME for what stays VISIBLE in
+        /// each match. `none` — every rule before this — conceals only.
+        ///
+        /// Per-RULE, because conceal is a general mechanism and most rules
+        /// hide punctuation that means nothing on its own. Only a rule whose
+        /// REMAINDER is a thing — an org link's description — declares a
+        /// style, so adding a conceal rule for something else cannot
+        /// accidentally paint it.
+        ///
+        /// "What survives concealment" is the styling unit rather than a named
+        /// group, and that is what lets one declaration serve both org link
+        /// forms: `[[t][d]]` hides the brackets and target and styles `d`;
+        /// `[[t]]` hides the brackets and styles `t`. The mechanism that
+        /// decides where a link IS also decides what to paint — two mechanisms
+        /// could disagree about that, and a link that renders as prose is a
+        /// link nobody can see is under the cursor.
+        ///
+        /// Resolved at REGISTRATION, through the same path a `highlights.scm`
+        /// capture name takes, so a concealed link follows a colourscheme swap
+        /// exactly as a heading does. A name that resolves to nothing conceals
+        /// without painting rather than failing the rule.
+        slot: option<string>,
+    }
+
+    /// Everything the host needs to make a language real.
+    record language-spec {
+        /// The grammar's tree-sitter name — `org` for `tree_sitter_org`.
+        /// Becomes the language id `:set filetype` and `:describe-buffer`
+        /// report, and the key its queries are cached under. MUST match the
+        /// grammar's exported entry point or the module loads with nothing
+        /// to call.
+        ///
+        /// A name that collides with a bundled language is REFUSED, not
+        /// shadowed: a plugin silently replacing `rust` would be a miserable
+        /// thing to debug. Claiming a bundled *extension* is allowed but never
+        /// wins, because the native table is consulted first.
+        name: string,
+        /// `["org"]` — extensions that select this language, matched
+        /// case-insensitively, with or without a leading dot. A language with
+        /// none can never be selected and is refused as a manifest mistake.
+        extensions: list<string>,
+        /// The grammar's own entry-point name, when it differs from `name`.
+        ///
+        /// `load_language` finds a grammar by its `tree_sitter_<x>` export, and
+        /// that is not always what users call the language. lattice's own
+        /// bundled `sql` is the case in point: the grammar is
+        /// `tree-sitter-sequel` and exports `tree_sitter_sequel`, while the
+        /// language everyone types is `sql`. Absent means "same as `name`",
+        /// which is the common case.
+        grammar-name: option<string>,
+        /// The grammar, compiled to wasm. `tree-sitter build --wasm` produces
+        /// one; so does `scripts/build-wasm-grammar.sh` with nothing but clang
+        /// and a rustup toolchain.
+        grammar: list<u8>,
+        /// Tree-sitter queries, as source. Absent means that feature is simply
+        /// unavailable for this language — never an error.
+        ///
+        /// All of these compile at REGISTRATION, not first use. A malformed
+        /// query is the plugin author's mistake and must surface at load with
+        /// the offending query named; compiling lazily would turn a typo in
+        /// `folds.scm` into "folding silently does nothing", which is
+        /// indistinguishable from the feature not existing and surfaces days
+        /// later.
+        highlights: option<string>,
+        folds: option<string>,
+        injections: option<string>,
+        indents: option<string>,
+        textobjects: option<string>,
+        /// H.2: what to hide when rendering this language, empty for
+        /// most languages.
+        ///
+        /// **A refused rule is dropped, not fatal** — deliberately unlike a
+        /// malformed query above, which rejects the whole language. The
+        /// asymmetry is the proportionality: a broken `folds.scm` means the
+        /// language cannot fold at all, and silence there is
+        /// indistinguishable from the feature not existing; a broken conceal
+        /// rule means one pattern does not hide, the others are unaffected,
+        /// and the language is otherwise entirely usable. Losing a language
+        /// over a typo in a cosmetic regex would cost far more than it
+        /// protects.
+        conceal-rules: list<conceal-rule>,
+    }
+
+    /// Register one language.
+    ///
+    /// `err` when the grammar fails to load or a query fails to compile,
+    /// carrying a reason that names the language and the offending query.
+    /// Never a trap, and never a half-registered language: a rejected
+    /// language costs itself and nothing else, so the plugin's other
+    /// contributions — including its other languages — still register and the
+    /// load still succeeds.
+    register-language: func(spec: language-spec) -> result<_, string>;
+}
+
+/// The world a language-contributing plugin implements. Imports the
+/// `language` registration API; exports `register-languages`, which the host
+/// calls once to drive declaration — the `help-plugin` / `register-help-topics`
+/// precedent, shape for shape.
+world language-plugin {
+    import language;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers, the
+    /// guest asks — so core never depends on a plugin being alive. Inert for
+    /// guests that don't call it.
+    import project;
+
+    export register-languages: func();
+}

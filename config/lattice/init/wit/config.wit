@@ -1,0 +1,270 @@
+package lattice:plugin-host@0.1.0;
+
+/// Mirrors `ConfigRegistry` (lattice-config). The guest declares an option
+/// (name + type + default + doc); the host registers it into the *same* registry
+/// core options live in, so `:set` / `:describe-option` / `:customize` /
+/// `gen:options` completion treat plugin options uniformly (no host kind-branch).
+/// Values round-trip as strings via the native `OptionType` parse/format
+/// contract. Populated in PH7.10.
+///
+/// This interface is the CANONICAL, language-agnostic option API — any
+/// component-model language (Go, JS, Zig, Python, ...) calls these directly. The
+/// Rust `lattice-plugin-sdk` `#[derive(PluginOption)]` (PH7.10b) is optional
+/// ergonomics that expands to these same calls; it adds no capability not here.
+interface config {
+    /// The value type of a plugin option. Maps 1:1 to a native `OptionType`
+    /// impl: `boolean`→`bool`, `integer`→`i64`, `string`→`String`. The option's
+    /// value is set / read as a `string` and parsed/formatted through that type
+    /// (so `:set name=value` and `get-option` share one string contract).
+    enum option-type {
+        boolean,
+        integer,
+        // `%`-escaped: `string` is a reserved WIT keyword. Generates the
+        // `OptionType::String` variant.
+        %string,
+    }
+
+    /// Declare a plugin option into the editor's `ConfigRegistry`. `default` is
+    /// the initial value as a string (parsed via the chosen `option-type`); `doc`
+    /// is the `:describe-option` summary. Returns `false` (registering nothing) if
+    /// `default` doesn't parse for `ty` OR `name` collides with an existing option
+    /// — a plugin must not silently shadow another option. Idempotent to retry
+    /// after a rejected default.
+    ///
+    /// **Auto-namespaced.** `name` is prefixed with the plugin's id — a plugin
+    /// with id `auto-pair` registering `style` contributes `auto-pair.style`. Use
+    /// SHORT names; the host owns the namespace so plugins can't collide (and a
+    /// user sets it as `:set auto-pair.style=…`). `get`/`set-option` resolve the
+    /// same way (short name → own namespace).
+    register-option: func(name: string, ty: option-type, default: string, doc: string) -> bool;
+
+    // ── TC.3: options that have STRUCTURE ─────────────────────────────────
+    //
+    // WIT has no generics, so a plugin-defined record cannot be a fixed
+    // host-side type — the host would need a different record per plugin,
+    // which a shared ABI cannot have. The expressible answer is
+    // self-description: the guest declares a SCHEMA (ordinary WIT data), values
+    // cross as a generic value TREE, and the HOST validates one against the
+    // other. See `typed-configuration.md`.
+    //
+    // `option-type` above is not replaced — it is the three-scalar shorthand
+    // for the common case, and `register-option` remains the call almost every
+    // plugin makes. What changes is that a scalar is now understood as a
+    // degenerate schema rather than as the only thing an option can be.
+
+    // **WIT has no recursive types**, and that is not a detail to route
+    // around quietly — a schema and a value are both trees, and the obvious
+    // spelling (a variant whose arm holds another variant) fails to parse:
+    // "type `config-schema` depends on itself". So both cross as an ARENA: a
+    // flat list of nodes plus the index of the root, with children referenced
+    // by index. The guest builds the arena (the SDK derive does it
+    // mechanically); the host rebuilds the tree, and rejects a bad index or a
+    // cycle at the boundary rather than following it.
+
+    /// One field of a `schema-node.record`. `schema` is an INDEX into the
+    /// owning `config-schema.nodes`, which is how nesting survives an ABI with
+    /// no recursion.
+    ///
+    /// `doc` is per field, not only per option, because that is what
+    /// `:describe-option` and `:customize` render beside it — an option-level
+    /// doc string describing six fields is the wall of prose this replaces.
+    record schema-field {
+        name: string,
+        schema: u32,
+        /// A missing required field is a validation error naming its path; a
+        /// missing optional one is simply absent from the value.
+        required: bool,
+        doc: string,
+    }
+
+    /// One node of a schema arena. Mirrors `lattice_config::ConfigSchema`, with
+    /// child links as indices.
+    ///
+    /// `enum-of` is not sugar for a string: it is the difference between
+    /// `:customize` offering a picker and offering a text field.
+    variant schema-node {
+        scalar(option-type),
+        enum-of(list<string>),
+        /// The element shape, by index.
+        list-of(u32),
+        %record(list<schema-field>),
+    }
+
+    /// The declared shape of an option's value, as an arena.
+    ///
+    /// `root` is explicit rather than "node 0 by convention": a convention is
+    /// an invariant nothing checks, and this one has to be range-checked at the
+    /// boundary regardless.
+    record config-schema {
+        nodes: list<schema-node>,
+        root: u32,
+    }
+
+    /// One node of a value arena. Mirrors `lattice_config::ConfigValue`.
+    ///
+    /// A record's fields are an association list because WIT has no map; the
+    /// host converts to an ordered map on arrival, so two values differing only
+    /// in field order are the same value — which they must be, since one config
+    /// home writes TOML (unordered) and the other writes a struct.
+    variant value-node {
+        %bool(bool),
+        int(s64),
+        %string(string),
+        %list(list<u32>),
+        %record(list<tuple<string, u32>>),
+    }
+
+    /// A value shaped by a `config-schema`, as an arena.
+    record config-value {
+        nodes: list<value-node>,
+        root: u32,
+    }
+
+    /// Declare an option whose value has structure. The schema-taking peer of
+    /// `register-option`, with the same namespacing and the same collision
+    /// rules.
+    ///
+    /// `default` is validated against `schema` before anything is registered:
+    /// a plugin whose own default does not fit its own declaration registers
+    /// NOTHING and gets `false`, rather than an option that exists and cannot
+    /// hold a legal value.
+    register-structured-option: func(
+        name: string,
+        schema: config-schema,
+        default: config-value,
+        doc: string,
+    ) -> bool;
+
+    /// Read an option's current value as a tree. `none` if no option by that
+    /// name is registered. Resolves the caller's OWN namespace first, exactly
+    /// like `get-option`.
+    ///
+    /// Works for scalar options too — a scalar is a degenerate schema, so a
+    /// guest that wants typed reads everywhere can use this one call rather
+    /// than choosing per option.
+    get-option-value: func(name: string) -> option<config-value>;
+
+    /// Set an option from a tree. Validated against the option's declared
+    /// schema, so a bad field is refused with a PATH
+    /// (`templates[2].target.file: expected string, got integer`) rather than
+    /// by whatever message the plugin would have written. `false` on an unknown
+    /// option, a value that does not fit, or no registry — never a trap, the
+    /// `set-option` contract.
+    set-option-value: func(name: string, value: config-value) -> bool;
+
+    /// Set (override) an EXISTING option's value (CI.7) — the init.rs config
+    /// front-end symmetric with `lattice.toml` and `:set`. Backed by the same
+    /// `parse_and_set_command` path `:set name=value` uses: the value string is
+    /// type-coerced and validated, and a successful set publishes
+    /// `OptionChanged` so subscribers react uniformly. Returns `false` (setting
+    /// nothing) if the option is unregistered, the value is invalid for its type,
+    /// or no registry is wired — never a trap. An `init.rs` `on-plugin-loaded`
+    /// handler uses this to configure a plugin's options the moment it loads
+    /// (config-and-init.md §5). Like `get-option`, resolves the caller's OWN
+    /// namespace first (`style` → `<id>.style`), else the raw name — so a config
+    /// can set another plugin's option by its full `auto-pair.style` name.
+    set-option: func(name: string, value: string) -> bool;
+
+    /// Set an option for ONE buffer — the `:setlocal` front-end, and the call a
+    /// mode-lifecycle handler needs.
+    ///
+    /// `set-option` above writes the GLOBAL layer (it is the `:set` path), so a
+    /// handler that wants *wrap in org buffers* cannot use it: it would wrap
+    /// everything, and nothing would unwrap on leaving org. This writes the
+    /// buffer-local override layer instead, which is exactly the scope the
+    /// question has.
+    ///
+    /// The canonical use is a `major-entered` / `minor-activated` subscription
+    /// filtered to one mode — `add-hook 'org-mode-hook` in this editor's
+    /// vocabulary:
+    ///
+    /// ```ignore
+    /// subscribe(&EventFilter {
+    ///     kinds: Some(vec![EventKind::MajorEntered]),
+    ///     major_modes: Some(vec!["org-mode".into()]),
+    ///     ..
+    /// }, ON_ORG);
+    /// // in the handler:
+    /// set_option_in_buffer(ev.buffer, "autowrap", "all");
+    /// ```
+    ///
+    /// Works uniformly for built-in, core-plugin and external-plugin modes:
+    /// the lifecycle events are published by the mode dispatcher, which does
+    /// not know which of those declared the mode.
+    ///
+    /// Parsed by the same path `:setlocal name=value` uses, so a guest can
+    /// express nothing `:setlocal` could not and a bad value is refused with
+    /// the same message. Returns `false` — setting nothing — on an unknown
+    /// option, an invalid value, or an unknown buffer; never a trap, the
+    /// `set-option` contract.
+    ///
+    /// **Applied on the next host tick, not synchronously.** The buffer-local
+    /// layer lives on the Editor rather than in the config registry, so this
+    /// publishes a host-internal request the Editor drains. A handler cannot
+    /// observe its own write by reading the option back in the same call.
+    set-option-in-buffer: func(buffer: u64, name: string, value: string) -> bool;
+
+    /// Read an option's current value, formatted as a string (the `OptionType`
+    /// `format` contract). `none` if no option by that name is registered.
+    /// Resolves the plugin's OWN namespace first (`style` → `<id>.style`), then
+    /// the raw name — so a plugin reads its own options with short names AND can
+    /// still read a core option (`tabstop`) that isn't in its namespace.
+    get-option: func(name: string) -> option<string>;
+
+    /// OC.11c: one failed assignment to an option.
+    record config-diagnostic {
+        /// The message the loader or the registry produced, verbatim. For a
+        /// composite it carries the schema PATH —
+        /// `[2].target.file: expected string, got integer` — which is the
+        /// whole reason this is worth surfacing over a bare "it failed".
+        message: string,
+        /// The config file the assignment came from, or empty for a runtime
+        /// `:set`. That distinction is "go fix your config" versus "the thing
+        /// you just typed did not take", and a guest reporting one as the
+        /// other sends the user to the wrong place.
+        source: string,
+    }
+
+    /// **Did the last assignment to `name` fail, and what did it say?**
+    ///
+    /// A failed assignment is a no-op — vim's rule, which lattice keeps — so
+    /// the option is left holding whatever it had, and for one that was never
+    /// successfully set that is its registered DEFAULT. Reading the value
+    /// therefore cannot distinguish "the user configured this and it did not
+    /// parse" from "the user never configured this". This can.
+    ///
+    /// org-capture is the case that forced it: a `capture-templates` whose
+    /// TOML did not fit its schema read back as the empty default, so capture
+    /// filed through the legacy `capture-file` believing nothing had been
+    /// configured — and the user's note went somewhere they thought they had
+    /// stopped using.
+    ///
+    /// **This is not a status the option carries.** The option has no such
+    /// state; an assignment errored, which is an event, and this is the record
+    /// of it. `none` means the last assignment succeeded, or there was never
+    /// one — those two are not distinguished, and deliberately: a plugin's
+    /// question is "can I trust this value", and both answers are yes.
+    ///
+    /// Cleared for a name as soon as an assignment to it succeeds, and the
+    /// whole record is rebuilt on each config load, so a user who fixes their
+    /// file stops being told it is broken.
+    ///
+    /// Resolves the caller's OWN namespace first, like `get-option`.
+    option-diagnostic: func(name: string) -> option<config-diagnostic>;
+}
+
+/// The world a config/options plugin implements. Imports the `config` register +
+/// read API; exports `register-options` (the host calls it once to drive
+/// declaration — the guest invokes the imported `register-option` inside it, the
+/// `register-events` precedent). Synchronous: registration only records into the
+/// `ConfigRegistry` (no async, off any hot path).
+world config-plugin {
+    import config;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export register-options: func();
+}

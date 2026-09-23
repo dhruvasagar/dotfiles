@@ -1,0 +1,1 @@
+/Users/dhruva/dotfiles/claude/skills/gstack/context-restore/SKILL.md

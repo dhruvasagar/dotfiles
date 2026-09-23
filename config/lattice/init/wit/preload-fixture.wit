@@ -1,0 +1,25 @@
+package lattice:plugin-host@0.1.0;
+
+/// OA.14d fixture world — **org's exact shape**, reduced to the two seams that
+/// make the bug possible: a component that DECLARES an option (`config`) and
+/// then READS it from a load-time export (`theme`).
+///
+/// That combination is what `pre-plugin-loaded` exists for. `plugin-loaded`
+/// fires after both have run, so a handler using it sets a value nothing will
+/// consult again until a restart — which is precisely how org's
+/// `todo-keyword-styles` came to have no effect. A fixture with only one of the
+/// two seams cannot show the difference between a load that waited for the
+/// handler and one that did not.
+///
+/// The element it registers is NAMED AFTER the option's value, so the theme
+/// registry records what the guest actually saw at load. An assertion on a
+/// registered name is not defeatable by ordering luck the way "the option now
+/// holds the right value" would be — that would still pass if the set landed a
+/// microsecond after the read.
+world preload-fixture {
+    import config;
+    import theme;
+
+    export register-options: func();
+    export register-theme-elements: func();
+}

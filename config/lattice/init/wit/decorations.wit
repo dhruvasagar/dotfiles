@@ -1,0 +1,45 @@
+package lattice:plugin-host@0.1.0;
+
+/// The decoration **producer** API (plugin-host.md §5 `decorations`, PH7.9),
+/// mirroring `Mode::gutter_decorations` + `GutterDecoration` (lattice-mode). A
+/// WASM decoration provider *exports* this interface; the host calls its
+/// `gutter-decorations` producer **off the render path** on a trigger (edit /
+/// scroll / diagnostic change), caches the returned `list<gutter-decoration>`
+/// per buffer, and the renderer reads the cache.
+///
+/// **Producer, not per-frame (the completion PH7.6 fork).** The native
+/// `Mode::gutter_decorations` is a SYNCHRONOUS trait the renderer reads *every
+/// frame* — a WASM mode cannot satisfy it inline (that would be per-frame WASM,
+/// a paramount-#1 violation, §7 rule 7). So the seam is an ASYNC producer whose
+/// result the host caches; the renderer never calls WASM on the tick. The
+/// matching / layout of the cached decorations into physical gutter columns stays
+/// native (the host builds the snapshot).
+interface decorations {
+    use types.{decoration-context, gutter-decoration};
+
+    /// Produce the per-line gutter decorations for a buffer. `ctx` is the owned
+    /// projection (buffer id / path / line count, §4.2); bulk buffer text (a diff
+    /// producer's input) rides `host-services` / the deferred `document` handle,
+    /// not the context. Async — a produce call suspends the guest, never the
+    /// render path. An `err` string is logged and the provider contributes no
+    /// decorations for this trigger (graceful, §8) — the cached snapshot keeps its
+    /// prior value so cues never flicker mid-refresh.
+    gutter-decorations: func(ctx: decoration-context) -> result<list<gutter-decoration>, string>;
+}
+
+/// The world a decoration-provider plugin implements: it exports `decorations`
+/// and imports the capability-gated `host-services` (`walk`, PH7.4b) a provider
+/// may use (e.g. a git-gutter source reading the repo). **Async** (event delivery
+/// is off the render path, like picker/completion): a 6th `bindgen!` reuses the
+/// `plugin` world's generated `types` + `host-services` via `with:` so crossed
+/// values are the SAME Rust types the boundary round-trips (`boundary_decoration.rs`).
+world decorations-plugin {
+    import host-services;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export decorations;
+}

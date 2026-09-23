@@ -1,0 +1,29 @@
+package lattice:plugin-host@0.1.0;
+
+/// Test-only world (PH7.3d) exercising the two boundary mechanisms that need a
+/// real guest↔host call: the §4.1 trampoline (context-in → effect-out) and the
+/// §4.3 async result-carrier (guest returns batches; host owns the loop). A
+/// minimal `wasm32-wasip2` fixture guest implements it; the host instantiates
+/// it and calls the exports, retiring the deferred `<500ns` typed-call bench
+/// and validating the whole `effect` mirror end-to-end (§14's highest risk).
+///
+/// This is a fixture, not the production seam: the real `grammar` /
+/// `picker-source` worlds (PH7.4/7.7) reuse the same trampoline + carrier
+/// machinery this world proves.
+world trampoline-fixture {
+    use types.{args, effect};
+
+    /// §4.1: the operator/motion/action `apply` shape — a projected context
+    /// (as `args`) in, the produced `effect`(s) out as `list<effect>` (the host
+    /// boundary crosses `list<effect>`; the guest returns one or more atoms and
+    /// the host rebuilds `Effect::Many`). The host maps the result back to a
+    /// native `Effect` via `WitBoundary::from_wit`.
+    export apply-effect: func(a: args) -> list<effect>;
+
+    /// §4.3: the result-carrier. The guest returns one batch of items per call
+    /// and an empty list when exhausted; the HOST owns the loop / `Future` /
+    /// `mpsc` (the guest never names a tokio type). Proves the picker's
+    /// `Inline`/`Future`/`Stream` trichotomy re-expressed as guest-returns-
+    /// batches.
+    export next-batch: func() -> list<string>;
+}

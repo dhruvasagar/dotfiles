@@ -38,7 +38,6 @@ return {
           "clojure",
           "bash",
           "zig",
-          "org",
           "http",
         },
         auto_install = true,

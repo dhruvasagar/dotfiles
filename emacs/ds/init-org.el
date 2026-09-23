@@ -1,4 +1,6 @@
-(use-package ob-mermaid)
+(use-package ob-mermaid
+  :after org)
+
 
 (use-package org
   :bind
@@ -16,7 +18,8 @@
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   (setq org-directory "~/src/dhruvasagar/org-files")
   (setq org-default-notes-file "~/src/dhruvasagar/org-files/refile.org")
-  (setopt org-agenda-files '("~/src/dhruvasagar/org-files"))
+  ;; Base agenda files; org-fractional-cto-setup adds client directories.
+  (setq org-agenda-files (list org-directory))
   (setq org-log-done (quote time))
   (setq org-log-into-drawer t)
   (setq org-src-window-setup 'plain)
@@ -58,10 +61,6 @@
                  "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
                 ("r" "respond" entry (file "~/src/dhruvasagar/org-files/refile.org")
                  "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-                ("n" "note" entry (file "~/src/dhruvasagar/org-files/refile.org")
-                 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-                ("j" "Journal" entry (file+datetree "~/src/dhruvasagar/org-files/diary.org")
-                 "* %?\n%U\n" :clock-in t :clock-resume t)
                 ("w" "org-protocol" entry (file "~/src/dhruvasagar/org-files/refile.org")
                  "* TODO Review %c\n%U\n" :immediate-finish t)
                 ("m" "Meeting" entry (file "~/src/dhruvasagar/org-files/refile.org")
@@ -73,7 +72,12 @@
                 ("W" "To Watch" entry (file "~/src/dhruvasagar/org-files/refile.org")
                  "* TO-WATCH %? :WATCH:\n%U")
                 ("h" "Habit" entry (file "~/src/dhruvasagar/org-files/habits.org")
-                 "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n%a\n"))))
+                 "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n%a\n")
+                ("H" "Habit Tracker (today)" entry (file+datetree "~/src/dhruvasagar/org-files/habit-tracker.org")
+                 (file "~/src/dhruvasagar/org-files/templates/habit-episode-tracker.org"))
+                ("u" "Urge episode (tracker row)" table-line (file+olp+datetree "~/src/dhruvasagar/org-files/habit-tracker.org" "Urge / Habit Episode Tracker")
+                 "| %^{Time / Situation} | %^{Thoughts / Assumptions} | %^{Urge 0-10} | %^{STOP + NOTICE: what did I notice?} | %^{DELAY: how long?} | %^{ACTION / CHOICE: what did I do?} | %^{After 0-10} |")
+                )))
 
   ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
   (setq org-refile-targets '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9)))
@@ -180,7 +184,9 @@
                         ((org-agenda-overriding-header "Tasks to Archive")
                          (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                          (org-tags-match-list-sublevels nil))))
-                 nil))))
+                 nil)
+                ;; Per-client dashboard is provided by org-fractional-cto (C-c a E)
+                )))
 
   (defun bh/org-auto-exclude-function (tag)
     "Automatic task exclusion in the agenda with / RET"
@@ -212,7 +218,11 @@
 					; global Effort estimate values
 					; global STYLE property values for completion
   (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                      ("STYLE_ALL" . "habit"))))
+                                      ("STYLE_ALL" . "habit")
+                                      ;; PKOS vocabularies (registered once; org-set-property
+                                      ;; then completes over these instead of relying on memory)
+                                      ("EVIDENCE_ALL" . "consensus strong moderate weak expert hypothesis personal")
+                                      ("STATUS_ALL" . "seed draft evergreen mature teaching"))))
   ;; Agenda log mode items to display (closed and state changes by default)
   (setq org-agenda-log-mode-items (quote (closed state)))
 
@@ -233,7 +243,18 @@
                               ("crypt" . ?E)
                               ("NOTE" . ?n)
                               ("CANCELLED" . ?c)
-                              ("FLAGGED" . ??))))
+                              ("FLAGGED" . ??)
+                              ;; PKOS domain tags — completion for C-c C-q and C-c n g
+                              ("health" . ?h)
+                              ("psychology" . ?p)
+                              ("work" . ?w)
+                              ("relationships" . ?r)
+                              ("finance" . ?f)
+                              ("productivity" . ?u)
+                              ("tech" . ?t)
+                              ("parenting" . ?g)
+                              ("creativity" . ?c)
+                              ("learning" . ?l))))
 
 					; Allow setting single tags without the menu
   (setq org-fast-tag-selection-single-key (quote expert))
@@ -754,7 +775,7 @@
      (shell . t)
      (org . t)
      (mermaid . t)
-     (verb . t)
+                                        ;(verb . t)				
      (sql . t)
      (latex . t)))
 
@@ -1109,6 +1130,25 @@
 
   (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
+;; Client engagement workflow: onboarding (M-x org-fractional-cto-new-client),
+;; captures (C-c c e …), and the per-client dashboard (C-c a E).
+;; Management commands (set/switch client, etc.) are M-x — no global prefix.
+;; NOTE: :load-path must be a plain string — use-package normalizes a list
+;; like (expand-file-name "…") as multiple paths and errors on the symbol.
+(use-package org-fractional-cto
+  ;; straight's default :files directive only links *.el (plus info/docs), so
+  ;; the bundled templates/ never made it into the build dir and every
+  ;; (file …) capture template resolved to a non-existent path. Pull templates/
+  ;; into the build so org-fractional-cto-template-directory resolves correctly.
+  :straight (:local-repo "~/src/dhruvasagar/org-fractional-cto"
+                         :files (:defaults "templates" "doc"))
+  :after org
+  :custom
+  (org-fractional-cto-clients-directory (expand-file-name "~/src/dhruvasagar/org-files/roam/clients"))
+  (org-fractional-cto-author "Dhruva Sagar")
+  :config
+  (org-fractional-cto-setup))
+
 (use-package evil-org
   :after org
   :hook (org-mode . evil-org-mode)
@@ -1117,36 +1157,95 @@
   (evil-org-agenda-set-keys))
 
 (use-package org-superstar
+  :after org
   :hook (org-mode . org-superstar-mode))
 
+(use-package org-fc
+  :straight (:host github
+                   :repo "l3kn/org-fc" ;; Or upstream: :repo "https://sr.ht"
+                   :files (:defaults "awk"))
+  :after org
+  ;; :demand — the generated autoloads map org-fc-review-all to
+  ;; org-fc-review.el, whose require chain never loads org-fc-awk; only the
+  ;; org-fc.el umbrella does. Deferred loading therefore breaks org-fc-index
+  ;; ("void: org-fc-awk-index"), so load the full package once org is up.
+  :demand t
+  :config
+  ;; Skill layer (see pkos-design.md §15.7): decks live OUTSIDE the roam
+  ;; graph, as org-fc cards. vocab-french.org = language vocabulary;
+  ;; recall-concepts.org = evergreen concepts (filed via C-c n R when a
+  ;; note reaches evergreen — the graph's spaced-retrieval loop);
+  ;; claude-architect-cards.org = certification exam deck.
+  (setq org-fc-directories '("~/src/dhruvasagar/org-files/vocab-french.org"
+                             "~/src/dhruvasagar/org-files/recall-concepts.org"
+                             "~/src/dhruvasagar/org-files/claude-architect-cards.org"))
+  :bind (("C-c F r" . org-fc-review-all)
+         ("C-c F b" . org-fc-review-buffer)))
+
 (use-package org-roam
+  :after org
   :init
   (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/src/dhruvasagar/org-files/roam/")
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
-   '(("d" "default" plain "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
-      :unnarrowed t)
-     ("b" "book note" plain (file "~/src/dhruvasagar/org-files/roam/templates/book_note.org")
-      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
+   ;; No "default" template on purpose: a node created outside the taxonomy
+   ;; (no :TYPE:/:STATUS:) is invisible to PKOS queries. The no-metadata path
+   ;; is the inbox (C-c c), which is processed into a typed node within a day.
+   ;; Note: `:target' is the compulsory org-roam capture property (the old
+   ;; `:if-new' name is deprecated since org-roam 2.2). For a new node it
+   ;; describes where the file is created; for an existing node the same
+   ;; target resolves to the node's own file via ${slug}.
+   '(("b" "book note" plain (file "~/src/dhruvasagar/org-files/roam/templates/book_note.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
      ("p" "project" plain (file "~/src/dhruvasagar/org-files/roam/templates/project.org")
-      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
-     ("i" "isb note" plain (file "~/src/dhruvasagar/org-files/roam/templates/isb_note.org")
-      :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
+     ;; --- PKOS templates (see pkos-design.md in org-files) ---
+     ;; c/m/f/r/s/o/x = atomic knowledge nodes; l = index node for a
+     ;; complex piece (book/learning); captures while reading go into the
+     ;; piece's index node via C-c n C, never into refile.org.
+     ("c" "concept (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-concept.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("m" "mental model (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-mental-model.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("f" "framework (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-framework.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("r" "practice (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-practice.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("s" "source (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-source.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("o" "person (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-person.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("x" "experience (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-experience.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+      :unnarrowed t)
+     ("l" "learning index (PKOS)" plain (file "~/src/dhruvasagar/org-files/roam/templates/pkos-learning-index.org")
+      :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)))
   (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-dailies-capture-templates
    '(("d" "default" entry "* %<%I:%M %p>: %?"
-      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+      :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
 	 ("C-c n d" . org-roam-dailies-map)
 	 ("C-c n c" . org-roam-capture)
+	 ("C-c n C" . my/org-roam-capture-into-current-node)
+	 ("C-c n M" . my/org-roam-mature-node)
+	 ("C-c n e" . my/pkos-grade-evidence)
+	 ("C-c n s" . my/pkos-status-cycle)
+	 ("C-c n g" . my/pkos-set-domain)
+	 ("C-c n R" . my/pkos-add-recall-card)
 	 :map org-mode-map
 	 ("C-M-i" . completion-at-point)
 	 :map org-roam-dailies-map
@@ -1154,7 +1253,151 @@
 	 ("T" . org-roam-dailies-capture-tomorrow))
   :config
   (require 'org-roam-dailies)
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode)
+
+  ;; --- PKOS support (see pkos-design.md in org-files) ---
+  (defun my/org-roam-capture-into-current-node ()
+    "Append a raw capture fragment to the org-roam node at point.
+Use this while reading a book or studying a topic: the fragment lands
+inside the piece's own index node, never in refile.org."
+    (interactive)
+    (let ((node (org-roam-node-at-point)))
+      (if (not node)
+          (user-error "Point is not inside an org-roam node")
+        ;; org-roam templates require the compulsory `:target' property;
+        ;; `(node …)' places the capture in the existing node at point.
+        (org-roam-capture- :node node
+                           :templates
+                           `(("x" "fragment" plain "- %? %U"
+                              :target (node ,(org-roam-node-id node))
+                              :unnarrowed t))))))
+
+  (defun my/org-roam-mature-node ()
+    "Append the PKOS maturation skeleton to the node at point."
+    (interactive)
+    (let ((node (org-roam-node-at-point)))
+      (if (not node)
+          (user-error "Point is not inside an org-roam node")
+        (org-roam-capture- :node node
+                           :templates
+                           `(("M" "mature" plain
+                              (file "~/src/dhruvasagar/org-files/roam/templates/pkos-mature.org")
+                              :target (node ,(org-roam-node-id node))
+                              :unnarrowed t))))))
+
+  ;; --- PKOS: metadata without the load ---
+  ;; Capture is thought-only (title, aliases, question). Enumerated metadata
+  ;; (evidence, status, domain, kind) is deferred to maturation, where these
+  ;; commands offer the vocabulary as a completing-read instead of relying
+  ;; on memory. The vocabularies themselves are registered once in
+  ;; org-global-properties / org-tag-alist above.
+
+  (defvar my/pkos-domains
+    '("health" "psychology" "work" "relationships" "finance"
+      "productivity" "tech" "parenting" "creativity" "learning")
+    "PKOS domain tags offered for completion.")
+
+  (defun my/pkos-status-cycle ()
+    "Cycle the :STATUS: property up the PKOS ladder: seed → draft → evergreen → mature → teaching."
+    (interactive)
+    (let* ((ladder '("seed" "draft" "evergreen" "mature" "teaching"))
+           (current (org-entry-get nil "STATUS"))
+           (next (or (cadr (member current ladder)) (car ladder))))
+      (org-set-property "STATUS" next)
+      (message "STATUS: %s → %s" (or current "unset") next)))
+
+  (defun my/pkos-grade-evidence ()
+    "Set the :EVIDENCE: property with completion over the vocabulary.
+Defaults to `hypothesis' — the PKOS rule is ungraded = speculative."
+    (interactive)
+    (let* ((vocab '(("consensus"  . "accepted by essentially all relevant experts; replicated many times")
+                    ("strong"     . "well-replicated, but not universal")
+                    ("moderate"   . "multiple studies, some conflicting; or one strong line")
+                    ("weak"       . "suggestive, few studies, or methodologically limited")
+                    ("expert"     . "expert opinion / clinical experience, no solid studies")
+                    ("hypothesis" . "proposed mechanism or speculation")
+                    ("personal"   . "your own observation — explicitly labeled")))
+           (completion-extra-properties
+            (list :annotation-function
+                  (lambda (cand) (concat "  " (cdr (assoc cand vocab)))))))
+      (org-set-property "EVIDENCE"
+                        (completing-read "Evidence grade: " vocab nil t nil nil "hypothesis"))))
+
+  (defun my/pkos-add-recall-card ()
+    "File an org-fc recall card for the node at point into recall-concepts.org.
+Front = the node's :QUESTION: (or title); back = the node link + check
+line. Use at the moment a note reaches evergreen: the card then comes due
+on the org-fc schedule and is reviewed in the existing C-c F r pass.
+Skips silently if a card for this node already exists."
+    (interactive)
+    (let* ((node (org-roam-node-at-point))
+           (file "~/src/dhruvasagar/org-files/recall-concepts.org"))
+      (if (not node)
+          (user-error "Point is not inside an org-roam node")
+        (let* ((id (org-roam-node-id node))
+               (title (org-roam-node-title node))
+               (question (or (org-entry-get (org-roam-node-point node) "QUESTION")
+                             title))
+               (link (format "[[id:%s][%s]]" id title))
+               (card (format "\n** %s :fc:\n:PROPERTIES:\n:ID:       %s\n:CREATED:  %s\n:END:\n- Concept: %s\n- Check: explain it aloud, from memory — then open the note. Grade honestly (Again/Hard/Good/Easy).\n"
+                             question (org-id-new) (format-time-string "[%Y-%m-%d %a]") link)))
+          (with-current-buffer (find-file-noselect (expand-file-name file))
+            (if (string-match-p (format "id:%s" id) (buffer-string))
+                (message "Recall card already exists for %s" title)
+              (goto-char (point-max))
+              (insert card)
+              (save-buffer)
+              (message "Recall card filed: %s" question)))))))
+
+  (defun my/pkos-set-domain ()
+    "Set the domain filetag of the current note, with completion.
+Keeps existing tags; replaces any tag that is a known PKOS domain."
+    (interactive)
+    (let* ((domain (completing-read "Domain: " my/pkos-domains)))
+      (save-excursion
+        (goto-char (point-min))
+        (if (re-search-forward "^#\\+filetags:[[:space:]]*\\(.*\\)$" nil t)
+            ;; capture beg/end/raw BEFORE split-string: it clobbers match data
+            (let* ((beg (match-beginning 0))
+                   (end (match-end 0))
+                   (raw (match-string 1))
+                   (tags (seq-remove (lambda (tag)
+                                       (or (member tag my/pkos-domains)
+                                           (string-blank-p tag)))
+                                     (split-string raw ":" t))))
+              (delete-region beg end)
+              (insert (concat "#+filetags: :"
+                              (mapconcat #'identity tags ":")
+                              ":" domain ":")))
+          (insert (format "#+filetags: :%s:\n" domain))))))
+
+  (defun my/interview-score ()
+    "Fill the org table cell at point with a 1-4 interview score.
+Completes over the rubric so the interviewer never has to recall the scale."
+    (interactive)
+    (let* ((scale '(("4" . "Strong evidence, specific, would raise the bar here")
+                    ("3" . "Solid evidence, hire-level")
+                    ("2" . "Thin or generic evidence, needs another data point")
+                    ("1" . "Absent or concerning evidence")))
+           (completion-extra-properties
+            (list :annotation-function
+                  (lambda (cand) (concat "  " (cdr (assoc cand scale)))))))
+      (if (org-at-table-p)
+          (progn
+            (org-table-blank-field)
+            (insert (completing-read "Score (1-4): " scale nil t))
+            (org-table-align))
+        (user-error "Point is not inside an org table"))))
+
+  (defun my/org-roam-updated-prop ()
+    "Update the :UPDATED: property of the node at point after save."
+    (when (and (derived-mode-p 'org-mode)
+               (org-roam-node-at-point))
+      (let ((node (org-roam-node-at-point)))
+        (org-with-point-at (org-roam-node-point node)
+          (org-set-property "UPDATED" (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
+  :hook (before-save . my/org-roam-updated-prop))
+;; (add-hook 'before-save-hook #'my/org-roam-updated-prop))
 
 (use-package websocket
   :after org-roam)
@@ -1171,7 +1414,7 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(use-package ob-penrose 
+(use-package ob-penrose
   :after org
   :straight (:host github :repo "weavermarquez/ob-penrose" :files ("ob-penrose.el")))
 
@@ -1204,6 +1447,7 @@
   (setq-local face-remapping-alist '((default variable-pitch default))))
 
 (use-package org-tree-slide
+  :after org
   :hook ((org-tree-slide-play . efs/presentation-setup)
          (org-tree-slide-stop . efs/presentation-end))
   :custom
@@ -1250,8 +1494,9 @@ Comments:
            (format-time-string "-%Y-%m-%d-%H%M%S") ".docx")))
 
 (use-package org-yt
-  :straight (:type git :host github :repo "TobiasZawada/org-yt")
-  :after org)
+  :after org
+  :straight (:type git :host github :repo "TobiasZawada/org-yt"))
+
 (use-package org-download
   :after org
   :custom
@@ -1309,5 +1554,19 @@ Comments:
 ;; (use-package org-roam-tree
 ;;   :after org
 ;;   :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
+
+(use-package org-glossary
+  :after org
+  :straight (:host github :repo "tecosaur/org-glossary")
+  :hook (org-mode . org-glossary-mode)
+  :preface
+  (defun dhruva/org-glossary-record-jump (&rest _)
+    "Push point onto the xref stack before jumping to a definition.
+`org-glossary-goto-term-definition' does a bare `goto-char', so
+without this there is no way back.  Return with \\[xref-go-back]."
+    (xref-push-marker-stack))
+  :config
+  (advice-add 'org-glossary-goto-term-definition
+              :before #'dhruva/org-glossary-record-jump))
 
 (provide 'init-org)

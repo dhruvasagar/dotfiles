@@ -419,8 +419,8 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :commands magit
   :init
   (setq magit-define-global-key-bindings 'recommended
-	magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
-	magit-commit-diff-inhibit-same-window t)
+        magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+        magit-commit-diff-inhibit-same-window t)
   :bind*
   ( :map version-control
     ("v" . magit-status)
@@ -1074,7 +1074,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :straight (appine :type git :host github :repo "chaoswork/appine")
   :custom
   ;; enables opening URLs and files with Appine, default is nil
-  (appine-enable-open-in-org-mode t)
+  ;; (appine-enable-open-in-org-mode t)
   :config
   ;; Optional: Set default keybindings
   (global-set-key (kbd "C-x a w") 'appine-open-web-split)

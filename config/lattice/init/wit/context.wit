@@ -1,0 +1,101 @@
+package lattice:plugin-host@0.1.0;
+
+/// The structural-**context** producer API (treesitter-context.md, TC.2): the
+/// scopes a pane pins above its text once their own header lines have scrolled
+/// away — the `nvim-treesitter-context` / sticky-scroll idea.
+///
+/// **Scopes cross, not rows.** A `context-scope` is a pure function of the parse
+/// tree, so the host caches the set per parse version and resolves "which of
+/// these apply to THIS pane right now" itself, per pane, per frame
+/// (`lattice_cells::context::resolve_context`, TC.1). Returning finished rows
+/// instead would put a WASM call on the scroll path and give the host a cache
+/// keyed on the cursor — one that thrashes by construction. Paramount #1.
+///
+/// **Producer, async, host-cached** — the `decorations` shape (PH7.9), for the
+/// same reason: the host calls `context-scopes` OFF the render path on a trigger
+/// (a completed reparse), caches the result, and every later read is native. The
+/// guest never runs on a keystroke.
+interface context {
+    use types.{context-request, context-scope};
+    use tree-sitter.{tree-snapshot};
+
+    /// Produce the structural context scopes for a buffer.
+    ///
+    /// `tree` is the buffer's point-in-time parse snapshot, handed in the way
+    /// `grammar.apply-action` hands it (TS.1) rather than acquired by the guest:
+    /// call-scoped access keeps the `tree-sitter` capability meaning "the tree
+    /// you were given" instead of "any buffer's tree, any time". It is `none`
+    /// when the buffer has no parse (plain text, or a parse still pending), and
+    /// a guest with nothing to work from should return an empty list.
+    ///
+    /// Async — a produce call suspends the guest and never the render path. The
+    /// guest is expected to run a whole-buffer `run-query` here, which is why
+    /// this must not be synchronous.
+    ///
+    /// Graceful (§8): an `err` is logged and the buffer KEEPS its previously
+    /// cached scopes rather than being cleared. A failed refresh must not blank
+    /// the strip — a transient error would otherwise read as the feature
+    /// breaking. Same contract as `decorations.gutter-decorations`.
+    context-scopes: func(
+        req: context-request,
+        tree: option<borrow<tree-snapshot>>,
+    ) -> result<list<context-scope>, string>;
+}
+
+/// The world a context-provider plugin implements. Imports `tree-sitter` so the
+/// host-owned `tree-snapshot` / `node` / `query` resources are in scope for the
+/// `borrow<>` parameter above (the `grammar-plugin` precedent), and
+/// `host-services` for the walk seam a provider may want. **Async** — the
+/// producer is off the render path, so a 7th `bindgen!` reuses the `plugin`
+/// world's generated `types` + `host-services` via `with:` so crossed values are
+/// the SAME Rust types the boundary round-trips (`boundary_context.rs`).
+world context-plugin {
+    import host-services;
+    import tree-sitter;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export context;
+}
+
+/// The `treesitter-context` bundled plugin's world (TC.5). ONE component
+/// providing the multi-seam shape `auto-pair` proved:
+///   - **context** — the scope producer (this file's `context` interface),
+///   - **config**  — the `context.*` options,
+///   - **grammar** + **modes** — the mode, its `[u` chord and `:context-toggle`.
+///
+/// It does NOT provide **theme**. It used to, registering four elements no
+/// renderer read: the strip is host chrome, so its appearance belongs to the
+/// host's `sticky.context.*` set. An element that resolves in
+/// `:describe-element` but never paints is worse than an absent one.
+///
+/// The host instantiates this same `.wasm` once per seam against the superset
+/// async linker, exactly as it does for `auto-pair`. A component exporting more
+/// than a given world requires is fine; each `spawn_*` matches only what its
+/// own world declares.
+world treesitter-context-plugin {
+    import tree-sitter;
+    import buffer;
+    import grammar;
+    import modes;
+    import config;
+    // CR.3: the plugin's own `:help treesitter-context` page. Its markdown is
+    // `include_str!`'d from this plugin's `doc/`, so the manual ships with the
+    // component rather than in lattice's binary.
+    import help;
+
+    export context;
+    export register-options: func();
+    export register-grammar: func();
+    export grammar-callbacks;
+    export register-modes: func();
+    export register-help-topics: func();
+}
+
+// `logging` is intentionally NOT imported, for the reason `auto-pair` gives:
+// keeping it out of the combined world keeps `log` off the SYNC grammar linker,
+// preserving the "no logging reachable from the grammar hot path" invariant.
+// `[u` fires on a keystroke and resolves inline, so it is on that path.

@@ -1,0 +1,9 @@
+# Pinned to the same rustc lattice pins. The dev-dependencies below compile a
+# real editor (wasmtime, cranelift), and those crates set `rust-version = 1.94`
+# — on an older default toolchain `cargo test` refuses to resolve at all.
+# Keep in sync with lattice's `rust-toolchain.toml`.
+[toolchain]
+channel = "1.94.0"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-wasip2"]
+profile = "minimal"

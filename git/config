@@ -17,6 +17,9 @@
 [user]
   name = Dhruva Sagar
   email = dhruva.sagar@gmail.com
+[includeIf "gitdir:~/src/mindbody/"]
+  name = Dhruva Sagar
+  email = dhruva.sagar@mindbodyonline.com
 [color]
   ui = true
 [commit]

@@ -1,0 +1,124 @@
+// Canonical WIT for the lattice plugin host (Phase 7).
+//
+// Design: docs/dev/architecture/plugin-host.md §5 (the exercised-trait →
+// WIT mirror). Slice sequencing: docs/dev/operations/slice-plans/plugin-host.md.
+//
+// One file per interface. Every interface names the native trait it mirrors
+// and the slice that populates it; PH7.0 ships only the `plugin` lifecycle
+// world below, wired through `wasmtime::component::bindgen!` in
+// `lattice-plugin-host`. The rest are empty stubs so the package is sized
+// against the full exercised set from day one (design.md §14 mitigation).
+package lattice:plugin-host@0.1.0;
+
+/// The lifecycle surface every guest component implements.
+///
+/// **First consumer is the user's `init.rs`** — compiled to WASM and loaded
+/// by the host with a boot-capability set (CLAUDE.md tech stack; design.md
+/// §5.12.2). Its `activate` runs the user's configuration: registering
+/// keymaps, autocmds, hooks, and custom commands through the (stubbed here)
+/// host-services / grammar / command / config / events interfaces. A plugin
+/// is just another component implementing this same world with a narrower
+/// capability grant; `plugins/fuzzy-finder` (PH7.4) validates the picker
+/// seam but is *not* the first consumer.
+///
+/// The degenerate case — a component whose `activate` registers nothing — is
+/// the empty `init.rs`, and is exactly what the PH7.0 scaffold instantiates
+/// to prove the host round-trip end to end.
+///
+/// The async ABI (design.md §5.5) and the `on-event` lifecycle export land
+/// with the runtime core (PH7.1) and the event seam (PH7.8) respectively;
+/// PH7.0 wires the two synchronous exports needed to prove instantiation.
+world plugin {
+	/// Pull the shared boundary types (§4) into the world so the host gets
+	/// generated Rust mirrors to round-trip against (`boundary.rs`, PH7.3a).
+	/// They are not yet used by a lifecycle function signature; the `use`
+	/// alone makes `bindgen!` emit them.
+	use types.{args, arg-value, candidate-kind, candidate-data, raw-candidate, picker-accept-outcome};
+	use types.{position, range, edit-kind, edit, edit-delta, applied-edit};
+	use types.{visual-mode, selection, selection-set, visual-kind, search-direction, modal-state, register, yank-kind};
+	/// The whole `effect` variant mirror + its helper types (PH7.3b1b). The
+	/// multi-field payload records (`apply-edit-payload`, …) are transitively
+	/// referenced by `effect`, so they surface under
+	/// `crate::lattice::plugin_host::types::*` without a world-level `use`.
+	use types.{effect, quit-scope, echo-level, substitute-scope, utf16-pos, lsp-request};
+	/// The `app-effect` variant mirror (PH7.3b2) — the payload of the
+	/// `effect::app-action` arm — plus its helper enums. `narrow-lines-payload`
+	/// is transitively referenced, so it surfaces without a world-level `use`.
+	use types.{app-effect, viewport-pos, scroll-pos, pane-direction, hscroll};
+
+	/// The picker-source seam types (PH7.4a, §4.2 / §5 `picker-source`): the
+	/// plugin-facing API a WASM picker source authors against. Marginalia
+	/// (`annotation` + `key-chord`) crosses so plugin candidates carry themed
+	/// columns; the owned `picker-context` projection is host→guest only.
+	/// Transitively-referenced payload records (`annotation-segment`,
+	/// `arg-spec`, `resolve-diff-payload`, `symbol-location`, …) surface under
+	/// `crate::lattice::plugin_host::types::*` without a world-level `use`.
+	use types.{annotation, key-chord, special-key, key-kind};
+	use types.{arg-kind, arg-default, arg-spec, picker-source-spec};
+	use types.{routing-payload, open-target};
+	use types.{picker-context, active-buffer-snapshot, buffer-entry, position-entry, position-source};
+
+	/// The transient seam types (TR.2b, `plugin-transients.md` §5): the keyed
+	/// menu a plugin contributes + the owned `transient-context` projection it
+	/// is built for. `transient-group` / `transient-item` /
+	/// `transient-item-kind` / `transient-action` are transitively referenced
+	/// by `transient-spec`, so they surface without a world-level `use`.
+	use types.{transient-spec, transient-context};
+
+	/// The event/hook seam types (PH7.8a, §5 `events`): the owned `event` variant
+	/// delivered to the guest `on-event` export + the `event-filter` a plugin
+	/// subscribes with. Transitively-referenced payload records
+	/// (`event-document-opened`, `event-mode-lifecycle`, …) surface under
+	/// `crate::lattice::plugin_host::types::*` without a world-level `use`.
+	use types.{event, event-kind, event-filter};
+
+	/// The decoration/ui seam types (PH7.9a, §5 `decorations`/`ui`): the per-line
+	/// `gutter-decoration` a provider produces + its `decoration-context`
+	/// projection, plus the type-mirrored `ui` emit surface (segment/notification,
+	/// deferred producer). Transitively-referenced records (`gutter-diff`,
+	/// `gutter-severity`) surface under `crate::lattice::plugin_host::types::*`.
+	use types.{gutter-decoration, gutter-diff-kind, gutter-severity-level, decoration-context};
+	use types.{ui-zone, ui-notification};
+
+	/// The owned `buffer-snapshot` projection record (PH7.3c, §4.2). `use`d (not
+	/// `import`ed) so `bindgen!` emits the Rust mirror the host projects into
+	/// (`buffer.rs::project_buffer_snapshot`). The `document` **resource** is
+	/// defined in `buffer.wit` but is not referenced by any world function yet,
+	/// so bindgen won't wire it here; its host `HostDocument` trait +
+	/// `add_to_linker` land at PH7.3d, when the picker-source signature takes a
+	/// `document` handle (bindgen only generates a resource a signature uses).
+	use buffer.{buffer-snapshot};
+
+	/// Guest→host services (PH7.4b, §5). The host implements these; the guest
+	/// calls INTO them, capability-gated against its grant. The first seam is the
+	/// filesystem `walk` the `fuzzy-finder` (PH7.4d) uses. `import`ed (not `use`d)
+	/// so bindgen generates the host `Host` trait + `add_to_linker` the host wires
+	/// `PluginState` to. Guests that don't call it are unaffected.
+	import host-services;
+
+	/// Guest→host logging (PO.5, Layer 2). The guest emits its own narrative;
+	/// the host routes each `log` into the same `PluginTracer` as the boundary
+	/// trace (a `host-import` record, `seam = logging`). `import`ed (not `use`d)
+	/// so bindgen generates the host `Host` trait + `add_to_linker`. Guests that
+	/// don't call it are unaffected. Shared across the async-seam worlds via the
+	/// bindgen `with`-reuse (the `host-services` pattern).
+	import logging;
+
+	/// PR.6: guest→host project resolution. An IMPORT — the host answers,
+	/// the guest asks — so core never depends on a plugin being alive.
+	/// Inert for guests that don't call it.
+	import project;
+
+	/// OC.3 / ML.6: guest→host UI contribution — a plugin-owned modeline
+	/// element. Imported here so bindgen generates the one `Host` trait +
+	/// `add_to_linker` every seam world reuses via `with`-mapping, exactly as
+	/// `host-services` and `logging` do. Inert for guests that don't call it.
+	import ui;
+
+	/// Called once when the component is first instantiated. Runs config /
+	/// contribution registration for `init.rs`; no-op for the scaffold.
+	export activate: func();
+
+	/// Called on teardown / reload (the Guard-`Drop` teardown seam, §8).
+	export deactivate: func();
+}

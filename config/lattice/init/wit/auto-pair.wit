@@ -1,0 +1,34 @@
+package lattice:plugin-host@0.1.0;
+
+/// The `auto-pair` bundled plugin's world (AP.1). ONE component providing three
+/// seams — the multi-seam shape proven by the AP.1.0 spike:
+///   - **grammar** — the pairing actions (`auto-pair-open-*` / `auto-pair-close-*`
+///     / `auto-pair-backspace`), fired on insert-mode chords; `apply-action` reads
+///     the buffer around the cursor via the AP.0.1 `borrow<document>` handle,
+///   - **modes** — the `auto-pair-mode` minor mode owning the insert-mode keymap
+///     (the mode-ownership rule: bindings live at `MinorMode(auto-pair-mode)`,
+///     never the builtin layer),
+///   - **config** — the `auto-pair.style` / `auto-pair.close-key` options,
+///   - **help** — its own `:help auto-pair` page (CR.3). The markdown lives in
+///     this plugin's `doc/` and is `include_str!`'d into the component, so the
+///     plugin's manual travels with the plugin instead of inflating lattice's
+///     own embedded-doc budget.
+///
+/// `logging` is intentionally NOT imported: keeping it out of the combined world
+/// keeps `log` off the sync grammar linker (the "no logging on the grammar hot
+/// path" invariant). The host instantiates this same `.wasm` once per seam —
+/// grammar sync, modes+config async — against the superset linkers (AP.1.0).
+world auto-pair-plugin {
+    import grammar;
+    import buffer;
+    import tree-sitter;
+    import modes;
+    import config;
+    import help;
+
+    export register-grammar: func();
+    export grammar-callbacks;
+    export register-modes: func();
+    export register-options: func();
+    export register-help-topics: func();
+}

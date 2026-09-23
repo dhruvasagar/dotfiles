@@ -1,0 +1,1 @@
+/Users/dhruva/dotfiles/claude/skills/gstack/health/SKILL.md

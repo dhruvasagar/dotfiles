@@ -1,0 +1,90 @@
+package lattice:plugin-host@0.1.0;
+
+/// CM.6: plugin-contributed compilation-output parsers.
+///
+/// A plugin teaches lattice to recognise diagnostics from a build tool the
+/// editor has never heard of. The native set covers cargo/rustc, gnu-style,
+/// and test panics; everything else in the world — a bespoke linter, an
+/// in-house build system, a language whose compiler predates all of them — is
+/// what this is for.
+///
+/// ## Line at a time, because the format is
+///
+/// `feed` takes ONE line and returns the entries that line *completed*. A
+/// multi-line format (cargo's `error:` header followed by an `--> file:l:c`
+/// arrow two lines later) keeps its own pending state inside the guest and
+/// emits when the location arrives; a single-line format emits or returns
+/// nothing. It mirrors the native `CompilationParser` trait exactly, because
+/// a plugin parser and a native one are the same job and should not have
+/// different shapes.
+///
+/// `reset` drops that pending state at the start of a run, so a build
+/// interrupted mid-diagnostic cannot leak a half-parsed entry into the next
+/// one.
+///
+/// ## Where it runs
+///
+/// Off the UI and actor threads, in the compilation reader (see
+/// `compilation-mode.md` §5). Not the keystroke path — but it IS the critical
+/// path of a fast producer, so a guest that blocks here backs up a build's
+/// output. The host budgets it per call like every other seam.
+///
+/// ## What the host does with a bad entry
+///
+/// Validates and drops, never traps. A returned `line`/`col` is guest data
+/// and the host treats it as untrusted: a nonsense path or an entry with an
+/// empty path is logged at debug and skipped, exactly as a native parser's
+/// malformed-but-claimed match is. One bad line must not fail a build.
+interface error-parser {
+    /// Severity of a parsed diagnostic. Mirrors the host's `ErrorSeverity`.
+    enum severity {
+        error,
+        warning,
+        info,
+        note,
+    }
+
+    /// One diagnostic the parser recognised.
+    record entry {
+        /// Path as the tool printed it. Relative paths resolve against the
+        /// compilation's working directory, host-side — the guest does not
+        /// need to know where the build ran.
+        path: string,
+        /// **0-based** line, like the host's `ErrorEntry`. A tool printing
+        /// 1-based line numbers (nearly all of them) subtracts one; doing
+        /// that in the guest keeps one convention on this side of the
+        /// boundary instead of two.
+        line: u32,
+        /// 0-based column.
+        col: u32,
+        severity: severity,
+        message: string,
+    }
+}
+
+/// The world an error-parser plugin implements.
+///
+/// `feed` is called once per captured output line, in arrival order, for the
+/// life of a compilation. `reset` is called before the first line of each
+/// run.
+world error-parser-plugin {
+    import error-parser;
+    import logging;
+
+    /// PR.6 deliberately does NOT import `project` here. This world
+    /// instantiates against the host's SYNC linker (shared with `grammar`,
+    /// which is the keystroke path), and project resolution can walk the
+    /// filesystem on a cache miss. Exposing it on that linker would put a
+    /// directory walk one guest call away from a keystroke — paramount goal
+    /// #1. An error-parser wanting the project root is a real want; it needs
+    /// its own sync-safe answer (a pre-resolved root passed in), not this
+    /// seam.
+
+    use error-parser.{entry};
+
+    /// Drop any pending multi-line state. Called at the start of a run.
+    export reset: func();
+
+    /// Feed one line; return the entries it completed (usually none).
+    export feed: func(line: string) -> list<entry>;
+}

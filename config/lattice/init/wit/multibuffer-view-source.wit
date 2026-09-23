@@ -1,0 +1,133 @@
+package lattice:plugin-host@0.1.0;
+
+/// MV.1 — the seam by which a plugin **owns a multibuffer view**.
+///
+/// Design: `docs/dev/architecture/plugin-multibuffer-views.md`.
+///
+/// ## What was missing
+///
+/// A plugin could already own a view's *interactions* — `scanned-excerpt-source`
+/// exports `view-mode`, and the host activates that minor on the view, so
+/// `org-agenda-mode`'s chords and their handler bodies live in org. It could
+/// already *open* a view: `app-effect::open-provider-view(provider, args)` is
+/// ungated, on the `open-picker` precedent.
+///
+/// What it could not do is have a view at all. `ProviderViewOpener` is
+/// `Arc<dyn Fn(&mut dyn ModeActivator, &Args)>` — a Rust closure — so a view
+/// existed only if the host had hand-built a provider for it. The agenda is the
+/// one that got built. Org's second view had nowhere to go, and neither did any
+/// third-party plugin's first: the acid test `multibuffer-views.md` sets ("a new
+/// provider should require zero host additions") failed outright for plugins,
+/// which cannot add host code at all.
+///
+/// ## The registry shape, not the one-view-per-component shape
+///
+/// A guest calls `register-multibuffer-view` once per view it owns, exactly as
+/// `picker-registry` works and for the reason OR.5b records: every other
+/// contribution seam in the system is "the guest calls a host import to register
+/// N things", and the one seam shaped "the component IS one source" had to be
+/// changed the moment a plugin wanted two.
+interface multibuffer-view-registry {
+    use types.{multibuffer-view-spec};
+
+    /// Declare one view. Called from the guest's `register-multibuffer-views`
+    /// export. The host registers a provider-view opener under `spec.id`, so
+    /// `open-provider-view` and the view's `gr` both reach it.
+    ///
+    /// An id already claimed by a NATIVE provider is refused with a warning
+    /// naming both, and this guest's other views still register — one bad name
+    /// must not cost a plugin its whole contribution.
+    register-multibuffer-view: func(spec: multibuffer-view-spec);
+
+    /// OA.15a: re-open one of THIS guest's views with `args`, from somewhere
+    /// that cannot return an effect.
+    ///
+    /// ## Why this is not `open-provider-view`
+    ///
+    /// `app-effect::open-provider-view` already says "open my view", and every
+    /// trigger that RETURNS an effect should keep using it — an action handler,
+    /// an ex-command, a transient row. This exists for the producers that do
+    /// not return anything at all: `on-event` is `func(handler, ev)` with no
+    /// result by construction (the event seam is observation-shaped, §5.10),
+    /// and a wake handler is the same.
+    ///
+    /// ## What made the gap visible
+    ///
+    /// A guest MODE that is supposed to change its view. The host delivers
+    /// `minor-activated` / `minor-deactivated`, so a guest can see its mode go
+    /// on and off — but a plugin mode is DATA (`mode-declaration`), and the
+    /// host builds it into a `PluginMode` whose `on_activate` is a no-op. A
+    /// native mode supplies that body itself: `scan-view-clockreport-mode`
+    /// registers its provider on activation and drops it on deactivation,
+    /// which is what makes the mode the single switch rather than a label
+    /// beside one. Without this call a guest mode has no equivalent, so
+    /// `org-agenda-log-mode` could be toggled and change nothing.
+    ///
+    /// ## Contract
+    ///
+    /// A REQUEST, not an apply — `enable-mode`'s shape (`modes.wit`), and for
+    /// the same reason: the activator is `&mut`-backed and the guest cannot
+    /// reach it. The host publishes it and the Editor re-opens on its next
+    /// tick, with the wake baked in so the result reaches the screen WITHOUT a
+    /// keystroke.
+    ///
+    /// `view` must name a view this guest registered; the host refuses an
+    /// unknown name with a warning rather than trapping, because a stale name
+    /// after a reload is a plugin-author mistake, not a reason to kill a
+    /// running plugin. `args` are routed verbatim and never read — the same
+    /// contract `scan-args` carries, since they are the provider's own
+    /// vocabulary.
+    ///
+    /// A view declared `reuse: true` (the agenda) re-scans in place; one
+    /// declared `reuse: false` opens another view, so a guest calling this on
+    /// a non-reuse view from a handler that fires often will accumulate views.
+    /// That is the guest's choice to make and the host does not second-guess
+    /// it.
+    refresh-view: func(view: string, args: list<string>);
+}
+
+interface multibuffer-view-source {
+    use types.{multibuffer-view-result};
+
+    /// Produce a `pull` view's excerpts, **in final order**.
+    ///
+    /// `view` names which of this guest's registered views is being built; one
+    /// actor and one guest instance serve them all, as with `picker-source`.
+    /// `args` are the trigger's arguments verbatim — from the ex-command, the
+    /// transient row, or the `gr` that refreshed the view.
+    ///
+    /// ## Why the guest orders, when a scan source only supplies a sort key
+    ///
+    /// The asymmetry is deliberate and it turns on **who can see the whole set
+    /// at ordering time**. A scan guest is handed one file and cannot know
+    /// where its rows land once every other file's rows interleave, so only the
+    /// host can sort and the guest supplies an `s64` key. A pull guest computes
+    /// the entire set in this one call, so requiring a key would make the host
+    /// re-sort what is already ordered — and would force orderings that are not
+    /// numeric (by title, by file-then-line) through an integer that cannot
+    /// express them.
+    ///
+    /// An `err` **declines** the view with the guest's own message rather than
+    /// opening an empty one. Declining is a first-class outcome: an empty view
+    /// leaves the user to guess whether it is broken or genuinely empty.
+    build: func(view: string, args: list<string>) -> result<multibuffer-view-result, string>;
+}
+
+/// The world a multibuffer-view plugin implements.
+///
+/// `host-services` is imported because a pull view's answer usually comes from
+/// somewhere — a plugin store, a file it reads under its own grant. Nothing
+/// here requires it: a view computing its excerpts from data it already holds
+/// calls nothing.
+world multibuffer-view-plugin {
+    import host-services;
+    import logging;
+    import multibuffer-view-registry;
+
+    /// PR.6: guest→host project resolution, as everywhere else.
+    import project;
+
+    /// Called once at load. The guest registers each view it owns.
+    export register-multibuffer-views: func();
+    export multibuffer-view-source;
+}
