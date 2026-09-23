@@ -1,0 +1,23 @@
+# Your lattice config, compiled to a wasm32-wasip2 component.
+# A standalone [workspace] so it doesn't inherit an outer cargo toolchain.
+[package]
+name = "lattice-init"
+version = "0.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]      # a component, not an rlib
+
+[dependencies]
+wit-bindgen = "0.58"
+# `#[derive(ConfigShape)]` — a Rust struct becomes a plugin option's schema and
+# value. Needed for any option whose value has STRUCTURE (org's capture
+# templates); scalar options still go through `config::set_option` with a
+# string. WIT-agnostic pure Rust, so it compiles to wasm32-wasip2 like the rest.
+lattice-plugin-sdk = { path = "/Users/dhruva/src/dhruvasagar/lattice/crates/lattice-plugin-sdk" }
+
+[profile.release]
+opt-level = "s"
+strip = true
+
+[workspace]

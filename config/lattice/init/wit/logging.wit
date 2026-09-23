@@ -1,0 +1,35 @@
+package lattice:plugin-host@0.1.0;
+
+/// Guest→host structured logging (plugin observability Layer 2, design
+/// `docs/dev/architecture/plugin-observability.md` §8). Shaped like
+/// `wasi:logging/logging` so any component-model language calls it with no
+/// lattice-specific glue: a guest emits its OWN narrative ("parsing X",
+/// "reindexed 40 files") and the host routes each call into the same
+/// `PluginTracer` that carries the boundary trace (Layer 1), tagged by plugin +
+/// level, so the guest's intent interleaves with the host's observed behaviour in
+/// one `*plugin-trace*` buffer.
+///
+/// Language-agnostic and off the hot path: `logging` is an async-linker import
+/// (never wired into the sync grammar seam), so it cannot touch the keystroke
+/// path. `context` is a free-form category the guest chooses (e.g. a subsystem
+/// name); an empty string is fine. Fire-and-forget — no reply, the host cannot
+/// fail the call.
+interface logging {
+    /// Severity, mirroring `wasi:logging`. `critical` folds into the host's
+    /// `error` trace level (the tracer has no separate critical tier); `off` is
+    /// not a log level (it is a gate-only value on the host side).
+    enum level {
+        trace,
+        debug,
+        info,
+        warn,
+        error,
+        critical,
+    }
+
+    /// Emit one log line. `level` gates it against the plugin's trace verbosity
+    /// (the same per-plugin gate the boundary trace uses); `context` is a
+    /// free-form category; `message` is the line. Dropped silently when the
+    /// plugin's gate is below `level` — exactly like a boundary-trace record.
+    log: func(level: level, context: string, message: string);
+}

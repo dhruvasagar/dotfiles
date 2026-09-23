@@ -1,0 +1,2 @@
+cargo:rerun-if-changed=build.rs
+cargo:rustc-env=DEBUG_OUTPUT_DIR=/Users/dhruva/.config/lattice/init/target/debug/build/wit-bindgen-rust-macro-cc3b9b8a8751483a/out

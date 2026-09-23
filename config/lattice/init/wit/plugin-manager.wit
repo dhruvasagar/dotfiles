@@ -1,0 +1,92 @@
+package lattice:plugin-host@0.1.0;
+
+/// PM.7: the `require` seam — how a user's `init.rs` declares the plugins it
+/// wants (plugin-manager.md §3).
+///
+/// This is the **user**-plugin surface. Core plugins (the ones that ship with
+/// lattice) are NOT `require`d: they are discovered from the runtime root and
+/// enabled by a `<id>.enabled` config gate (§7), so a fresh editor with no
+/// user `init.rs` still gets its batteries. `require` exists for plugins the
+/// *user* names, with a source the host must resolve and build.
+///
+/// It is programmatic rather than a TOML list on purpose (§3, rejected
+/// alternatives). use-package is programmatic — conditional loading, per-plugin
+/// setup — and the standing principle is that logic stays code while static
+/// settings stay declarative. A `[[plugin]]` table would be simpler and would
+/// lose exactly the expressiveness the feature is for.
+///
+/// ## Recording, not doing
+///
+/// `require` **records** a spec and returns immediately. It performs no
+/// resolution, no clone, no build, no load. The host drains the recorded specs
+/// after the guest's registration export returns and runs the pipeline
+/// off-thread (§5) — the `register-mode` / `register-grammar` precedent.
+///
+/// That split is not an implementation detail. A `require` that resolved
+/// inline would put a git clone and a cargo build inside a guest call on the
+/// boot path, which paramount goal #1 forbids outright and which would make a
+/// cold first boot hang on the network with no way to render a frame.
+/// Contributions from a required plugin therefore appear a frame or two after
+/// boot — the eventual consistency the UX contract already permits for plugin
+/// cold-start.
+interface plugin-manager {
+    /// Where a plugin comes from. Mirrors the host's `PluginSource`.
+    variant plugin-source {
+        /// A cargo project on disk, built in place (never copied).
+        local(string),
+        /// A git repository, cloned into the source cache.
+        %git(git-source),
+        /// A URL serving a ready-built `.wasm` — no build, no toolchain.
+        prebuilt(string),
+    }
+
+    /// A git source. `rev` pins a revision; omitted tracks the default branch.
+    record git-source {
+        url: string,
+        rev: option<string>,
+    }
+
+    /// One declared plugin.
+    record plugin-spec {
+        /// The plugin's name — the directory it caches under, and the key the
+        /// host reports it by. Must be a single safe path component; the host
+        /// rejects anything else rather than letting a name escape the cache
+        /// root (the same validation the manifest `id` already gets).
+        name: string,
+        source: plugin-source,
+        /// use-package sugar: enable this mode once the plugin loads.
+        /// Desugars to the CI.5 `on-plugin-loaded` → `enable-mode` path, so
+        /// the host never learns a mode-id statically
+        /// (`feedback_mode_owns_its_surface`).
+        enable-mode: option<string>,
+        /// Skip the rebuild-on-change check; build only if the artifact is
+        /// absent. The escape hatch for a known-good build that should stay
+        /// put regardless of what the source tree does.
+        pinned: bool,
+    }
+
+    /// Declare a plugin. Records the spec; the host resolves, builds and loads
+    /// it after the calling export returns.
+    ///
+    /// Returns `false` when the spec is rejected outright — today, an unsafe
+    /// `name`. A rejection is a logged skip, never a trap: one bad entry in an
+    /// `init.rs` must not take the whole config down.
+    require: func(spec: plugin-spec) -> bool;
+}
+
+/// The world a config plugin (`init.rs`) implements when it declares plugins.
+///
+/// Deliberately a *separate* world from the fixture worlds that came before it
+/// rather than an extra import on one of them: a plugin that only contributes
+/// a grammar has no business holding the `require` capability, and worlds are
+/// how that stays true by construction.
+world plugin-manager-plugin {
+    import plugin-manager;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export register-plugins: func();
+}

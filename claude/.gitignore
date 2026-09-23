@@ -2,4 +2,31 @@
 debug/
 backups/
 paste-cache/
-file-history/
+daemon/
+security/
+shell-snapshots/
+homunculus/
+projects/
+sessions/
+feedback/
+jobs/
+state/
+telemetry/
+ide/
+metrics/
+
+history.jsonl
+.last-cleanup
+.last-update-result.json
+daemon-auth-cooldown
+daemon-auth-status.json
+mcp-needs-auth-cache.json
+
+# Ignore local machine overrides and private tokens
+settings.json.bak
+settings.local.json
+CLAUDE.local.md
+
+# Ignore conversational history, logs, or state if stored here
+*history*
+*.log

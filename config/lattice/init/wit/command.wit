@@ -1,0 +1,7 @@
+package lattice:plugin-host@0.1.0;
+
+/// Mirrors `CommandRegistry` + `CommandInvocation` + the closed `Effect`
+/// enum (lattice-grammar). Guest→host `invoke`; host→guest `apply`. The
+/// `effect` WIT variant mirrors the ~105-variant enum whole (§4.4) so the
+/// boundary stays typed. Populated in PH7.3 (Effect round-trip) / PH7.7.
+interface command {}

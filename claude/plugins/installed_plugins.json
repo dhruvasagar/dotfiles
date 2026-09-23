@@ -14,51 +14,51 @@
     "frontend-design@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/frontend-design/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:22:59.697Z",
-        "lastUpdated": "2026-04-24T16:08:00.068Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.808Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "code-review@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/code-review/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/code-review/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:23:08.897Z",
-        "lastUpdated": "2026-04-24T16:08:00.075Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.780Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "github@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/github/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/github/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:23:20.110Z",
-        "lastUpdated": "2026-04-24T16:08:00.051Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.751Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "feature-dev@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/feature-dev/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/feature-dev/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:23:27.949Z",
-        "lastUpdated": "2026-04-24T16:08:00.061Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.797Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "playwright@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/playwright/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/playwright/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:23:32.845Z",
-        "lastUpdated": "2026-04-24T16:08:00.058Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.743Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "code-simplifier@claude-plugins-official": [
@@ -74,11 +74,11 @@
     "superpowers@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0",
-        "version": "5.1.0",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/superpowers/6.4.1",
+        "version": "6.4.1",
         "installedAt": "2026-03-17T08:23:46.621Z",
-        "lastUpdated": "2026-05-05T05:32:23.923Z",
-        "gitCommitSha": "3cee13e516e91d44b957c1336c3d08c8a8392702"
+        "lastUpdated": "2026-09-22T18:07:24.317Z",
+        "gitCommitSha": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
       }
     ],
     "typescript-lsp@claude-plugins-official": [
@@ -104,51 +104,51 @@
     "figma@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/figma/2.2.12",
-        "version": "2.2.12",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/figma/2.2.120",
+        "version": "2.2.120",
         "installedAt": "2026-03-17T08:24:21.205Z",
-        "lastUpdated": "2026-05-19T05:38:10.041Z",
-        "gitCommitSha": "f046182e32c8160b1254ad12ec8318f9a9aa50b5"
+        "lastUpdated": "2026-09-22T18:07:24.260Z",
+        "gitCommitSha": "172920731eedf414e9b22ae60017d9a5b6c9f81f"
       }
     ],
     "security-guidance@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.3",
-        "version": "2.0.3",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.8",
+        "version": "2.0.8",
         "installedAt": "2026-03-17T08:24:28.924Z",
-        "lastUpdated": "2026-06-04T06:16:08.255Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-10T00:52:39.958Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
       }
     ],
     "serena@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/serena/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/serena/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:24:36.095Z",
-        "lastUpdated": "2026-04-24T16:08:00.077Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.759Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "pr-review-toolkit@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:24:42.036Z",
-        "lastUpdated": "2026-04-24T16:08:00.087Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.821Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "skill-creator@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/skill-creator/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:24:47.618Z",
-        "lastUpdated": "2026-04-24T16:08:00.091Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.922Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "pyright-lsp@claude-plugins-official": [
@@ -164,11 +164,11 @@
     "plugin-dev@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/plugin-dev/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/plugin-dev/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:25:17.716Z",
-        "lastUpdated": "2026-04-24T16:08:00.071Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:21.082Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "gopls-lsp@claude-plugins-official": [
@@ -204,11 +204,11 @@
     "semgrep@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/semgrep/0.5.3",
-        "version": "0.5.3",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/semgrep/2.3.0",
+        "version": "2.3.0",
         "installedAt": "2026-03-17T08:27:03.426Z",
-        "lastUpdated": "2026-04-15T02:03:41.841Z",
-        "gitCommitSha": "b5bab16514897d36de10ebb14ebd5437095d9b9d"
+        "lastUpdated": "2026-09-13T14:14:38.461Z",
+        "gitCommitSha": "f97e1ce43533ffde2eae9af2a80f95a7250c365f"
       }
     ],
     "claude-mem@thedotmack": [
@@ -224,11 +224,11 @@
     "context7@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/context7/unknown",
-        "version": "unknown",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/context7/db467cc56673",
+        "version": "db467cc56673",
         "installedAt": "2026-03-17T08:28:17.240Z",
-        "lastUpdated": "2026-04-24T16:08:00.065Z",
-        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+        "lastUpdated": "2026-09-22T18:07:20.772Z",
+        "gitCommitSha": "db467cc56673fc963ca418b4165c688dfbe77007"
       }
     ],
     "ralph-loop@claude-plugins-official": [

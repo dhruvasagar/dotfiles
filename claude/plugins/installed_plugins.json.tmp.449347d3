@@ -1,0 +1,263 @@
+{
+  "version": 2,
+  "plugins": {
+    "everything-claude-code@everything-claude-code": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/everything-claude-code/everything-claude-code/1.8.0",
+        "version": "1.8.0",
+        "installedAt": "2026-03-17T08:15:36.742Z",
+        "lastUpdated": "2026-03-17T08:15:36.742Z",
+        "gitCommitSha": "fce4513d58dc723177045dd7c3a3568d5c016407"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:22:59.697Z",
+        "lastUpdated": "2026-09-08T15:00:10.923Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "code-review@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/code-review/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:23:08.897Z",
+        "lastUpdated": "2026-09-08T15:01:59.150Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "github@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/github/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:23:20.110Z",
+        "lastUpdated": "2026-09-08T15:00:11.278Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "feature-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/feature-dev/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:23:27.949Z",
+        "lastUpdated": "2026-09-08T15:00:11.071Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "playwright@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/playwright/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:23:32.845Z",
+        "lastUpdated": "2026-09-08T15:00:11.165Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/code-simplifier/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:23:39.130Z",
+        "lastUpdated": "2026-03-17T08:23:39.130Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/superpowers/6.3.0",
+        "version": "6.3.0",
+        "installedAt": "2026-03-17T08:23:46.621Z",
+        "lastUpdated": "2026-08-13T01:13:00.154Z",
+        "gitCommitSha": "3cee13e516e91d44b957c1336c3d08c8a8392702"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/typescript-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:24:07.217Z",
+        "lastUpdated": "2026-03-17T08:24:07.217Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "claude-md-management@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/claude-md-management/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:24:13.795Z",
+        "lastUpdated": "2026-03-17T08:24:13.795Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "figma@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/figma/2.2.107",
+        "version": "2.2.107",
+        "installedAt": "2026-03-17T08:24:21.205Z",
+        "lastUpdated": "2026-09-02T11:54:42.235Z",
+        "gitCommitSha": "f046182e32c8160b1254ad12ec8318f9a9aa50b5"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/security-guidance/2.0.7",
+        "version": "2.0.7",
+        "installedAt": "2026-03-17T08:24:28.924Z",
+        "lastUpdated": "2026-08-13T01:39:29.748Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "serena@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/serena/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:24:36.095Z",
+        "lastUpdated": "2026-09-08T15:00:10.867Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "pr-review-toolkit@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:24:42.036Z",
+        "lastUpdated": "2026-09-08T15:00:11.122Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "skill-creator@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:24:47.618Z",
+        "lastUpdated": "2026-09-08T15:00:11.309Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:24:52.058Z",
+        "lastUpdated": "2026-03-17T08:24:52.058Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "plugin-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/plugin-dev/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:25:17.716Z",
+        "lastUpdated": "2026-09-08T15:00:10.836Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/gopls-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:25:58.095Z",
+        "lastUpdated": "2026-03-17T08:25:58.095Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "rust-analyzer-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/rust-analyzer-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:26:15.907Z",
+        "lastUpdated": "2026-03-17T08:26:15.907Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "lua-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/lua-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-17T08:26:44.167Z",
+        "lastUpdated": "2026-03-17T08:26:44.167Z",
+        "gitCommitSha": "205b6e0b30366a969412d9aab7b99bea99d58db1"
+      }
+    ],
+    "semgrep@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/semgrep/2.1.5",
+        "version": "2.1.5",
+        "installedAt": "2026-03-17T08:27:03.426Z",
+        "lastUpdated": "2026-09-02T11:54:03.150Z",
+        "gitCommitSha": "e606376e8e8c3c6af44023900799192ad70fcb4b"
+      }
+    ],
+    "claude-mem@thedotmack": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/thedotmack/claude-mem/10.5.5",
+        "version": "10.5.5",
+        "installedAt": "2026-03-17T08:27:37.276Z",
+        "lastUpdated": "2026-03-17T08:27:37.276Z",
+        "gitCommitSha": "237a4c37f84f9e9893bb92574666cc53a12a2106"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/context7/unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-17T08:28:17.240Z",
+        "lastUpdated": "2026-09-08T15:00:11.198Z",
+        "gitCommitSha": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c"
+      }
+    ],
+    "ralph-loop@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/ralph-loop/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-16T06:01:27.921Z",
+        "lastUpdated": "2026-04-16T06:01:27.921Z"
+      }
+    ],
+    "ruby-upgrade-toolkit@ruby-upgrade-toolkit": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/ruby-upgrade-toolkit/ruby-upgrade-toolkit/0.4.0",
+        "version": "0.4.0",
+        "installedAt": "2026-04-16T11:33:12.210Z",
+        "lastUpdated": "2026-04-16T11:33:12.210Z",
+        "gitCommitSha": "2cb82510e47b2484ed19db336de3afa4e6a9668b"
+      }
+    ],
+    "ruby-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/dhruva/.claude/plugins/cache/claude-plugins-official/ruby-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-17T08:31:03.096Z",
+        "lastUpdated": "2026-04-17T08:31:03.096Z"
+      }
+    ]
+  }
+}

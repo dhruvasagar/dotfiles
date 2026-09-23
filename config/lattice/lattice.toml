@@ -1,0 +1,22 @@
+wrap = true
+cursorline = true
+current-line-highlight = true
+foldmethod = "syntax"
+
+[lsp.rust-analyzer.diagnostics]
+experimental = { enable = true }
+
+[lsp.rust-analyzer.checkOnSave]
+enable = true
+
+[ui]
+mouse = true
+nerd_fonts = true
+font_family = "FiraCode Nerd Font Mono"
+
+[ui.window]
+decorations = "transparent"
+start-maximized = true
+
+[ui.modeline]
+separator = "|"

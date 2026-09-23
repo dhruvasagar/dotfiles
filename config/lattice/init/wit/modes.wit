@@ -1,0 +1,197 @@
+package lattice:plugin-host@0.1.0;
+
+/// Mirrors the `Mode` trait declaration surface + `ModeRegistry` (lattice-mode).
+/// The guest declares a minor mode as DATA (id + kind + activation policy +
+/// capability requirements); the host builds a marker `Mode` impl (`PluginMode`,
+/// the `EmacsKeysMode` template) and registers it into the SAME `ModeRegistry`
+/// builtins use, so `:describe-mode` / mode introspection treat it uniformly.
+///
+/// PH7.11a lands the declaration + registration path (this file); keymap bindings
+/// (chord→command-name at the mode's OWN layer, the `KeymapCapability`
+/// write-gate) are PH7.11b. **OM.2 lands major modes** — a plugin that
+/// contributes a language contributes its major too, which is the only way a
+/// plugin language can have one (`Lang::Plugin(_)` has no arm in the host's
+/// hand-written table). **MO.1 lands typed option-overrides** — the last part
+/// of its surface a plugin mode could not own. Lifecycle callbacks /
+/// decorations / bundled modes-as-components remain Phase 8.
+///
+/// The CANONICAL, language-agnostic surface — any component-model language calls
+/// `register-mode` directly (see the WIT-canonical principle).
+interface modes {
+    /// Major (content-type identity) vs minor (orthogonal behavior). Both
+    /// register (OM.2); a buffer has exactly one major and any number of
+    /// minors. A major's keymap lands at `KeymapLayer::MajorMode(id)`, below
+    /// active minors and above the built-in vim grammar — so a minor can
+    /// refine what its major bound, and neither can shadow the grammar
+    /// globally.
+    enum mode-kind {
+        major,
+        minor,
+    }
+
+    /// Which buffers a mode auto-activates on — mirrors `ActivationPolicy`.
+    /// `manual` = only on explicit activation; `global` = document buffers only;
+    /// `universal` = every buffer; `majors` = an allowlist of major-mode ids.
+    variant activation-policy {
+        manual,
+        global,
+        universal,
+        majors(list<string>),
+    }
+
+    /// Capability requirements a mode declares — mirrors the `CapabilitySet`
+    /// bitflags (lattice-mode). Enforcement stays the native mode-activation
+    /// path; the declaration sizes the requirement honestly (fragment §6).
+    flags mode-capabilities {
+        buffer-uri,
+        lsp,
+        tree-sitter,
+        folds,
+        writable,
+        diagnostics,
+    }
+
+    /// The vim binding mode a keymap entry lives in — the plugin-facing subset of
+    /// the native `BindingMode` (the transient operator-pending / after-key states
+    /// are internal grammar states, not plugin-bindable).
+    enum binding-mode {
+        normal,
+        insert,
+        visual,
+        select,
+        replace,
+        command,
+        search,
+    }
+
+    /// One keymap binding a mode contributes (PH7.11b): bind `chord` in
+    /// `binding-mode` to an EXISTING command named `command`, resolved against the
+    /// `CommandRegistry` at registration. `command` is any registered command name
+    /// — a built-in (`ex:write`), a host action (`action:split-pane-horizontal`),
+    /// or the plugin's OWN grammar contribution (PH7.7 `register-action`). An
+    /// unparseable chord or unknown command skips that one binding (logged).
+    record mode-keymap-binding {
+        binding-mode: binding-mode,
+        chord: string,
+        command: string,
+    }
+
+    /// Where a mode's option override sits in the resolver — mirrors the native
+    /// `OverridePriority`. `normal` is what a mode should almost always use;
+    /// within a layer the last-activated `normal` wins and the host fires a
+    /// `ModeEvent::OptionConflict`. `high` and `low` exist for a mode that
+    /// genuinely must out-rank or yield to its peers, and reaching for either to
+    /// win an argument with another mode is how a conflict becomes invisible
+    /// instead of reported.
+    enum override-priority {
+        low,
+        normal,
+        high,
+    }
+
+    /// MO.1: one option a mode sets for its own buffers — the plugin-facing form
+    /// of a native mode's `options()` set.
+    ///
+    /// `name` is the option's registered name (`foldmethod`), resolved host-side
+    /// against the SAME `ConfigRegistry` `:set` uses. `value` is its value in
+    /// exactly the spelling `:set name=value` accepts, coerced host-side through
+    /// the same parser and validator — so a mode declares an override in the
+    /// vocabulary the user already knows, and does not get a private settings
+    /// channel that could disagree with `:set` about what a value means.
+    ///
+    /// **This is a LAYER, not a write.** It changes what the option resolves to
+    /// in this mode's buffers; it does not alter the user's global setting, and
+    /// it does not outrank a buffer-local `:setlocal`.
+    ///
+    /// **An override the host cannot resolve is skipped, warned, and named** —
+    /// the rest of the set still applies, because one bad entry must not cost a
+    /// mode its other options. Two things do not resolve: an option name nothing
+    /// registered, and a value the option's own validator rejects. A third is
+    /// worth stating because it will surprise: an option the PLUGIN ITSELF
+    /// registered through the `config` seam has no native type identity, so it
+    /// cannot be overridden here yet. That is a known hole with a known fix
+    /// (`plugin-mode-options.md` §3c) and no consumer yet.
+    record mode-option-override {
+        name: string,
+        value: string,
+        priority: override-priority,
+    }
+
+    /// A mode declaration. `id` must carry the conventional `-mode` suffix (the
+    /// `ModeRegistry::register` gate, e.g. `git-blame-mode`); a bare or
+    /// mis-suffixed id is rejected at registration. `keymap` bindings land at
+    /// `KeymapLayer::MinorMode(id)` gated by `KeymapCapability::OwnedLayer{id}` —
+    /// a plugin mode can write ONLY its own layer (PH7.11b write-gate).
+    record mode-declaration {
+        id: string,
+        kind: mode-kind,
+        activation-policy: activation-policy,
+        capabilities: mode-capabilities,
+        keymap: list<mode-keymap-binding>,
+        /// OM.2: for a MAJOR, the language this mode is the default major for,
+        /// by canonical name (`"org"`) — the name the plugin's `language` seam
+        /// registered. The host indexes it (`ModeRegistry::find_major_for_lang`)
+        /// and a document of that language activates this mode, the same path a
+        /// built-in language major takes.
+        ///
+        /// Ignored (with a warning) on a `minor`: a buffer has exactly one
+        /// major, and indexing a minor here would install it AS the major. A
+        /// minor that wants to ride a major names it in
+        /// `activation-policy.majors` instead.
+        ///
+        /// `none` on a major means manual activation only — it is not the
+        /// default for any language.
+        ///
+        /// A language the host resolves through its own table (`rust`,
+        /// `markdown`, …) is NOT claimable: the built-in table is consulted
+        /// first, so a claim on one is inert rather than a hijack.
+        target-language: option<string>,
+
+        /// MO.1: options this mode sets for its own buffers.
+        ///
+        /// Until this existed a plugin mode owned its keymap, its handlers and
+        /// its lifecycle but NOT the options deciding how its buffers actually
+        /// behave — whether they are writable, whether they wrap, how they fold.
+        /// That was a hole in the mode-ownership rule, and org was standing in
+        /// it: org folding worked only because the user happened to set
+        /// `foldmethod` globally, making it correct by coincidence on one
+        /// machine and wrong everywhere else.
+        ///
+        /// Empty is the normal case and costs nothing.
+        options: list<mode-option-override>,
+    }
+
+    /// Declare a mode. Records the declaration; the host builds a `PluginMode`
+    /// and registers it into the `ModeRegistry` after `register-modes` returns
+    /// (the `register-grammar` drain precedent — registration needs `&mut
+    /// ModeRegistry`, not a live handle). Registration failures (bad `-mode`
+    /// suffix, id collision, `major` kind) are logged + skipped at drain.
+    register-mode: func(decl: mode-declaration);
+
+    /// Enable a registered minor mode globally (CI.4) — the user-enablement path
+    /// (config-and-init.md §6). A plugin minor mode is registered
+    /// available-but-off; an `init.rs` `on-plugin-loaded` handler calls this to
+    /// turn it on. The host publishes a `mode-enablement-requested` signal and
+    /// the Editor flips the enablement + re-activates open buffers (this call is
+    /// the request, not the apply — the guest can't reach the activator). A
+    /// no-bus / unknown-id case is a `warn` + drop (graceful), never a trap.
+    enable-mode: func(id: string);
+    /// Disable a registered minor mode globally (CI.4) — the inverse of
+    /// `enable-mode`; the Editor deactivates it on open buffers.
+    disable-mode: func(id: string);
+}
+
+/// The world a mode-declaring plugin implements. Imports the `modes` register
+/// API; exports `register-modes` (the host calls it once to drive declaration —
+/// the guest invokes the imported `register-mode` inside it, the
+/// `register-grammar` / `register-events` precedent). Synchronous.
+world modes-plugin {
+    import modes;
+    import logging;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export register-modes: func();
+}

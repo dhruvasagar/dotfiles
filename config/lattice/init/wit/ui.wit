@@ -1,0 +1,76 @@
+package lattice:plugin-host@0.1.0;
+
+/// The UI-contribution surface (design.md §9.4 `ui`): guest→host emits **data
+/// only**, never draw calls (§7, paramount #1).
+///
+/// **OC.3 / ML.6 populates the modeline half.** `modeline.md` §6 is the
+/// governing contract, and its rule is that whoever registers an element owns it
+/// end to end — descriptor, content, and (later) interaction handlers. So this
+/// interface hands a plugin the same three primitives a native mode gets from
+/// `ModelineService`, and nothing more: register a descriptor, push content,
+/// clear it. There is no host-side branch on which plugin is asking, and the
+/// acid test `modeline.md` states — a provider adding a modeline element needs
+/// zero `Editor::` methods and zero new host `Action` variants — holds.
+///
+/// **Not a draw call, and not a poll.** `emit-segment` publishes a
+/// `ModelineElementUpdate` on the event bus, exactly as `lattice-lsp::modeline`
+/// and `lattice-ai::mcp::status` do; the host's wake forwarder repaints
+/// off-keystroke. A per-frame WASM callback would violate paramount #1. An
+/// event-driven push does not — which is precisely why plugins get this path and
+/// no other.
+///
+/// **Off the keystroke path — by context, not by linker.** The plan for this
+/// slice said "wired on the async linker only". That does not survive the
+/// Component Model: a plugin's import set is fixed for the whole component, and
+/// the *same* artefact is instantiated against the sync grammar linker for its
+/// grammar seam — so an import missing there fails the WHOLE plugin, not just
+/// the seam that uses it (the TC.6 / CR.3 / LG.3c / OM.11 lesson, and org has
+/// already been broken this exact way once by a single `logging::log` call). So
+/// `ui` IS on both linkers, and the guarantee is enforced one layer in: the
+/// modeline handle is stamped only on the async spawn paths, so a grammar
+/// action's `emit-segment` finds no context and is a warn + drop. Same shape as
+/// `config`, `theme` and `keymap`, and it is tested rather than assumed.
+interface ui {
+    use types.{ui-zone};
+
+    /// Register a modeline element descriptor and take ownership of it
+    /// (`modeline.md` §6). `id` is namespaced with the plugin's own name — a
+    /// `register-segment("clock")` from `org` owns `org.clock` — so one plugin
+    /// can never shadow another's element or a built-in `core.*` one.
+    ///
+    /// `priority` orders within the zone, ascending, ties broken by id. The
+    /// native neighbours in `Right` are `lsp` at 5, `claude-code` at 6,
+    /// `core.position` at 10 and `core.lang` at 20; pick accordingly.
+    ///
+    /// The element is **global**, not per-pane: it shows in every window
+    /// regardless of which buffer is focused. Per-buffer plugin segments are not
+    /// mirrored here because no plugin needs one yet — LSP and MCP status are
+    /// per-buffer because they track buffers, and a plugin that starts to will
+    /// be the slice that adds the buffer parameter (§5.5, "the API grows from
+    /// real plugins").
+    ///
+    /// Returns `false` when no modeline is wired on this seam (see the interface
+    /// note) — the honest "nothing to register into" degradation, never a trap.
+    /// Re-registering the same id is last-write-wins, so a reload re-registers
+    /// rather than duplicating.
+    register-segment: func(id: string, zone: ui-zone, priority: s32) -> bool;
+
+    /// Push this element's content. Empty text hides it (equivalent to
+    /// `clear-segment`), which is how a native element signals "nothing to say
+    /// right now" and costs the plugin no extra call.
+    ///
+    /// The text is styled as an ordinary modeline item — the one role both the
+    /// TUI and GPUI peers resolve identically, and the only one either native
+    /// modeline producer uses. A per-span themed role is deliberately absent:
+    /// the renderers match role names against a closed set and *disagree* on the
+    /// fallback, so a role knob would ship a silent cross-renderer difference.
+    /// A plugin that needs its own colour registers a theme element (TC.4)
+    /// first; that is the slice which earns the role parameter.
+    emit-segment: func(id: string, text: string);
+
+    /// Hide this element. Idempotent, and safe for an id that was never
+    /// registered — a plugin should not have to mirror host state to avoid a
+    /// trap. The descriptor survives; only the content is dropped, so a later
+    /// `emit-segment` brings it back without re-registering.
+    clear-segment: func(id: string);
+}

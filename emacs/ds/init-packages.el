@@ -1078,7 +1078,7 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
   :straight (appine :type git :host github :repo "chaoswork/appine")
   :custom
   ;; enables opening URLs and files with Appine, default is nil
-  (appine-enable-open-in-org-mode t)
+  ;; (appine-enable-open-in-org-mode t)
   :config
   ;; Optional: Set default keybindings
   (global-set-key (kbd "C-x a w") 'appine-open-web-split)

@@ -18,3 +18,4 @@ debug.el
 .aider*
 .dir-locals.el
 .lsp-docker.yml
+.claude/settings.local.json

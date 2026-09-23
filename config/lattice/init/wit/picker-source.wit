@@ -1,0 +1,97 @@
+package lattice:plugin-host@0.1.0;
+
+/// Mirrors `PickerSourceGenerator` (lattice-picker/src/source.rs:294). A WASM
+/// picker source *exports* this interface; the host wraps its exports as an
+/// `Arc<dyn PickerSourceGenerator>` (PH7.4c.2) and registers it through the
+/// `SubsystemBoot` install seam → `PickerRegistry::register_generator`, so a
+/// plugin source is indistinguishable from a first-party one at the registry.
+/// The ⭐ Phase-7-exit interface; validated by `plugins/fuzzy-finder` (PH7.4d).
+/// OR.5b — the host import a picker plugin registers its sources through.
+///
+/// **Why this is an import and not an export.** Before OR.5b the seam was
+/// shaped "the component IS one picker source": it exported `spec()`, and the
+/// host registered exactly one source per component. That made picker-source
+/// the only contribution seam in the system shaped that way — `language`,
+/// `grammar`, `config`, `modes`, `theme`, `help` and `keymap` are all "the
+/// guest calls a host import to register N things" — and the exception was not
+/// free. Org needs three pickers (refile, roam find-node, roam insert-node) and
+/// could register one.
+///
+/// So this matches the rest: the host calls `register-picker-sources` once, the
+/// guest calls `register-picker-source` for each, and `init` / `accept` take the
+/// source id so one actor serves them all.
+interface picker-registry {
+    use types.{picker-source-spec};
+
+    /// Declare one picker source. Called from the guest's
+    /// `register-picker-sources` export; the host registers each into the same
+    /// `PickerRegistry` a first-party source lives in.
+    ///
+    /// A second registration under an id this plugin already used replaces it —
+    /// a plugin reload, not a collision. Two DIFFERENT plugins claiming one id
+    /// is resolved the way the registry has always resolved it: last write
+    /// wins, and the teardown token unregisters by id.
+    register-picker-source: func(spec: picker-source-spec);
+}
+
+interface picker-source {
+    use types.{raw-candidate, routing-payload, picker-context, picker-accept-outcome};
+
+    /// One `(candidate, routing)` pair — the WIT form of the native
+    /// `CandidateBatch` element (`Vec<(RawCandidate, RoutingPayload)>`). The
+    /// `routing` token is opaque to the picker; the source emits it here and
+    /// consumes it in `accept`.
+    record candidate-pair {
+        candidate: raw-candidate,
+        routing: routing-payload,
+    }
+
+    /// Build the candidate set for `:picker <id> <args>`. `ctx` is the owned
+    /// `PickerContext` projection (§4.2). Returns the `(candidate, routing)`
+    /// pairs; an `err` string is echoed and the picker stays closed. (One-shot
+    /// list; the incremental `Stream` shape — the deferred §15 streaming
+    /// question — lands with a live source.)
+    ///
+    /// NB: the active buffer's bulk **text** rides a `borrow<document>` handle
+    /// (PH7.3c `DocumentResource`) that a text-reading source (`:picker lines`)
+    /// needs — deferred here (the `fuzzy-finder`/`files` exit reads no buffer
+    /// text, only walks the fs via `host-services`). Passing a host-owned
+    /// resource into a guest *export* has a bindgen-modeling subtlety to resolve;
+    /// tracked as a focused follow-up (see the slice plan).
+    ///
+    /// `source` names WHICH of this plugin's registered sources is being built
+    /// — one component may register several (see `picker-registry`), and they
+    /// share one actor and one guest instance.
+    init: func(source: string, ctx: picker-context, args: list<string>)
+        -> result<list<candidate-pair>, string>;
+
+    /// Translate the user's chosen `routing` token into a typed
+    /// `PickerAcceptOutcome` the host applies. A mismatch is an `err` (echoed).
+    accept: func(source: string, ctx: picker-context, routing: routing-payload)
+        -> result<picker-accept-outcome, string>;
+}
+
+/// The world a picker-source plugin implements: it exports `picker-source` and
+/// imports the host seams it needs — the `buffer` `document` resource (the host
+/// implements `HostDocument`; this `init(doc)` signature is what finally wires
+/// the resource, deferred since PH7.3c) and the capability-gated `host-services`
+/// (`walk`, PH7.4b). A second `bindgen!` reuses the `plugin` world's generated
+/// `types` + `host-services` via `with:` so the crossed values are the SAME Rust
+/// types the boundary round-trips.
+world picker-source-plugin {
+    import host-services;
+    import logging;
+    /// OR.5b: where the guest declares its sources.
+    import picker-registry;
+
+    /// PR.6: guest→host project resolution. An IMPORT — the host answers,
+    /// the guest asks — so core never depends on a plugin being alive.
+    /// Inert for guests that don't call it.
+    import project;
+    export picker-source;
+
+    /// OR.5b: the host calls this once at load; the guest calls the imported
+    /// `register-picker-source` for each source it provides. The
+    /// `register-grammar` / `register-modes` / `register-options` shape.
+    export register-picker-sources: func();
+}

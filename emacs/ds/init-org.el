@@ -216,7 +216,11 @@
 					; global Effort estimate values
 					; global STYLE property values for completion
   (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                      ("STYLE_ALL" . "habit"))))
+                                      ("STYLE_ALL" . "habit")
+                                      ;; PKOS vocabularies (registered once; org-set-property
+                                      ;; then completes over these instead of relying on memory)
+                                      ("EVIDENCE_ALL" . "consensus strong moderate weak expert hypothesis personal")
+                                      ("STATUS_ALL" . "seed draft evergreen mature teaching"))))
   ;; Agenda log mode items to display (closed and state changes by default)
   (setq org-agenda-log-mode-items (quote (closed state)))
 
@@ -237,7 +241,18 @@
                               ("crypt" . ?E)
                               ("NOTE" . ?n)
                               ("CANCELLED" . ?c)
-                              ("FLAGGED" . ??))))
+                              ("FLAGGED" . ??)
+                              ;; PKOS domain tags — completion for C-c C-q and C-c n g
+                              ("health" . ?h)
+                              ("psychology" . ?p)
+                              ("work" . ?w)
+                              ("relationships" . ?r)
+                              ("finance" . ?f)
+                              ("productivity" . ?u)
+                              ("tech" . ?t)
+                              ("parenting" . ?g)
+                              ("creativity" . ?c)
+                              ("learning" . ?l))))
 
 					; Allow setting single tags without the menu
   (setq org-fast-tag-selection-single-key (quote expert))
@@ -1127,7 +1142,7 @@
   ;; (file …) capture template resolved to a non-existent path. Pull templates/
   ;; into the build so org-fractional-cto-template-directory resolves correctly.
   :straight (:local-repo "~/src/dhruvasagar/org-fractional-cto"
-             :files (:defaults "templates" "doc"))
+                         :files (:defaults "templates" "doc"))
   :after org
   :custom
   (org-fractional-cto-clients-directory (expand-file-name "~/src/dhruvasagar/org-files/roam/clients"))
@@ -1145,6 +1160,28 @@
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode))
+
+(use-package org-fc
+  :straight (:host github
+                   :repo "l3kn/org-fc" ;; Or upstream: :repo "https://sr.ht"
+                   :files (:defaults "awk"))
+  :after org
+  ;; :demand — the generated autoloads map org-fc-review-all to
+  ;; org-fc-review.el, whose require chain never loads org-fc-awk; only the
+  ;; org-fc.el umbrella does. Deferred loading therefore breaks org-fc-index
+  ;; ("void: org-fc-awk-index"), so load the full package once org is up.
+  :demand t
+  :config
+  ;; Skill layer (see pkos-design.md §15.7): decks live OUTSIDE the roam
+  ;; graph, as org-fc cards. vocab-french.org = language vocabulary;
+  ;; recall-concepts.org = evergreen concepts (filed via C-c n R when a
+  ;; note reaches evergreen — the graph's spaced-retrieval loop);
+  ;; claude-architect-cards.org = certification exam deck.
+  (setq org-fc-directories '("~/src/dhruvasagar/org-files/vocab-french.org"
+                             "~/src/dhruvasagar/org-files/recall-concepts.org"
+                             "~/src/dhruvasagar/org-files/claude-architect-cards.org"))
+  :bind (("C-c F r" . org-fc-review-all)
+         ("C-c F b" . org-fc-review-buffer)))
 
 (use-package org-roam
   :after org

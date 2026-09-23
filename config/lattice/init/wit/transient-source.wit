@@ -1,0 +1,63 @@
+package lattice:plugin-host@0.1.0;
+
+/// TR.2b: plugin-contributed transient menus.
+///
+/// A transient is a keyed menu — one keystroke per row, fires and closes. The
+/// mechanism belongs to `lattice-picker` (`TransientSpec`,
+/// `TransientSourceRegistry`); magit is its first *user*, not its owner. Until
+/// this seam a plugin could `Effect::OpenTransient` one of magit's menus and
+/// none of its own, which made org's capture menu — one row per template —
+/// inexpressible.
+///
+/// ## Mirrors `picker-source`, because it is the same shape
+///
+/// A named thing the host asks a guest to build, given a context the host
+/// owns: `id()` names the registry entry once at load, `build(ctx)` produces
+/// the menu per open.
+///
+/// ## Per open, not once at registration
+///
+/// A builder's rows depend on where the user is — which is why
+/// `transient-context` exists at all, and why the host calls `build` on every
+/// open rather than caching a spec. Emacs magit answers the same question with
+/// `:if-mode` / `:if-derived` predicates on its prefixes; the two mode axes
+/// are separate fields here for the same reason.
+///
+/// ## Where it runs
+///
+/// On the plugin's own actor task, off the editor actor. `build` is reached by
+/// an explicit user action (a chord, an ex-command) — never per keystroke and
+/// never per frame — and the host parks on it, seating the menu when it lands.
+/// A slow guest delays its own menu and nothing else.
+interface transient-source {
+    use types.{transient-spec, transient-context};
+
+    /// The menu's name, as `Effect::OpenTransient` names it. Called once, at
+    /// load, to key the registry entry.
+    ///
+    /// Guest-controlled, so it is a *name* and nothing more: it grants no
+    /// authority, and a plugin that picks a name another source already holds
+    /// simply overwrites it (`register`'s last-writer-wins, as for pickers).
+    id: func() -> string;
+
+    /// Build the menu for the place it was opened from.
+    ///
+    /// An `err` is echoed with the plugin named and the menu does NOT open —
+    /// the `picker-source::init` rule, and for the same reason: a menu that
+    /// opens empty is worse than one that says why it did not.
+    build: func(ctx: transient-context) -> result<transient-spec, string>;
+}
+
+/// The world a transient-source plugin implements.
+///
+/// It exports `transient-source` and imports the host seams a builder plausibly
+/// needs to decide its rows — `config` is absent deliberately: a plugin that
+/// reads its own options declares the `config` seam separately and both drain
+/// into the same component.
+world transient-source-plugin {
+    import logging;
+    /// A builder that varies its rows by project (which repo, which workspace)
+    /// asks the host rather than walking the filesystem itself.
+    import project;
+    export transient-source;
+}

@@ -1,0 +1,14 @@
+/Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/deps/serde-2ad80d9c2e23891e.d: /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/build/serde-fc50669ad4e9e188/out/private.rs
+
+/Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/deps/libserde-2ad80d9c2e23891e.rlib: /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/build/serde-fc50669ad4e9e188/out/private.rs
+
+/Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/deps/libserde-2ad80d9c2e23891e.rmeta: /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/build/serde-fc50669ad4e9e188/out/private.rs
+
+/Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/dhruva/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/build/serde-fc50669ad4e9e188/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/dhruva/.config/lattice/init/target/wasm32-wasip2/release/build/serde-fc50669ad4e9e188/out
