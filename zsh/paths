@@ -24,8 +24,13 @@ PATH=$HOME/bin:$PATH
 
 [ -d "/opt/homebrew/opt/python@3.12" ] && PATH=/opt/homebrew/opt/python3/libexec/bin:$PATH
 
-# export JAVA_HOME=$(/usr/libexec/java_home -v 8)
-export JAVA_HOME=$(asdf which java)
+if (( $+commands[java] )); then
+  if [[ "$platform" == "darwin" ]] && [ -x /usr/libexec/java_home ]; then
+    export JAVA_HOME=$(/usr/libexec/java_home)
+  else
+    export JAVA_HOME=${$(readlink -f "$(command -v java)")%/bin/java}
+  fi
+fi
 
 export PATH
 export MANPATH

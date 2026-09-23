@@ -39,6 +39,16 @@ alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} --exclude-d
 
 alias vimgit="git -c pager.color=false -c pager.log='vim -R -' -c pager.show='vim -R -' -c pager.diff='vim -R -'"
 
+if (( $+commands[podman] )); then
+    alias docker=podman
+    alias docker-compose=podman-compose
+fi
+
+if (( $+commands[nerdctl] )); then
+    alias docker=nerdctl
+    alias docker-compose='nerdctl compose'
+fi
+
 alias d='docker'
 alias da='docker attach --detach-keys="ctrl-c"'
 alias dc='docker-compose'

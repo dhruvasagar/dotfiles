@@ -1,5 +1,5 @@
 if [[ "$ZPROF" = true ]]; then
-  zmodload zsh/zprof
+    zmodload zsh/zprof
 fi
 
 stty -ixon
@@ -26,68 +26,69 @@ export REVIEW_BASE=master
 
 # Add cabal bins to PATH
 if [ -d ~/.cabal/bin ]; then
-  export PATH=$HOME/.cabal/bin:$PATH
+    export PATH=$HOME/.cabal/bin:$PATH
 fi
 
 # cassandra
 if [ -d "$HOME/cassandra" ]; then
-  export CASSANDRA_HOME=~/cassandra
-  export PATH=$CASSANDRA_HOME/bin:$PATH
+    export CASSANDRA_HOME=~/cassandra
+    export PATH=$CASSANDRA_HOME/bin:$PATH
 fi
 
 platform=$(uname | awk '{print tolower($0)}')
 if [[ "$platform" == "darwin" ]]; then
-  ulimit -n 1024
-  export ANDROID_HOME=$HOME/Library/Android/sdk
-  export PATH=$PATH:$ANDROID_HOME/emulator
-  export PATH=$PATH:$ANDROID_HOME/tools
-  export PATH=$PATH:$ANDROID_HOME/tools/bin
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
+    ulimit -n 1024
+    export ANDROID_HOME=$HOME/Library/Android/sdk
+    PATH=$PATH:$ANDROID_HOME/emulator
+    PATH=$PATH:$ANDROID_HOME/tools
+    PATH=$PATH:$ANDROID_HOME/tools/bin
+    export PATH=$PATH:$ANDROID_HOME/platform-tools
 elif [ -d "$HOME/Android/Sdk" ]; then
-  export ANDROID_SDK_HOME="$HOME/Android/Sdk"
+    export ANDROID_SDK_HOME="$HOME/Android/Sdk"
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc'
+    source '/usr/local/Caskroom/google-cloud-sdk/latest/path.zsh.inc'
 fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
+    source '/usr/local/Caskroom/google-cloud-sdk/latest/completion.zsh.inc'
 fi
 
-if [ -d "$HOME/.asdf" ]; then
-  autoload -Uz bashcompinit
-  bashcompinit
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
+if (( $+commands[asdf] )); then
+    export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 fi
 
 # go lang
-if [ $+commands[go] ]; then
-  export GOBIN=$HOME/src/go/bin
-  export GOPATH=$HOME/src/go
-  export PATH=$GOBIN:/usr/local/go/bin:$PATH
+if (( $+commands[go] )); then
+    export GOBIN=$HOME/src/go/bin
+    export GOPATH=$HOME/src/go
+    export PATH=$GOBIN:/usr/local/go/bin:$PATH
 fi
 
 # rust lang
-if [ $+commands[cargo] ]; then
-  export CARGO_PATH=$HOME/.cargo
-  export CARGO_INSTALL_ROOT=$CARGO_PATH
-  export PATH=$CARGO_PATH/bin:$PATH
+if (( $+commands[cargo] )); then
+    export CARGO_PATH=$HOME/.cargo
+    export CARGO_INSTALL_ROOT=$CARGO_PATH
+    export PATH=$CARGO_PATH/bin:$PATH
 fi
 
 if [ -d "$HOME/Library/Preferences/org.dystroy.broot" ]; then
-  source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+    source "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
 fi
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
+if (( $+commands[pyenv] )); then
+    export PYENV_ROOT="$HOME/.pyenv"
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init - zsh)"
+fi
 
-FZF_DEFAULT_OPTS="--layout=reverse --inline-info"
-source <(fzf --zsh)
+if (( $+commands[fzf] )); then
+    FZF_DEFAULT_OPTS="--layout=reverse --inline-info"
+    source <(fzf --zsh)
+fi
 
 # Setup history
 . ~/dotfiles/zsh/hist
@@ -118,9 +119,10 @@ source <(fzf --zsh)
 
 for f (~/dotfiles/zsh/plugin/*) source $f
 
-if [[ "$ZPROF" = true ]]; then
-  zprof
-fi
 
 # Pi
 export PATH="/Users/dhruva/.asdf/installs/nodejs/22.19.0/bin:$PATH"
+
+if [[ "$ZPROF" = true ]]; then
+  zprof
+fi

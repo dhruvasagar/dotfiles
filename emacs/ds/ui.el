@@ -1,13 +1,14 @@
-(toggle-frame-maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (toggle-frame-maximized)
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (global-hl-line-mode)
-(pixel-scroll-mode)
-(set-default 'indent-tabs-mode nil)
+;; (pixel-scroll-mode)
+(pixel-scroll-precision-mode)
+(setq frame-resize-pixelwise t)
 (set-frame-font "FiraCode Nerd Font Mono 14" nil t)
 (progn
   (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
@@ -122,9 +123,13 @@ mouse-3: go to end")
 ;; Set the window-function-mode details in the headerline but the mouse doesn't work
 ;; (setq-default header-line-format
 ;;	      '((which-func-mode ("" which-func-format " "))))
-(setq default-frame-alist '((undecorated . t)))
+;; (setq default-frame-alist '((undecorated . t)))
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
 (add-to-list 'default-frame-alist '(internal-border-width . 5))
+(add-to-list 'default-frame-alist
+	     '(width . 120))
+(add-to-list 'default-frame-alist
+	     '(height . 50))
 
 ;; Do not show default modeline until doom-modeline is loaded
 (setq-default mode-line-format nil)

@@ -19,7 +19,8 @@
  :map fk/menu-map :prefix-map version-control :prefix "v"
  :map fk/menu-map :prefix-map windows         :prefix "w")
 
-;; (setq debug-on-error t)
+;; (setq debug-on-error t
+;;       backtrace-on-error-nonfatal t)
 ;; (view-echo-area-messages)
 (setq use-package-verbose t)
 (setq evil-want-keybinding nil)

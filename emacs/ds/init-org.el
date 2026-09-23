@@ -11,6 +11,7 @@
   (org-mode . auto-fill-mode)
   (org-mode . flyspell-mode)
   (org-mode . org-indent-mode)
+  (org-mode . (lambda () (which-function-mode -1)))
   :config
   (setq org-return-follows-link t)
   (setq org-agenda-inhibit-startup t)
@@ -1094,9 +1095,6 @@
   (add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
   (add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
 
-  (setq org-startup-folded 'fold)
-  (setq org-list-allow-alphabetical t)
-
   ;; Disable keys in org-mode
   ;;    C-c [
   ;;    C-c ]
@@ -1553,9 +1551,9 @@ Comments:
 
 (use-package gnuplot)
 
-(use-package org-roam-tree
-  :after org
-  :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
+;; (use-package org-roam-tree
+;;   :after org
+;;   :straight (:type git :host github :repo "bradmont/org-roam-tree" :files ("org-roam-tree.el")))
 
 (use-package org-glossary
   :after org
