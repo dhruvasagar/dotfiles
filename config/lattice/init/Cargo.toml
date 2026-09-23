@@ -14,7 +14,7 @@ wit-bindgen = "0.58"
 # value. Needed for any option whose value has STRUCTURE (org's capture
 # templates); scalar options still go through `config::set_option` with a
 # string. WIT-agnostic pure Rust, so it compiles to wasm32-wasip2 like the rest.
-lattice-plugin-sdk = { path = "/Users/dhruva/src/dhruvasagar/lattice/crates/lattice-plugin-sdk" }
+lattice-plugin-sdk = "0.1"
 
 [profile.release]
 opt-level = "s"

@@ -15,6 +15,11 @@ telemetry/
 ide/
 metrics/
 
+plugins/installed_plugins.json
+plugins/known_marketplaces.json
+plugins/marketplaces/claude-plugins-official/.claude-plugin/marketplace.json
+plugins/marketplaces/claude-plugins-official/.gcs-sha
+
 history.jsonl
 .last-cleanup
 .last-update-result.json

@@ -624,7 +624,7 @@ fn capture_templates() -> Vec<Template> {
             key: "t".into(),
             description: Some("todo".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -636,7 +636,7 @@ fn capture_templates() -> Vec<Template> {
             key: "r".into(),
             description: Some("respond".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -648,7 +648,7 @@ fn capture_templates() -> Vec<Template> {
             key: "w".into(),
             description: Some("review a link".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -660,7 +660,7 @@ fn capture_templates() -> Vec<Template> {
             key: "m".into(),
             description: Some("Meeting".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -672,7 +672,7 @@ fn capture_templates() -> Vec<Template> {
             key: "p".into(),
             description: Some("Phone call".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -684,7 +684,7 @@ fn capture_templates() -> Vec<Template> {
             key: "R".into(),
             description: Some("To Read".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -696,7 +696,7 @@ fn capture_templates() -> Vec<Template> {
             key: "W".into(),
             description: Some("To Watch".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/refile.org".into(),
+                file: "~/src/dhruvasagar/org-files/refile.org".into(),
                 headline: None,
                 ..Default::default()
             },
@@ -708,7 +708,7 @@ fn capture_templates() -> Vec<Template> {
             key: "h".into(),
             description: Some("Habit".into()),
             target: Target {
-                file: "/Users/dhruva/src/dhruvasagar/org-files/habits.org".into(),
+                file: "~/src/dhruvasagar/org-files/habits.org".into(),
                 headline: None,
                 ..Default::default()
             },
