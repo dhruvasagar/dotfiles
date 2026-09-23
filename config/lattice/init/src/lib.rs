@@ -57,9 +57,9 @@ impl Guest for Config {
             //         url: "https://github.com/dhruvasagar/lattice-org-plugin".into(),
             //         rev: None,   // or pin a rev
             //     }),
-            source: PluginSource::Local(
-                "/Users/dhruva/src/dhruvasagar/lattice-org-plugin".to_string(),
-            ),
+            // `~` expands host-side, so this file stays portable across
+            // machines rather than naming one home directory.
+            source: PluginSource::Local("~/src/dhruvasagar/lattice-org-plugin".to_string()),
             enable_mode: None,
             pinned: false,
         });
