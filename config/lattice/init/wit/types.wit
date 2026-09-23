@@ -1704,13 +1704,6 @@ interface types {
     /// `lattice_protocol` position `range`, which crosses; the recursive grammar
     /// `Range` is a dispatcher concern the guest never sees).
     record operator-context {
-        /// CM.3: the buffer being operated on — the `target` an `apply-edit`
-        /// effect names. `action-context` and `motion-context` have always
-        /// carried it; an operator did not, because a NATIVE operator mutates
-        /// the document in place and never needs to name it. A plugin operator
-        /// holds a read-only handle and must ask the host to apply, so without
-        /// this it can read its range and never change it.
-        buffer-id: u32,
         range: range,
         linewise: bool,
         register: register,
@@ -1797,27 +1790,6 @@ interface types {
         /// character wildcard after each motion path (e.g. surround's
         /// `ys{motion}{char}` captures the wrapping char).
         post-motion-char: bool,
-        /// CM.2: the chord that invokes this operator, in vim notation
-        /// (`gc`, `zn`). `none` registers the operator without keys — it is
-        /// then reachable only by name, through the palette or an ex-command.
-        ///
-        /// Declared HERE rather than through the `keymap` seam because the
-        /// operator-pending states are not plugin-bindable and cannot be: the
-        /// host composes motion targets, text-object pendings and find-char
-        /// pendings around an operator, and that composition needs
-        /// host-resolved builtins. A plugin says which keys it wants; the host
-        /// builds the same surface a native operator gets. Binding the chord
-        /// through `register-binding` instead would fire the operator with no
-        /// motion AND kill its doubled form, because a bound prefix kills its
-        /// longer chords.
-        chord: option<string>,
-        /// The TRAILING key of the doubled, linewise form — `c` for `gcc`,
-        /// `U` for `gUU`, `d` for `dd`. Not the whole chord.
-        ///
-        /// `none` binds no doubled form, which is right for operators that
-        /// have none: vim has no `zff`, and binding one would shadow the
-        /// longer `zff{char}`.
-        doubled: option<string>,
     }
 
     /// Mirrors `lattice_grammar::registry::TextObjectSpec` (metadata; `apply` is

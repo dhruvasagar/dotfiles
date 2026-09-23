@@ -82,6 +82,8 @@ dependencies = [
 [[package]]
 name = "lattice-plugin-sdk"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c416b2f11de392be1f98565df9c9deb90e7e06298bdabd80dc5abcbe16caab9c"
 dependencies = [
  "lattice-plugin-sdk-derive",
  "rmp-serde",
@@ -91,6 +93,8 @@ dependencies = [
 [[package]]
 name = "lattice-plugin-sdk-derive"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "31d32e513b3ee6c3b896297eb3a3ebcb098172e15def59c799c71bd6d085986c"
 dependencies = [
  "proc-macro2",
  "quote",
