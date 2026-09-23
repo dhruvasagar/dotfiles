@@ -899,8 +899,17 @@
   (after-init . mcp-hub-start-all-server))
 
 (use-package gptel-agent
+  :after gptel
   :straight (:host github :repo "karthink/gptel-agent" :files ("*.el" "agents"))
   :config
   (gptel-agent-update))
+
+(use-package gptel-annotate
+  :after gptel
+  :straight (:host github :repo "karthink/gptel-annotate"))
+
+(use-package gptel-preset-collection
+  :after gptel
+  :straight (:host github :repo "karthink/gptel-preset-collection"))
 
 (provide 'init-gptel)

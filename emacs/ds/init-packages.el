@@ -424,9 +424,9 @@ use `hi-lock-unface-buffer' or disable `hi-lock-mode'."
 (use-package magit
   :commands magit
   :init
-  ;; (setq magit-define-global-key-bindings 'recommended
-  ;;       magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
-  ;;       magit-commit-diff-inhibit-same-window t)
+  (setq magit-define-global-key-bindings 'recommended
+        magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+        magit-commit-diff-inhibit-same-window t)
   :bind*
   ( :map version-control
     ("v" . magit-status)
