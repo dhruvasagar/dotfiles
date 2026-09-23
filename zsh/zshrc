@@ -15,7 +15,7 @@ export EDITOR='vim'
 export VISUAL='vim'
 export GPG_TTY=$(tty)
 export TERMINAL='alacritty'
-export BROWSER='qutebrowser'
+# export BROWSER='qutebrowser'
 
 # TERM with at least 256 colors (24 bit on supported terminals)
 # export TERM=alacritty
@@ -113,8 +113,14 @@ source <(fzf --zsh)
 # Setup bindkeys
 . ~/dotfiles/zsh/bindkeys
 
+# Setup ai
+. ~/dotfiles/zsh/ai
+
 for f (~/dotfiles/zsh/plugin/*) source $f
 
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
+
+# Pi
+export PATH="/Users/dhruva/.asdf/installs/nodejs/22.19.0/bin:$PATH"
