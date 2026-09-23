@@ -104,7 +104,24 @@ interface grammar-callbacks {
         doc: borrow<document>,
         tree: option<borrow<tree-snapshot>>,
     ) -> result<motion-result, string>;
-    apply-operator: func(callback: u32, ctx: operator-context) -> result<list<effect>, string>;
+    /// CM.1: an operator receives `borrow<document>`, the pair the motion,
+    /// text-object, action and ex-command callbacks already had (AP.0.1,
+    /// OM.4b, OT.1, OC.10). It was the last one without, because no plugin had
+    /// contributed an operator — and a comment operator cannot work without
+    /// the text: comment-vs-uncomment, the indent column, and stripping an
+    /// existing leader are all reads.
+    ///
+    /// **No `tree`, deliberately.** `OperatorContext` carries `document` and
+    /// `comment_syntax` but, unlike `TextObjectContext`, no `path` or
+    /// `syntax` — minting a tree resource would mean widening the native
+    /// context and every operator call site for a capability no operator has
+    /// asked for. Add it when one does; the asymmetry is a decision, not an
+    /// oversight.
+    apply-operator: func(
+        callback: u32,
+        ctx: operator-context,
+        doc: borrow<document>,
+    ) -> result<list<effect>, string>;
     /// OM.4b: a text object receives `borrow<document>` too — `text-object-context`
     /// has always said "buffer text + the scope/comment env ride the `document`
     /// handle", and AP.0.1 simply wired the action path first. Org's headline
