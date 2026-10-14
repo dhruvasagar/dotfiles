@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// MV.1 — the seam by which a plugin **owns a multibuffer view**.
 ///

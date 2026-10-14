@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// Mirrors the sign registry (`lattice_mode::SignRegistry`). A plugin declares
 /// the signs it places — glyph, fallback glyph, theme element, priority — and

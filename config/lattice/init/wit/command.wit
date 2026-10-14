@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// Mirrors `CommandRegistry` + `CommandInvocation` + the closed `Effect`
 /// enum (lattice-grammar). Guest→host `invoke`; host→guest `apply`. The

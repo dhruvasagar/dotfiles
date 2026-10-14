@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// The decoration **producer** API (plugin-host.md §5 `decorations`, PH7.9),
 /// mirroring `Mode::gutter_decorations` + `GutterDecoration` (lattice-mode). A

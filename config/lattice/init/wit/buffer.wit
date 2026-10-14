@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// Mirrors the native `Document` / `Buffer` read seam (plugin-host.md §4.2,
 /// §9.6). The host owns the buffer; the guest gets a `document` **resource

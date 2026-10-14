@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// PM.7: the `require` seam — how a user's `init.rs` declares the plugins it
 /// wants (plugin-manager.md §3).

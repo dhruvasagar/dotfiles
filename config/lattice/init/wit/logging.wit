@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// Guest→host structured logging (plugin observability Layer 2, design
 /// `docs/dev/architecture/plugin-observability.md` §8). Shaped like

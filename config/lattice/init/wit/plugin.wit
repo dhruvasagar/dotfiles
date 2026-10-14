@@ -8,7 +8,7 @@
 // world below, wired through `wasmtime::component::bindgen!` in
 // `lattice-plugin-host`. The rest are empty stubs so the package is sized
 // against the full exercised set from day one (design.md §14 mitigation).
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// The lifecycle surface every guest component implements.
 ///
@@ -18,8 +18,8 @@ package lattice:plugin-host@0.1.0;
 /// keymaps, autocmds, hooks, and custom commands through the (stubbed here)
 /// host-services / grammar / command / config / events interfaces. A plugin
 /// is just another component implementing this same world with a narrower
-/// capability grant; `plugins/fuzzy-finder` (PH7.4) validates the picker
-/// seam but is *not* the first consumer.
+/// capability grant — the bundled `plugins/` are exactly that — but none of
+/// them is the first consumer.
 ///
 /// The degenerate case — a component whose `activate` registers nothing — is
 /// the empty `init.rs`, and is exactly what the PH7.0 scaffold instantiates

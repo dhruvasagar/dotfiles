@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// Mirrors `ConfigRegistry` (lattice-config). The guest declares an option
 /// (name + type + default + doc); the host registers it into the *same* registry

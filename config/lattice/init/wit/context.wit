@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// The structural-**context** producer API (treesitter-context.md, TC.2): the
 /// scopes a pane pins above its text once their own header lines have scrolled

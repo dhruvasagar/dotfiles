@@ -2,3 +2,4 @@
 cache/
 **/*.wasm
 *target/
+plugins/**/data/

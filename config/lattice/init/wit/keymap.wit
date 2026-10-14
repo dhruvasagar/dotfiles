@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.3.0;
 
 /// The `keymap` guest→host binding-registration seam (PL8.D.1).
 ///
