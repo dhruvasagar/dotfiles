@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// The `comment` bundled plugin's world (CM.3). One component, four seams:
 ///   - **grammar** — the `comment-toggle` OPERATOR. The first operator any

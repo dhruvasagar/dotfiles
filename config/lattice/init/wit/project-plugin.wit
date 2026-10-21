@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// The `project` bundled plugin's world (PC.4).
 ///

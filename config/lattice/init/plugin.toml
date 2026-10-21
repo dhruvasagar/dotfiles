@@ -1,2 +1,0 @@
-id = "init"
-provides = ["config", "keymap", "events", "plugin-manager"]

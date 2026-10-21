@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// The UI-contribution surface (design.md §9.4 `ui`): guest→host emits **data
 /// only**, never draw calls (§7, paramount #1).

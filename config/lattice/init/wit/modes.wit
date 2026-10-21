@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// Mirrors the `Mode` trait declaration surface + `ModeRegistry` (lattice-mode).
 /// The guest declares a minor mode as DATA (id + kind + activation policy +

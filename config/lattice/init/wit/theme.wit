@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// Mirrors the theme-element registry (`lattice-theme`). A plugin declares the
 /// elements it paints with (name + doc + default style); the host registers each

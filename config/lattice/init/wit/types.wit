@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// Shared boundary records/variants — the owned, WIT-serializable mirrors of
 /// the native grammar + picker/completion types (plugin-host.md §4). Every
@@ -1007,25 +1007,6 @@ interface types {
         scan-args: list<string>,
     }
 
-    /// Mirrors `lattice_grammar::app_effect::PutSpec`: how a put (`p` and
-    /// its relatives) places text and leaves the cursor. All false is plain
-    /// `p`. `before` is `P`; `cursor-after` is `gp` / `gP` (the cursor lands
-    /// just after the new text); `indent` is `]p` / `[p` (linewise text is
-    /// re-indented to the current line).
-    record put-spec {
-        before: bool,
-        cursor-after: bool,
-        indent: bool,
-    }
-    /// Mirrors `AppEffect::PutLine` (`:[line]pu[t][!] [x]`): put `register`
-    /// (the unnamed one when absent) as whole lines below `line` (0-based;
-    /// the cursor's line when absent), or above it when `before`.
-    record put-line-payload {
-        register: option<char>,
-        before: bool,
-        line: option<u32>,
-    }
-
     /// Mirrors `lattice_grammar::app_effect::AppEffect` (PH7.3b2). `NarrowTrigger`
     /// is absent by design (recursive `Range`; see the note above).
     variant app-effect {
@@ -1075,14 +1056,6 @@ interface types {
         swap-visual-ends,
         paste-after,
         paste-before,
-        /// `gp` / `gP` / `]p` / `[p` (and plain `p` / `P`, spelled as a spec).
-        put(put-spec),
-        /// Visual `p` / `P`: replace the selection with the register. The
-        /// bool is `keep-register` — true for `P`, which discards the
-        /// replaced text instead of making it the unnamed register.
-        put-over-selection(bool),
-        /// `:put`.
-        put-line(put-line-payload),
         enter-append,
         enter-insert-first-non-blank,
         enter-append-end-of-line,
@@ -1924,16 +1897,6 @@ interface types {
         /// that armed it, so subscribing to this kind never surfaces another
         /// plugin's watch.
         files-changed,
-        /// LH.0: a long-running host job this plugin started — a download,
-        /// say — has made progress. Addressed the same way: a plugin only ever
-        /// hears about its own jobs.
-        job-progress,
-        /// LH.0.3: a host job this plugin started wrote output — a
-        /// subprocess's lines.
-        job-output,
-        /// LH.0: a host job this plugin started has ended, one way or the
-        /// other.
-        job-finished,
     }
 
     /// Mirrors `lattice_runtime::EventFilter` — the DECLARATIVE subset a plugin
@@ -2006,59 +1969,6 @@ interface types {
         ///
         /// No plugin id crosses: a guest only ever receives its own watch.
         files-changed(list<string>),
-        /// LH.0: how far a host job has got. **Coalesced** host-side, so fast
-        /// work is a few deliveries rather than one per step — and a job that
-        /// completes inside one interval sends none at all. Do not wait for
-        /// one before expecting `job-finished`.
-        job-progress(event-job-progress),
-        /// LH.0.3: output from a host job — what a process started with
-        /// `spawn-process` wrote. **Batched**: a quiet interval's lines arrive
-        /// together, so a chatty tool is a few deliveries a second, and none
-        /// is dropped. All of a job's output is delivered before its
-        /// `job-finished`.
-        job-output(event-job-output),
-        /// LH.0: a host job ended. Exactly one per id a host-service returned
-        /// — a cancelled job reports here too, as `err("cancelled")` — so a
-        /// plugin can drive a state machine off it without a timeout.
-        ///
-        /// One arm for every kind of job, deliberately. A plugin keys its state
-        /// by the id and already knows what it started; and a new arm per kind
-        /// would be a breaking change to this variant each time the host
-        /// learned to do one more long-running thing.
-        job-finished(event-job-finished),
-    }
-
-    /// `event.job-progress` payload (LH.0).
-    record event-job-progress {
-        /// The id the host-service returned.
-        id: u64,
-        /// Units done so far. The function that started the job says what a
-        /// unit is — bytes received, for `http-download`.
-        done: u64,
-        /// The total in the same units; `none` when it is not known, in which
-        /// case there is no percentage to show, only a running count.
-        total: option<u64>,
-    }
-
-    /// `event.job-output` payload (LH.0.3).
-    record event-job-output {
-        /// The id the host-service returned.
-        id: u64,
-        /// Whole lines without their terminators, in arrival order — stdout
-        /// and stderr interleaved, not told apart. Bytes that are not UTF-8
-        /// are replaced, and a line longer than the host's bound is cut short
-        /// and marked with `…`.
-        lines: list<string>,
-    }
-
-    /// `event.job-finished` payload (LH.0).
-    record event-job-finished {
-        /// The id the host-service returned.
-        id: u64,
-        /// `ok`: the job did what it was asked. `err`: it did not, the message
-        /// says why, and the function that started it says what is left
-        /// behind — for `http-download`, nothing.
-        outcome: result<_, string>,
     }
 
     /// `Event::PluginLoaded` / `Event::PluginUnloaded` payload (CI.1). `name` is

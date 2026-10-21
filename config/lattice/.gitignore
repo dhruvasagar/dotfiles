@@ -1,5 +1,4 @@
 **/.build-stamp
 cache/
-**/*.wasm
 *target/
 plugins/**/data/

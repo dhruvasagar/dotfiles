@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.1.0;
 
 /// The grammar-**extension** API (plugin-host.md §4.1, PH7.7). This is the
 /// surface a plugin calls to *contribute* new vim grammar —

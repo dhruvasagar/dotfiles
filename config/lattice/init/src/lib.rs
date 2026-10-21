@@ -3,6 +3,18 @@
 //! `docs/user/init.md`). Everything below is illustrative — delete what you
 //! don't want.
 
+// The manifest the editor reads before it loads this component — embedded in
+// the `.wasm` as the `lattice-manifest` custom section, so this directory
+// needs no `plugin.toml`. `id` MUST be "init" (the :reload-config target).
+// `provides` lists the seams this file registers into — add "grammar" /
+// "decorations" / … as you use them, matching the exports in wit/init.wit.
+lattice_plugin_sdk::manifest!(
+    r#"
+    id = "init"
+    provides = ["config", "keymap", "events", "plugin-manager"]
+    "#
+);
+
 wit_bindgen::generate!({ world: "init", path: "wit" });
 
 // `Guest` is wit-bindgen's trait for THIS world's exports — the `register_*`
