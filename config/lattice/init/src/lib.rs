@@ -28,6 +28,14 @@ impl Guest for Config {
         // by plugin id — set them by their full name here:
         config::set_option("auto-pair.style", "manual"); // manual close-key pairing
         // config::set_option("auto-pair.enabled", "false"); // …or turn it off
+
+        // org's file access follows these two (it may write only under them),
+        // so they are set HERE, before org loads, not in its `pre-plugin-loaded`
+        // handler below: lattice holds each value until org declares the
+        // option, and org's first load is already granted these directories.
+        // Set later, they cost org a full reload at every start.
+        config::set_option("org.directory", "~/src/dhruvasagar/org-files");
+        config::set_option("org.roam-directory", "~/src/dhruvasagar/org-files/roam");
     }
 
     // Plugins to install. The host clones into ~/.cache/lattice/sources/,
@@ -166,7 +174,6 @@ impl Guest for Config {
                     // terse; the typed peer is there when a list is long
                     // enough to want naming.
                     config::set_option("org.agenda-files", "~/src/dhruvasagar/org-files");
-                    config::set_option("org.roam-directory", "~/src/dhruvasagar/org-files/roam");
                     // The PKOS capture set, sourced from the SAME template
                     // files emacs reads (OR.14's `body-file`). One copy, so
                     // editing a template in `roam/templates/` changes both

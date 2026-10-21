@@ -158,11 +158,20 @@ interface config {
     /// type-coerced and validated, and a successful set publishes
     /// `OptionChanged` so subscribers react uniformly. Returns `false` (setting
     /// nothing) if the option is unregistered, the value is invalid for its type,
-    /// or no registry is wired — never a trap. An `init.rs` `on-plugin-loaded`
-    /// handler uses this to configure a plugin's options the moment it loads
-    /// (config-and-init.md §5). Like `get-option`, resolves the caller's OWN
-    /// namespace first (`style` → `<id>.style`), else the raw name — so a config
-    /// can set another plugin's option by its full `auto-pair.style` name.
+    /// or no registry is wired — never a trap. Like `get-option`, resolves the
+    /// caller's OWN namespace first (`style` → `<id>.style`), else the raw name —
+    /// so a config can set another plugin's option by its full
+    /// `auto-pair.style` name.
+    ///
+    /// **From the user's `init.rs`, an option need not exist yet.** `init.rs`
+    /// loads before every user plugin, so the option a plugin will declare is
+    /// not registered when `init.rs` runs. Its `set-option` on such a name is
+    /// held and returns `true`; the value is applied when the plugin registers
+    /// the option — and again whenever it re-registers after a reload — and a
+    /// plugin's file grant that follows the option already sees it. A value
+    /// that does not fit the option is reported when it registers; a name no
+    /// plugin ever declares is reported once every plugin has loaded. Any
+    /// other plugin setting an unregistered name still gets `false`.
     set-option: func(name: string, value: string) -> bool;
 
     /// Set an option for ONE buffer — the `:setlocal` front-end, and the call a

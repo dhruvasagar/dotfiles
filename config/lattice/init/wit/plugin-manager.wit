@@ -72,6 +72,41 @@ interface plugin-manager {
     /// `name`. A rejection is a logged skip, never a trap: one bad entry in an
     /// `init.rs` must not take the whole config down.
     require: func(spec: plugin-spec) -> bool;
+
+    /// A plugin published as a GitHub release — installed without building it,
+    /// so it needs no Rust toolchain (plugin-distribution.md §3).
+    ///
+    /// The host downloads the release asset built for its own plugin API
+    /// generation (`<name>-<version>-api<M>.<m>.wasm`), checks it against the
+    /// release's published `.sha256` — and against `sha256` when given — and
+    /// requires the component's embedded manifest to name `name`. A release
+    /// with no build for this editor is refused by name in `:plugins`, saying
+    /// what it ships instead.
+    record release-spec {
+        /// The plugin's id, as for `plugin-spec.name`.
+        name: string,
+        /// The GitHub repository, `owner/name`.
+        repo: string,
+        /// A release tag (`v0.2.0`). Omitted: the newest non-draft,
+        /// non-prerelease release with a build for this editor, looked up once
+        /// and kept until an update asks again.
+        version: option<string>,
+        /// Pin the bytes, not just the tag: a re-published tag is refused.
+        sha256: option<string>,
+        /// As `plugin-spec.enable-mode`.
+        enable-mode: option<string>,
+    }
+
+    /// Declare a plugin installed from a release. Records the spec exactly as
+    /// `require` does — the download runs off-thread after the calling export
+    /// returns; nothing is fetched at boot once it is installed. Returns
+    /// `false` when the spec is rejected outright (an unsafe `name`).
+    ///
+    /// A function beside `require` rather than a fourth `plugin-source` case:
+    /// a variant's shape is part of the component type, so a grown variant
+    /// would stop every compiled `init.rs` linking; a new function leaves a
+    /// guest that does not import it untouched.
+    require-release: func(spec: release-spec) -> bool;
 }
 
 /// The world a config plugin (`init.rs`) implements when it declares plugins.
