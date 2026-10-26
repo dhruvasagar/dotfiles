@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.4.0;
 
 // Your init.rs world — the seams you use. EXPORT the register-* your guest
 // implements; IMPORT the host APIs you call. Add/remove seams as needed. Browse

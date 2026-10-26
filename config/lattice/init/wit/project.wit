@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.4.0;
 
 /// Guest→host project resolution (PR.6, design
 /// `docs/dev/architecture/project-resolution.md` §6).

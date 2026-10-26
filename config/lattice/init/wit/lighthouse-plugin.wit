@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.3.0;
+package lattice:plugin-host@0.4.0;
 
 /// The `lighthouse` bundled plugin's world (LH.1) — the language-server
 /// manager. Design: `docs/dev/architecture/lighthouse.md`.

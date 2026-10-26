@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.4.0;
 
 /// OA.14d fixture world — **org's exact shape**, reduced to the two seams that
 /// make the bug possible: a component that DECLARES an option (`config`) and

@@ -8,7 +8,7 @@
 // world below, wired through `wasmtime::component::bindgen!` in
 // `lattice-plugin-host`. The rest are empty stubs so the package is sized
 // against the full exercised set from day one (design.md §14 mitigation).
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.4.0;
 
 /// The lifecycle surface every guest component implements.
 ///

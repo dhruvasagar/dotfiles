@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.1.0;
+package lattice:plugin-host@0.4.0;
 
 /// OM.A1: plugin-contributed agenda rows.
 ///
