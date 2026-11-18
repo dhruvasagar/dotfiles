@@ -1,0 +1,63 @@
+package lattice:plugin-host@0.5.0;
+
+/// AT.5: tools a plugin offers to the LLM assistant.
+///
+/// The assistant's tools come from sources: lattice's own, `web`, each MCP
+/// server, and with this seam each plugin that exports `llm-tools`. A tool's
+/// descriptor is MCP's shape (a name, a description, a JSON Schema for the
+/// input), so a plugin gets MCP's data model without its transport.
+///
+/// ## A call cannot write
+///
+/// `call` returns data and nothing else: text for the model, and edits the
+/// host applies through `lattice.edit_file`, with its project fence, staleness
+/// check and review. There is no effect list, so a plugin that wants to change
+/// a file can only propose it. That is structural, not trusted.
+///
+/// ## The host decides whether a tool asks
+///
+/// From the plugin's capability grant, never from what the plugin says about
+/// its tools: a plugin with no network and no process capability runs its
+/// `read` tools unasked and sends its proposals to review; one that holds
+/// either asks before every call. `llm-tool-kind` says what a tool does with
+/// its result, not how much it is trusted.
+///
+/// ## Where it runs
+///
+/// On the plugin's own actor, off the editor actor, once per model tool call.
+/// A call is never on the keystroke path: the assistant awaits it like any
+/// other tool, and a slow plugin delays its own reply and nothing else.
+interface llm-tools {
+    use types.{llm-tool, llm-tool-result, llm-profile};
+
+    /// The tools this plugin offers. Called once, at registration.
+    ///
+    /// A tool whose name is not letters, digits, `_` and `-`, or whose schema
+    /// is not a JSON object, is not offered, and the listing says why.
+    tools: func() -> list<llm-tool>;
+
+    /// Run the tool `name`. `args` is the model's JSON input, as text.
+    ///
+    /// An `err` is the call's result as the model sees it: the conversation
+    /// continues, and the model is told the tool failed and why.
+    call: func(name: string, args: string) -> result<llm-tool-result, string>;
+
+    /// Profiles this plugin contributes: a workflow is a system prompt and a
+    /// tool selection. Called once, at registration. The host trusts a plugin
+    /// profile as it trusts a project's file, so a key it may not set is
+    /// dropped and named.
+    profiles: func() -> list<llm-profile>;
+}
+
+/// The world an `llm-tools` plugin implements.
+///
+/// It imports what a tool plausibly needs to answer: `host-services` to read
+/// files through the host (`read-file`, `walk`), `project` to know which
+/// project it is answering for, and `logging`. A plugin that reads its own
+/// options gets them on this seam's store too.
+world llm-tools-plugin {
+    import host-services;
+    import logging;
+    import project;
+    export llm-tools;
+}

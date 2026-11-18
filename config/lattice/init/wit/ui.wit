@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// The UI-contribution surface (design.md §9.4 `ui`): guest→host emits **data
 /// only**, never draw calls (§7, paramount #1).
@@ -31,7 +31,7 @@ package lattice:plugin-host@0.4.0;
 /// action's `emit-segment` finds no context and is a warn + drop. Same shape as
 /// `config`, `theme` and `keymap`, and it is tested rather than assumed.
 interface ui {
-    use types.{ui-zone};
+    use types.{ui-zone, ui-notification};
 
     /// Register a modeline element descriptor and take ownership of it
     /// (`modeline.md` §6). `id` is namespaced with the plugin's own name — a
@@ -73,4 +73,16 @@ interface ui {
     /// trap. The descriptor survives; only the content is dropped, so a later
     /// `emit-segment` brings it back without re-registering.
     clear-segment: func(id: string);
+
+    /// Write one line to `*messages*`, attributed to this plugin.
+    ///
+    /// For work that finishes away from any command, such as a background scan,
+    /// where there is no returned effect to carry an `echo`. A grammar action
+    /// already has that effect, so `notify` from the grammar seam is a warn + drop
+    /// like `emit-segment`: the keystroke path stays free of it.
+    ///
+    /// A line below the editor's log level is filtered like any other record, so
+    /// use `info` or above for something the user should see. This is for an
+    /// outcome, not progress: every call is a line someone has to read past.
+    notify: func(note: ui-notification);
 }

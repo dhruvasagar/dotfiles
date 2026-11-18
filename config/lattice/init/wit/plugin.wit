@@ -8,7 +8,7 @@
 // world below, wired through `wasmtime::component::bindgen!` in
 // `lattice-plugin-host`. The rest are empty stubs so the package is sized
 // against the full exercised set from day one (design.md §14 mitigation).
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// The lifecycle surface every guest component implements.
 ///
@@ -64,6 +64,11 @@ world plugin {
 	/// `transient-item-kind` / `transient-action` are transitively referenced
 	/// by `transient-spec`, so they surface without a world-level `use`.
 	use types.{transient-spec, transient-context};
+
+	/// The llm-tools seam types (AT.5, `llm-assistant-tools.md` §5): a tool a
+	/// plugin offers the assistant, what a call returns, and a contributed
+	/// profile. `llm-tool-kind` / `proposed-edit` are reached through these.
+	use types.{llm-tool, llm-tool-result, llm-profile};
 
 	/// The event/hook seam types (PH7.8a, §5 `events`): the owned `event` variant
 	/// delivered to the guest `on-event` export + the `event-filter` a plugin

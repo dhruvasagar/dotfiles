@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// Mirrors the native `Document` / `Buffer` read seam (plugin-host.md §4.2,
 /// §9.6). The host owns the buffer; the guest gets a `document` **resource
@@ -8,7 +8,7 @@ package lattice:plugin-host@0.4.0;
 /// `lattice_picker::context::ActiveBufferSnapshot`. Populated at PH7.3c; the
 /// guest→host call through the canonical ABI is exercised at PH7.3d/PH7.4.
 interface buffer {
-    use types.{position, range};
+    use types.{position, range, tracked-range};
 
     /// A host-owned, point-in-time view of a document's text (PH7.3c,
     /// decision A: backed by an `Arc<DocumentSnapshot>`). Because it is a
@@ -48,6 +48,16 @@ interface buffer {
         /// invisible, which is the same trade `get-text-range` already makes
         /// and for the same reason.
         path: func() -> option<string>;
+
+        /// RF.4d: where a range this plugin tracked (`track-range`) is now,
+        /// or `none` when it is not tracked in this document — never was,
+        /// was untracked, or the buffer has no text of its own. `id` is
+        /// the plugin's own, so it reads only its own ranges.
+        ///
+        /// Snapshot semantics like the rest of this resource: the range as
+        /// of the handle's mint. A `track-range` returned by the same call
+        /// is not visible until the next one.
+        tracked-range: func(id: u32) -> option<tracked-range>;
     }
 
     /// The owned projection of `ActiveBufferSnapshot`'s metadata (§4.2). Bulk

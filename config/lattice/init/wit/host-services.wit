@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// Guest→host services (plugin-host.md §5). Capability-gated calls a plugin
 /// makes INTO the host, checked against its `CapabilityGrant` (PH7.2). Unlike

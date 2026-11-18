@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// Structural queries for plugins (plugin-treesitter-seam.md). The host already
 /// parses every buffer with tree-sitter (`lattice-syntax`) and publishes an
@@ -106,6 +106,20 @@ interface tree-sitter {
         /// Use `run-query` when the capture must be NAVIGATED (parent, field,
         /// sibling); use this when its extent is the answer.
         run-query-ranges: func(q: borrow<query>, within: option<range>) -> list<capture-range>;
+        /// RF.4h: a query the HOST compiled for this snapshot's language, by
+        /// name, or `none` for a name it does not know or a language that
+        /// ships no such file. It is the editor's own compiled query, shared,
+        /// so a plugin neither carries a copy nor compiles one; run it with
+        /// `run-query` / `run-query-ranges` like any other.
+        ///
+        /// One name today, `"locals"`: `@local.scope` (a node that opens a
+        /// scope), `@local.definition` (an identifier that introduces a local
+        /// name), `@local.reference` (a catch-all on identifiers that may read
+        /// one) and `@local.member` (an identifier in a member or label
+        /// position, `obj.x` / `f(x=1)`). A node captured as a definition or a
+        /// member is NOT a reference, though the catch-all matches it too:
+        /// take the references minus the other two.
+        language-query: func(name: string) -> option<query>;
     }
 
     /// An opaque, navigable handle into the snapshot's tree (design §3.2). Owned

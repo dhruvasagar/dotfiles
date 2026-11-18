@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// Shared boundary records/variants — the owned, WIT-serializable mirrors of
 /// the native grammar + picker/completion types (plugin-host.md §4). Every
@@ -250,6 +250,30 @@ interface types {
         path: string,
         line: u32,
         col: u32,
+    }
+    /// RF.3b: the kind family a code-action request asks for — an LSP
+    /// `CodeActionKind` prefix, so `extract` admits `refactor.extract.function`.
+    enum code-action-kind {
+        /// `refactor`: every refactoring.
+        refactor,
+        /// `refactor.extract`: extract variable / function / constant.
+        extract,
+        /// `refactor.inline`: inline variable / function.
+        inline,
+    }
+    /// RF.3b: what `lsp-code-action` asks the server.
+    record code-action-request {
+        /// The kind family to ask for; `none` is every action.
+        only: option<code-action-kind>,
+        /// The text to ask about; `none` is the cursor, or the live Visual
+        /// selection. An operator passes its range.
+        range: option<range>,
+        /// Run when the server has nothing to offer: no server, a server
+        /// whose advertised kinds exclude `only`, or an empty answer. Never
+        /// on an error or a hang. Not run if the text changed while the
+        /// server was asked. This is how a plugin falls back to its own
+        /// implementation without seeing the server's answer.
+        otherwise: option<command-ref>,
     }
     record command-ref {
         id: string,
@@ -579,6 +603,49 @@ interface types {
         /// pair, not only at a row start (AP.2). `none` leaves the caret put.
         cursor: option<position>,
     }
+    /// RF.4e: `insert-snippet`'s payload — a snippet body the guest wrote,
+    /// and the text of the active buffer it replaces.
+    record insert-snippet-payload {
+        /// Replaced by the expansion, in the buffer's current coordinates.
+        range: range,
+        /// A TextMate / LSP snippet body: `$1`, `${1:default}`, `$0`, with
+        /// a repeated number linking its sites (type once, every site
+        /// changes). Literal `$`, `}` and `\` are escaped with `\`.
+        /// Laid out VERBATIM — no line is re-indented, so the guest writes
+        /// the whitespace it means.
+        body: string,
+    }
+    /// RF.4d: what `track-range` asks the host to remember.
+    record track-range-payload {
+        /// The target `BufferId` (its inner `u32`).
+        target: u32,
+        /// The guest's own name for the range, in its own namespace: two
+        /// plugins using the same number name different ranges, and neither
+        /// can reach a range the editor tracks for itself (a snippet's).
+        /// Tracking an id again replaces the range it names.
+        id: u32,
+        /// The text to keep in place, in the buffer's current coordinates.
+        range: range,
+        /// A theme element whose background tints the range while it is
+        /// tracked (`search.current`, or an element the plugin registered),
+        /// or `none` for no tint. A name no theme defines tints nothing.
+        element: option<string>,
+    }
+    /// RF.4d: what `untrack-range` asks the host to forget.
+    record untrack-range-payload {
+        /// The target `BufferId` (its inner `u32`).
+        target: u32,
+        /// The id `track-range` used. An id not tracked is a no-op.
+        id: u32,
+    }
+    /// RF.4d: a tracked range as the document holds it now.
+    record tracked-range {
+        /// Where the text is now, after every edit since it was tracked.
+        range: range,
+        /// An edit replaced more than the range, so the text it named is
+        /// gone. The range still moves with later edits, but names nothing.
+        collapsed: bool,
+    }
     record yank-payload {
         register: register,
         content: string,
@@ -867,7 +934,10 @@ interface types {
         lsp-signature-help,
         lsp-complete,
         lsp-rename(string),
-        lsp-code-action,
+        /// Ask the attached server for code actions; they open as a picker.
+        /// RF.3b widened it: every field `none` is the old unfiltered
+        /// request at the cursor (or the live Visual selection).
+        lsp-code-action(code-action-request),
         expand-snippet(range),
         /// SI.10: expand a named snippet around `range`, the range's text
         /// becoming its `$TM_SELECTED_TEXT` — what `gS` ends in.
@@ -913,6 +983,20 @@ interface types {
         /// follow a successful write (deleting what was filed) goes here rather
         /// than in a host call, which runs before any effect is applied.
         invoke-command(command-ref),
+        /// RF.4d: keep a range of a buffer's text in place across every edit
+        /// — typed, an operator's, an undo, a language server's — and tint it
+        /// while it is tracked. Read it back with `document.tracked-range`.
+        /// The tint is the host's: no guest code runs to paint it. Appended
+        /// last so existing variant indices do not move.
+        track-range(track-range-payload),
+        /// RF.4d: stop tracking a range, and its tint goes with it.
+        untrack-range(untrack-range-payload),
+        /// RF.4e: expand a snippet body over a range of the active buffer,
+        /// in one edit (one undo step), and start its session: the first
+        /// stop is selected, and typing there types at every linked site.
+        /// The peer of `expand-snippet-over`, which names a registered
+        /// snippet; this one carries the body.
+        insert-snippet(insert-snippet-payload),
     }
 
     // ---- The `app-effect` variant mirror (PH7.3b2) ----
@@ -1236,7 +1320,8 @@ interface types {
         prompt: string,
         default: arg-default,
         /// A registered COMPLETION source (`gen:files`, ...) — inline
-        /// candidates as the user types this argument.
+        /// candidates as the user types this argument. A builtin's name, or a
+        /// list published with `grammar.register-completion-values`.
         completion: option<string>,
         /// YR.6: a registered PICKER source offered for this argument.
         ///
@@ -1771,12 +1856,9 @@ interface types {
     }
 
     /// Mirrors `lattice_grammar::registry::ExCommandContext` (owned projection).
-    /// The native `range: option<lattice_grammar::range::Range>` is ABSENT by
-    /// design: the grammar `Range` is recursive (`RangeBound::Offset { base:
-    /// Box<..> }`) and carries a plugin `RangeId`, which a WIT record cannot
-    /// express (the `Global` / `NarrowTrigger` precedent). A v1 ex-command
-    /// plugin gets `bang` / `args` / `register` / `count`; the resolved range
-    /// lands with the range mirror.
+    /// The native symbolic `range` (recursive, `RangeBound::Offset { base:
+    /// Box<..> }`, a plugin `RangeId`) does not cross; `range` below is what
+    /// it RESOLVES to, which is all a command can act on.
     record ex-command-context {
         bang: bool,
         args: args,
@@ -1795,6 +1877,19 @@ interface types {
         /// command reached by a chord" — and the mirror simply never followed.
         cursor: position,
         buffer-id: u32,
+        /// RF.3c: the buffer range the command's `:` range names, half-open,
+        /// resolved by the host; `none` without one. `:'<,'>` gives exactly
+        /// what was selected: a charwise selection including the character
+        /// its head is on, a linewise one to the end of its last line.
+        /// Any other range (`:3,5`, `:.`, `:%`, `:/pat/,$`) gives its whole
+        /// lines, start of the first to end of the last, as vim's ex
+        /// addresses are lines.
+        ///
+        /// It was absent, so a plugin's `:'<,'>cmd` could not see the
+        /// selection a native command sees; the same asymmetry OC.10 closed
+        /// for `cursor` and `buffer-id`. A command that wants lines reads
+        /// `range.start.line` and `range.end.line`.
+        range: option<range>,
     }
 
     /// Mirrors `lattice_grammar::registry::ActionContext` (owned projection) —
@@ -2314,9 +2409,9 @@ interface types {
     // more than one role either. It returns when a plugin registers its own
     // theme element (TC.4) and can be styled coherently.
     //
-    // Notifications remain a mirror with no producer — `effect.echo` still
-    // carries them. Sprites (§5.6.7) have no native struct yet, so mirroring one
-    // would violate exercised-trait-first.
+    // Notifications are produced by `ui.notify`, for async work with no effect to
+    // return; a grammar action still uses `effect.echo`. Sprites (§5.6.7) have no
+    // native struct yet, so mirroring one would violate exercised-trait-first.
 
     /// A modeline zone (mirrors `lattice_mode::modeline::Zone`).
     enum ui-zone { left, center, right }
@@ -2326,5 +2421,61 @@ interface types {
     record ui-notification {
         level: echo-level,
         message: string,
+    }
+
+    // -----------------------------------------------------------------------
+    // AT.5: tools a plugin offers to the LLM assistant (`llm-tools.wit`).
+    // Plain data both ways: the host owns the permission row, the review and
+    // the write, so nothing here carries authority.
+    // -----------------------------------------------------------------------
+
+    /// What a plugin tool does with its result. There is no exec kind: a
+    /// plugin that runs processes holds `proc:spawn`, and the host asks before
+    /// each of its calls whatever the kind.
+    enum llm-tool-kind {
+        /// Answers from what the plugin reads. Changes nothing.
+        read,
+        /// Returns proposed edits, which the host reviews and applies.
+        propose,
+    }
+
+    /// One tool, in MCP's shape.
+    record llm-tool {
+        /// Letters, digits, `_` and `-`. The model sees it as
+        /// `<plugin>__<name>`.
+        name: string,
+        /// What the tool does and when to use it, for the model.
+        description: string,
+        /// JSON Schema for the input, as text. Must be an object schema.
+        input-schema: string,
+        kind: llm-tool-kind,
+    }
+
+    /// One exact replacement, with the semantics of `lattice.edit_file`:
+    /// `old-string` must match the file once, as the user has it now.
+    record proposed-edit {
+        path: string,
+        old-string: string,
+        new-string: string,
+    }
+
+    /// What a call returns: text for the model, and the edits it proposes.
+    /// The host applies each proposal through `lattice.edit_file` and tells
+    /// the model what happened to it after `text`.
+    record llm-tool-result {
+        text: string,
+        proposals: list<proposed-edit>,
+    }
+
+    /// A profile a plugin contributes: a workflow's system prompt and tools.
+    record llm-profile {
+        /// The name `:llm <name>` selects it by.
+        name: string,
+        /// One line saying what the workflow is for.
+        description: string,
+        /// Keys as a profile file spells them (`system`, `tools`), each with
+        /// its value as text. Filtered like a project's file: a key a plugin
+        /// may not set is dropped and named.
+        settings: list<tuple<string, string>>,
     }
 }

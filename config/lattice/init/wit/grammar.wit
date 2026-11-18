@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// The grammar-**extension** API (plugin-host.md §4.1, PH7.7). This is the
 /// surface a plugin calls to *contribute* new vim grammar —
@@ -40,6 +40,14 @@ interface grammar {
         parse-callback: u32,
         apply-callback: u32,
     );
+    /// Publish a named list of values, for `<Tab>` on an ex-command argument:
+    /// an `arg-spec` whose `completion` is `source` completes from `values`.
+    /// The host holds the list and matches it natively, so `<Tab>` never calls
+    /// the guest. It lasts as long as the plugin stays loaded; a plugin whose
+    /// values change at runtime is not served by this. Name it after the plugin
+    /// (`gen:<plugin>-<what>`): a source name a builtin or another plugin
+    /// already holds is refused with a warning.
+    register-completion-values: func(source: string, values: list<string>);
 }
 
 /// The behavior callbacks a grammar plugin **exports**; the host calls one by
@@ -111,16 +119,18 @@ interface grammar-callbacks {
     /// the text: comment-vs-uncomment, the indent column, and stripping an
     /// existing leader are all reads.
     ///
-    /// **No `tree`, deliberately.** `OperatorContext` carries `document` and
-    /// `comment_syntax` but, unlike `TextObjectContext`, no `path` or
-    /// `syntax` — minting a tree resource would mean widening the native
-    /// context and every operator call site for a capability no operator has
-    /// asked for. Add it when one does; the asymmetry is a decision, not an
-    /// oversight.
+    /// RF.4a (0.5.0): and the `tree`, like the other four. The comment that
+    /// stood here said to add it when an operator asked; the refactor
+    /// operators did — raise, split / join and extract act on the syntax node
+    /// a range covers, and an operator is how a refactor composes with a
+    /// Visual selection, a motion or a text object (`refactor.md` §9).
+    /// `none` without the `tree-sitter` grant, for a buffer with no parse, or
+    /// when the parse lags the text (OT.7) — the motion seam's terms.
     apply-operator: func(
         callback: u32,
         ctx: operator-context,
         doc: borrow<document>,
+        tree: option<borrow<tree-snapshot>>,
     ) -> result<list<effect>, string>;
     /// OM.4b: a text object receives `borrow<document>` too — `text-object-context`
     /// has always said "buffer text + the scope/comment env ride the `document`

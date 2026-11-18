@@ -1,4 +1,4 @@
-package lattice:plugin-host@0.4.0;
+package lattice:plugin-host@0.5.0;
 
 /// Mirrors `ConfigRegistry` (lattice-config). The guest declares an option
 /// (name + type + default + doc); the host registers it into the *same* registry
@@ -219,6 +219,23 @@ interface config {
     /// the raw name — so a plugin reads its own options with short names AND can
     /// still read a core option (`tabstop`) that isn't in its namespace.
     get-option: func(name: string) -> option<string>;
+    /// RF.2e: an option's value **as one buffer sees it** — the read peer of
+    /// `set-option-in-buffer`. `get-option` answers the global value, which
+    /// is wrong wherever a `:setlocal` or a mode's option override applies:
+    /// `go-mode` turns `expandtab` off for Go buffers, so a guest laying out
+    /// code there must read this, not `get-option`.
+    ///
+    /// The same resolution `:setlocal name?` prints — buffer-local, then the
+    /// active modes, then the global value — and the same string format as
+    /// `get-option`. Namespace resolution matches `get-option`: the plugin's
+    /// OWN option on a short name, else the raw name.
+    ///
+    /// `none` if no option by that name is registered. A buffer the editor
+    /// has never resolved options for (or that does not exist) answers the
+    /// global value: nothing buffer-local applies to it. Reflects every
+    /// `:setlocal` and mode change made before the call, with no tick in
+    /// between — the snapshot is stored as the editor publishes it.
+    get-option-in-buffer: func(buffer: u64, name: string) -> option<string>;
 
     /// OC.11c: one failed assignment to an option.
     record config-diagnostic {

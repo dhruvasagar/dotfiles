@@ -1,0 +1,35 @@
+package lattice:plugin-host@0.5.0;
+
+/// The `refactor` bundled plugin's world (RF.2): editing by syntax node,
+/// from the tree-sitter parse, in every language with a grammar and with no
+/// language server. Design: `docs/dev/architecture/refactor.md`.
+///
+///   - **grammar** — grow / shrink the selection a node at a time
+///     (actions); swap, raise, split and join at the cursor (ex-commands);
+///     and, since RF.4, the operators — exchange, raise, split, join — that
+///     act on any Visual selection, motion or text object. `apply-operator`
+///     is handed the tree since 0.5.0, and exchange tracks its mark with
+///     `track-range`.
+///   - **modes** — `refactor-mode`, the minor mode that owns the chords
+///     (`<M-o>` / `<M-i>`, `cx`, `<leader>r…`), so
+///     `:set refactor.enabled=false` takes the keys with it.
+///   - **help** — `:help refactor`, `include_str!`'d from this plugin's
+///     `doc/`.
+///
+/// `logging` is intentionally NOT imported, for auto-pair's reason: it would
+/// put `log` on the sync grammar linker, and these actions are on the
+/// keystroke path.
+world refactor-plugin {
+    import grammar;
+    import buffer;
+    import tree-sitter;
+    import modes;
+    import config;
+    import help;
+
+    export register-grammar: func();
+    export grammar-callbacks;
+    export register-modes: func();
+    export register-options: func();
+    export register-help-topics: func();
+}
